@@ -21,7 +21,7 @@ https://goodinfo.tw/StockInfo/StockList.asp
 
 ------------------------------------------------------------
 #### 2. Taiwan Stock Prices 
-###### 1815 檔股票，460萬筆 data， data size is 371 MB
+###### 1815 檔股票
 
 | variable name | 變數名稱 | example |
 |---------------|---------|----------|
@@ -109,16 +109,12 @@ https://stock.wearn.com/dividend.asp
 |---------------|---------|----------|
 |Dealer_buy|自營商 買進金額|62.63|
 |Dealer_sell |自營商 賣出金額|75.16|
-|Dealer_difference|自營商 買賣差額|-12.52|
 |Investment_Trust_buy|投信 買進金額|8.97|
 |Investment_Trust_sell|投信 賣出金額|8.4|
-|Investment_Trust_difference|投信 買賣差額|0.57|
 |Foreign_Investor_buy|外資 買進金額|244.37|
 |Foreign_Investor_sell|外資 賣出金額|169.216|
-|Foreign_Investor_difference|外資 買賣差額|75.16|
 |total_buy|合計 買進金額|315.97|
 |total_sell|合計 賣出金額|252.77|
-|total_difference|合計 買賣差額|63.2|
 |date|交易日期|2016-02-25|
 
 資料來源 : <br>
@@ -131,17 +127,16 @@ https://stock.wearn.com/fundthree.asp?mode=search
 
 ------------------------------------------------------------
 #### 6. Crude Oil Prices
-###### 2000 ~ now
+###### 1986 ~ now
 
 | variable name | 變數名稱 | example (單位: 美金) |
 |---------------|---------|----------|
 |WTI|西德州|26.4|
 |Brent|布蘭特|22.57|
-|Dubai|杜拜|24.51|
 |date|日期|2000-01-01|
  
 資料來源 : <br>
-https://www2.moeaboe.gov.tw/oil102/oil2017/A02/A0201/daytable.asp
+https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm
 
 <html>
 <p align="right">
