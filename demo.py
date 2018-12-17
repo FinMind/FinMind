@@ -1,7 +1,6 @@
 
 
-import sys
-sys.path.append('/home/sam/project/github')
+
 from FinancialMining.API import Load
 #---------------------------------------------------------------
 
