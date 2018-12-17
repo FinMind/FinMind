@@ -3,7 +3,10 @@
 TABLE = 'StockInfo'
 
 import pandas as pd
-from BasedClass import execute_sql2
+import os, sys
+PATH = "/".join( os.path.abspath(__file__).split('/')[:-2])
+sys.path.append(PATH)
+from API.BasedClass import execute_sql2
 
 class ClassStockInfo:
     def __init__(self):

@@ -1,6 +1,10 @@
 
 TABLE = 'InterestRate'
-from BasedClass import Load
+
+import os, sys
+PATH = "/".join( os.path.abspath(__file__).split('/')[:-2])
+sys.path.append(PATH)
+from API.BasedClass import Load
 
 class ClassInterestRate(Load):
     def __init__(self):

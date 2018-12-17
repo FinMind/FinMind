@@ -1,7 +1,10 @@
 
 TABLE = 'StockPrice'
 import pandas as pd
-from BasedClass import Load,execute_sql2
+import os, sys
+PATH = "/".join( os.path.abspath(__file__).split('/')[:-2])
+sys.path.append(PATH)
+from API.BasedClass import Load,execute_sql2
 
 
 class ClassStockPrice(Load):
