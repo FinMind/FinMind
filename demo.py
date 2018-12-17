@@ -2,7 +2,7 @@
 
 import sys
 sys.path.append('/home/sam/project/github')
-from financialmining.API import Load
+from FinancialMining.API import Load
 #---------------------------------------------------------------
 
 data = Load.Load(table = 'StockInfo',select = [],date = '')
