@@ -1,4 +1,4 @@
-### [Financial Open Data](https://github.com/f496328mm/FinancialMining/tree/master/API)
+### [Financial Open Data](https://github.com/f496328mm/FinancialMining)
      1. Taiwan Stock Info
      2. Taiwan Stock Prices 
      3. Taiwan Stock Financial Statements 
