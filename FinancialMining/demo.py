@@ -1,6 +1,5 @@
 
 
-import sys
 from FinancialMining.API import Load
 #---------------------------------------------------------------
 

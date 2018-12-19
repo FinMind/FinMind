@@ -10,11 +10,12 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='FinancialMining',  # Required
-    version='0.0.1',  # Required
+    version='0.2.8',  # Required
     description='financial data and mining',  # Optional
     long_description=long_description,  # Optional
     long_description_content_type='text/markdown',  # Optional (see note above)
     url='https://github.com/f496328mm/FinancialMining',  # Optional
+    download_url = 'https://github.com/f496328mm/FinancialMining/tarball/v1.0',
     author='linsam',  # Optional
     author_email='samlin266118@gmail.com',  # Optional
     classifiers=[  # Optional
@@ -22,14 +23,11 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3.*',
+        'Programming Language :: Python :: 3.6',
     ],
     keywords='financial, python',  # Optional
     packages=find_packages(exclude=['importlib', 'pymysql', 'pandas']),  # Required
     project_urls={  # Optional
-        #'Bug Reports': 'https://github.com/pypa/sampleproject/issues',
-        #'Funding': 'https://donate.pypi.org',
-        #'Say Thanks!': 'http://saythanks.io/to/example',
         'Source': 'https://github.com/f496328mm/FinancialMining',
     },
 )
