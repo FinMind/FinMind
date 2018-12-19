@@ -1,4 +1,7 @@
 [![Build Status](https://travis-ci.org/f496328mm/FinancialMining.svg?branch=master)](https://travis-ci.org/f496328mm/FinancialMining)
+
+     pip3 install FinancialMining
+
 ### [Financial Open Data](https://github.com/f496328mm/FinancialMining/tree/master/API)
      1. Taiwan Stock Info
      2. Taiwan Stock Prices 
