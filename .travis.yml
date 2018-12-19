@@ -4,8 +4,4 @@ matrix:
   - name: "3.6 Unit Test"
     python: "3.6"
     env: TEST_SUITE=suite_3_6_unit
-script: 
-pip3 install pandas 
-apt-get install python3-pymysql
-pip3 install FinancialMining; 
-python3 demo.py 
+script: pip3 install pandas ;apt-get install python3-pymysql;pip3 install FinancialMining;python3 demo.py 
