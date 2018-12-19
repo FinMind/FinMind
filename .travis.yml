@@ -1,0 +1,13 @@
+language: python
+matrix:
+  include:
+  - name: "3.6 Unit Test"
+    python: "3.6"
+    env: TEST_SUITE=suite_3_6_unit
+  - name: "3.6 Integration Tests"
+    python: "3.6"
+    env: TEST_SUITE=suite_3_6_integration
+  - name: "pypy Unit Tests"
+    python: "pypy"
+    env: TEST_SUITE=suite_pypy_unit
+script: ./test.py $TEST_SUITE
