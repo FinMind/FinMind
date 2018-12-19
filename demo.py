@@ -1,7 +1,9 @@
 
 
-
+import sys
+sys.path.append('/home/sam/project/github')
 from FinancialMining.API import Load
+
 #---------------------------------------------------------------
 
 data = Load.Load(table = 'StockInfo',select = [],date = '')
@@ -16,14 +18,14 @@ print( data[:5] )
 data = Load.LoadTableList(table = 'FinancialStatements')
 print( data[:5] )
 data = Load.Load(table = 'FinancialStatements',
-                 select = ['2330'],date = '2018-10-10')
+                 select = ['2330'],date = '2017-10-10')
 print( data[:5] )
 
 #---------------------------------------------------------------
 data = Load.LoadTableList(table = 'StockDividend')
 print( data[:5] )
 data = Load.Load(table = 'StockDividend',
-                 select = ['2330'],date = '2018-10-10')
+                 select = ['2330'],date = '2017-10-10')
 print( data[:5] )
 
 #---------------------------------------------------------------
@@ -43,13 +45,6 @@ data = Load.LoadTableList(table = 'InterestRate')
 print( data[:5] )
 data = Load.Load(table = 'InterestRate',
                  select = ['BCB'],date = '2018-10-10')
-print( data[:5] )
-
-#---------------------------------------------------------------
-data = Load.LoadTableList(table = 'GovernmentBonds')
-print( data[:5] )
-data = Load.Load(table = 'GovernmentBonds',
-                 select = ['Canada-1-Month'],date = '2018-10-10')
 print( data[:5] )
 
 #---------------------------------------------------------------
