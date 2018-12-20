@@ -21,6 +21,7 @@ You can analysis financial data and no need collecting data by yourself. The dat
 	
 other example can refer [demo](https://github.com/f496328mm/FinancialMining/blob/master/demo.py).
 
+-------------------------------
 ### [Financial Open Data](https://github.com/f496328mm/FinancialMining/tree/master/API)
      1. Taiwan Stock Info
      2. Taiwan Stock Prices 
