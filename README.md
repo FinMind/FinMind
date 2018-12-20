@@ -5,7 +5,7 @@ You can analysis financial data and no need collecting data by yourself. The dat
      pip3 install FinancialMining
      
  ---------------------
- ##### example
+ #### example
  Load Taiwan stock price 2330 starting at 2018-10-10.
  
     >>> from FinancialMining.API import Load
@@ -38,4 +38,7 @@ other example can refer [demo](https://github.com/f496328mm/FinancialMining/blob
 ### Financial Predict ( Development )
 
 ------------------------------------------------------------
+
+
+
 
