@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/f496328mm/FinancialMining.svg?branch=master)](https://travis-ci.org/f496328mm/FinancialMining)
+[![Build Status](https://travis-ci.org/linsamtw/FinancialMining.svg?branch=master)](https://travis-ci.org/linsamtw/FinancialMining)
 
 You can analysis financial data and no need collecting data by yourself. The dataset will auto update daily.
 
