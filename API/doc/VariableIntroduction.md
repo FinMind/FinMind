@@ -1,6 +1,6 @@
 # Variable Introduction
 
-#### 1. Taiwan Stock Info
+### 1. Taiwan Stock Info
 ###### 1815 檔股票
 
 | variable name | 變數名稱 | example |
@@ -20,7 +20,7 @@ https://goodinfo.tw/StockInfo/StockList.asp
 </html>
 
 ------------------------------------------------------------
-#### 2. Taiwan Stock Prices 
+### 2. Taiwan Stock Prices 
 ###### 1815 檔股票
 
 | variable name | 變數名稱 | example |
@@ -44,7 +44,7 @@ https://finance.yahoo.com/
 </html>
 
 ------------------------------------------------------------
-#### 3. Taiwan Stock Financial Statements
+### 3. Taiwan Stock Financial Statements
 ###### 1667 檔股票 ( 部分股票無財報 )，89635 筆 data
 
 | variable name | 變數名稱 | example (單位: 仟元/thousand) |
@@ -77,7 +77,7 @@ http://www.tedc.org.tw/tedc/bank/otccomp/ch1.3.4.htm
 </html>
 
 ------------------------------------------------------------
-#### 4. Taiwan Stock Dividend 
+### 4. Taiwan Stock Dividend 
 ###### 1815 檔股票，25,330 筆 data
 
 | variable name | 變數名稱 | example (單位: 仟元/thousand) |
@@ -102,7 +102,7 @@ https://stock.wearn.com/dividend.asp
 </html>
 
 ------------------------------------------------------------
-#### 5. Taiwan Stock Institutional Investors
+### 5. Taiwan Stock Institutional Investors
 ###### 2004 ~ now
 
 | variable name | 變數名稱 | example (單位: 億元/hundred million) |
@@ -126,7 +126,7 @@ https://stock.wearn.com/fundthree.asp?mode=search
 </html>
 
 ------------------------------------------------------------
-#### 6. Crude Oil Prices
+### 6. Crude Oil Prices
 ###### 1986 ~ now
 
 | variable name | 變數名稱 | example (單位: 美金) |
@@ -144,7 +144,7 @@ https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm
 </html>
 
 ------------------------------------------------------------
-#### 7. Exchange Rate 
+### 7. Exchange Rate 
 ###### 2000 ~ now
 
 | variable name | 變數名稱 | example (以美金為主要兌換匯率) |
@@ -163,7 +163,7 @@ https://www.ofx.com/en-au/forex-news/historical-exchange-rates/
 </html>
 
 ------------------------------------------------------------
-#### 8. Interest Rate 
+### 8. Interest Rate 
 ###### 2000 ~ now
 
 | variable name | 變數名稱 | example (以美金為主要兌換匯率) |
@@ -182,7 +182,7 @@ https://www.investing.com/central-banks
 </html>
 
 ------------------------------------------------------------
-#### 9. Gold Price
+### 9. Gold Price
 ###### 1979 ~ now
 
 | variable name | 變數名稱 | example |
@@ -199,7 +199,7 @@ https://www.gold.org/data/gold-price
 </html>
 
 ------------------------------------------------------------
-#### 10. Government Bonds
+### 10. Government Bonds
 ###### 1980 ~ now
 
 | variable name | 變數名稱 | example |
@@ -222,7 +222,7 @@ https://www.investing.com/rates-bonds/
 </html>
 
 ------------------------------------------------------------
-#### 11. Energy Futures Prices
+### 11. Energy Futures Prices
 
 | variable name | example |
 |---------------|----------|
