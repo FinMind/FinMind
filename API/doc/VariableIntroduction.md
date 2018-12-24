@@ -16,7 +16,7 @@ https://goodinfo.tw/StockInfo/StockList.asp
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -40,14 +40,14 @@ https://finance.yahoo.com/
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
 ### 3. Taiwan Stock Financial Statements
 ###### 1667 檔股票 ( 部分股票無財報 )，89635 筆 data
 
-| variable name | 變數名稱 | example (單位: 仟元/thousand) |
+| variable name | 變數名稱 | example |
 |---------------|---------|----------|
 | BTAXM (Income before Tax Margin) | 稅前純益 | 0.1602 |
 | COST (Cost of Goods Sold or Manufacturing)|營業成本|3963330|
@@ -73,14 +73,14 @@ http://www.tedc.org.tw/tedc/bank/otccomp/ch1.3.4.htm
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
 ### 4. Taiwan Stock Dividend 
 ###### 1815 檔股票，25,330 筆 data
 
-| variable name | 變數名稱 | example (單位: 仟元/thousand) |
+| variable name | 變數名稱 | example |
 |---------------|---------|----------|
 |Shareholders meeting date|股東會日期|2010-06-15|
 |Retained_Earnings |盈餘配股(元/股)|0|
@@ -89,8 +89,8 @@ http://www.tedc.org.tw/tedc/bank/otccomp/ch1.3.4.htm
 |total employee bonus stock shares|員工配股(總張數)|0|
 |Cash dividend|現金股利|3|
 |Ex-dividend transaction day|除息交易日|2010-07-06|
-|total employee bonus shares|員工紅利(總金額)(仟元)|6.69134e+06|
-|Directors remuneration|董監酬勞 (仟元)|67692|
+|total employee bonus shares|員工紅利(總金額)|6.69134e+06|
+|Directors remuneration|董監酬勞 |67692|
 |stock_id|股票代號|2330|
 
 資料來源 : <br>
@@ -98,14 +98,14 @@ https://stock.wearn.com/dividend.asp
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
 ### 5. Taiwan Stock Institutional Investors
 ###### 2004 ~ now
 
-| variable name | 變數名稱 | example (單位: 億元/hundred million) |
+| variable name | 變數名稱 | example |
 |---------------|---------|----------|
 |Dealer_buy|自營商 買進金額|62.63|
 |Dealer_sell |自營商 賣出金額|75.16|
@@ -122,7 +122,7 @@ https://stock.wearn.com/fundthree.asp?mode=search
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -140,7 +140,7 @@ https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -159,14 +159,14 @@ https://www.ofx.com/en-au/forex-news/historical-exchange-rates/
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
 ### 8. Interest Rate 
 ###### 2000 ~ now
 
-| variable name | 變數名稱 | example (以美金為主要兌換匯率) |
+| variable name | 變數名稱 | example |
 |---------------|---------|----------|
 |interest_rate|銀行利率|10.25 |
 |full_country_name|國家全名|Federal_Reserve|
@@ -178,7 +178,7 @@ https://www.investing.com/central-banks
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -195,7 +195,7 @@ https://www.gold.org/data/gold-price
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -218,7 +218,7 @@ https://www.investing.com/rates-bonds/
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -240,7 +240,7 @@ https://www.investing.com/commodities/energies
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
 </html>
 
 
