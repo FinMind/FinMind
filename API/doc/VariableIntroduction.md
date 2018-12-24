@@ -16,7 +16,7 @@ https://goodinfo.tw/StockInfo/StockList.asp
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/API'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -40,7 +40,7 @@ https://finance.yahoo.com/
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/API'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -73,7 +73,7 @@ http://www.tedc.org.tw/tedc/bank/otccomp/ch1.3.4.htm
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/API'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -98,7 +98,7 @@ https://stock.wearn.com/dividend.asp
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/API'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -122,7 +122,7 @@ https://stock.wearn.com/fundthree.asp?mode=search
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/API'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -140,7 +140,7 @@ https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/API'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -159,7 +159,7 @@ https://www.ofx.com/en-au/forex-news/historical-exchange-rates/
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/API'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -178,7 +178,7 @@ https://www.investing.com/central-banks
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/API'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -195,7 +195,7 @@ https://www.gold.org/data/gold-price
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/API'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -218,7 +218,7 @@ https://www.investing.com/rates-bonds/
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/API'> Home </a></p>
 </html>
 
 ------------------------------------------------------------
@@ -240,7 +240,7 @@ https://www.investing.com/commodities/energies
 
 <html>
 <p align="right">
-  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/OpenData#variable-introduction'> Home </a></p>
+  <a href = 'https://github.com/linsamtw/FinancialMining/tree/master/API'> Home </a></p>
 </html>
 
 
