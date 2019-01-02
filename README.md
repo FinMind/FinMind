@@ -36,7 +36,7 @@ other example can refer [demo](https://github.com/linsamtw/FinMind/blob/master/d
      11. Energy Futures Prices
      
 ### Fin Visualize ( Development )
-### Fin Predict ( Development )
+### Fin Mining ( Development )
 
 ------------------------------------------------------------
 
