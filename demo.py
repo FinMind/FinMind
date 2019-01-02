@@ -1,6 +1,6 @@
 
 
-from FinancialMining.API import Load
+from FinMind.API import Load
 #---------------------------------------------------------------
 
 data = Load.Load(table = 'StockInfo',select = [],date = '')
