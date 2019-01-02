@@ -2,9 +2,9 @@
 TABLE = 'StockPrice'
 import pandas as pd
 import os, sys
-PATH = "/".join( os.path.abspath(__file__).split('/')[:-2])
+PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
 sys.path.append(PATH)
-from API.BasedClass import Load,execute_sql2
+from BasedClass import Load,execute_sql2
 
 
 class ClassStockPrice(Load):

@@ -3,65 +3,65 @@
 from FinMind.Data import Load
 #---------------------------------------------------------------
 
-data = Load.FinData(table = 'StockInfo',select = [],date = '')
+data = Load.FinData(dataset = 'StockInfo',select = [],date = '')
 #---------------------------------------------------------------
-data = Load.FinDataList(table = 'StockPrice')
+data = Load.FinDataList(dataset = 'StockPrice')
 print( data[:5] )
-data = Load.FinData(table = 'StockPrice',
+data = Load.FinData(dataset = 'StockPrice',
                  select = ['2330'],date = '2018-10-10')
 print( data[:5] )
 
 #---------------------------------------------------------------
-data = Load.FinDataList(table = 'FinancialStatements')
+data = Load.FinDataList(dataset = 'FinancialStatements')
 print( data[:5] )
-data = Load.FinData(table = 'FinancialStatements',
+data = Load.FinData(dataset = 'FinancialStatements',
                  select = ['2330'],date = '2017-10-10')
 print( data[:5] )
 
 #---------------------------------------------------------------
-data = Load.FinDataList(table = 'StockDividend')
+data = Load.FinDataList(dataset = 'StockDividend')
 print( data[:5] )
-data = Load.FinData(table = 'StockDividend',
+data = Load.FinData(dataset = 'StockDividend',
                  select = ['2330'],date = '2017-10-10')
 print( data[:5] )
 
 #---------------------------------------------------------------
-data = Load.FinDataList(table = 'ExchangeRate')
+data = Load.FinDataList(dataset = 'ExchangeRate')
 print( data[:5] )
-data = Load.FinData(table = 'ExchangeRate',
+data = Load.FinData(dataset = 'ExchangeRate',
                  select = ['JPY'],date = '2018-10-10')
 print( data[:5] )
 
 #---------------------------------------------------------------
-data = Load.FinDataList(table = 'InstitutionalInvestors',
+data = Load.FinDataList(dataset = 'InstitutionalInvestors',
                  date = '2018-10-10')
 print( data[:5] )
 
 #---------------------------------------------------------------
-data = Load.FinDataList(table = 'InterestRate')
+data = Load.FinDataList(dataset = 'InterestRate')
 print( data[:5] )
-data = Load.FinData(table = 'InterestRate',
+data = Load.FinData(dataset = 'InterestRate',
                  select = ['BCB'],date = '2018-10-10')
 print( data[:5] )
 
 #---------------------------------------------------------------
-data = Load.FinDataList(table = 'GovernmentBonds')
+data = Load.FinDataList(dataset = 'GovernmentBonds')
 print( data[:5] )
-data = Load.FinData(table = 'GovernmentBonds',
+data = Load.FinData(dataset = 'GovernmentBonds',
                  select = ['Canada 1-Month'],date = '2018-10-10')
 print( data[:5] )
 
 #---------------------------------------------------------------
-data = Load.FinDataList(table = 'CrudeOilPrices')
+data = Load.FinDataList(dataset = 'CrudeOilPrices')
 print( data[:5] )
-data = Load.FinData(table = 'CrudeOilPrices',
+data = Load.FinData(dataset = 'CrudeOilPrices',
                  select = ['Brent'],date = '2018-10-10')
 print( data[:5] )
 
 #---------------------------------------------------------------
-data = Load.FinDataList(table = 'EnergyFuturesPrices')
+data = Load.FinDataList(dataset = 'EnergyFuturesPrices')
 print( data[:5] )
-data = Load.FinData(table = 'EnergyFuturesPrices',
+data = Load.FinData(dataset = 'EnergyFuturesPrices',
                  select = ['Brent Oil Futures'],date = '2018-10-10')
 print( data[:5] )
 

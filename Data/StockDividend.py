@@ -2,9 +2,9 @@
 TABLE = 'StockDividend'
 
 import os, sys
-PATH = "/".join( os.path.abspath(__file__).split('/')[:-2])
+PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
 sys.path.append(PATH)
-from API.BasedClass import Load
+from BasedClass import Load
 
 
 class ClassStockDividend(Load):

@@ -5,25 +5,25 @@ PATH = "/".join( os.path.abspath(__file__).split('/')[:-2])
 sys.path.append(PATH)
 
 #---------------------------------------------------------------
-def FinData(table = '',select = [],date = ''):
-    if table not in ['StockInfo','StockPrice','FinancialStatements',
+def FinData(dataset = '',select = [],date = ''):
+    if dataset not in ['StockInfo','StockPrice','FinancialStatements',
                      'StockDividend','ExchangeRate','InstitutionalInvestors',
                      'InterestRate','GovernmentBonds','CrudeOilPrices',
                      'EnergyFuturesPrices']:
         raise(AttributeError, "Hidden attribute")  
     else:
-        data = getattr(importlib.import_module("FinMind.Data.{}".format(table)), table)(
+        data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
                 select = select,date = date)
         return data
 #-------------------------------------------------------------------------------------------
 
-def FinDataList(table = '',select = [],date = ''):
-    if table not in ['StockPrice','FinancialStatements',
+def FinDataList(dataset = '',select = [],date = ''):
+    if dataset not in ['StockPrice','FinancialStatements',
                      'StockDividend','ExchangeRate','InterestRate',
                      'GovernmentBonds','CrudeOilPrices','EnergyFuturesPrices']:
         raise(AttributeError, "Hidden attribute")  
     else:
-        data = getattr(importlib.import_module("FinMind.Data.{}".format(table)), 'Load_Data_List')()
+        data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), 'Load_Data_List')()
         return data
 
 

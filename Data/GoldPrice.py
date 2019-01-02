@@ -3,9 +3,9 @@ TABLE = 'GoldPrice'
 
 import os, sys
 import pandas as pd
-PATH = "/".join( os.path.abspath(__file__).split('/')[:-2])
+PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
 sys.path.append(PATH)
-from API.BasedClass import execute_sql2
+from BasedClass import execute_sql2
 
 class ClassGoldPrice:
 

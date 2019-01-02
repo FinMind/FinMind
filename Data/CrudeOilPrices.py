@@ -1,9 +1,9 @@
 
 TABLE = 'CrudeOilPrices'
 import os, sys
-PATH = "/".join( os.path.abspath(__file__).split('/')[:-2])
+PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
 sys.path.append(PATH)
-from API.BasedClass import Load
+from BasedClass import Load
 
 class ClassCrudeOilPrices(Load):
     def __init__(self):
