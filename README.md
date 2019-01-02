@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/linsamtw/FinancialMining.svg?branch=master)](https://travis-ci.org/linsamtw/FinancialMining)
+[![Build Status](https://travis-ci.org/linsamtw/FinMind.svg?branch=master)](https://travis-ci.org/linsamtw/FinMind)
 
 You can analysis financial data and no need collecting data by yourself. The dataset will auto update daily.
 
@@ -8,7 +8,7 @@ You can analysis financial data and no need collecting data by yourself. The dat
  #### example
  Load Taiwan stock price 2330 starting at 2018-10-10.
  
-    >>> from FinancialMining.API import Load
+    >>> from FinMind.API import Load
 	>>> data = Load.Load(table = 'StockPrice',select = ['2330'],date = '2018-10-10')
 	>>> print( data[:5] )
 
@@ -19,10 +19,10 @@ You can analysis financial data and no need collecting data by yourself. The dat
         3  229.5  237.0  229.0  237.0      237.0  37818077  2018-10-16     2330
         4  241.5  243.0  238.0  238.5      238.5  42494858  2018-10-17     2330
 	
-other example can refer [demo](https://github.com/f496328mm/FinancialMining/blob/master/demo.py).
+other example can refer [demo](https://github.com/f496328mm/FinMind/blob/master/demo.py).
 
 -------------------------------
-### [Financial Open Data](https://github.com/f496328mm/FinancialMining/tree/master/API)
+### [Financial Open Data](https://github.com/f496328mm/FinMind/tree/master/API)
      1. Taiwan Stock Info
      2. Taiwan Stock Prices 
      3. Taiwan Stock Financial Statements 
