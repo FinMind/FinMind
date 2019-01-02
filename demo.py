@@ -33,7 +33,7 @@ data = Load.FinData(dataset = 'ExchangeRate',
 print( data[:5] )
 
 #---------------------------------------------------------------
-data = Load.FinDataList(dataset = 'InstitutionalInvestors',
+data = Load.FinData(dataset = 'InstitutionalInvestors',
                  date = '2018-10-10')
 print( data[:5] )
 
