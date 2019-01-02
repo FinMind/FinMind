@@ -22,7 +22,7 @@ You can analysis financial data and no need collecting data by yourself. The dat
 other example can refer [demo](https://github.com/linsamtw/FinMind/blob/master/demo.py).
 
 -------------------------------
-### [Fin Data](https://github.com/linsamtw/FinMind/tree/master/API)
+### [Fin Data](https://github.com/linsamtw/FinMind/tree/master/Data)
      1. Taiwan Stock Info
      2. Taiwan Stock Prices 
      3. Taiwan Stock Financial Statements 
