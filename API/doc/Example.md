@@ -1,6 +1,6 @@
 
 ### Load Taiwan Stock information
-      from FinancialMining.OpenData.Load import Load
+      from FinMind.OpenData.Load import Load
 
       database = 'StockInfo'
 
@@ -11,12 +11,12 @@
         
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#load-example'> Home </a></p>
+  <a href = 'https://github.com/f496328mm/FinMind/tree/master/OpenData#load-example'> Home </a></p>
 </html>   
       
 -----------------------------------------------------------------
 ### Load Taiwan Stock Price
-        from FinancialMining.OpenData.Load import Load
+        from FinMind.OpenData.Load import Load
 
         database = 'StockPrice'
 
@@ -27,12 +27,12 @@
         
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#load-example'> Home </a></p>
+  <a href = 'https://github.com/f496328mm/FinMind/tree/master/OpenData#load-example'> Home </a></p>
 </html>   
 
 -----------------------------------------------------------------
 ### Load Taiwan Stock FinancialStatements
-        from FinancialMining.OpenData.Load import Load
+        from FinMind.OpenData.Load import Load
 
         database = 'FinancialStatements'
         datalist = Load(database = database,datalist = True)# get stock list
@@ -42,13 +42,13 @@
         
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#load-example'> Home </a></p>
+  <a href = 'https://github.com/f496328mm/FinMind/tree/master/OpenData#load-example'> Home </a></p>
 </html>   
       
 -----------------------------------------------------------------
 ### Load Taiwan Stock StockDividend
 
-      from FinancialMining.OpenData.Load import Load
+      from FinMind.OpenData.Load import Load
 
       database = 'StockDividend'
       datalist = Load(database = database,datalist = True)# get stock list
@@ -58,36 +58,36 @@
         
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#load-example'> Home </a></p>
+  <a href = 'https://github.com/f496328mm/FinMind/tree/master/OpenData#load-example'> Home </a></p>
 </html>   
       
 -----------------------------------------------------------------
 ### Load Taiwan Stock InstitutionalInvestors buy and sell
-        from FinancialMining.OpenData.Load import Load
+        from FinMind.OpenData.Load import Load
 
         database = 'InstitutionalInvestors'
         data = Load(database = database) 
         
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#load-example'> Home </a></p>
+  <a href = 'https://github.com/f496328mm/FinMind/tree/master/OpenData#load-example'> Home </a></p>
 </html>   
               
 -----------------------------------------------------------------
 ### Load CrudeOilPrices
-        from FinancialMining.OpenData.Load import Load
+        from FinMind.OpenData.Load import Load
 
         database = 'CrudeOilPrices'
         data = Load(database = database)
         
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#load-example'> Home </a></p>
+  <a href = 'https://github.com/f496328mm/FinMind/tree/master/OpenData#load-example'> Home </a></p>
 </html>   
               
 -----------------------------------------------------------------
 ### Load ExchangeRate
-        from FinancialMining.OpenData.Load import Load
+        from FinMind.OpenData.Load import Load
 
         database = 'ExchangeRate'
         datalist = Load(database = database,datalist = True)# get country list
@@ -97,12 +97,12 @@
         
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#load-example'> Home </a></p>
+  <a href = 'https://github.com/f496328mm/FinMind/tree/master/OpenData#load-example'> Home </a></p>
 </html>   
               
 -----------------------------------------------------------------
 ### Load Central Band InterestRate
-        from FinancialMining.OpenData.Load import Load
+        from FinMind.OpenData.Load import Load
 
         database = 'InterestRate'
         datalist = Load(database = database,datalist = True)# get country list
@@ -112,24 +112,24 @@
         
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#load-example'> Home </a></p>
+  <a href = 'https://github.com/f496328mm/FinMind/tree/master/OpenData#load-example'> Home </a></p>
 </html>   
               
 -----------------------------------------------------------------
 ### Load Gold Price
-        from FinancialMining.OpenData.Load import Load
+        from FinMind.OpenData.Load import Load
 
         database = 'GoldPrice'
         data = Load(database = database)
         
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#load-example'> Home </a></p>
+  <a href = 'https://github.com/f496328mm/FinMind/tree/master/OpenData#load-example'> Home </a></p>
 </html>   
 
 -----------------------------------------------------------------
 ### Load Government Bonds
-        from FinancialMining.OpenData.Load import Load
+        from FinMind.OpenData.Load import Load
 
         database = 'GovernmentBonds'
         datalist = Load(database = database,datalist = True)# get GovernmentBonds list
@@ -139,12 +139,12 @@
         
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#load-example'> Home </a></p>
+  <a href = 'https://github.com/f496328mm/FinMind/tree/master/OpenData#load-example'> Home </a></p>
 </html>    
 
 -----------------------------------------------------------------
 ### Load Energy Futures Prices
-        from FinancialMining.OpenData.Load import Load
+        from FinMind.OpenData.Load import Load
 
         database = 'EnergyFuturesPrices'
         datalist = Load(database = database,datalist = True)# get EnergyFuturesPrices list
@@ -154,7 +154,7 @@
         
 <html>
 <p align="right">
-  <a href = 'https://github.com/f496328mm/FinancialMining/tree/master/OpenData#load-example'> Home </a></p>
+  <a href = 'https://github.com/f496328mm/FinMind/tree/master/OpenData#load-example'> Home </a></p>
 </html>   
               
 -----------------------------------------------------------------

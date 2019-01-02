@@ -12,7 +12,7 @@ def Load(table = '',select = [],date = ''):
                      'EnergyFuturesPrices']:
         raise(AttributeError, "Hidden attribute")  
     else:
-        data = getattr(importlib.import_module("FinancialMining.API.{}".format(table)), table)(
+        data = getattr(importlib.import_module("FinMind.API.{}".format(table)), table)(
                 select = select,date = date)
         return data
 #-------------------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ def LoadTableList(table = '',select = [],date = ''):
                      'GovernmentBonds','CrudeOilPrices','EnergyFuturesPrices']:
         raise(AttributeError, "Hidden attribute")  
     else:
-        data = getattr(importlib.import_module("FinancialMining.API.{}".format(table)), 'Load_Data_List')()
+        data = getattr(importlib.import_module("FinMind.API.{}".format(table)), 'Load_Data_List')()
         return data
 
 
