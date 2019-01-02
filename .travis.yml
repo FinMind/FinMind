@@ -7,5 +7,5 @@ matrix:
 script: 
   - pip3 install pandas 
   - pip3 install pymysql
-  - pip3 install FinancialMining
+  - pip3 install FinMind
   - python3 demo.py 

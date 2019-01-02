@@ -2,7 +2,7 @@
 
 You can analysis financial data and no need collecting data by yourself. The dataset will auto update daily.
 
-     pip3 install FinancialMining
+     pip3 install FinMind
      
  ---------------------
  #### example
