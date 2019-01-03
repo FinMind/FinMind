@@ -16,7 +16,7 @@ class ClassGoldPrice:
         sql = 'select `{}` from {}'.format( '`,`'.join( colname ) ,TABLE)
         
         if date != '':
-            sql = "{} WHERE `date` > '{}'".format(sql,date)
+            sql = "{} WHERE `date` >= '{}'".format(sql,date)
            
         data = execute_sql2( sql )
         data = pd.DataFrame(list(data))

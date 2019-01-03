@@ -58,7 +58,7 @@ class Load:
         if select != '': 
             select = " `{}` = '{}' {}".format(self.select_variable,select,bool_and)
         if date != '': 
-            date = " `date` > '{}' ".format(date)
+            date = " `date` >= '{}' ".format(date)
         
         sql = sql + select + date
            
