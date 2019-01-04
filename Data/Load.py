@@ -19,8 +19,9 @@ def FinData(dataset = '',select = [],date = ''):
 
 def FinDataList(dataset = '',select = [],date = ''):
     if dataset not in ['StockPrice','FinancialStatements',
-                     'StockDividend','ExchangeRate','InterestRate',
-                     'GovernmentBonds','CrudeOilPrices','EnergyFuturesPrices']:
+                     'StockDividend','ExchangeRate','InstitutionalInvestors',
+                     'InterestRate','GovernmentBonds',
+                     'CrudeOilPrices','EnergyFuturesPrices']:
         raise(AttributeError, "Hidden attribute")  
     else:
         data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), 'Load_Data_List')()
