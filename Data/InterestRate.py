@@ -25,7 +25,6 @@ def InterestRate(select = [],date = ''):
     else:
         raise(AttributeError, "Hidden attribute")  
     
-
 def Load_Data_List():
     self = ClassInterestRate()  
     return list( self.get_data_list() )

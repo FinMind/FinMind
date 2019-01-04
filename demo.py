@@ -64,7 +64,10 @@ print( data[:5] )
 data = Load.FinData(dataset = 'EnergyFuturesPrices',
                  select = ['Brent Oil Futures'],date = '2018-10-10')
 print( data[:5] )
-
+#---------------------------------------------------------------
+data = Load.FinData(dataset = 'GoldPrice',
+                 date = '2018-10-10')
+print( data[:5] )
 
 
 

@@ -24,10 +24,7 @@ class ClassGoldPrice:
         if len(data)>0:
 
             data.columns = colname
-            if 'stock_id' in data.columns:
-                data = data.sort_values(['stock_id','date'])
-            else:
-                data = data.sort_values('date')
+            data = data.sort_values('date')
                 
             data.index = range(len(data))
             
