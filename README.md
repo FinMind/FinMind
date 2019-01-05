@@ -40,6 +40,6 @@ other example can refer [demo](https://github.com/linsamtw/FinMind/blob/master/d
 
 ------------------------------------------------------------
 
-
+email : linsam.tw.github@gmail.com
 
 
