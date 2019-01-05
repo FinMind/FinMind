@@ -24,6 +24,8 @@ other example can refer [demo](https://github.com/linsamtw/FinMind/blob/master/d
 
 -------------------------------
 ### [Fin Data](https://github.com/linsamtw/FinMind/tree/master/Data)
+More than ten kinds financial data.
+
      1. Taiwan Stock Info
      2. Taiwan Stock Prices 
      3. Taiwan Stock Financial Statements 
@@ -36,10 +38,11 @@ other example can refer [demo](https://github.com/linsamtw/FinMind/blob/master/d
      10. Government bond
      11. Energy Futures Prices
      
-### Fin Visualize ( Development )
+### Financial Visualize
 At least five kinds Visualize tools on every data. ( In development )
 
-### Fin Mining ( Development )
+### Financial Mining
+Holistic financial analysis. ( In development )
 
 ------------------------------------------------------------
 
