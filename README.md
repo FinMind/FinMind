@@ -23,7 +23,7 @@ You can analysis financial data and no need collecting data by yourself. The dat
 other example can refer [demo](https://github.com/linsamtw/FinMind/blob/master/demo.py).
 
 -------------------------------
-### [Fin Data](https://github.com/linsamtw/FinMind/tree/master/Data)
+### [Financial Data](https://github.com/linsamtw/FinMind/tree/master/Data)
 More than ten kinds financial data.
 
      1. Taiwan Stock Info
