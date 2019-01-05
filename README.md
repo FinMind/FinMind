@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/linsamtw/FinMind.svg?branch=master)](https://travis-ci.org/linsamtw/FinMind)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
 
 You can analysis financial data and no need collecting data by yourself. The dataset will auto update daily.
 
@@ -36,6 +37,8 @@ other example can refer [demo](https://github.com/linsamtw/FinMind/blob/master/d
      11. Energy Futures Prices
      
 ### Fin Visualize ( Development )
+At least five kinds Visualize tools on every data. ( In development )
+
 ### Fin Mining ( Development )
 
 ------------------------------------------------------------
