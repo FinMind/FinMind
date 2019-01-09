@@ -6,7 +6,7 @@ import datetime
 date = str( datetime.datetime.now().date() )
 
 #---------------------------------------------------------------
-data = Load.FinData(dataset = 'StockInfo')
+data = Load.FinData(dataset = 'TaiwanStockInfo')
 #---------------------------------------------------------------
 data = Load.FinDataList(dataset = 'StockPrice')
 print( data[:5] )

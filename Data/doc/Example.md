@@ -2,7 +2,7 @@
 ### Load Taiwan Stock information
       from FinMind.OpenData.Load import Load
 
-      database = 'StockInfo'
+      database = 'TaiwanStockInfo'
 
       datalist = Load(database = database, datalist = True)
       data = Load( database = database, select = datalist[0] )

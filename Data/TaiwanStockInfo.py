@@ -1,6 +1,6 @@
 
 
-TABLE = 'StockInfo'
+TABLE = 'TaiwanStockInfo'
 
 import pandas as pd
 import os, sys
@@ -8,7 +8,7 @@ PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
 sys.path.append(PATH)
 from BasedClass import execute_sql2
 
-class ClassStockInfo:
+class ClassTaiwanStockInfo:
     def __init__(self):
         pass
 
@@ -22,9 +22,9 @@ class ClassStockInfo:
         data.columns = colname
         return data
 
-def StockInfo(select = [],date = ''):
+def TaiwanStockInfo(select = [],date = ''):
     
-    self = ClassStockInfo()  
+    self = ClassTaiwanStockInfo()  
     data = self.load_all()
     data = data[ data['status'] == 1 ]
     del data['status']
