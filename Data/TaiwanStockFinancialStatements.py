@@ -1,18 +1,18 @@
 
-TABLE = 'FinancialStatements'
+TABLE = 'TaiwanStockFinancialStatements'
 
 import os, sys
 PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
 sys.path.append(PATH)
 from BasedClass import Load
 
-class ClassFinancialStatements(Load):
+class ClassTaiwanStockFinancialStatements(Load):
     def __init__(self):
-        super(ClassFinancialStatements, self).__init__(TABLE,'stock_id')
+        super(ClassTaiwanStockFinancialStatements, self).__init__(TABLE,'stock_id')
 
-def FinancialStatements(select = [],date = ''):
+def TaiwanStockFinancialStatements(select = [],date = ''):
     
-    self = ClassFinancialStatements()  
+    self = ClassTaiwanStockFinancialStatements()  
     #stock = select
     if isinstance(select,int): select = str(select)
     
@@ -25,9 +25,3 @@ def FinancialStatements(select = [],date = ''):
     else:
         raise(AttributeError, "Hidden attribute")  
     
-
-def Load_Data_List():
-    self = ClassFinancialStatements()  
-    return list( self.get_data_list() )
-
-

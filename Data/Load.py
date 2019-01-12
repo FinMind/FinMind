@@ -6,10 +6,17 @@ sys.path.append(PATH)
 
 #---------------------------------------------------------------
 def FinData(dataset = '',select = [],date = ''):
-    if dataset not in ['TaiwanStockInfo','StockPrice','FinancialStatements',
-                     'StockDividend','ExchangeRate','InstitutionalInvestors',
-                     'InterestRate','GovernmentBonds','CrudeOilPrices',
-                     'EnergyFuturesPrices','GoldPrice']:
+    if dataset == 'TaiwanStockPrice': dataset = 'StockPrice'
+        
+    if dataset not in ['TaiwanStockInfo','StockPrice',
+                       'TaiwanStockFinancialStatements','TaiwanStockStockDividend',
+                       #
+                       'USStockInfo','USStockPrice',
+                       'JapanStockInfo','JapanStockPrice',
+                       #
+                       'ExchangeRate','InstitutionalInvestors',
+                       'InterestRate','GovernmentBonds','CrudeOilPrices',
+                       'EnergyFuturesPrices','GoldPrice']:
         raise(AttributeError, "Hidden attribute")  
     else:
         data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
@@ -18,10 +25,9 @@ def FinData(dataset = '',select = [],date = ''):
 #-------------------------------------------------------------------------------------------
 
 def FinDataList(dataset = '',select = [],date = ''):
-    if dataset not in ['StockPrice','FinancialStatements',
-                     'StockDividend','ExchangeRate','InstitutionalInvestors',
-                     'InterestRate','GovernmentBonds',
-                     'CrudeOilPrices','EnergyFuturesPrices']:
+    if dataset not in ['ExchangeRate','InstitutionalInvestors',
+                       'InterestRate','GovernmentBonds',
+                       'CrudeOilPrices','EnergyFuturesPrices']:
         raise(AttributeError, "Hidden attribute")  
     else:
         data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), 'Load_Data_List')()
