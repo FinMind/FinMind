@@ -26,30 +26,30 @@ other example can refer [demo](https://github.com/linsamtw/FinMind/blob/master/d
 ### Financial Data
 More than ten kinds financial data.
 
-	Stock Information
-		Taiwan
-		US
-		Japan
-		UK
-		Europe
-	Stock Prices
-		Taiwan
-		US
-		Japan
-		UK
-		Europe		
-	Financial Statements
-		Taiwan
-	Stock Dividend
-		Taiwan
-	Taiwan Stock Institutional Investors Buy and Sell
-	Crude Oil Prices
-	Exchange Rate
-	Interest Rate
-	Gold Price
-	Government bond
-	Energy Futures Prices
-	Gold Price
+* Stock Information
+	* Taiwan
+	* US
+	* Japan
+	* UK
+	* Europe
+* Stock Prices
+	* Taiwan
+	* US
+	* Japan
+	* UK
+	* Europe		
+* Financial Statements
+	* Taiwan
+* Stock Dividend
+	* Taiwan
+* Taiwan Stock Institutional Investors Buy and Sell
+* Crude Oil Prices
+* Exchange Rate
+* Interest Rate
+* Gold Price
+* Government bond
+* Energy Futures Prices
+* Gold Price
      
 ### Financial Visualize
 At least five kinds Visualize tools on every data. ( In development )
