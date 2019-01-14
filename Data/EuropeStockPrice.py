@@ -12,11 +12,7 @@ class ClassEuropeStockPrice(Load):
         super(ClassEuropeStockPrice, self).__init__(TABLE,'stock_id')
     
     def load(self,select = '',date = ''):
-        def select_func():# select = 'ALMIL'
-            pass
-        
-        select = '{}.T'.format(select)
-        
+
         colname = execute_sql2( 'SHOW COLUMNS FROM `{}`'.format( select ),database = TABLE )
         colname = [ c[0] for c in colname if c[0] not in  ['id','url'] ]              
         

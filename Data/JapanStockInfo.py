@@ -23,7 +23,7 @@ class ClassJapanStockInfo:
         if status == 'package':
             sql = 'SHOW TABLES '
             tem = execute_sql2(sql,TABLE.replace('Info','Price'))
-            stock_id = [ te[0].replace('.T','') for te in tem ]
+            stock_id = [ te[0] for te in tem ]
             bo = [ True if x in stock_id else False for x in data['stock_id'] ]
             data = data[bo]
             data.index = range(len(data))

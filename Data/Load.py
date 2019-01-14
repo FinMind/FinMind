@@ -15,9 +15,9 @@ def FinData(dataset = '',select = [],date = ''):
                        #-----------------------------------
                        'JapanStockInfo','JapanStockPrice',
                        #-----------------------------------
-                       'UKStockInfo',
+                       'UKStockInfo','UKStockPrice',
                        #-----------------------------------
-                       'EuropeStockInfo',
+                       'EuropeStockInfo','EuropeStockPrice',
                        #-----------------------------------
                        'ExchangeRate','InstitutionalInvestors',
                        'InterestRate','GovernmentBonds','CrudeOilPrices',
