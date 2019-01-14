@@ -23,20 +23,33 @@ You can analysis financial data and no need collecting data by yourself. The dat
 other example can refer [demo](https://github.com/linsamtw/FinMind/blob/master/demo.py).
 
 -------------------------------
-### [Financial Data](https://github.com/linsamtw/FinMind/tree/master/Data)
+### Financial Data
 More than ten kinds financial data.
 
-     1. Taiwan Stock Info
-     2. Taiwan Stock Prices 
-     3. Taiwan Stock Financial Statements 
-     4. Taiwan Stock Stock Dividend 
-     5. Taiwan Stock Institutional Investors Buy and Sell 
-     6. Crude Oil Prices
-     7. Exchange Rate
-     8. Interest Rate
-     9. Gold Price
-     10. Government bond
-     11. Energy Futures Prices
+	Stock Information
+		Taiwan
+		US
+		Japan
+		UK
+		Europe
+	Stock Prices
+		Taiwan
+		US
+		Japan
+		UK
+		Europe		
+	Financial Statements
+		Taiwan
+	Stock Dividend
+		Taiwan
+	Taiwan Stock Institutional Investors Buy and Sell
+	Crude Oil Prices
+	Exchange Rate
+	Interest Rate
+	Gold Price
+	Government bond
+	Energy Futures Prices
+	Gold Price
      
 ### Financial Visualize
 At least five kinds Visualize tools on every data. ( In development )
