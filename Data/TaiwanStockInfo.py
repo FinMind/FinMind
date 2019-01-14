@@ -20,7 +20,7 @@ class ClassTaiwanStockInfo:
         tem = execute_sql2(sql)
         data = pd.DataFrame( list(tem) )
         data.columns = colname
-        
+        '''
         sql = 'SHOW TABLES '
         #tem = execute_sql2(sql,TABLE.replace('Info','Price'))
         tem = execute_sql2(sql,'StockPrice')
@@ -28,7 +28,7 @@ class ClassTaiwanStockInfo:
         bo = [ True if x in stock_id else False for x in data['stock_id'] ]
         data = data[bo]
         data.index = range(len(data))
-        
+        '''
         return data
 
 def TaiwanStockInfo(select = [],date = ''):

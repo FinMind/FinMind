@@ -54,7 +54,14 @@ JapanStockPrice = Load.FinData(
         select = JapanStockInfo.loc[2,'stock_id'],
         date = date)
 print( JapanStockPrice[:5] )
-
+#---------------------------------------------------------------
+print('load UKStockInfo')
+UKStockInfo = Load.FinData(dataset = 'UKStockInfo')
+print( UKStockInfo[:5] )
+#---------------------------------------------------------------
+print('load EuropeStockInfo')
+EuropeStockInfo = Load.FinData(dataset = 'EuropeStockInfo')
+print( EuropeStockInfo[:5] )
 #---------------------------------------------------------------
 print('load ExchangeRate list')
 ExchangeRate_list = Load.FinDataList(dataset = 'ExchangeRate')

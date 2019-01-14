@@ -10,10 +10,15 @@ def FinData(dataset = '',select = [],date = ''):
         
     if dataset not in ['TaiwanStockInfo','StockPrice',
                        'TaiwanStockFinancialStatements','TaiwanStockStockDividend',
-                       #
+                       #-----------------------------------
                        'USStockInfo','USStockPrice',
+                       #-----------------------------------
                        'JapanStockInfo','JapanStockPrice',
-                       #
+                       #-----------------------------------
+                       'UKStockInfo',
+                       #-----------------------------------
+                       'EuropeStockInfo',
+                       #-----------------------------------
                        'ExchangeRate','InstitutionalInvestors',
                        'InterestRate','GovernmentBonds','CrudeOilPrices',
                        'EnergyFuturesPrices','GoldPrice']:
@@ -33,6 +38,10 @@ def FinDataList(dataset = '',select = [],date = ''):
         data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), 'Load_Data_List')()
         return data
 
+def CrawlerStockInfo(dataset = ''):
 
+    data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
+            status = 'crawler')
+    return data
 
 

@@ -1,6 +1,6 @@
 
 
-TABLE = 'JapanStockInfo'
+TABLE = 'EuropeStockInfo'
 
 import pandas as pd
 import os, sys
@@ -8,7 +8,7 @@ PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
 sys.path.append(PATH)
 from BasedClass import execute_sql2
 
-class ClassJapanStockInfo:
+class ClassEuropeStockInfo:
     def __init__(self):
         pass
 
@@ -23,16 +23,16 @@ class ClassJapanStockInfo:
         if status == 'package':
             sql = 'SHOW TABLES '
             tem = execute_sql2(sql,TABLE.replace('Info','Price'))
-            stock_id = [ te[0].replace('.T','') for te in tem ]
+            stock_id = [ te[0].split('.')[0] for te in tem ]
             bo = [ True if x in stock_id else False for x in data['stock_id'] ]
             data = data[bo]
             data.index = range(len(data))
-        
+
         return data
 
-def JapanStockInfo(select = [],date = '',status = 'package'):
+def EuropeStockInfo(select = [],date = '',status = 'package'):
     
-    self = ClassJapanStockInfo()  
+    self = ClassEuropeStockInfo()  
     data = self.load_all(status)
         
     return data
