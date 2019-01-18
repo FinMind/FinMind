@@ -6,6 +6,8 @@ You can analysis financial data and no need collecting data by yourself. The dat
      pip3 install FinMind
      
  ---------------------
+ The full version of this documentation is at https://linsamtw.github.io/FinMindDoc/.
+ 
  #### example
  Load Taiwan stock price 2330 starting at 2018-10-10.
  
