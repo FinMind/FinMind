@@ -6,9 +6,9 @@ sys.path.append(PATH)
 
 #---------------------------------------------------------------
 def FinData(dataset = '',select = [],date = ''):
-    if dataset == 'TaiwanStockPrice': dataset = 'StockPrice'
+    #if dataset == 'TaiwanStockPrice': dataset = 'StockPrice'
         
-    if dataset not in ['TaiwanStockInfo','StockPrice',
+    if dataset not in ['TaiwanStockInfo','TaiwanStockPrice',
                        'TaiwanStockFinancialStatements','TaiwanStockStockDividend',
                        'TaiwanStockMarginPurchaseShortSale',
                        #-----------------------------------
