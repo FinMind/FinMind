@@ -10,6 +10,7 @@ def FinData(dataset = '',select = [],date = ''):
         
     if dataset not in ['TaiwanStockInfo','StockPrice',
                        'TaiwanStockFinancialStatements','TaiwanStockStockDividend',
+                       'TaiwanStockMarginPurchaseShortSale',
                        #-----------------------------------
                        'USStockInfo','USStockPrice',
                        #-----------------------------------

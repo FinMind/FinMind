@@ -44,7 +44,7 @@ class Load:
     def load(self,select = '',date = ''):
         
         colname = execute_sql2( 'SHOW COLUMNS FROM {}'.format( self.table ) )
-        colname = [ c[0] for c in colname if c[0] not in  ['id','url','data_id'] ]              
+        colname = [ c[0] for c in colname if c[0] not in  ['id','url','data_id','ISIN'] ]              
         
         sql = 'select `{}` from {}'.format( '`,`'.join( colname ) ,self.table)
         
