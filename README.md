@@ -49,6 +49,7 @@ More than ten kinds financial data.
 * Stock Dividend
 	* Taiwan
 * Taiwan Stock Institutional Investors Buy and Sell
+* Taiwan Stock Margin Purchase Short Sale
 * Crude Oil Prices
 * Exchange Rate
 * Interest Rate
