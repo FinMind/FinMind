@@ -29,6 +29,7 @@ def execute_sql2(sql,database = DATABASE):
         return ''    
 #---------------------------------------------------------
 # based class 
+# self = Load('TaiwanStockMarginPurchaseShortSale','stock_id')        
 class Load:
     def __init__(self,table,select_variable):
         self.table = table
@@ -41,27 +42,32 @@ class Load:
         data_list.sort()
         return  data_list   
     
-    def load(self,select = '',date = ''):
+    def load(self,select = '',date = '',load_multi = False):
         
         colname = execute_sql2( 'SHOW COLUMNS FROM {}'.format( self.table ) )
         colname = [ c[0] for c in colname if c[0] not in  ['id','url','data_id','ISIN'] ]              
         
-        sql = 'select `{}` from {}'.format( '`,`'.join( colname ) ,self.table)
-        
-        if select != '' or date != '':
-            sql = "{} WHERE ".format(sql)
+        sql = 'SELECT `{}` from `{}`'.format( '`,`'.join( colname ) ,self.table)
+        if load_multi == False:
+            if select != '' or date != '':
+                sql = "{} WHERE ".format(sql)
+    
+            bool_and = ''
+            if select != '' and date != '':
+                bool_and = 'AND'
+    
+            if select != '': 
+                select = " `{}` = '{}' {}".format(self.select_variable,select,bool_and)
+            if date != '': 
+                date = " `date` >= '{}' ".format(date)
+            
+            sql = sql + select + date
+        elif load_multi == True:
+            select = ['1101.TW','1102.TW','1103.TW',]
+            select = "','".join(select)
+            sql = "{} WHERE `date` >= '{}' AND `{}` IN ('{}') ".format(
+                    sql,date,self.select_variable,select)
 
-        bool_and = ''
-        if select != '' and date != '':
-            bool_and = 'AND'
-
-        if select != '': 
-            select = " `{}` = '{}' {}".format(self.select_variable,select,bool_and)
-        if date != '': 
-            date = " `date` >= '{}' ".format(date)
-        
-        sql = sql + select + date
-           
         data = execute_sql2( sql )
         data = pd.DataFrame(list(data))
         if len(data)>0:

@@ -35,9 +35,9 @@ def TaiwanStockInfo(select = [],date = ''):
     
     self = ClassTaiwanStockInfo()  
     data = self.load_all()
-    data = data[ data['status'] == 1 ]
-    del data['status']
-    del data['date']
+    #data = data[ data['status'] == 1 ]
+    #del data['status']
+    del data['crawler_date']
         
     return data
 
