@@ -10,7 +10,7 @@ class ClassFinancialStatements(Load):
     def __init__(self):
         super(ClassFinancialStatements, self).__init__(TABLE,'stock_id')
 
-def TaiwanFinancialStatements(select = [],date = ''):
+def FinancialStatements(select = [],date = ''):
     
     self = ClassFinancialStatements()  
     col_name = ['Revenue','CostOfGoodsSold','GrossProfit',
