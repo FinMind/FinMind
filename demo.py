@@ -18,17 +18,17 @@ TaiwanStockPrice = Load.FinData(
         date = date)
 print( TaiwanStockPrice[:5] )
 
-print('load FinancialStatements {} '.format(TaiwanStockInfo.loc[2,'stock_id']))
+print('load FinancialStatements {} '.format(TaiwanStockInfo.loc[200,'stock_id']))
 TaiwanStockFinancialStatements = Load.FinData(
         dataset = 'FinancialStatements',
-        select = TaiwanStockInfo.loc[2,'stock_id'],
+        select = TaiwanStockInfo.loc[200,'stock_id'],
         date = date2)
 print( TaiwanStockFinancialStatements[:5] )
 
-print('load TaiwanStockStockDividend {} '.format(TaiwanStockInfo.loc[2,'stock_id']))
+print('load TaiwanStockStockDividend {} '.format(TaiwanStockInfo.loc[200,'stock_id']))
 TaiwanStockStockDividend = Load.FinData(
         dataset = 'TaiwanStockStockDividend',
-        select = TaiwanStockInfo.loc[2,'stock_id'],
+        select = TaiwanStockInfo.loc[200,'stock_id'],
         date = date3)
 print( TaiwanStockStockDividend[:5] )
 
