@@ -16,7 +16,7 @@ You can analysis financial data and no need collecting data by yourself. The dat
  Load Taiwan stock price 2330 starting at 2018-10-10.
  
     >>> from FinMind.Data import Load
-	>>> data = Load.FinData(dataset = 'StockPrice',select = ['2330.TW'],date = '2018-10-10')
+	>>> data = Load.FinData(dataset = 'TaiwanStockPrice',select = ['2330.TW'],date = '2018-10-10')
 	>>> print( data[:5] )
 
 	    	Open   High    Low  Close  Adj_Close    Volume        date stock_id

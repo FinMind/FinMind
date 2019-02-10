@@ -38,6 +38,14 @@ TaiwanStockMarginPurchaseShortSale = Load.FinData(
         select = TaiwanStockInfo.loc[2,'stock_id'],
         date = date3)
 print( TaiwanStockMarginPurchaseShortSale[:5] )
+
+print('load InstitutionalInvestorsBuySell {} '.format(TaiwanStockInfo.loc[2,'stock_id']))
+InstitutionalInvestorsBuySell = Load.FinData(
+        dataset = 'InstitutionalInvestorsBuySell',
+        select = TaiwanStockInfo.loc[2,'stock_id'],
+        date = date3)
+print( InstitutionalInvestorsBuySell[:5] )
+
 #---------------------------------------------------------------
 print('load USStockInfo')
 USStockInfo = Load.FinData(dataset = 'USStockInfo')

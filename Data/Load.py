@@ -20,7 +20,7 @@ def FinData(dataset = '',select = [],date = ''):
                        #-----------------------------------
                        'EuropeStockInfo','EuropeStockPrice',
                        #-----------------------------------
-                       'FinancialStatements',
+                       'FinancialStatements','InstitutionalInvestorsBuySell',
                        'ExchangeRate','InstitutionalInvestors',
                        'InterestRate','GovernmentBonds','CrudeOilPrices',
                        'EnergyFuturesPrices','GoldPrice']:
