@@ -108,7 +108,7 @@ plt.plot(testY2 , 'b')
 plt.plot(pred , 'r')
 plt.xlabel('Time')
 plt.ylabel('Stock Prices')
-plt.title('Check the accuracy of the model with time')
+plt.title('Red - Predicted Stock Prices  ,  Blue - Actual Stock Prices')
 plt.grid(True)
 plt.show()
 
