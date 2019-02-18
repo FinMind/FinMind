@@ -95,6 +95,7 @@ More than 15 kinds financial data.
      
 ### Financial Visualize
 At least five kinds Visualize tools on every data. ( In development )
+[股價、交易量、金價、油價](http://139.162.122.184:5050/)
 
 ### Financial Mining
 Holistic financial analysis. ( In development )
