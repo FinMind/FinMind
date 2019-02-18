@@ -30,33 +30,68 @@ other example can refer [demo](https://github.com/linsamtw/FinMind/blob/master/d
 
 -------------------------------
 ### Financial Data
-More than ten kinds financial data.
+More than 15 kinds financial data.
 
-* Stock Information
-	* Taiwan
-	* US
-	* Japan
-	* UK
-	* Europe
-* Stock Prices
-	* Taiwan
-	* US
-	* Japan
-	* UK
-	* Europe		
-* Financial Statements
-	* Taiwan
-* Stock Dividend
-	* Taiwan
-* Taiwan Stock Institutional Investors Buy and Sell
-* Taiwan Stock Margin Purchase Short Sale
-* Crude Oil Prices
-* Exchange Rate
-* Interest Rate
-* Gold Price
-* Government bond
-* Energy Futures Prices
-* Gold Price
+* <b>Stock Information</b>
+    * Taiwan
+    * US
+    * Japan
+    * UK
+    * Europe
+* <b>Stock Prices</b> 
+    * Taiwan
+    * US
+    * Japan
+    * UK
+    * Europe
+* <b>Financial Statements </b>
+    * Taiwan
+    * US
+* <b>Crude Oil Prices</b>
+    * Brent
+    * WTI
+* <b>Exchange Rate ( vs US )</b>
+    * Canda
+    * China
+    * Euro
+    * Japan
+    * Taiwan
+    * UK 
+* <b>Interest Rate</b>
+    * BCB : Central Bank of Brazil
+    * BOC : Bank of Canada
+    * BOE : Bank of England
+    * BOJ : Bank of Japan
+    * CBR : Central Bank of the Russian Federation
+    * ECB : European Central Bank
+    * FED : Federal Reserve
+    * PBOC : People's Bank of China
+    * RBA : Reserve Bank of Australia
+    * RBI : Reserve Bank of India
+    * RBNZ : Reserve Bank of New Zealand
+    * SNB :  Swiss National Bank
+* <b>Government bond</b>
+    * Canada : 1-Month ~ 30-Year
+    * China : 1-Year ~ 30-Year
+    * France : 1-Month ~ 50-Year
+    * Germany : 3-Month ~ 30-Year
+    * Italy : 1-Month ~ 50-Year
+    * Japan : 1-Month ~ 40-Year
+    * Russia : 1-Week ~ 20-Year
+    * United Kingdom : 1-Month ~ 50-Year
+    * United States : 1-Month ~ 30-Year
+* <b>Energy Futures Prices</b>
+    * BrentOilFutures
+    * CarbonEmissionsFutures
+    * CrudeOilWTIFutures
+    * GasolineRBOBFutures
+    * HeatingOilFutures
+    * LondonGasOilFutures
+    * NaturalGasFutures
+* <b>Taiwan Stock Stock Dividend</b>
+* <b>Taiwan Stock Institutional Investors Buy and Sell </b>
+* <b>Taiwan Stock Margin Purchase Short Sale</b>
+* <b>Gold Price</b>
      
 ### Financial Visualize
 At least five kinds Visualize tools on every data. ( In development )
