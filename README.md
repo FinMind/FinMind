@@ -94,7 +94,7 @@ More than 15 kinds financial data.
 * <b>Gold Price</b>
      
 ### Financial Visualize
-At least five kinds Visualize tools on every data. ( In development )
+At least five kinds Visualize tools on every data. ( In development )<br>
 [股價、交易量、金價、油價](http://139.162.122.184:5050/)
 
 ### Financial Mining
