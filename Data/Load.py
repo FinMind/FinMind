@@ -26,7 +26,9 @@ def FinData(dataset,select='',date='2000-01-01'):# dataset = 'CrudeOilPrices'
                        'EnergyFuturesPrices','GoldPrice']:
         raise(AttributeError, "Hidden attribute")  
     else:
-        if select in ['',[]]:
+        if select in ['',[]] and dataset in ['ExchangeRate','InstitutionalInvestors',
+                       'InterestRate','GovernmentBonds',
+                       'CrudeOilPrices','EnergyFuturesPrices']:
             select = FinDataList(dataset)        
         data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
                 select = select,date = date)
