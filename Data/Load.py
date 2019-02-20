@@ -6,8 +6,7 @@ sys.path.append(PATH)
 
 #---------------------------------------------------------------
 def FinData(dataset,select='',date='2000-01-01'):# dataset = 'CrudeOilPrices'
-    if select in ['',[]]:
-        select = FinDataList(dataset)
+    
         
     if dataset not in ['TaiwanStockInfo','TaiwanStockPrice',
                        'TaiwanStockFinancialStatements','TaiwanStockStockDividend',
@@ -27,6 +26,8 @@ def FinData(dataset,select='',date='2000-01-01'):# dataset = 'CrudeOilPrices'
                        'EnergyFuturesPrices','GoldPrice']:
         raise(AttributeError, "Hidden attribute")  
     else:
+        if select in ['',[]]:
+            select = FinDataList(dataset)        
         data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
                 select = select,date = date)
         return data
