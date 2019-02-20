@@ -2,7 +2,11 @@
 TABLE = 'UKStockPrice'
 import pandas as pd
 import os, sys
-PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
+import platform
+if 'Windows' in platform.platform():
+    PATH = "\\".join( os.path.abspath(__file__).split('\\')[:-1])
+else:
+    PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
 sys.path.append(PATH)
 from BasedClass import Load,execute_sql2
 

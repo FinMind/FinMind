@@ -5,7 +5,11 @@ TABLE = 'TaiwanStockInfo'
 import pandas as pd
 import os, sys
 # __file__ = '/home/sam/project/github/package/FinMind/FinMind/Data/TaiwanStockInfo.py'
-PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
+import platform
+if 'Windows' in platform.platform():
+    PATH = "\\".join( os.path.abspath(__file__).split('\\')[:-1])
+else:
+    PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
 sys.path.append(PATH)
 from BasedClass import execute_sql2
 

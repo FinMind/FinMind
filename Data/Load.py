@@ -1,7 +1,11 @@
 
 import os, sys
 import importlib
-PATH = "/".join( os.path.abspath(__file__).split('/')[:-2])
+import platform
+if 'Windows' in platform.platform():
+    PATH = "\\".join( os.path.abspath(__file__).split('\\')[:-2])
+else:
+    PATH = "/".join( os.path.abspath(__file__).split('/')[:-2])
 sys.path.append(PATH)
 
 #---------------------------------------------------------------
