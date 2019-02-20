@@ -12,12 +12,12 @@ You can analysis financial data and no need collecting data by yourself. The dat
  ---------------------
  The full version of this documentation is at https://linsamtw.github.io/FinMindDoc/.
  
- #### example
- Load Taiwan stock price 2330 starting at 2018-10-10.
+ ## Load example
+ ### `Taiwan Stock Price` 台灣股價
  
-    >>> from FinMind.Data import Load
-	>>> data = Load.FinData(dataset = 'TaiwanStockPrice',select = ['2330.TW'],date = '2018-10-10')
-	>>> print( data[:5] )
+    	from FinMind.Data import Load
+	data = Load.FinData(dataset = 'TaiwanStockPrice',select = ['2330.TW'],date = '2018-10-10')
+	print( data[:5] )
 
 	    	Open   High    Low  Close  Adj_Close    Volume        date stock_id
         0  233.5  233.5  227.0  227.5      227.5  94589657  2018-10-11     2330.TW
@@ -26,6 +26,37 @@ You can analysis financial data and no need collecting data by yourself. The dat
         3  229.5  237.0  229.0  237.0      237.0  37818077  2018-10-16     2330.TW
         4  241.5  243.0  238.0  238.5      238.5  42494858  2018-10-17     2330.TW
 	
+ ### `Taiwan Stock Financial Statements ` 台灣股票財報
+ 
+	data = Load.FinData(dataset = 'FinancialStatements',select = ['2330.TW'],date = '2017-10-10')
+	
+ ### `Taiwan Stock Stock Dividend ` 台灣股票歷年配息
+ 
+	data = Load.FinData(dataset = 'TaiwanStockStockDividend',select = ['2330.TW'],date = '2017-10-10')
+	
+ ### `Taiwan Stock Margin Purchase Short Sale ` 台灣股票融資融券
+ 
+	data = Load.FinData(dataset = 'TaiwanStockMarginPurchaseShortSale',select = ['2330.TW'],date = '2018-10-10')
+	
+ ### `Institutional Investors Buy Sell ` 台灣股票外資買賣
+	data = Load.FinData(dataset = 'InstitutionalInvestorsBuySell',select = ['2330.TW'],date = '2018-10-10')
+
+	
+ ### `Exchange Rate` 各國匯率
+	data = Load.FinData(dataset = 'ExchangeRate',select = ['Japan'],date = '2018-10-10')
+
+ ### `Interest Rate` 各國央行利率
+	data = Load.FinData(dataset = 'InterestRate',select = ['ECB'],date = '2018-10-10')
+    
+  ### `Government bond` 各國債券
+	data = Load.FinData(dataset = 'Governmentbond',select = ['Canada 2-Month'],date = '2018-10-10')
+    
+ ### `Gold Price` 金價
+	data = Load.FinData(dataset = 'GoldPrice',date = '2018-10-10')    
+
+ ### `Crude Oil Prices` 油價
+	data = Load.FinData(dataset = 'CrudeOilPrices',select = ['Brent'],date = '2018-10-10')
+
 other example can refer [demo](https://github.com/linsamtw/FinMind/blob/master/demo.py).
 
 -------------------------------
@@ -93,12 +124,13 @@ More than 15 kinds financial data.
 * <b>Taiwan Stock Margin Purchase Short Sale</b>
 * <b>Gold Price</b>
      
-### Financial Visualize
+### Financial Visualize ( In development )
 At least five kinds Visualize tools on every data. ( In development )<br>
 [股價、交易量、金價、油價](http://139.162.122.184:5050/)
 
-### Financial Mining
-Holistic financial analysis. ( In development )
+### Financial Mining ( In development )
+
+[LSTM & GRU](https://github.com/linsamtw/FinMind/tree/master/Mining)
 
 ------------------------------------------------------------
 
