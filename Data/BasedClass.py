@@ -42,45 +42,26 @@ class Load:
         data_list.sort()
         return  data_list   
     
-    def load(self,select = '',date = '',load_multi = False):
+    def load(self,select = '',date = ''):
         
         colname = execute_sql2( 'SHOW COLUMNS FROM {}'.format( self.table ) )
         colname = [ c[0] for c in colname if c[0] not in  ['id','url','data_id','ISIN'] ]              
         
-        sql = 'SELECT `{}` from `{}`'.format( '`,`'.join( colname ) ,self.table)
-        if load_multi == False:
-            if select != '' or date != '':
-                sql = "{} WHERE ".format(sql)
-    
-            bool_and = ''
-            if select != '' and date != '':
-                bool_and = 'AND'
-    
-            if select != '': 
-                select = " `{}` = '{}' {}".format(self.select_variable,select,bool_and)
-            if date != '': 
-                date = " `date` >= '{}' ".format(date)
-            
-            sql = sql + select + date
-        elif load_multi == True:
-            select = ['1101.TW','1102.TW','1103.TW',]
-            select = "','".join(select)
-            sql = "{} WHERE `date` >= '{}' AND `{}` IN ('{}') ".format(
-                    sql,date,self.select_variable,select)
+        sql = """ SELECT `{}` from `{}` 
+                    WHERE `{}` = '{}'
+                    AND `date` >= '{}'
+                """.format( '`,`'.join( colname ) ,self.table,self.select_variable,select,date)
 
         data = execute_sql2( sql )
         data = pd.DataFrame(list(data))
         if len(data)>0:
             
             data.columns = colname
-            
             if self.select_variable in data.columns:
                 data = data.sort_values([self.select_variable,'date'])
             else:
                 data = data.sort_values('date')
-                
-            data.index = range(len(data))
-            
+
         return data
     
     def load_multi(self,select_list = [],date = ''):
