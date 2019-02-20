@@ -18,28 +18,28 @@ TaiwanStockPrice = Load.FinData(
         date = date)
 print( TaiwanStockPrice[:5] )
 
-print('load FinancialStatements {} '.format(TaiwanStockInfo.loc[200,'stock_id']))
+print('load 財報 FinancialStatements {} '.format(TaiwanStockInfo.loc[200,'stock_id']))
 TaiwanStockFinancialStatements = Load.FinData(
         dataset = 'FinancialStatements',
         select = TaiwanStockInfo.loc[200,'stock_id'],
-        date = date2)
+        date = date3)
 print( TaiwanStockFinancialStatements[:5] )
 
-print('load TaiwanStockStockDividend {} '.format(TaiwanStockInfo.loc[200,'stock_id']))
+print('load 台股配息 TaiwanStockStockDividend {} '.format(TaiwanStockInfo.loc[200,'stock_id']))
 TaiwanStockStockDividend = Load.FinData(
         dataset = 'TaiwanStockStockDividend',
         select = TaiwanStockInfo.loc[200,'stock_id'],
         date = date3)
 print( TaiwanStockStockDividend[:5] )
 
-print('load TaiwanStockMarginPurchaseShortSale {} '.format(TaiwanStockInfo.loc[2,'stock_id']))
+print('load 借卷融資 TaiwanStockMarginPurchaseShortSale {} '.format(TaiwanStockInfo.loc[2,'stock_id']))
 TaiwanStockMarginPurchaseShortSale = Load.FinData(
         dataset = 'TaiwanStockMarginPurchaseShortSale',
         select = TaiwanStockInfo.loc[2,'stock_id'],
         date = date3)
 print( TaiwanStockMarginPurchaseShortSale[:5] )
 
-print('load InstitutionalInvestorsBuySell {} '.format(TaiwanStockInfo.loc[2,'stock_id']))
+print('load 外資買賣 InstitutionalInvestorsBuySell {} '.format(TaiwanStockInfo.loc[2,'stock_id']))
 InstitutionalInvestorsBuySell = Load.FinData(
         dataset = 'InstitutionalInvestorsBuySell',
         select = TaiwanStockInfo.loc[2,'stock_id'],
@@ -51,18 +51,19 @@ print('load USStockInfo')
 USStockInfo = Load.FinData(dataset = 'USStockInfo')
 print( USStockInfo[:5] )
 
-print('load USStockPrice {} '.format(USStockInfo.loc[2,'stock_id']))
+print('load USStockPrice {} '.format(USStockInfo.loc[20,'stock_id']))
 USStockPrice = Load.FinData(
         dataset = 'USStockPrice',
-        select = USStockInfo.loc[2,'stock_id'],
+        select = USStockInfo.loc[20,'stock_id'],
         date = date)
 print( USStockPrice[:5] )
 
-print('load FinancialStatements {} '.format(TaiwanStockInfo.loc[2,'stock_id']))
-TaiwanStockFinancialStatements = Load.FinData(
+print('load 財報 FinancialStatements {} '.format(USStockInfo.loc[20,'stock_id']))
+USStockFinancialStatements = Load.FinData(
         dataset = 'FinancialStatements',
-        select = USStockInfo.loc[2,'stock_id'],
+        select = USStockInfo.loc[20,'stock_id'],
         date = date2)
+print(USStockFinancialStatements)
 #---------------------------------------------------------------
 print('load JapanStockInfo')
 JapanStockInfo = Load.FinData(dataset = 'JapanStockInfo')
@@ -173,11 +174,6 @@ GoldPrice = Load.FinData(
         dataset = 'GoldPrice',
         date = date)
 print( GoldPrice[:5] )
-
-
-
-
-
 
 
 

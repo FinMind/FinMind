@@ -5,8 +5,9 @@ PATH = "/".join( os.path.abspath(__file__).split('/')[:-2])
 sys.path.append(PATH)
 
 #---------------------------------------------------------------
-def FinData(dataset = '',select = [],date = ''):
-    if dataset == 'TaiwanStockFinancialStatements': dataset = 'FinancialStatements'
+def FinData(dataset,select='',date='2000-01-01'):# dataset = 'CrudeOilPrices'
+    if select in ['',[]]:
+        select = FinDataList(dataset)
         
     if dataset not in ['TaiwanStockInfo','TaiwanStockPrice',
                        'TaiwanStockFinancialStatements','TaiwanStockStockDividend',
@@ -31,7 +32,7 @@ def FinData(dataset = '',select = [],date = ''):
         return data
 #-------------------------------------------------------------------------------------------
 
-def FinDataList(dataset = '',select = [],date = ''):
+def FinDataList(dataset):
     if dataset not in ['ExchangeRate','InstitutionalInvestors',
                        'InterestRate','GovernmentBonds',
                        'CrudeOilPrices','EnergyFuturesPrices']:
