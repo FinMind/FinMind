@@ -129,8 +129,9 @@ At least five kinds Visualize tools on every data. ( In development )<br>
 [股價、交易量、金價、油價](http://139.162.122.184:5050/)
 
 ### Financial Mining
-Holistic financial analysis. ( In development )<br>
+
 [LSTM & GRU](https://github.com/linsamtw/FinMind/tree/master/Mining)
+
 ------------------------------------------------------------
 
 email : linsam.tw.github@gmail.com
