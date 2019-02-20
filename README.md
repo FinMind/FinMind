@@ -25,7 +25,15 @@ You can analysis financial data and no need collecting data by yourself. The dat
         2  234.0  234.0  230.5  230.5      230.5  42168280  2018-10-15     2330.TW
         3  229.5  237.0  229.0  237.0      237.0  37818077  2018-10-16     2330.TW
         4  241.5  243.0  238.0  238.5      238.5  42494858  2018-10-17     2330.TW
-
+	
+ ### `Taiwan Stock Financial Statements ` 台灣股票財報
+ 
+	data = Load.FinData(dataset = 'FinancialStatements',select = ['2330.TW'],date = '2017-10-10')
+	
+ ### `Taiwan Stock Stock Dividend ` 台灣股票歷年配息
+ 
+	data = Load.FinData(dataset = 'TaiwanStockStockDividend',select = ['2330.TW'],date = '2017-10-10')
+	
  ### `Taiwan Stock Margin Purchase Short Sale ` 台灣股票融資融券
  
 	data = Load.FinData(dataset = 'TaiwanStockMarginPurchaseShortSale',select = ['2330.TW'],date = '2018-10-10')
@@ -122,7 +130,7 @@ At least five kinds Visualize tools on every data. ( In development )<br>
 
 ### Financial Mining
 Holistic financial analysis. ( In development )
-
+[LSTM & GRU](https://github.com/linsamtw/FinMind/tree/master/Mining)
 ------------------------------------------------------------
 
 email : linsam.tw.github@gmail.com
