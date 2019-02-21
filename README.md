@@ -15,7 +15,7 @@ You can analysis financial data and no need collecting data by yourself. The dat
  ## Load example
  ### `Taiwan Stock Price` 台灣股價
  
-    	from FinMind.Data import Load
+ 	from FinMind.Data import Load
 	data = Load.FinData(dataset = 'TaiwanStockPrice',select = ['2330.TW'],date = '2018-10-10')
 	print( data[:5] )
 
