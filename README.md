@@ -5,7 +5,7 @@
 <!--[![Coverage Status](https://coveralls.io/repos/github/linsamtw/FinMind/badge.svg?branch=master)](https://coveralls.io/github/linsamtw/FinMind?branch=master)-->
 
 
-You can analysis financial data and no need collecting data by yourself. The dataset will auto update daily.
+You can analyze financial data without having to collect the data by yourself. The datasets are automatically updated daily.
 
      pip3 install FinMind
      
@@ -27,41 +27,46 @@ You can analysis financial data and no need collecting data by yourself. The dat
         4  241.5  243.0  238.0  238.5      238.5  42494858  2018-10-17     2330.TW
 	
  ### `Taiwan Stock Financial Statements ` 台灣股票財報
- 
+
 	data = Load.FinData(dataset = 'FinancialStatements',select = ['2330.TW'],date = '2017-10-10')
-	
+
  ### `Taiwan Stock Stock Dividend ` 台灣股票歷年配息
- 
+
 	data = Load.FinData(dataset = 'TaiwanStockStockDividend',select = ['2330.TW'],date = '2017-10-10')
-	
+
  ### `Taiwan Stock Margin Purchase Short Sale ` 台灣股票融資融券
- 
+
 	data = Load.FinData(dataset = 'TaiwanStockMarginPurchaseShortSale',select = ['2330.TW'],date = '2018-10-10')
-	
+
  ### `Institutional Investors Buy Sell ` 台灣股票外資買賣
+ 
 	data = Load.FinData(dataset = 'InstitutionalInvestorsBuySell',select = ['2330.TW'],date = '2018-10-10')
 
-	
  ### `Exchange Rate` 各國匯率
+ 
 	data = Load.FinData(dataset = 'ExchangeRate',select = ['Japan'],date = '2018-10-10')
 
  ### `Interest Rate` 各國央行利率
+ 
 	data = Load.FinData(dataset = 'InterestRate',select = ['ECB'],date = '2018-10-10')
-    
+
   ### `Government bond` 各國債券
+
 	data = Load.FinData(dataset = 'Governmentbond',select = ['Canada 2-Month'],date = '2018-10-10')
-    
+
  ### `Gold Price` 金價
+
 	data = Load.FinData(dataset = 'GoldPrice',date = '2018-10-10')    
 
  ### `Crude Oil Prices` 油價
+
 	data = Load.FinData(dataset = 'CrudeOilPrices',select = ['Brent'],date = '2018-10-10')
 
-other example can refer [demo](https://github.com/linsamtw/FinMind/blob/master/demo.py).
+For other examples, please refer to [demo](https://github.com/linsamtw/FinMind/blob/master/demo.py).
 
 -------------------------------
 ### Financial Data
-More than 15 kinds financial data.
+More than 15 kinds of financial data.
 
 * <b>Stock Information</b>
     * Taiwan
@@ -69,7 +74,7 @@ More than 15 kinds financial data.
     * Japan
     * UK
     * Europe
-* <b>Stock Prices</b> 
+* <b>Stock Prices</b>
     * Taiwan
     * US
     * Japan
@@ -81,13 +86,13 @@ More than 15 kinds financial data.
 * <b>Crude Oil Prices</b>
     * Brent
     * WTI
-* <b>Exchange Rate ( vs US )</b>
-    * Canda
+* <b>Exchange Rates ( vs US )</b>
+    * Canada
     * China
     * Euro
     * Japan
     * Taiwan
-    * UK 
+    * UK
 * <b>Interest Rate</b>
     * BCB : Central Bank of Brazil
     * BOC : Bank of Canada
@@ -101,7 +106,7 @@ More than 15 kinds financial data.
     * RBI : Reserve Bank of India
     * RBNZ : Reserve Bank of New Zealand
     * SNB :  Swiss National Bank
-* <b>Government bond</b>
+* <b>Government Bonds</b>
     * Canada : 1-Month ~ 30-Year
     * China : 1-Year ~ 30-Year
     * France : 1-Month ~ 50-Year
@@ -123,9 +128,9 @@ More than 15 kinds financial data.
 * <b>Taiwan Stock Institutional Investors Buy and Sell </b>
 * <b>Taiwan Stock Margin Purchase Short Sale</b>
 * <b>Gold Price</b>
-     
+
 ### Financial Visualize ( In development )
-At least five kinds Visualize tools on every data. ( In development )<br>
+At least five kinds of visualization tools for every data type. ( In development )<br>
 [股價、交易量、金價、油價](http://139.162.122.184:5050/)
 
 ### Financial Mining ( In development )
