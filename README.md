@@ -5,7 +5,7 @@
 <!--[![Coverage Status](https://coveralls.io/repos/github/linsamtw/FinMind/badge.svg?branch=master)](https://coveralls.io/github/linsamtw/FinMind?branch=master)-->
 
 
-You can analyze financial data and without having to collect the data by yourself. The datasets are automatically updated daily.
+You can analyze financial data without having to collect the data by yourself. The datasets are automatically updated daily.
 
      pip3 install FinMind
 
