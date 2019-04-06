@@ -154,7 +154,7 @@ More than 15 kinds of financial data.
     * HeatingOilFutures
     * LondonGasOilFutures
     * NaturalGasFutures
-* <b>Raw Material Futures Prices</b>
+* <b>Raw Material Futures Prices ( meats, grains, energies, softs, metals)</b>
 * <b>Taiwan Stock Stock Dividend</b>
 * <b>Taiwan Stock Balance Sheet</b>
 * <b>Taiwan Stock Holding Shares Per </b>
