@@ -25,7 +25,7 @@ You can analyze financial data without having to collect the data by yourself. T
  ## Load example
 
 #### New
-### transpose
+### transpose(data)
     from FinMind.Data import Load
 
     TaiwanStockFinancialStatements = Load.FinData(
