@@ -13,7 +13,7 @@ You can analyze financial data without having to collect the data by yourself. T
  The full version of this documentation is at [https://linsamtw.github.io/FinMindDoc/](https://linsamtw.github.io/FinMindDoc/).
  
  ----------------------
- #### New Data (2019-04-06)
+ #### New Data (2019-04-06) FinMind 1.0.52.
  * `BalanceSheet` ( Taiwan 資產負債表 )
  * `TaiwanStockHoldingSharesPer ` ( Taiwan 股權分散表 )
  * `Shareholding` ( Taiwan 個股外資持股 )
