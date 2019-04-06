@@ -49,7 +49,7 @@ def FinDataList(dataset):
     if dataset not in ['ExchangeRate','InstitutionalInvestors',
                        'InterestRate','GovernmentBonds',
                        'CrudeOilPrices','EnergyFuturesPrices',
-                       'CurrencyCirculation']:
+                       'CurrencyCirculation','RawMaterialFuturesPrices']:
         raise(AttributeError, "Hidden attribute")  
     else:
         data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), 'Load_Data_List')()
