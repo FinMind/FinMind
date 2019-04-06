@@ -21,6 +21,7 @@ You can analyze financial data without having to collect the data by yourself. T
  * `RawMaterialFuturesPrices ` ( 美國原物料期貨 )
  ##### New Function
  * `transpose(data)`
+ * [demp2.py](https://github.com/linsamtw/FinMind/blob/master/demo2.py)
  ----------------------
  ## Load example
 
