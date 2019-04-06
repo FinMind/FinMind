@@ -1,10 +1,8 @@
 
 '''
-
 NumberOfSharesIssued : 已發行股份數目
 ForeignInvestmentMaxShares : 外資 max 投資股票
 ForeignInvestmentShares : 外資投資股票
-
 '''
 
 TABLE = 'Shareholding'

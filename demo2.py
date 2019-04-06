@@ -146,7 +146,7 @@ gp = GoldPrice(date = date)
 print( gp[:5] )
 #---------------------------------------------------------------
 print('load CurrencyCirculation list')
-ccl = CurrencyCirculationList(dataset = 'CurrencyCirculation')
+ccl = CurrencyCirculationList()
 print( ccl[:5] )
 
 print('load CurrencyCirculation ')
