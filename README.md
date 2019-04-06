@@ -20,7 +20,7 @@ You can analyze financial data without having to collect the data by yourself. T
  * `Shareholding` ( Taiwan 個股外資持股 )
  * `RawMaterialFuturesPrices ` ( 美國原物料期貨 )
  ##### New Function
- * `transpose(data)` : FinMind.Data.Load.transpose(data)
+ * `transpose(data)`
  ----------------------
  ## Load example
 
