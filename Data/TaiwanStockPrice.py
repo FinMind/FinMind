@@ -8,7 +8,7 @@ if 'Windows' in platform.platform():
 else:
     PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
 sys.path.append(PATH)
-from BasedClass import Load,execute_sql2
+from BasedClass import Load,query
 
 
 class ClassTaiwanStockPrice(Load):
@@ -17,7 +17,7 @@ class ClassTaiwanStockPrice(Load):
         
     def load(self,select = '',date = ''):
         
-        colname = execute_sql2( 'SHOW COLUMNS FROM `{}`'.format( select ),database = TABLE )
+        colname = query( 'SHOW COLUMNS FROM `{}`'.format( select ),database = TABLE )
             
         colname = [ c[0] for c in colname if c[0] not in  ['id','url'] ]              
         
@@ -26,7 +26,7 @@ class ClassTaiwanStockPrice(Load):
         if date != '':
             sql = "{} WHERE `date` >= '{}' ".format(sql,date)
            
-        data = execute_sql2( sql ,database = TABLE)
+        data = query( sql ,database = TABLE)
         data = pd.DataFrame(list(data))
         if len(data)>0:
             
@@ -42,7 +42,7 @@ class ClassTaiwanStockPrice(Load):
         return data
     
     def get_data_list(self):
-        tem = execute_sql2( 'SHOW TABLES',database = TABLE )
+        tem = query( 'SHOW TABLES',database = TABLE )
         return [ te[0].split('_')[0] for te in tem ]
         
 def TaiwanStockPrice(select = [],date = ''):

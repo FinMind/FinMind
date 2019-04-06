@@ -8,7 +8,7 @@ if 'Windows' in platform.platform():
 else:
     PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
 sys.path.append(PATH)
-from BasedClass import Load,execute_sql2
+from BasedClass import Load,query
 
 
 class ClassStockPrice(Load):
@@ -17,9 +17,9 @@ class ClassStockPrice(Load):
         
     def load(self,select = '',date = ''):
         
-        colname = execute_sql2( 'SHOW COLUMNS FROM `{}_TW`'.format( select ),database = TABLE )
+        colname = query( 'SHOW COLUMNS FROM `{}_TW`'.format( select ),database = TABLE )
         if colname == []:
-            colname = execute_sql2( 'SHOW COLUMNS FROM `{}_TWO`'.format( select ),database = TABLE )
+            colname = query( 'SHOW COLUMNS FROM `{}_TWO`'.format( select ),database = TABLE )
             select = '{}_TWO'.format( select )
         else:
             select = '{}_TW'.format(select)
@@ -31,7 +31,7 @@ class ClassStockPrice(Load):
         if date != '':
             sql = "{} WHERE `date` >= '{}' ".format(sql,date)
            
-        data = execute_sql2( sql ,database = TABLE)
+        data = query( sql ,database = TABLE)
         data = pd.DataFrame(list(data))
         if len(data)>0:
             
@@ -47,7 +47,7 @@ class ClassStockPrice(Load):
         return data
     
     def get_data_list(self):
-        tem = execute_sql2( 'SHOW TABLES',database = TABLE )
+        tem = query( 'SHOW TABLES',database = TABLE )
         return [ te[0].split('_')[0] for te in tem ]
         
 def StockPrice(select = [],date = ''):

@@ -1,5 +1,5 @@
 
-TABLE = 'FinancialStatements2'
+TABLE = 'RawMaterialFuturesPrices'
 import os, sys
 import platform
 if 'Windows' in platform.platform():
@@ -9,28 +9,27 @@ else:
 sys.path.append(PATH)
 from BasedClass import Load
 
-class ClassFinancialStatements(Load):
+class ClassRawMaterialFuturesPrices(Load):
     def __init__(self):
-        super(ClassFinancialStatements, self).__init__(TABLE,'stock_id')
+        super(ClassRawMaterialFuturesPrices, self).__init__(TABLE,'futures_type')
 
-def FinancialStatements(select = [],date = ''):
+def RawMaterialFuturesPrices(select = [],date = ''):
     
-    self = ClassFinancialStatements()
-    
+    self = ClassRawMaterialFuturesPrices()  
     #stock = select
     if isinstance(select,int): select = str(select)
     
     if isinstance(select,str):
-        data = self.load(select,date)
+        return self.load(select,date)
         
     elif isinstance(select,list):
-        data = self.load_multi(select,date)
+        return self.load_multi(select,date)
     
     else:
         raise(AttributeError, "Hidden attribute")  
-    
-    #data = self.transpose(data)
-    
-    return data
-    
-    
+
+def Load_Data_List():
+    self = ClassRawMaterialFuturesPrices()  
+    return list( self.get_data_list() )
+
+

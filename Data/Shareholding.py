@@ -1,5 +1,14 @@
 
-TABLE = 'FinancialStatements2'
+'''
+
+NumberOfSharesIssued : 已發行股份數目
+ForeignInvestmentMaxShares : 外資 max 投資股票
+ForeignInvestmentShares : 外資投資股票
+
+'''
+
+TABLE = 'Shareholding'
+
 import os, sys
 import platform
 if 'Windows' in platform.platform():
@@ -9,28 +18,29 @@ else:
 sys.path.append(PATH)
 from BasedClass import Load
 
-class ClassFinancialStatements(Load):
+class ClassShareholding(Load):
     def __init__(self):
-        super(ClassFinancialStatements, self).__init__(TABLE,'stock_id')
+        super(ClassShareholding, self).__init__(TABLE,'stock_id')
 
-def FinancialStatements(select = [],date = ''):
+def Shareholding(select = [],date = ''):
     
-    self = ClassFinancialStatements()
+    self = ClassShareholding()  
     
-    #stock = select
     if isinstance(select,int): select = str(select)
     
     if isinstance(select,str):
         data = self.load(select,date)
-        
+        if len(data) == 0:
+            return data
+        #data = data[col_name]
+        return data
     elif isinstance(select,list):
         data = self.load_multi(select,date)
-    
+        if len(data) == 0:
+            return data        
+        #data = data[col_name]
+        return data
+
     else:
         raise(AttributeError, "Hidden attribute")  
-    
-    #data = self.transpose(data)
-    
-    return data
-    
     

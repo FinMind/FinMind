@@ -9,3 +9,4 @@ script:
   - pip3 install pymysql
   - pip3 install FinMind
   - python3 demo.py 
+  - python3 demo2.py

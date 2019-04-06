@@ -1,6 +1,8 @@
 
+
 from FinMind.Data import Load
 import numpy as np 
+import pandas as pd
 from keras.layers.core import Dense, Dropout
 from keras.layers import LSTM , GRU
 from keras.models import Sequential
@@ -8,6 +10,8 @@ from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
 import math
 from keras.optimizers import Adam 
+
+TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
 
 print('input data')
 data = Load.FinData(
@@ -18,20 +22,32 @@ data = Load.FinData(
 #colname = ['date', 'open', 'high', 'low', 'close', 'volume']
 #data = data[colname]
 print('select close price')
+date = [ str(d) for d in data['date'] ]
 stock_price = data['Close'].values.astype('float32')
 stock_price = stock_price.reshape(len(stock_price), 1)
+
 print(' 畫圖 ')
 plt.plot(stock_price)
 plt.show()
 
-print(' 歸一化 ')
-scaler = MinMaxScaler(feature_range=(0, 1))
-stock_price = scaler.fit_transform(stock_price)
 print(' 取 80% data 當作 training data, 20% data 當作 testing data 做模型驗證 ')
 train_size = int(len(stock_price) * 0.8)
 test_size = len(stock_price) - train_size
-train, test = stock_price[0:train_size,:], stock_price[train_size:len(stock_price),:]
+test_size = train_size + int(test_size/2)
+valid_size = test_size
 
+train = stock_price[:train_size,:]
+test = stock_price[train_size:test_size,:]
+valid = stock_price[valid_size:,:]
+
+train_date = date[:train_size]
+test_date = date[train_size:test_size]
+valid_date = date[valid_size:]
+
+print(' 歸一化 ')
+scaler = MinMaxScaler(feature_range=(0, 1))
+train = scaler.fit_transform(train)
+test = scaler.transform(test)
 
 print('切 data，拿前五天的股價，預測未來1天的股價，先做個 demo')
 def process_data(data , n_features,future_days):
@@ -55,6 +71,7 @@ print('轉換成 LSTM 建模所需 data 的型態')
 trainX = np.reshape(trainX, (trainX.shape[0], 1, trainX.shape[1]))
 testX = np.reshape(testX, (testX.shape[0], 1, testX.shape[1]))
 
+'''  set up DL model '''
 print('設定參數')
 filepath="stock_weights.hdf5"
 from keras.callbacks import ReduceLROnPlateau , ModelCheckpoint
@@ -65,11 +82,11 @@ print('建立 DL 模型，使用 RNN 常見的 GRU and LSTM')
 model = Sequential()
 model.add(GRU(256 , input_shape = (1 , n_features) , return_sequences=True))
 model.add(Dropout(0.2))
-model.add(LSTM(2048))
+model.add(LSTM(256))
 model.add(Dropout(0.2))
 model.add(Dense(64 ,  activation = 'relu'))
 model.add(Dense(1))
-
+model.summary()
 
 #model.load_weights('/home/linsam/job/stock_weight.h5')
 model.compile(loss='mean_squared_error', optimizer=Adam(lr = 0.0005) , metrics = ['mean_squared_error'])
@@ -111,6 +128,55 @@ plt.ylabel('Stock Prices')
 plt.title('Red - Predicted Stock Prices  ,  Blue - Actual Stock Prices')
 plt.grid(True)
 plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+print('real predict')
+tem = [ test_date.append(d) for d in valid_date ]
+test2 = [ t[0] for t in test ]
+
+valid2 = [ t[0] for t in scaler.transform(valid) ]
+tem = [ test2.append(d) for d in valid2 ]
+
+price = stock_price[train_size:,:]
+price = [ p[0] for p in price ]
+
+data2 = pd.DataFrame()
+data2['price'] = price
+data2['value'] = test2
+data2['date'] = test_date
+
+x = np.array([[[1,2,3,4,5]]])
+pred = model.predict(x)
+pred = scaler.inverse_transform(pred)
+
+
+
+
 
 
 

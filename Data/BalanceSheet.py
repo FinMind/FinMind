@@ -1,5 +1,5 @@
 
-TABLE = 'FinancialStatements2'
+TABLE = 'BalanceSheet'
 import os, sys
 import platform
 if 'Windows' in platform.platform():
@@ -9,14 +9,13 @@ else:
 sys.path.append(PATH)
 from BasedClass import Load
 
-class ClassFinancialStatements(Load):
+class ClassBalanceSheet(Load):
     def __init__(self):
-        super(ClassFinancialStatements, self).__init__(TABLE,'stock_id')
+        super(ClassBalanceSheet, self).__init__(TABLE,'stock_id')
 
-def FinancialStatements(select = [],date = ''):
+def BalanceSheet(select = [],date = ''):
     
-    self = ClassFinancialStatements()
-    
+    self = ClassBalanceSheet()
     #stock = select
     if isinstance(select,int): select = str(select)
     
@@ -28,9 +27,7 @@ def FinancialStatements(select = [],date = ''):
     
     else:
         raise(AttributeError, "Hidden attribute")  
-    
+
     #data = self.transpose(data)
     
     return data
-    
-    

@@ -10,42 +10,66 @@ date3 = str( datetime.datetime.now().date() - datetime.timedelta(400) )
 print('load TaiwanStockInfo')
 TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
 print( TaiwanStockInfo[:5] )
+_index = 1829
 
-print('load TaiwanStockPrice {} '.format(TaiwanStockInfo.loc[2,'stock_id']))
+print('load TaiwanStockPrice {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 TaiwanStockPrice = Load.FinData(
         dataset = 'TaiwanStockPrice',
-        select = TaiwanStockInfo.loc[2,'stock_id'],
+        select = TaiwanStockInfo.loc[_index,'stock_id'],
         date = date)
 print( TaiwanStockPrice[:5] )
 
-print('load 財報 FinancialStatements {} '.format(TaiwanStockInfo.loc[200,'stock_id']))
+print('load 財報 FinancialStatements {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 TaiwanStockFinancialStatements = Load.FinData(
         dataset = 'FinancialStatements',
-        select = TaiwanStockInfo.loc[200,'stock_id'],
+        select = list(TaiwanStockInfo.loc[1830:1835,'stock_id']),
         date = date3)
 print( TaiwanStockFinancialStatements[:5] )
+# transpose
+data = Load.transpose(TaiwanStockFinancialStatements)
 
-print('load 台股配息 TaiwanStockStockDividend {} '.format(TaiwanStockInfo.loc[200,'stock_id']))
+print('load 台股配息 TaiwanStockStockDividend {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 TaiwanStockStockDividend = Load.FinData(
         dataset = 'TaiwanStockStockDividend',
-        select = TaiwanStockInfo.loc[200,'stock_id'],
+        select = TaiwanStockInfo.loc[_index,'stock_id'],
         date = date3)
 print( TaiwanStockStockDividend[:5] )
 
-print('load 借卷融資 TaiwanStockMarginPurchaseShortSale {} '.format(TaiwanStockInfo.loc[2,'stock_id']))
+print('load 借卷融資 TaiwanStockMarginPurchaseShortSale {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 TaiwanStockMarginPurchaseShortSale = Load.FinData(
         dataset = 'TaiwanStockMarginPurchaseShortSale',
-        select = TaiwanStockInfo.loc[2,'stock_id'],
+        select = TaiwanStockInfo.loc[_index,'stock_id'],
         date = date3)
 print( TaiwanStockMarginPurchaseShortSale[:5] )
 
-print('load 外資買賣 InstitutionalInvestorsBuySell {} '.format(TaiwanStockInfo.loc[2,'stock_id']))
+print('load 外資買賣 InstitutionalInvestorsBuySell {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 InstitutionalInvestorsBuySell = Load.FinData(
         dataset = 'InstitutionalInvestorsBuySell',
-        select = TaiwanStockInfo.loc[2,'stock_id'],
+        select = TaiwanStockInfo.loc[_index,'stock_id'],
         date = date3)
 print( InstitutionalInvestorsBuySell[:5] )
 
+print('load 外資持股 Shareholding {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
+Shareholding = Load.FinData(
+        dataset = 'Shareholding',
+        select = TaiwanStockInfo.loc[_index,'stock_id'],
+        date = date3)
+print( Shareholding[:5] )
+
+print('load 資產負債表 BalanceSheet {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
+BalanceSheet = Load.FinData(
+        dataset = 'BalanceSheet',
+        select = list( TaiwanStockInfo.loc[1830:1835,'stock_id'] ),
+        date = date3)
+print( BalanceSheet[:5] )
+data = Load.transpose(BalanceSheet)
+
+print('load 股權分散表 TaiwanStockHoldingSharesPer {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
+TaiwanStockHoldingSharesPer = Load.FinData(
+        dataset = 'TaiwanStockHoldingSharesPer',
+        select = TaiwanStockInfo.loc[_index,'stock_id'],
+        date = date3)
+print( TaiwanStockHoldingSharesPer[:5] )
 #---------------------------------------------------------------
 print('load USStockInfo')
 USStockInfo = Load.FinData(dataset = 'USStockInfo')
@@ -169,11 +193,32 @@ EnergyFuturesPrices = Load.FinData(
         date = date)
 print( EnergyFuturesPrices[:5] )
 #---------------------------------------------------------------
+print('load RawMaterialFuturesPrices list')
+RawMaterialFuturesPrices_list = Load.FinDataList(dataset = 'RawMaterialFuturesPrices')
+print( RawMaterialFuturesPrices_list[:5] )
+
+print('load RawMaterialFuturesPrices {}'.format(RawMaterialFuturesPrices_list[3]))
+RawMaterialFuturesPrices = Load.FinData(
+        dataset = 'RawMaterialFuturesPrices',
+        select = RawMaterialFuturesPrices_list[3],
+        date = date)
+print( RawMaterialFuturesPrices[:5] )
+#---------------------------------------------------------------
 print('load GoldPrice ')
 GoldPrice = Load.FinData(
         dataset = 'GoldPrice',
         date = date)
 print( GoldPrice[:5] )
+#---------------------------------------------------------------
+print('load CurrencyCirculation list')
+CurrencyCirculation_list = Load.FinDataList(dataset = 'CurrencyCirculation')
+print( CurrencyCirculation_list[:5] )
 
+print('load CurrencyCirculation ')
+CurrencyCirculation = Load.FinData(
+        dataset = 'CurrencyCirculation',
+        select = CurrencyCirculation_list[1],
+        date = date)
+print( CurrencyCirculation[:5] )
 
 

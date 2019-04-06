@@ -9,12 +9,12 @@ if 'Windows' in platform.platform():
 else:
     PATH = "/".join( os.path.abspath(__file__).split('/')[:-1])
 sys.path.append(PATH)
-from BasedClass import execute_sql2
+from BasedClass import query
 
 class ClassGoldPrice:
 
     def load(self,date):  
-        colname = execute_sql2( 'SHOW COLUMNS FROM {}'.format( TABLE ) )
+        colname = query( 'SHOW COLUMNS FROM {}'.format( TABLE ) )
         colname = [ c[0] for c in colname if c[0] != 'id' ]                      
         
         sql = 'select `{}` from {}'.format( '`,`'.join( colname ) ,TABLE)
@@ -22,7 +22,7 @@ class ClassGoldPrice:
         if date != '':
             sql = "{} WHERE `date` >= '{}'".format(sql,date)
            
-        data = execute_sql2( sql )
+        data = query( sql )
         data = pd.DataFrame(list(data))
         
         if len(data)>0:
