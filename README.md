@@ -10,10 +10,40 @@ You can analyze financial data without having to collect the data by yourself. T
      pip3 install FinMind
      
  ---------------------
- The full version of this documentation is at https://linsamtw.github.io/FinMindDoc/.
+ The full version of this documentation is at [https://linsamtw.github.io/FinMindDoc/](https://linsamtw.github.io/FinMindDoc/).
  
+ ----------------------
+ #### New Data (2019-04-06)
+ * `BalanceSheet` ( Taiwan 資產負債表 )
+ * `TaiwanStockHoldingSharesPer ` ( Taiwan 股權分散表 )
+ * `Shareholding` ( Taiwan 個股外資持股 )
+ * `RawMaterialFuturesPrices ` ( 美國原物料期貨 )
+ ----------------------
  ## Load example
- ### `Taiwan Stock Price` 台灣股價
+
+#### New
+### `Balance Sheet` Taiwan 資產負債表
+
+	data = Load.FinData(dataset = 'BalanceSheet',select = ['2330.TW'],date = '2018-01-10')
+    
+### `Taiwan Stock Holding SharesPer` Taiwan 股權分散表
+
+	data = Load.FinData(dataset = 'TaiwanStockHoldingSharesPer',select = ['2330.TW'],date = '2018-10-10')
+    
+### `Taiwan Stock Shareholding` Taiwan 外資持股
+
+	data = Load.FinData(dataset = 'Shareholding',select = ['2330.TW'],date = '2018-10-10')
+    
+### `Raw Material Futures Prices` 美國原物料期貨 ( meats,grains,energies,softs,metals )
+	RawMaterialFuturesPrices_list = Load.FinDataList(dataset = 'RawMaterialFuturesPrices')
+	data = Load.FinData(dataset = 'RawMaterialFuturesPrices',select = [RawMaterialFuturesPrices_list[3]],date = '2018-10-10')
+ 
+ ----------------------
+ ### `Taiwan Stock Info` Taiwan 股票資訊, `stock_id` 對應以下 `select`
+ 	from FinMind.Data import Load
+	TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
+    
+ ### `Taiwan Stock Price` Taiwan 股價
  
  	from FinMind.Data import Load
 	data = Load.FinData(dataset = 'TaiwanStockPrice',select = ['2330.TW'],date = '2018-10-10')
@@ -26,19 +56,19 @@ You can analyze financial data without having to collect the data by yourself. T
         3  229.5  237.0  229.0  237.0      237.0  37818077  2018-10-16     2330.TW
         4  241.5  243.0  238.0  238.5      238.5  42494858  2018-10-17     2330.TW
 	
- ### `Taiwan Stock Financial Statements ` 台灣股票財報
+ ### `Taiwan Stock Financial Statements ` Taiwan 灣股票財報
 
 	data = Load.FinData(dataset = 'FinancialStatements',select = ['2330.TW'],date = '2017-10-10')
 
- ### `Taiwan Stock Stock Dividend ` 台灣股票歷年配息
+ ### `Taiwan Stock Stock Dividend ` Taiwan 股票歷年配息
 
 	data = Load.FinData(dataset = 'TaiwanStockStockDividend',select = ['2330.TW'],date = '2017-10-10')
 
- ### `Taiwan Stock Margin Purchase Short Sale ` 台灣股票融資融券
+ ### `Taiwan Stock Margin Purchase Short Sale ` Taiwan 股票融資融券
 
 	data = Load.FinData(dataset = 'TaiwanStockMarginPurchaseShortSale',select = ['2330.TW'],date = '2018-10-10')
 
- ### `Institutional Investors Buy Sell ` 台灣股票外資買賣
+ ### `Institutional Investors Buy Sell ` Taiwan 股票外資買賣
  
 	data = Load.FinData(dataset = 'InstitutionalInvestorsBuySell',select = ['2330.TW'],date = '2018-10-10')
 
@@ -124,7 +154,11 @@ More than 15 kinds of financial data.
     * HeatingOilFutures
     * LondonGasOilFutures
     * NaturalGasFutures
+* <b>Raw Material Futures Prices</b>
 * <b>Taiwan Stock Stock Dividend</b>
+* <b>Taiwan Stock Balance Sheet</b>
+* <b>Taiwan Stock Holding Shares Per </b>
+* <b>Taiwan Stock Shareholding</b>
 * <b>Taiwan Stock Institutional Investors Buy and Sell </b>
 * <b>Taiwan Stock Margin Purchase Short Sale</b>
 * <b>Gold Price</b>
