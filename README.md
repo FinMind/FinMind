@@ -8,13 +8,13 @@
 You can analyze financial data without having to collect the data by yourself. The datasets are automatically updated daily.
 
      pip3 install FinMind
-
+     
  ---------------------
  The full version of this documentation is at https://linsamtw.github.io/FinMindDoc/.
-
+ 
  ## Load example
  ### `Taiwan Stock Price` 台灣股價
-
+ 
  	from FinMind.Data import Load
 	data = Load.FinData(dataset = 'TaiwanStockPrice',select = ['2330.TW'],date = '2018-10-10')
 	print( data[:5] )
@@ -25,7 +25,7 @@ You can analyze financial data without having to collect the data by yourself. T
         2  234.0  234.0  230.5  230.5      230.5  42168280  2018-10-15     2330.TW
         3  229.5  237.0  229.0  237.0      237.0  37818077  2018-10-16     2330.TW
         4  241.5  243.0  238.0  238.5      238.5  42494858  2018-10-17     2330.TW
-
+	
  ### `Taiwan Stock Financial Statements ` 台灣股票財報
 
 	data = Load.FinData(dataset = 'FinancialStatements',select = ['2330.TW'],date = '2017-10-10')
@@ -39,22 +39,27 @@ You can analyze financial data without having to collect the data by yourself. T
 	data = Load.FinData(dataset = 'TaiwanStockMarginPurchaseShortSale',select = ['2330.TW'],date = '2018-10-10')
 
  ### `Institutional Investors Buy Sell ` 台灣股票外資買賣
+ 
 	data = Load.FinData(dataset = 'InstitutionalInvestorsBuySell',select = ['2330.TW'],date = '2018-10-10')
 
-
  ### `Exchange Rate` 各國匯率
+ 
 	data = Load.FinData(dataset = 'ExchangeRate',select = ['Japan'],date = '2018-10-10')
 
  ### `Interest Rate` 各國央行利率
+ 
 	data = Load.FinData(dataset = 'InterestRate',select = ['ECB'],date = '2018-10-10')
 
   ### `Government bond` 各國債券
+
 	data = Load.FinData(dataset = 'Governmentbond',select = ['Canada 2-Month'],date = '2018-10-10')
 
  ### `Gold Price` 金價
+
 	data = Load.FinData(dataset = 'GoldPrice',date = '2018-10-10')    
 
  ### `Crude Oil Prices` 油價
+
 	data = Load.FinData(dataset = 'CrudeOilPrices',select = ['Brent'],date = '2018-10-10')
 
 For other examples, please refer to [demo](https://github.com/linsamtw/FinMind/blob/master/demo.py).
@@ -88,7 +93,7 @@ More than 15 kinds of financial data.
     * Japan
     * Taiwan
     * UK
-* <b>Interest Rates</b>
+* <b>Interest Rate</b>
     * BCB : Central Bank of Brazil
     * BOC : Bank of Canada
     * BOE : Bank of England
@@ -135,3 +140,5 @@ At least five kinds of visualization tools for every data type. ( In development
 ------------------------------------------------------------
 
 email : linsam.tw.github@gmail.com
+
+
