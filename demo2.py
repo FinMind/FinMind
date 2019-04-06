@@ -42,7 +42,7 @@ print( tsmpss[:5] )
 
 print('load 外資買賣 InstitutionalInvestorsBuySell {} '.format(tsi.loc[_index,'stock_id']))
 iibs = InstitutionalInvestorsBuySell(select = tsi.loc[_index,'stock_id'],date = date3)
-print( InstitutionalInvestorsBuySell[:5] )
+print( iibs[:5] )
 
 print('load 外資持股 Shareholding {} '.format(tsi.loc[_index,'stock_id']))
 sh = Shareholding(select = tsi.loc[_index,'stock_id'],date = date3)
@@ -69,8 +69,8 @@ jsi = JapanStockInfo()
 print( jsi[:5] )
 
 print('load JapanStockPrice {} '.format(jsi.loc[2,'stock_id']))
-JapanStockPrice = JapanStockPrice(select = jsi.loc[2,'stock_id'],date = date)
-print( JapanStockPrice[:5] )
+jsp = JapanStockPrice(select = jsi.loc[2,'stock_id'],date = date)
+print( jsp[:5] )
 #---------------------------------------------------------------
 print('load UKStockInfo')
 uksi = UKStockInfo()
