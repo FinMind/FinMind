@@ -56,7 +56,7 @@ You can analyze financial data without having to collect the data by yourself. T
         3  229.5  237.0  229.0  237.0      237.0  37818077  2018-10-16     2330.TW
         4  241.5  243.0  238.0  238.5      238.5  42494858  2018-10-17     2330.TW
 	
- ### `Taiwan Stock Financial Statements ` Taiwan 灣股票財報
+ ### `Taiwan Stock Financial Statements ` Taiwan 股票財報
 
 	data = Load.FinData(dataset = 'FinancialStatements',select = ['2330.TW'],date = '2017-10-10')
 
