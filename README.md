@@ -13,15 +13,31 @@ You can analyze financial data without having to collect the data by yourself. T
  The full version of this documentation is at [https://linsamtw.github.io/FinMindDoc/](https://linsamtw.github.io/FinMindDoc/).
  
  ----------------------
- #### New Data (2019-04-06)
+ #### FinMind 1.0.52 (2019-04-06) 
+ ##### New Data
  * `BalanceSheet` ( Taiwan 資產負債表 )
  * `TaiwanStockHoldingSharesPer ` ( Taiwan 股權分散表 )
  * `Shareholding` ( Taiwan 個股外資持股 )
  * `RawMaterialFuturesPrices ` ( 美國原物料期貨 )
+ ##### New Function
+ * `transpose(data)`
+ * [demp2.py](https://github.com/linsamtw/FinMind/blob/master/demo2.py)
  ----------------------
  ## Load example
 
 #### New
+### FinMind.Data.Load.transpose(data)
+    from FinMind.Data import Load
+
+    TaiwanStockFinancialStatements = Load.FinData(
+            dataset = 'FinancialStatements',
+            select = '2330.TW',
+            date = '2018-01-01')
+    print( TaiwanStockFinancialStatements[:5] )
+    # transpose
+    data = Load.transpose(TaiwanStockFinancialStatements)
+
+
 ### `Balance Sheet` Taiwan 資產負債表
 
 	data = Load.FinData(dataset = 'BalanceSheet',select = ['2330.TW'],date = '2018-01-10')
@@ -56,7 +72,7 @@ You can analyze financial data without having to collect the data by yourself. T
         3  229.5  237.0  229.0  237.0      237.0  37818077  2018-10-16     2330.TW
         4  241.5  243.0  238.0  238.5      238.5  42494858  2018-10-17     2330.TW
 	
- ### `Taiwan Stock Financial Statements ` Taiwan 灣股票財報
+ ### `Taiwan Stock Financial Statements ` Taiwan 股票財報
 
 	data = Load.FinData(dataset = 'FinancialStatements',select = ['2330.TW'],date = '2017-10-10')
 
@@ -154,7 +170,7 @@ More than 15 kinds of financial data.
     * HeatingOilFutures
     * LondonGasOilFutures
     * NaturalGasFutures
-* <b>Raw Material Futures Prices</b>
+* <b>Raw Material Futures Prices ( meats, grains, energies, softs, metals)</b>
 * <b>Taiwan Stock Stock Dividend</b>
 * <b>Taiwan Stock Balance Sheet</b>
 * <b>Taiwan Stock Holding Shares Per </b>
