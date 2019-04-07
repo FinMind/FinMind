@@ -23,14 +23,12 @@ def GovernmentBonds(select = ['Japan 1-Year','Japan 10-Year'],
     #stock = select
     if isinstance(select,int): select = str(select)
     
-    if isinstance(select,str):
-        data = self.load(select,date)
-        return data
+    if isinstance(select,str) or isinstance(select,list):
+        return self.load(select,date)
         
-    elif isinstance(select,list):
-        data = self.load_multi(select,date)
-        return data
-    
+    #elif isinstance(select,list):
+    #    return self.load_multi(select,date)
+        
     else:
         raise(AttributeError, "Hidden attribute")  
 

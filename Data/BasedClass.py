@@ -46,10 +46,14 @@ class Load:
     def load(self,select = '',date = ''):
         
         colname = query( 'SHOW COLUMNS FROM {}'.format( self.table ) )
-        colname = [ c[0] for c in colname if c[0] not in  ['id','url','data_id','ISIN'] ]              
+        colname = [ c[0] for c in colname if c[0] not in  ['id','url','data_id','ISIN'] ]
         
+        if isinstance(select,list) == False:
+            select = [select]
+            
+        select = "','".join(select)
         sql = """ SELECT `{}` from `{}` 
-                    WHERE `{}` = '{}'
+                    WHERE `{}` IN ('{}')
                     AND `date` >= '{}'
                 """.format( '`,`'.join( colname ) ,self.table,self.select_variable,select,date)
 
@@ -73,7 +77,7 @@ class Load:
         data.index = range(len(data))
         return data
     
-    
+'''
     def transpose(self,data):
         date = list( np.unique(data['date']) )
         data1 = pd.DataFrame()
@@ -95,5 +99,5 @@ class Load:
                 
         data1.index = range(len(data1))
         return data1
-    
+'''
 

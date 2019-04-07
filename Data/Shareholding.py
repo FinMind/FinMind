@@ -26,18 +26,11 @@ def Shareholding(select = [],date = ''):
     
     if isinstance(select,int): select = str(select)
     
-    if isinstance(select,str):
-        data = self.load(select,date)
-        if len(data) == 0:
-            return data
-        #data = data[col_name]
-        return data
-    elif isinstance(select,list):
-        data = self.load_multi(select,date)
-        if len(data) == 0:
-            return data        
-        #data = data[col_name]
-        return data
+    if isinstance(select,str) or isinstance(select,list):
+        return self.load(select,date)
+
+    #elif isinstance(select,list):
+    #    return self.load_multi(select,date)
 
     else:
         raise(AttributeError, "Hidden attribute")  

@@ -20,11 +20,11 @@ def ExchangeRate(select = [],date = ''):
     #stock = select
     if isinstance(select,int): select = str(select)
     
-    if isinstance(select,str):
+    if isinstance(select,str) or isinstance(select,list):
         return self.load(select,date)
         
-    elif isinstance(select,list):
-        return self.load_multi(select,date)
+    #elif isinstance(select,list):
+    #    return self.load_multi(select,date)
     
     else:
         raise(AttributeError, "Hidden attribute")  
