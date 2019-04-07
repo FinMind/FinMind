@@ -22,10 +22,7 @@ You can analyze financial data without having to collect the data by yourself. T
 
 		TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
 		s = datetime.datetime.now()
-		TaiwanStockFinancialStatements = Load.FinData(
-			dataset = 'FinancialStatements',
-			select = list(TaiwanStockInfo['stock_id']),
-			date = '2018-12-01')
+		TaiwanStockFinancialStatements = Load.FinData(dataset = 'FinancialStatements',select = list(TaiwanStockInfo['stock_id']),date = '2018-12-01')
 		t = datetime.datetime.now() - s
 		print(t)
 		0:00:01.861724
