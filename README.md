@@ -12,6 +12,9 @@ You can analyze financial data without having to collect the data by yourself. T
  ---------------------
  The full version of this documentation is at [https://linsamtw.github.io/FinMindDoc/](https://linsamtw.github.io/FinMindDoc/).
  
+  ----------------------
+ #### FinMind 1.0.54 (2019-04-13) 
+ ##### optimize speeds of loading TaiwanStockPrice, USStockPrice
  ----------------------
  #### FinMind 1.0.53 (2019-04-07) 
  ##### Fix FinMind.Data.Load
@@ -26,19 +29,11 @@ You can analyze financial data without having to collect the data by yourself. T
 		t = datetime.datetime.now() - s
 		print(t)
 		0:00:01.861724
- #### FinMind 1.0.52 (2019-04-06) 
- ##### New Data
- * `BalanceSheet` ( Taiwan 資產負債表 )
- * `TaiwanStockHoldingSharesPer ` ( Taiwan 股權分散表 )
- * `Shareholding` ( Taiwan 個股外資持股 )
- * `RawMaterialFuturesPrices ` ( 美國原物料期貨 )
- ##### New Function
- * `transpose(data)`
- * [demp2.py](https://github.com/linsamtw/FinMind/blob/master/demo2.py)
+		
+[HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
  ----------------------
  ## Load example
 
-#### New
 ### FinMind.Data.Load.transpose(data)
     from FinMind.Data import Load
 
