@@ -31,6 +31,7 @@ You can analyze financial data without having to collect the data by yourself. T
 		0:00:01.861724
 		
 [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
+
  ----------------------
  ## Load example
 
