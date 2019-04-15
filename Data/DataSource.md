@@ -19,14 +19,16 @@
 * US Financial Statements : `https://www.macrotrends.net`
 * US Stock Price : `yahoo finance api`
 
-* Crude Oil Prices :`https://www.eia.gov`
+* Japan Stock Info : `https://www.marketwatch.com`
+* Japan Stock Price : `yahoo finance api`
+
 * Europe Stock Info : `https://business.nasdaq.com`
 * Europe Stock Price : `yahoo finance api`
+
 * Exchange Rate : `https://www.ofx.com/en-au`
 * Gold Price : `https://www.gold.org`
 * Government Bonds : `https://www.investing.com`
 * Interest Rate : `https://www.investing.com`
-* Japan Stock Info : `https://www.marketwatch.com`
-* Japan Stock Price : `yahoo finance api`
+* Crude Oil Prices :`https://www.eia.gov`
 * Raw Material Futures Prices : `https://www.investing.com`
 
