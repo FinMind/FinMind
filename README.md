@@ -134,6 +134,9 @@ For other examples, please refer to [demo](https://github.com/linsamtw/FinMind/b
 
 -------------------------------
 ### Financial Data
+
+[DataSource](https://github.com/linsamtw/FinMind/blob/master/Data/DataSource.md)
+
 More than 15 kinds of financial data.
 
 * <b>Stock Information</b>
