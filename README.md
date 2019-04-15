@@ -14,7 +14,8 @@ You can analyze financial data without having to collect the data by yourself. T
  
   ----------------------
  #### FinMind 1.0.54 (2019-04-13) 
- ##### optimize speeds of loading TaiwanStockPrice, USStockPrice
+* optimize speeds of loading TaiwanStockPrice, USStockPrice
+* Add [DataSource](https://github.com/linsamtw/FinMind/blob/master/Data/DataSource.md)
  ----------------------
  #### FinMind 1.0.53 (2019-04-07) 
  ##### Fix FinMind.Data.Load
