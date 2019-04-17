@@ -120,7 +120,7 @@ You can analyze financial data without having to collect the data by yourself. T
   ### `Government bond` 各國債券
 	from FinMind.Data import Load
 	GovernmentBonds_list = Load.FinDataList(dataset = 'GovernmentBonds')
-	data = Load.FinData(dataset = 'Governmentbond',select = GovernmentBonds_list[0],date = '2018-10-10')
+	data = Load.FinData(dataset = 'GovernmentBonds',select = GovernmentBonds_list[0],date = '2018-10-10')
 
  ### `Gold Price` 金價
 	from FinMind.Data import Load
