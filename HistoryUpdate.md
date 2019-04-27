@@ -1,5 +1,15 @@
 ## History Update
 
+ #### FinMind 1.0.52 (2019-04-06) 
+ ##### New Data
+ * `BalanceSheet` ( Taiwan 資產負債表 )
+ * `TaiwanStockHoldingSharesPer ` ( Taiwan 股權分散表 )
+ * `Shareholding` ( Taiwan 個股外資持股 )
+ * `RawMaterialFuturesPrices ` ( 美國原物料期貨 )
+ ##### New Function
+ * `transpose(data)`
+ * [demp2.py](https://github.com/linsamtw/FinMind/blob/master/demo2.py)
+
 ##### 2018/8/5
 1. 央行利率 100% ( 13 Countrys, Contains G8 )
 
