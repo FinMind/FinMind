@@ -1,5 +1,7 @@
 
 TABLE = 'USStockPrice'
+DATABASE = 'FinancialData'
+
 import pandas as pd
 import os, sys
 import platform
@@ -17,15 +19,19 @@ class ClassUSStockPrice(Load):
         
     def load(self,select = '',date = ''):
         
-        colname = query( 'SHOW COLUMNS FROM `{}`'.format( select ),database = TABLE )
+        colname = query( 'SHOW COLUMNS FROM `{}`'.format( TABLE ),database = DATABASE )
         colname = [ c[0] for c in colname if c[0] not in  ['id','url'] ]              
-        
-        sql = 'select `{}` from `{}`'.format( '`,`'.join( colname ) ,select)
-        
+
+        if isinstance(select,list) == False:
+            select = [select]
+        select = "','".join(select)
+
+        sql = 'select `{}` from `{}`'.format( '`,`'.join( colname ) ,TABLE)
+        sql = "{} WHERE `stock_id` IN ('{}') ".format(sql,select)
         if date != '':
-            sql = "{} WHERE `date` >= '{}' ".format(sql,date)
+            sql = "{} AND `date` >= '{}' ".format(sql,date)
            
-        data = query( sql ,database = TABLE)
+        data = query( sql ,database = DATABASE)
         data = pd.DataFrame(list(data))
         if len(data)>0:
             
@@ -36,12 +42,11 @@ class ClassUSStockPrice(Load):
             else:
                 data = data.sort_values('date')
             data.index = range(len(data))
-            data['stock_id'] = select
-        
+
         return data
     
     def get_data_list(self):
-        tem = query( 'SHOW TABLES',database = TABLE )
+        tem = query( 'SHOW TABLES',database = DATABASE )
         return [ te[0] for te in tem ]
         
 def USStockPrice(select = [],date = ''):
@@ -50,11 +55,7 @@ def USStockPrice(select = [],date = ''):
     #stock = select
     if isinstance(select,int): select = str(select)
     
-    if isinstance(select,str):
+    if isinstance(select,str) or isinstance(select,list):
         return self.load(select,date)
-        
-    elif isinstance(select,list):
-        return self.load_multi(select,date)
-    
     else:
         raise(AttributeError, "Hidden attribute")  

@@ -10,7 +10,7 @@ from FinMind.Data.Load import InstitutionalInvestorsList,InstitutionalInvestors,
 from FinMind.Data.Load import InterestRate,GovernmentBondsList,GovernmentBonds
 from FinMind.Data.Load import CrudeOilPricesList,CrudeOilPrices,EnergyFuturesPricesList
 from FinMind.Data.Load import EnergyFuturesPrices,GoldPrice,CurrencyCirculationList
-from FinMind.Data.Load import CurrencyCirculation
+from FinMind.Data.Load import CurrencyCirculation,TaiwanStockHoldingSharesPer
 
 import datetime
 
@@ -29,6 +29,8 @@ print( tsp[:5] )
 
 print('load 財報 FinancialStatements {} '.format(tsi.loc[_index,'stock_id']))
 tsfs = FinancialStatements(select = tsi.loc[_index,'stock_id'],date = date3)
+print( tsfs[:5] )
+tsfs = FinancialStatements(select = tsi.loc[_index,'stock_id'],year = 2018,season = 1)
 print( tsfs[:5] )
 
 print('load 台股配息 TaiwanStockStockDividend {} '.format(tsi.loc[_index,'stock_id']))
@@ -50,6 +52,8 @@ print( sh[:5] )
 
 print('load 資產負債表 BalanceSheet {} '.format(tsi.loc[_index,'stock_id']))
 bs = BalanceSheet(select = tsi.loc[_index,'stock_id'],date = date3)
+print( bs[:5] )
+bs = BalanceSheet(select = tsi.loc[_index,'stock_id'],year = 2018,season = 1)
 print( bs[:5] )
 #---------------------------------------------------------------
 print('load USStockInfo')
@@ -150,7 +154,11 @@ ccl = CurrencyCirculationList()
 print( ccl[:5] )
 
 print('load CurrencyCirculation ')
-cc = CurrencyCirculation(select = ccl[1],date = date)
+cc = CurrencyCirculation(select = CurrencyCirculationList[0],date = '2019-01-04')
 print( cc[:5] )
+
+print('load TaiwanStockHoldingSharesPer ')
+tshsp = TaiwanStockHoldingSharesPer(select = '2330.TW',date = '2019-01-04')
+print( tshsp[:5] )
 
 

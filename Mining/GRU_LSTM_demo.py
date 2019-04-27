@@ -2,7 +2,7 @@
 
 from FinMind.Data import Load
 import numpy as np 
-import pandas as pd
+#import pandas as pd
 from keras.layers.core import Dense, Dropout
 from keras.layers import LSTM , GRU
 from keras.models import Sequential
@@ -128,57 +128,3 @@ plt.ylabel('Stock Prices')
 plt.title('Red - Predicted Stock Prices  ,  Blue - Actual Stock Prices')
 plt.grid(True)
 plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-print('real predict')
-tem = [ test_date.append(d) for d in valid_date ]
-test2 = [ t[0] for t in test ]
-
-valid2 = [ t[0] for t in scaler.transform(valid) ]
-tem = [ test2.append(d) for d in valid2 ]
-
-price = stock_price[train_size:,:]
-price = [ p[0] for p in price ]
-
-data2 = pd.DataFrame()
-data2['price'] = price
-data2['value'] = test2
-data2['date'] = test_date
-
-x = np.array([[[1,2,3,4,5]]])
-pred = model.predict(x)
-pred = scaler.inverse_transform(pred)
-
-
-
-
-
-
-
-
-

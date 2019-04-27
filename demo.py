@@ -15,8 +15,8 @@ _index = 1829
 print('load TaiwanStockPrice {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 TaiwanStockPrice = Load.FinData(
         dataset = 'TaiwanStockPrice',
-        select = TaiwanStockInfo.loc[_index,'stock_id'],
-        date = date)
+        select = list( TaiwanStockInfo.loc[500:510,'stock_id'] ), 
+        date = date2 )
 print( TaiwanStockPrice[:5] )
 
 print('load 財報 FinancialStatements {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
@@ -78,7 +78,7 @@ print( USStockInfo[:5] )
 print('load USStockPrice {} '.format(USStockInfo.loc[20,'stock_id']))
 USStockPrice = Load.FinData(
         dataset = 'USStockPrice',
-        select = USStockInfo.loc[20,'stock_id'],
+        select = list(USStockInfo.loc[20:30,'stock_id']),
         date = date)
 print( USStockPrice[:5] )
 

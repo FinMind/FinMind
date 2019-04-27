@@ -13,21 +13,22 @@ class ClassBalanceSheet(Load):
     def __init__(self):
         super(ClassBalanceSheet, self).__init__(TABLE,'stock_id')
 
-def BalanceSheet(select = [],date = ''):
+def BalanceSheet(select = [],date = '',year = '',season = ''):
     
     self = ClassBalanceSheet()
-    #stock = select
+    if date and year and season:
+        print("date and year,season can't input at the same time ")
+        raise(AttributeError, "Hidden attribute")
+
     if isinstance(select,int): select = str(select)
     
     if isinstance(select,str) or isinstance(select,list):
-        data = self.load(select,date)
-        
-    #elif isinstance(select,list):
-    #    data = self.load_multi(select,date)
-    
+        if date:
+            data = self.load(select,date)
+        elif year and season:
+            data = self.load_season(select,year,season)
+
     else:
         raise(AttributeError, "Hidden attribute")  
 
-    #data = self.transpose(data)
-    
     return data

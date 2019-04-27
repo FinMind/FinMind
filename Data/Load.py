@@ -179,19 +179,19 @@ def EuropeStockPrice(select = 'WLN.PA',date = '2018-01-01'):
     return data
 #-------------------------------------------------------------------------------------------
     
-def BalanceSheet(select = '2330.TW',date = '2018-01-01'):
+def BalanceSheet(select,date = '',year = '',season = ''):
     dataset = 'BalanceSheet'
     data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
-                    select = select,date = date)
+                    select = select,date = date,year = year,season = season )
     return data
 
-def FinancialStatements(select = '2330.TW',date = '2018-01-01'):
+def FinancialStatements(select,date = '',year = '',season = ''):
     dataset = 'FinancialStatements'
     data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
-                    select = select,date = date)
+                    select = select,date = date,year = year,season = season )
     return data
 
-def TaiwanStockStockDividend(select = '2330.TW',date = '2018-01-01'):
+def TaiwanStockStockDividend(select,date):
     dataset = 'TaiwanStockStockDividend'
     data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
                     select = select,date = date)
@@ -268,5 +268,9 @@ def GoldPrice(date = '2018-01-01'):
     data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(date = date)
     return data
 
-
+def TaiwanStockHoldingSharesPer(select = '2330.TW',date = '2018-01-01'):
+    dataset = 'TaiwanStockHoldingSharesPer'
+    data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
+                    select = select,date = date)
+    return data
 

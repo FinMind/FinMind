@@ -25,15 +25,16 @@ class ClassTaiwanStockInfo:
         tem = query(sql)
         data = pd.DataFrame( list(tem) )
         data.columns = colname
+        '''
         if status == 'package':
-            sql = 'SHOW TABLES '
+            sql = 'SELECT DISTINCT `stock_id` FROM `TaiwanStockPrice` '
             #tem = query(sql,TABLE.replace('Info','Price'))
-            tem = query(sql,'TaiwanStockPrice')
+            tem = query(sql)
             stock_id = [ te[0].replace('_TW','') for te in tem ]
             bo = [ True if x in stock_id else False for x in data['stock_id'] ]
             data = data[bo]
             data.index = range(len(data))
-        
+        '''
         return data
 
 def TaiwanStockInfo(select = [],date = '',status = 'package'):

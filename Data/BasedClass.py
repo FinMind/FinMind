@@ -2,7 +2,8 @@
 
 import pandas as pd
 import pymysql
-import numpy as np
+from dateutil.relativedelta import relativedelta
+import datetime
 HOST = '103.29.68.107'
 USER = 'guest'
 PASSWORD = '123'
@@ -35,7 +36,18 @@ class Load:
     def __init__(self,table,select_variable):
         self.table = table
         self.select_variable = select_variable
-    
+    def change_year_season2date(self,year = '',season = ''):
+        #year = 2019
+        #season = 4
+        year = int(year)
+        season = int(season)
+        month = season*3+1
+        if month>12:
+            year = year+1
+            month = 1        
+        d = str( datetime.date(year,month,1) - relativedelta(days = 1) )
+        return d
+        
     def get_data_list(self):
         sql = " SELECT DISTINCT `{}` FROM `{}`  ".format(self.select_variable,self.table)
         tem = query( sql )
@@ -43,6 +55,28 @@ class Load:
         data_list.sort()
         return  data_list   
     
+    def load_season(self,select,year,season):
+        
+        colname = query( 'SHOW COLUMNS FROM {}'.format( self.table ) )
+        colname = [ c[0] for c in colname if c[0] not in  ['id','url','data_id','ISIN'] ]
+        
+        if isinstance(select,list) == False:
+            select = [select]
+        date = self.change_year_season2date(year,season)
+        select = "','".join(select)
+        sql = """ SELECT `{}` from `{}` 
+                    WHERE `{}` IN ('{}')
+                    AND `date` = '{}'
+                """.format( '`,`'.join( colname ) ,self.table,self.select_variable,select,date)
+
+        data = query( sql )
+        data = pd.DataFrame(list(data))
+        if len(data)>0:
+            data.columns = colname
+            if self.select_variable in data.columns:
+                data = data.sort_values([self.select_variable])
+        data.index = range(len(data))
+        return data
     def load(self,select = '',date = ''):
         
         colname = query( 'SHOW COLUMNS FROM {}'.format( self.table ) )
@@ -50,7 +84,6 @@ class Load:
         
         if isinstance(select,list) == False:
             select = [select]
-            
         select = "','".join(select)
         sql = """ SELECT `{}` from `{}` 
                     WHERE `{}` IN ('{}')
@@ -66,7 +99,7 @@ class Load:
                 data = data.sort_values([self.select_variable,'date'])
             else:
                 data = data.sort_values('date')
-
+        data.index = range(len(data))
         return data
     
     def load_multi(self,select_list = [],date = ''):
