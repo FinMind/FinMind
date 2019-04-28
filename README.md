@@ -29,7 +29,7 @@ You can analyze financial data without having to collect the data by yourself. T
 ### FinMind.Data.Load.transpose(data)
     from FinMind.Data import Load
 
-    TaiwanStockFinancialStatements = Load.FinData(dataset = 'FinancialStatements',select = '2330.TW',date = '2018-01-01')
+    TaiwanStockFinancialStatements = Load.FinData(dataset = 'FinancialStatements',select = '2330',date = '2018-01-01')
     print( TaiwanStockFinancialStatements[:5] )
     # transpose
     data = Load.transpose(TaiwanStockFinancialStatements)
@@ -39,20 +39,20 @@ You can analyze financial data without having to collect the data by yourself. T
 	data = Load.FinData(dataset = 'BalanceSheet',select = ['2330.TW'],date = '2018-01-10')
 	# or 
 	from FinMind.Data.Load import BalanceSheet
-	data = BalanceSheet(select = ['2330.TW'],date = '2018-01-10')
+	data = BalanceSheet(select = ['2330'],date = '2018-01-10')
 ### `Taiwan Stock Holding SharesPer` Taiwan 股權分散表
 	from FinMind.Data import Load
-	data = Load.FinData(dataset = 'TaiwanStockHoldingSharesPer',select = ['2330.TW'],date = '2018-10-10')
+	data = Load.FinData(dataset = 'TaiwanStockHoldingSharesPer',select = ['2330'],date = '2018-10-10')
 	# or 
 	from FinMind.Data.Load import TaiwanStockHoldingSharesPer
-	data = TaiwanStockHoldingSharesPer(select = ['2330.TW'],date = '2018-10-10')
+	data = TaiwanStockHoldingSharesPer(select = ['2330'],date = '2018-10-10')
 	
 ### `Taiwan Stock Shareholding` Taiwan 外資持股
 	from FinMind.Data import Load
-	data = Load.FinData(dataset = 'Shareholding',select = ['2330.TW'],date = '2018-10-10')
+	data = Load.FinData(dataset = 'Shareholding',select = ['2330'],date = '2018-10-10')
 	# or 
 	from FinMind.Data.Load import Shareholding
-	data = Shareholding(select = ['2330.TW'],date = '2018-10-10')
+	data = Shareholding(select = ['2330'],date = '2018-10-10')
 ### `Raw Material Futures Prices` 美國原物料期貨 ( meats,grains,energies,softs,metals )
 	from FinMind.Data import Load
 	RawMaterialFuturesPrices_list = Load.FinDataList(dataset = 'RawMaterialFuturesPrices')
@@ -71,11 +71,11 @@ You can analyze financial data without having to collect the data by yourself. T
 	print( data[:5] )
 
 	    	Open   High    Low  Close  Adj_Close    Volume        date stock_id
-        0  233.5  233.5  227.0  227.5      227.5  94589657  2018-10-11     2330.TW
-        1  231.0  237.0  229.0  237.0      237.0  47175769  2018-10-12     2330.TW
-        2  234.0  234.0  230.5  230.5      230.5  42168280  2018-10-15     2330.TW
-        3  229.5  237.0  229.0  237.0      237.0  37818077  2018-10-16     2330.TW
-        4  241.5  243.0  238.0  238.5      238.5  42494858  2018-10-17     2330.TW
+        0  233.5  233.5  227.0  227.5      227.5  94589657  2018-10-11     2330
+        1  231.0  237.0  229.0  237.0      237.0  47175769  2018-10-12     2330
+        2  234.0  234.0  230.5  230.5      230.5  42168280  2018-10-15     2330
+        3  229.5  237.0  229.0  237.0      237.0  37818077  2018-10-16     2330
+        4  241.5  243.0  238.0  238.5      238.5  42494858  2018-10-17     2330
 	
  ### `Taiwan Stock Financial Statements ` Taiwan 股票財報
 	from FinMind.Data import Load
