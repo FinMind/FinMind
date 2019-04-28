@@ -154,11 +154,11 @@ ccl = CurrencyCirculationList()
 print( ccl[:5] )
 
 print('load CurrencyCirculation ')
-cc = CurrencyCirculation(select = CurrencyCirculationList[0],date = '2019-01-04')
+cc = CurrencyCirculation(select = ccl[0],date = '2019-01-04')
 print( cc[:5] )
 
 print('load TaiwanStockHoldingSharesPer ')
-tshsp = TaiwanStockHoldingSharesPer(select = '2330.TW',date = '2019-01-04')
+tshsp = TaiwanStockHoldingSharesPer(select = '2330',date = '2019-01-04')
 print( tshsp[:5] )
 
 
