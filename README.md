@@ -11,9 +11,9 @@ You can analyze financial data without having to collect the data by yourself. T
      
  ---------------------
  The full version of this documentation is at [https://linsamtw.github.io/FinMindDoc/](https://linsamtw.github.io/FinMindDoc/).
- 
+
   ----------------------
- #### FinMind 1.0.55 (2019-04-13) 
+ #### FinMind 1.0.57 (2019-04-13) 
 * Change taiwan stock id, delete TWO and TW. ( eg. 2330.TW -> 2330 )
  ----------------------  
  #### FinMind 1.0.54 (2019-04-13) 
