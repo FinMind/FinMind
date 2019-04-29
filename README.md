@@ -36,7 +36,7 @@ You can analyze financial data without having to collect the data by yourself. T
 
 ### `Balance Sheet` Taiwan 資產負債表
 	from FinMind.Data import Load
-	data = Load.FinData(dataset = 'BalanceSheet',select = ['2330.TW'],date = '2018-01-10')
+	data = Load.FinData(dataset = 'BalanceSheet',select = ['2330'],date = '2018-01-10')
 	# or 
 	from FinMind.Data.Load import BalanceSheet
 	data = BalanceSheet(select = ['2330'],date = '2018-01-10')
