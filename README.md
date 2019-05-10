@@ -130,63 +130,15 @@ For other examples, please refer to [demo](https://github.com/linsamtw/FinMind/b
 
 More than 15 kinds of financial data.
 
-* <b>Stock Information</b>
-    * Taiwan
-    * US
-    * Japan
-    * UK
-    * Europe
-* <b>Stock Prices</b>
-    * Taiwan
-    * US
-    * Japan
-    * UK
-    * Europe
-* <b>Financial Statements </b>
-    * Taiwan
-    * US
-* <b>Crude Oil Prices</b>
-    * Brent
-    * WTI
-* <b>Exchange Rates ( vs US )</b>
-    * Canada
-    * China
-    * Euro
-    * Japan
-    * Taiwan
-    * UK
-* <b>Interest Rate</b>
-    * BCB : Central Bank of Brazil
-    * BOC : Bank of Canada
-    * BOE : Bank of England
-    * BOJ : Bank of Japan
-    * CBR : Central Bank of the Russian Federation
-    * ECB : European Central Bank
-    * FED : Federal Reserve
-    * PBOC : People's Bank of China
-    * RBA : Reserve Bank of Australia
-    * RBI : Reserve Bank of India
-    * RBNZ : Reserve Bank of New Zealand
-    * SNB :  Swiss National Bank
-* <b>Government Bonds</b>
-    * Canada : 1-Month ~ 30-Year
-    * China : 1-Year ~ 30-Year
-    * France : 1-Month ~ 50-Year
-    * Germany : 3-Month ~ 30-Year
-    * Italy : 1-Month ~ 50-Year
-    * Japan : 1-Month ~ 40-Year
-    * Russia : 1-Week ~ 20-Year
-    * United Kingdom : 1-Month ~ 50-Year
-    * United States : 1-Month ~ 30-Year
-* <b>Energy Futures Prices</b>
-    * BrentOilFutures
-    * CarbonEmissionsFutures
-    * CrudeOilWTIFutures
-    * GasolineRBOBFutures
-    * HeatingOilFutures
-    * LondonGasOilFutures
-    * NaturalGasFutures
-* <b>Raw Material Futures Prices ( meats, grains, energies, softs, metals)</b>
+* <b>Stock Information</b> `Taiwan`,`US`,`Japan`,`UK`,`Europe`
+* <b>Stock Prices</b> `Taiwan`,`US`,`Japan`,`UK`,`Europe`
+* <b>Financial Statements </b> `Taiwan`,`US`
+* <b>Crude Oil Prices</b> `Brent`,`WTI`
+* <b>Exchange Rates ( vs US )</b> `Canada`,`China`,`Euro`,`Japan`,`Taiwan`,`UK`
+* <b>Interest Rate</b> `BCB`,`BOC`,`BOE`,`BOJ`,`CBR`,`ECB`,`FED`,`PBOC`,`PBOC`,`RBI`,`RBA`,`RBNZ`,`SNB`
+* <b>Government Bonds</b> `Canada`,`China`,`France`,`Germany`,`Italy`,`Japan`,`Russia`,`United Kingdom`,`United States`
+* <b>Energy Futures Prices</b> `BrentOilFutures`,`CarbonEmissionsFutures`,`CrudeOilWTIFutures`,`GasolineRBOBFutures`,`HeatingOilFutures`,`LondonGasOilFutures`,`NaturalGasFutures`,
+* <b>Raw Material Futures Prices</b> `meats`, `grains`, `energies`, `softs`, `metals`
 * <b>Taiwan Stock Stock Dividend</b>
 * <b>Taiwan Stock Balance Sheet</b>
 * <b>Taiwan Stock Holding Shares Per </b>
