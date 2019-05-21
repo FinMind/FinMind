@@ -16,14 +16,14 @@ TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
 print('input data')
 data = Load.FinData(
         dataset = 'TaiwanStockPrice',
-        select = '2330.TW',
+        select = '2330',
         date = '2010-01-01')
 
 #colname = ['date', 'open', 'high', 'low', 'close', 'volume']
 #data = data[colname]
 print('select close price')
 date = [ str(d) for d in data['date'] ]
-stock_price = data['Close'].values.astype('float32')
+stock_price = data['close'].values.astype('float32')
 stock_price = stock_price.reshape(len(stock_price), 1)
 
 print(' 畫圖 ')
