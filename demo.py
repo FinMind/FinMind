@@ -70,6 +70,13 @@ TaiwanStockHoldingSharesPer = Load.FinData(
         select = TaiwanStockInfo.loc[_index,'stock_id'],
         date = date3)
 print( TaiwanStockHoldingSharesPer[:5] )
+
+print('load 月營收 TaiwanStockMonthRevenue {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
+TaiwanStockMonthRevenue = Load.FinData(
+        dataset = 'TaiwanStockMonthRevenue',
+        select = TaiwanStockInfo.loc[_index,'stock_id'],
+        date = date3)
+print( TaiwanStockMonthRevenue[:5] )
 #---------------------------------------------------------------
 print('load USStockInfo')
 USStockInfo = Load.FinData(dataset = 'USStockInfo')
