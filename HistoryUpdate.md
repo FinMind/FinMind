@@ -1,5 +1,9 @@
 ## History Update
 
+ #### FinMind 1.0.54 (2019-04-13) 
+* Optimize speeds of loading TaiwanStockPrice, USStockPrice
+* Add [DataSource](https://github.com/linsamtw/FinMind/blob/master/Data/DataSource.md)
+
  #### FinMind 1.0.53 (2019-04-07) 
  ##### Fix FinMind.Data.Load
  * optimize speeds of loading data , ex :
