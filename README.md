@@ -152,6 +152,7 @@ More than 15 kinds of financial data.
 * <b>Taiwan Stock Shareholding</b>
 * <b>Taiwan Stock Institutional Investors Buy and Sell </b>
 * <b>Taiwan Stock Margin Purchase Short Sale</b>
+* <b>Taiwan Stock Month Revenue</b>
 * <b>Gold Price</b>
 
 ### Financial Visualize ( In development )
