@@ -18,7 +18,7 @@ def FinData(dataset,select='',date='2000-01-01'):# dataset = 'BalanceSheet'
                        'TaiwanStockFinancialStatements','TaiwanStockStockDividend',
                        'TaiwanStockMarginPurchaseShortSale',
                        'TaiwanStockHoldingSharesPer',
-                       'BalanceSheet',
+                       'BalanceSheet','TaiwanStockMonthRevenue',
                        #-----------------------------------
                        'USStockInfo','USStockPrice',
                        #-----------------------------------
@@ -148,7 +148,7 @@ def CurrencyCirculationList():
     return data
 #-------------------------------------------------------------------------------------------
 # stock price
-def TaiwanStockPrice(select = '2330.TW',date = '2018-01-01'):
+def TaiwanStockPrice(select = '2330',date = '2018-01-01'):
     dataset = 'TaiwanStockPrice'
     data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
                     select = select,date = date)
@@ -197,19 +197,25 @@ def TaiwanStockStockDividend(select,date):
                     select = select,date = date)
     return data
 
-def TaiwanStockMarginPurchaseShortSale(select = '2330.TW',date = '2018-01-01'):
+def TaiwanStockMarginPurchaseShortSale(select = '2330',date = '2018-01-01'):
     dataset = 'TaiwanStockMarginPurchaseShortSale'
     data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
                     select = select,date = date)
     return data
 
-def InstitutionalInvestorsBuySell(select = '2330.TW',date = '2018-01-01'):
+def TaiwanStockMonthRevenue(select = '2330',date = '2018-01-01'):
+    dataset = 'TaiwanStockMonthRevenue'
+    data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
+                    select = select,date = date)
+    return data
+
+def InstitutionalInvestorsBuySell(select = '2330',date = '2018-01-01'):
     dataset = 'InstitutionalInvestorsBuySell'
     data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
                     select = select,date = date)
     return data
 
-def Shareholding(select = '2330.TW',date = '2018-01-01'):
+def Shareholding(select = '2330',date = '2018-01-01'):
     dataset = 'Shareholding'
     data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
                     select = select,date = date)
@@ -233,7 +239,7 @@ def InterestRate(select = 'BCB',date = '2018-01-01'):
                     select = select,date = date)
     return data
 
-def GovernmentBonds(select = '2330.TW',date = '2018-01-01'):
+def GovernmentBonds(select = '2330',date = '2018-01-01'):
     dataset = 'GovernmentBonds'
     data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
                     select = select,date = date)
@@ -268,7 +274,7 @@ def GoldPrice(date = '2018-01-01'):
     data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(date = date)
     return data
 
-def TaiwanStockHoldingSharesPer(select = '2330.TW',date = '2018-01-01'):
+def TaiwanStockHoldingSharesPer(select = '2330',date = '2018-01-01'):
     dataset = 'TaiwanStockHoldingSharesPer'
     data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
                     select = select,date = date)

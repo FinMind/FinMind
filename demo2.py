@@ -11,6 +11,7 @@ from FinMind.Data.Load import InterestRate,GovernmentBondsList,GovernmentBonds
 from FinMind.Data.Load import CrudeOilPricesList,CrudeOilPrices,EnergyFuturesPricesList
 from FinMind.Data.Load import EnergyFuturesPrices,GoldPrice,CurrencyCirculationList
 from FinMind.Data.Load import CurrencyCirculation,TaiwanStockHoldingSharesPer
+from FinMind.Data.Load import TaiwanStockMonthRevenue
 
 import datetime
 
@@ -21,7 +22,7 @@ date3 = str( datetime.datetime.now().date() - datetime.timedelta(400) )
 print('load TaiwanStockInfo')
 tsi = TaiwanStockInfo()
 print( tsi[:5] )
-_index = 1829
+_index = 477
 
 print('load TaiwanStockPrice {} '.format(tsi.loc[_index,'stock_id']))
 tsp = TaiwanStockPrice(select = tsi.loc[_index,'stock_id'],date = date)
@@ -55,6 +56,10 @@ bs = BalanceSheet(select = tsi.loc[_index,'stock_id'],date = date3)
 print( bs[:5] )
 bs = BalanceSheet(select = tsi.loc[_index,'stock_id'],year = 2018,season = 1)
 print( bs[:5] )
+
+print('load 月營收 TaiwanStockMonthRevenue {} '.format(tsi.loc[_index,'stock_id']))
+tsmr = TaiwanStockMonthRevenue(select = tsi.loc[_index,'stock_id'],date = date3)
+print( tsmr[:5] )
 #---------------------------------------------------------------
 print('load USStockInfo')
 ussi = USStockInfo()
