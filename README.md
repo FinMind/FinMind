@@ -135,8 +135,6 @@ For other examples, please refer to [demo](https://github.com/linsamtw/FinMind/b
 
 [DataSource](https://github.com/linsamtw/FinMind/blob/master/Data/DataSource.md)
 
-More than 15 kinds of financial data.
-
 * <b>Stock Information</b> `Taiwan`,`US`,`Japan`,`UK`,`Europe`
 * <b>Stock Prices</b> `Taiwan`,`US`,`Japan`,`UK`,`Europe`
 * <b>Financial Statements </b> `Taiwan`,`US`
