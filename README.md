@@ -157,7 +157,8 @@ More than 15 kinds of financial data.
 
 ### Financial Visualize ( In development )
 At least five kinds of visualization tools for every data type. ( In development )<br>
-[股價、交易量、金價、油價](http://139.162.122.184:5050/)
+[http://finmind.servebeer.com/](http://finmind.servebeer.com/)
+開發中
 
 ### Financial Mining ( In development )
 
