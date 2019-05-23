@@ -43,4 +43,6 @@
 43. Taiwan Stock Shareholding
 44. Taiwan Stock Institutional Investors Buy and Sell
 45. Taiwan Stock Margin Purchase Short Sale
-46. Gold Price
+46. Taiwan Stock Month Revenue
+47. Gold Price
+
