@@ -13,15 +13,20 @@ You can analyze financial data without having to collect the data by yourself. T
  The full version of this documentation is at [https://linsamtw.github.io/FinMindDoc/](https://linsamtw.github.io/FinMindDoc/).
  
  [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)
- 
+
+  ----------------------
+ #### FinMind 1.0.58 (2019-05-24) 
+* New data `TaiwanStockMonthRevenue`
+	
+		from FinMind.Data import Load
+		TaiwanStockMonthRevenue = Load.FinData(
+			dataset = 'TaiwanStockMonthRevenue',
+			select = '2330',
+			date = '2018-01-01')
+	
   ----------------------
  #### FinMind 1.0.57 (2019-04-28) 
 * Change taiwan stock id, delete TWO and TW. ( eg. 2330.TW -> 2330 )
- ----------------------  
- #### FinMind 1.0.54 (2019-04-13) 
-* Optimize speeds of loading TaiwanStockPrice, USStockPrice
-* Add [DataSource](https://github.com/linsamtw/FinMind/blob/master/Data/DataSource.md)
-
 		
 [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
 
