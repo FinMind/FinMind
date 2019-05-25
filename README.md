@@ -17,7 +17,7 @@ You can analyze financial data without having to collect the data by yourself. T
  [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)
 
   ----------------------
- #### FinMind 1.0.58 (2019-05-24) 
+ #### FinMind 1.0.60 (2019-05-24) 
 * New data `TaiwanStockMonthRevenue`
 	
 		from FinMind.Data import Load
@@ -25,7 +25,11 @@ You can analyze financial data without having to collect the data by yourself. T
 			dataset = 'TaiwanStockMonthRevenue',
 			select = '2330',
 			date = '2018-01-01')
-	
+* Market index:
+	* TSEC weighted index ( Taiwan weighted index ) : stock_id - ^TWII`
+	* SP500 : stock_id - `^GSPC`
+	* Dow Jones Industrial Average : stock_id - `^DJI`
+
   ----------------------
  #### FinMind 1.0.57 (2019-04-28) 
 * Change taiwan stock id, delete TWO and TW. ( eg. 2330.TW -> 2330 )
