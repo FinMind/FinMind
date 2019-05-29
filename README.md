@@ -12,7 +12,7 @@ You can analyze financial data without having to collect the data by yourself. T
  ---------------------
  The full version of this documentation is at [https://linsamtw.github.io/FinMindDoc/](https://linsamtw.github.io/FinMindDoc/).
  
- Financial Visualize [http://finmind.servebeer.com/](http://finmind.servebeer.com/) (In development)
+ <!--Financial Visualize [http://finmind.servebeer.com/](http://finmind.servebeer.com/) (In development)-->
  
  [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)
 
