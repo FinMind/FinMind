@@ -26,7 +26,7 @@ You can analyze financial data without having to collect the data by yourself. T
 			select = '2330',
 			date = '2018-01-01')
 * Market index:
-	* TSEC weighted index ( Taiwan weighted index ) : stock_id - ^TWII`
+	* TSEC weighted index ( Taiwan weighted index ) : stock_id - `^TWII`
 	* SP500 : stock_id - `^GSPC`
 	* Dow Jones Industrial Average : stock_id - `^DJI`
 
