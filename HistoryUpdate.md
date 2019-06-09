@@ -1,5 +1,23 @@
 ## History Update
 
+  ----------------------
+ #### FinMind 1.0.60 (2019-05-24) 
+* New data `TaiwanStockMonthRevenue`
+	
+		from FinMind.Data import Load
+		TaiwanStockMonthRevenue = Load.FinData(
+			dataset = 'TaiwanStockMonthRevenue',
+			select = '2330',
+			date = '2018-01-01')
+* Market index:
+	* TSEC weighted index ( Taiwan weighted index ) : stock_id - `^TWII`
+	* SP500 : stock_id - `^GSPC`
+	* Dow Jones Industrial Average : stock_id - `^DJI`
+
+  ----------------------
+ #### FinMind 1.0.57 (2019-04-28) 
+* Change taiwan stock id, delete TWO and TW. ( eg. 2330.TW -> 2330 )
+
  #### FinMind 1.0.54 (2019-04-13) 
 * Optimize speeds of loading TaiwanStockPrice, USStockPrice
 * Add [DataSource](https://github.com/linsamtw/FinMind/blob/master/Data/DataSource.md)
