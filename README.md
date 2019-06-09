@@ -18,6 +18,9 @@ You can analyze financial data without having to collect the data by yourself. T
 
   ----------------------
   # [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
+  
+  # [FinMind.Mind](https://github.com/linsamtw/FinMind/tree/master/Mining)
+  
    ----------------------
  #### FinMind 1.0.62 (2019-06-10) 
 * Add `Mind`, it can load all information about the Taiwan Stock, [demo](https://github.com/linsamtw/FinMind/blob/master/Mining/demo.py)<br>
@@ -62,10 +65,6 @@ e.g :
 At least five kinds of visualization tools for every data type. ( In development )<br>
 [http://finmind.servebeer.com/](http://finmind.servebeer.com/)
 開發中
-
-### Financial Mining ( In development )
-
-[LSTM & GRU](https://github.com/linsamtw/FinMind/tree/master/Mining)
 
 ------------------------------------------------------------
 
