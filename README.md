@@ -55,8 +55,8 @@ e.g :
 [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
 
  ----------------------
-### Financial Data
-[FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
+# [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
+
 
 ### Financial Visualize ( In development )
 At least five kinds of visualization tools for every data type. ( In development )<br>
