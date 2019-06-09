@@ -27,12 +27,7 @@
 	# or 
 	from FinMind.Data.Load import Shareholding
 	data = Shareholding(select = ['2330'],date = '2018-10-10')
-### `Raw Material Futures Prices` 美國原物料期貨 ( meats,grains,energies,softs,metals )
-	from FinMind.Data import Load
-	RawMaterialFuturesPrices_list = Load.FinDataList(dataset = 'RawMaterialFuturesPrices')
-	data = Load.FinData(dataset = 'RawMaterialFuturesPrices',select = [RawMaterialFuturesPrices_list[3]],date = '2018-10-10')
  
- ----------------------
  ### `Taiwan Stock Info` Taiwan 股票資訊, `stock_id` 對應以下 `select`
  	from FinMind.Data import Load
 	TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
@@ -71,6 +66,11 @@
 	TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
 	data = Load.FinData(dataset = 'InstitutionalInvestorsBuySell',select = TaiwanStockInfo.loc[1000,'stock_id'],date = '2018-10-10')
 
+### `Raw Material Futures Prices` 美國原物料期貨 ( meats,grains,energies,softs,metals )
+	from FinMind.Data import Load
+	RawMaterialFuturesPrices_list = Load.FinDataList(dataset = 'RawMaterialFuturesPrices')
+	data = Load.FinData(dataset = 'RawMaterialFuturesPrices',select = [RawMaterialFuturesPrices_list[3]],date = '2018-10-10')
+	
  ### `Exchange Rate` 各國匯率
  	from FinMind.Data import Load
 	ExchangeRate_list = Load.FinDataList(dataset = 'ExchangeRate')
