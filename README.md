@@ -17,6 +17,8 @@ You can analyze financial data without having to collect the data by yourself. T
  [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)
 
   ----------------------
+  # [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
+   ----------------------
  #### FinMind 1.0.61 (2019-06-10) 
 * Add `Mind`, it can load all information about the Taiwan Stock, [demo](https://github.com/linsamtw/FinMind/blob/master/Mining/demo.py)<br>
 	e.g :
@@ -55,8 +57,6 @@ e.g :
 [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
 
  ----------------------
-# [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
-
 
 ### Financial Visualize ( In development )
 At least five kinds of visualization tools for every data type. ( In development )<br>
