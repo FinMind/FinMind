@@ -1,7 +1,7 @@
  ## FinMind.Data
  
 
- ### Load example
+ ### Load example [demo](https://github.com/linsamtw/FinMind/blob/master/demo.py)
 
 ###  `Taiwan Stock Month Revenue` Taiwan Stock 月營收
 	
@@ -99,8 +99,6 @@
 	* TSEC weighted index ( Taiwan weighted index ) : stock_id - `^TWII`
 	* SP500 : stock_id - `^GSPC`
 	* Dow Jones Industrial Average : stock_id - `^DJI`
-
-For other examples, please refer to [demo](https://github.com/linsamtw/FinMind/blob/master/demo.py).
 
 -------------------------------
 ### Financial Data
