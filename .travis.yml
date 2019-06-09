@@ -10,3 +10,4 @@ script:
   - pip3 install FinMind
   - python3 demo.py 
   - python3 demo2.py
+  - python3 Mining/demo.py 
