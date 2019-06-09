@@ -3,6 +3,11 @@
 
  ### Load example
 
+###  `Taiwan Stock Month Revenue` Taiwan Stock 月營收
+	
+		from FinMind.Data import Load
+		TaiwanStockMonthRevenue = Load.FinData(dataset = 'TaiwanStockMonthRevenue',select = '2330',date = '2018-01-01')
+
 ### `Balance Sheet` Taiwan 資產負債表
 	from FinMind.Data import Load
 	data = Load.FinData(dataset = 'BalanceSheet',select = ['2330'],date = '2018-01-10')
@@ -89,6 +94,11 @@
 	from FinMind.Data import Load
 	CrudeOilPrices_list = Load.FinDataList(dataset = 'CrudeOilPrices')
 	data = Load.FinData(dataset = 'CrudeOilPrices',select = CrudeOilPrices_list[0],date = '2018-10-10')
+
+### Market index:
+	* TSEC weighted index ( Taiwan weighted index ) : stock_id - `^TWII`
+	* SP500 : stock_id - `^GSPC`
+	* Dow Jones Industrial Average : stock_id - `^DJI`
 
 For other examples, please refer to [demo](https://github.com/linsamtw/FinMind/blob/master/demo.py).
 
