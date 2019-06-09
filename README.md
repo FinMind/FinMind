@@ -18,22 +18,40 @@ You can analyze financial data without having to collect the data by yourself. T
 
   ----------------------
  #### FinMind 1.0.60 (2019-05-24) 
-* New data `TaiwanStockMonthRevenue`
-	
-		from FinMind.Data import Load
-		TaiwanStockMonthRevenue = Load.FinData(
-			dataset = 'TaiwanStockMonthRevenue',
-			select = '2330',
-			date = '2018-01-01')
-* Market index:
-	* TSEC weighted index ( Taiwan weighted index ) : stock_id - `^TWII`
-	* SP500 : stock_id - `^GSPC`
-	* Dow Jones Industrial Average : stock_id - `^DJI`
+* Add `Mind`, it can load all information about the Taiwan Stock, <br>
+	e.g :
 
-  ----------------------
- #### FinMind 1.0.57 (2019-04-28) 
-* Change taiwan stock id, delete TWO and TW. ( eg. 2330.TW -> 2330 )
+		from FinMind.Mining import Mind
+
+		_2330 = Mind.Stock('2330','2019-01-01')
+		# load Stock Price
+		# load Financial Statements
+		# load Share holding
+		# load Institutional Investors
+		# load Taiwan Stock Margin Purchase ShortSale
+		# load Month Revenue
+		# load Holding Shares Per
+		# load Balance Sheet
+
+		_2330.StockPrice['move_average'] = Mind.MoveAverage(_2330.StockPrice,days = 5,variable = 'close')
+		_2330.StockPrice['RSV'] = Mind.RSV(_2330.StockPrice,days = 5)
+		_2330.StockPrice['BIAS'] = Mind.BIAS(_2330.StockPrice,days = 5)
+
+* add function `Mind.MoveAverage`, <br>
+e.g : 
 		
+		Mind.MoveAverage(_2330.StockPrice,days = 5,variable = 'close')
+		
+* add function `Mind.RSV`, <br>
+e.g : 
+	
+		Mind.RSV(_2330.StockPrice,days = 5)
+	
+* add function `Mind.BIAS`, <br>
+e.g : 
+	
+		Mind.BIAS(_2330.StockPrice,days = 5)
+
 [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
 
  ----------------------
