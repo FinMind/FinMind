@@ -17,7 +17,7 @@ You can analyze financial data without having to collect the data by yourself. T
  [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)
 
   ----------------------
- #### FinMind 1.0.60 (2019-05-24) 
+ #### FinMind 1.0.61 (2019-06-10) 
 * Add `Mind`, it can load all information about the Taiwan Stock, <br>
 	e.g :
 
