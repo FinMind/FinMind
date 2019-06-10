@@ -67,6 +67,8 @@ At least five kinds of visualization tools for every data type. ( In development
 開發中
 
 ------------------------------------------------------------
+### [License](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
+
 
 email : linsam.tw.github@gmail.com
 
