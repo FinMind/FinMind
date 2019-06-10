@@ -4,6 +4,12 @@
 [![Documentation Status](https://readthedocs.org/projects/finminddoc/badge/?version=latest)](https://finminddoc.readthedocs.io/en/latest/?badge=latest)
 <!--[![Coverage Status](https://coveralls.io/repos/github/linsamtw/FinMind/badge.svg?branch=master)](https://coveralls.io/github/linsamtw/FinMind?branch=master)-->
 
+-----------------------
+Solicit partners who are interested in joint development. <br>
+徵求有興趣共同開發的夥伴。<br>
+My email : linsam.tw.github@gmail.com
+
+-----------------------
 
 You can analyze financial data without having to collect the data by yourself. The datasets are automatically updated daily.
 
