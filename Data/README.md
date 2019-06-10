@@ -5,8 +5,8 @@
 
 ###  `Taiwan Stock Month Revenue` Taiwan Stock 月營收
 	
-		from FinMind.Data import Load
-		TaiwanStockMonthRevenue = Load.FinData(dataset = 'TaiwanStockMonthRevenue',select = '2330',date = '2018-01-01')
+	from FinMind.Data import Load
+	TaiwanStockMonthRevenue = Load.FinData(dataset = 'TaiwanStockMonthRevenue',select = '2330',date = '2018-01-01')
 
 ### `Balance Sheet` Taiwan 資產負債表
 	from FinMind.Data import Load
