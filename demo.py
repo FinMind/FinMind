@@ -10,7 +10,7 @@ date3 = str( datetime.datetime.now().date() - datetime.timedelta(400) )
 print('load TaiwanStockInfo')
 TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
 print( TaiwanStockInfo[:5] )
-_index = 477
+_index = 9010
 
 print('load TaiwanStockPrice {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 TaiwanStockPrice = Load.FinData(
@@ -22,7 +22,7 @@ print( TaiwanStockPrice[:5] )
 print('load 財報 FinancialStatements {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 TaiwanStockFinancialStatements = Load.FinData(
         dataset = 'FinancialStatements',
-        select = list(TaiwanStockInfo.loc[1530:1555,'stock_id']),
+        select = list(TaiwanStockInfo.loc[9010:9015,'stock_id']),
         date = date3)
 print( TaiwanStockFinancialStatements[:5] )
 # transpose
