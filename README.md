@@ -13,8 +13,9 @@ You can analyze financial data without having to collect the data by yourself. T
      
   
   ## Api
-  * [python demo](https://github.com/linsamtw/FinMind/blob/master/api_demo.py)
-     
+  * [python demo](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.py)
+  * [R demo](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.r)
+  
   ## Data
   * [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
   * [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)
