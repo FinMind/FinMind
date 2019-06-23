@@ -25,27 +25,13 @@ You can analyze financial data without having to collect the data by yourself. T
  [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)
 
   ----------------------
+  # [Api](https://github.com/linsamtw/FinMind/blob/master/api_demo.py)
+  
   # [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
   
   # [FinMind.Mind](https://github.com/linsamtw/FinMind/tree/master/Mining)
   
    ----------------------
-
-
-* add function `Mind.MoveAverage`, <br>
-e.g : 
-		
-		Mind.MoveAverage(_2330.StockPrice,days = 5,variable = 'close')
-		
-* add function `Mind.RSV`, <br>
-e.g : 
-	
-		Mind.RSV(_2330.StockPrice,days = 5)
-	
-* add function `Mind.BIAS`, <br>
-e.g : 
-	
-		Mind.BIAS(_2330.StockPrice,days = 5)
 
 [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
 
