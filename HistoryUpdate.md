@@ -97,6 +97,21 @@ e.g :
 		3  2019-01-07        35695176     7591116569  ...           NaN   NaN   NaN
 		4  2019-01-08        23794481     5019703557  ...         213.4  22.0 -1.12
 
+* add function `Mind.MoveAverage`, <br>
+e.g : 
+		
+		Mind.MoveAverage(_2330.StockPrice,days = 5,variable = 'close')
+		
+* add function `Mind.RSV`, <br>
+e.g : 
+	
+		Mind.RSV(_2330.StockPrice,days = 5)
+	
+* add function `Mind.BIAS`, <br>
+e.g : 
+	
+		Mind.BIAS(_2330.StockPrice,days = 5)
+
   ----------------------
  #### FinMind 1.0.60 (2019-05-24) 
 * New data `TaiwanStockMonthRevenue`
