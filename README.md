@@ -16,27 +16,28 @@ You can analyze financial data without having to collect the data by yourself.
      
   
   ## Api
-  	url = 'http://finmindapi.servebeer.com/api/data'
-    form_data = {'dataset':'TaiwanStockInfo'}
-    res = requests.post(url,verify = True,data = form_data)
-
-  	url = 'http://finmindapi.servebeer.com/api/data'
-    form_data = {'dataset':'TaiwanStockPrice','stock_id':['2330','2317'],'date':'2019-06-01'}
-    res = requests.post(url,verify = True,,data = form_data)
-
-
   * [Python](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.py)
   * [R](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.r)
   
+  
+  	url = 'http://finmindapi.servebeer.com/api/data'
+    	form_data = {'dataset':'TaiwanStockInfo'}
+    	res = requests.post(url,verify = True,data = form_data)
+
+  	url = 'http://finmindapi.servebeer.com/api/data'
+    	form_data = {'dataset':'TaiwanStockPrice','stock_id':['2330','2317'],'date':'2019-06-01'}
+    	res = requests.post(url,verify = True,,data = form_data)
+  
   ## Data
+  * [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
+  * [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)  
+  
+  
   	from FinMind.Data import Load
 	TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
     data = Load.FinData(dataset = 'TaiwanStockPrice',select = ['2330','2317'],
     					date = '2018-10-10')
-
-  * [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
-  * [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)
-  
+					
   ## Mind
   * [FinMind.Mind](https://github.com/linsamtw/FinMind/tree/master/Mining)
   * [GRU_LSTM_demo](https://github.com/linsamtw/FinMind/blob/master/Mining/GRU_LSTM_demo.py)
