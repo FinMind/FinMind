@@ -21,9 +21,7 @@ You can analyze financial data without having to collect the data by yourself.
     res = requests.post(url,verify = True,data = form_data)
 
   	url = 'http://finmindapi.servebeer.com/api/data'
-    form_data = {'dataset':'TaiwanStockPrice',
-                 'stock_id':['2330','2317'],
-                 'date':'2019-06-01'}
+    form_data = {'dataset':'TaiwanStockPrice','stock_id':['2330','2317'],'date':'2019-06-01'}
     res = requests.post(url,verify = True,,data = form_data)
 
 
