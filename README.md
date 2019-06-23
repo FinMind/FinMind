@@ -9,30 +9,27 @@ Solicit partners who are interested in joint development. <br>
 徵求有興趣共同開發的夥伴。<br>
 My email : linsam.tw.github@gmail.com
 
------------------------
-
 You can analyze financial data without having to collect the data by yourself. The datasets are automatically updated daily.
 
      pip3 install FinMind
      
- ---------------------
  The full version of this documentation is at [https://linsamtw.github.io/FinMindDoc/](https://linsamtw.github.io/FinMindDoc/).
  
  ### [median](https://medium.com/@yanweiliu/finmind-%E4%BD%BF%E7%94%A8python%E6%9F%A5%E5%85%A8%E7%90%83%E8%82%A1%E5%83%B9-%E5%82%B5%E5%88%B8-%E5%8E%9F%E6%B2%B9%E5%83%B9%E6%A0%BC-f39d13ad6a68)
  
- <!--Financial Visualize [http://finmind.servebeer.com/](http://finmind.servebeer.com/) (In development)-->
- 
- [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)
+ Financial Visualize [http://finmind.servebeer.com/](http://finmind.servebeer.com/) (In development)
 
-  ----------------------
+  
   # Api
   * [python demo](https://github.com/linsamtw/FinMind/blob/master/api_demo.py)
      
+  # Data
+  * [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
+  * [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)
   
-  # [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
-  
-  # [FinMind.Mind](https://github.com/linsamtw/FinMind/tree/master/Mining)
-  
+  # Mind
+  * [FinMind.Mind](https://github.com/linsamtw/FinMind/tree/master/Mining)
+  * [GRU_LSTM_demo](https://github.com/linsamtw/FinMind/blob/master/Mining/GRU_LSTM_demo.py)
    ----------------------
 
 [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
