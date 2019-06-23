@@ -25,8 +25,8 @@ You can analyze financial data without having to collect the data by yourself.
     res = requests.post(url,verify = True,,data = form_data)
 
 
-  * [python demo](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.py)
-  * [R demo](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.r)
+  * [Python](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.py)
+  * [R](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.r)
   
   ## Data
   	from FinMind.Data import Load
