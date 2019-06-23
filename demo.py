@@ -189,17 +189,6 @@ CrudeOilPrices = Load.FinData(
 print( CrudeOilPrices[:5] )
 
 #---------------------------------------------------------------
-print('load EnergyFuturesPrices list')
-EnergyFuturesPrices_list = Load.FinDataList(dataset = 'EnergyFuturesPrices')
-print( EnergyFuturesPrices_list[:5] )
-
-print('load EnergyFuturesPrices {}'.format(EnergyFuturesPrices_list[3]))
-EnergyFuturesPrices = Load.FinData(
-        dataset = 'EnergyFuturesPrices',
-        select = EnergyFuturesPrices_list[3],
-        date = date)
-print( EnergyFuturesPrices[:5] )
-#---------------------------------------------------------------
 print('load RawMaterialFuturesPrices list')
 RawMaterialFuturesPrices_list = Load.FinDataList(dataset = 'RawMaterialFuturesPrices')
 print( RawMaterialFuturesPrices_list[:5] )
