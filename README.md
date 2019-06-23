@@ -7,7 +7,10 @@
 Solicit partners who are interested in joint development. <br>
 徵求有興趣共同開發的夥伴。<br>
 
-You can analyze financial data without having to collect the data by yourself. The datasets are automatically updated daily.
+## What is it?
+**FinMind** is open source of more than 40 dataset, contain Taiwan stock, US stock, Europe stock, Japan stock, oil price, gold price, G7 exchange rate, interest rate, government bonds. The datasets are automatically updated daily.
+
+You can analyze financial data without having to collect the data by yourself. 
 
      pip3 install FinMind
      
