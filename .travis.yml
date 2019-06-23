@@ -8,6 +8,6 @@ script:
   - pip3 install pandas 
   - pip3 install pymysql
   - pip3 install FinMind
-  - python3 demo.py 
-  - python3 demo2.py
+  - python3 example/demo.py 
+  - python3 example/api_demo.py
   - python3 Mining/demo.py 
