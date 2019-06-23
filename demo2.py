@@ -142,14 +142,6 @@ cop = CrudeOilPrices(select = copl[1],date = date)
 print( cop[:5] )
 
 #---------------------------------------------------------------
-print('load EnergyFuturesPrices list')
-efpl = EnergyFuturesPricesList()
-print( efpl[:5] )
-
-print('load EnergyFuturesPrices {}'.format(efpl[3]))
-efp = EnergyFuturesPrices(select = efpl[3],date = date)
-print( efp[:5] )
-#---------------------------------------------------------------
 print('load GoldPrice ')
 gp = GoldPrice(date = date)
 print( gp[:5] )
