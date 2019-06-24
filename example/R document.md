@@ -11,20 +11,20 @@
 * Load Taiwan Stock info
 
 
-    library(httr) 
-    library(jsonlite)
-    library('data.table')
-    library(dplyr)
+        library(httr) 
+        library(jsonlite)
+        library('data.table')
+        library(dplyr)
 
-    url = 'http://finmindapi.servebeer.com/api/data'
-    list_url = 'http://finmindapi.servebeer.com/api/datalist'
+        url = 'http://finmindapi.servebeer.com/api/data'
+        list_url = 'http://finmindapi.servebeer.com/api/datalist'
 
-    payload<-list( 'dataset' = 'TaiwanStockInfo')
+        payload<-list( 'dataset' = 'TaiwanStockInfo')
 
-    response = POST(url,body = payload,encode="json")
-    data = response %>% content 
-    data = do.call('cbind',data$data) %>%data.table
-    head(data)
+        response = POST(url,body = payload,encode="json")
+        data = response %>% content 
+        data = do.call('cbind',data$data) %>%data.table
+        head(data)
 
 * Load Taiwan Stock Price
 
