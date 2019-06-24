@@ -391,7 +391,7 @@
 
 
             payload<-list( 'dataset' = 'CurrencyCirculation', 
-                           'stock_id' = list('US'), 
+                           'data_id' = list('US'), 
                            'date'='2018-01-01' )
 
             response = POST(url,body = payload,encode="json")
