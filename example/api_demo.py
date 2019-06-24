@@ -251,7 +251,7 @@ data = temp['data']
 data
 '''----------------ExchangeRate----------------'''
 form_data = {'dataset':'ExchangeRate',
-             'stock_id':['Canda', 'China', 'Euro', 'Japan', 'Taiwan', 'UK'],
+             'data_id':['Canda', 'China', 'Euro', 'Japan', 'Taiwan', 'UK'],
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -271,7 +271,7 @@ data = temp['data']
 data
 '''----------------InstitutionalInvestors----------------'''
 form_data = {'dataset':'InstitutionalInvestors',
-             'stock_id':['Dealer', 'Dealer_Hedging', 'Foreign_Investor', 'Investment_Trust'],
+             'data_id':['Dealer', 'Dealer_Hedging', 'Foreign_Investor', 'Investment_Trust'],
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -291,7 +291,7 @@ data = temp['data']
 data
 '''----------------InterestRate----------------'''
 form_data = {'dataset':'InterestRate',
-             'stock_id':['BCB','BOC',],
+             'data_id':['BCB','BOC',],
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -311,7 +311,7 @@ data = temp['data']
 data
 '''----------------GovernmentBonds----------------'''
 form_data = {'dataset':'GovernmentBonds',
-             'stock_id':['France 9-Month','France 9-Year'],
+             'data_id':['France 9-Month','France 9-Year'],
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -331,7 +331,7 @@ data = temp['data']
 data
 '''----------------CrudeOilPrices----------------'''
 form_data = {'dataset':'CrudeOilPrices',
-             'stock_id':['Brent', 'WTI'],
+             'data_id':['Brent', 'WTI'],
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -351,7 +351,7 @@ data = temp['data']
 data
 '''----------------RawMaterialFuturesPrices----------------'''
 form_data = {'dataset':'RawMaterialFuturesPrices',
-             'stock_id':['US Corn Futures','US Soybean Meal Futures',],
+             'data_id':['US Corn Futures','US Soybean Meal Futures',],
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -362,9 +362,7 @@ data = pd.DataFrame(temp['data'])
 data.head()
 
 '''----------------GoldPrice----------------'''
-form_data = {'dataset':'GoldPrice',
-             'stock_id':'',
-             'date':'2019-06-01'}
+form_data = {'dataset':'GoldPrice','date':'2019-06-06'}
 res = requests.post(
         url,verify = True,headers = {},
         data = form_data)
@@ -384,7 +382,7 @@ data = temp['data']
 data
 '''----------------CurrencyCirculation----------------'''
 form_data = {'dataset':'CurrencyCirculation',
-             'stock_id':['Europe', 'Taiwan','US'],
+             'data_id':['Europe', 'Taiwan','US'],
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
