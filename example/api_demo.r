@@ -9,9 +9,7 @@ url = 'http://finmindapi.servebeer.com/api/data'
 list_url = 'http://finmindapi.servebeer.com/api/datalist'
 
 # TaiwanStockInfo
-payload<-list( 'dataset' = 'TaiwanStockInfo', 
-               'stock_id' = '', 
-               'date'='' )
+payload<-list( 'dataset' = 'TaiwanStockInfo')
 
 response = POST(url,body =payload,encode="json")
 data = response %>% content 
