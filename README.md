@@ -4,21 +4,57 @@
 [![Documentation Status](https://readthedocs.org/projects/finminddoc/badge/?version=latest)](https://finminddoc.readthedocs.io/en/latest/?badge=latest)
 <!--[![Coverage Status](https://coveralls.io/repos/github/linsamtw/FinMind/badge.svg?branch=master)](https://coveralls.io/github/linsamtw/FinMind?branch=master)-->
 
-Solicit partners who are interested in joint development. <br>
-徵求有興趣共同開發的夥伴。<br>
+<!--Solicit partners who are interested in joint development. <br>
+徵求有興趣共同開發的夥伴。<br>-->
 
-You can analyze financial data without having to collect the data by yourself. The datasets are automatically updated daily.
+## What is it?
+**FinMind** is open source of more than 40 dataset, contain Taiwan stock, US stock, Europe stock, Japan stock, oil price, gold price, G7 exchange rate, interest rate, government bonds. The datasets are automatically updated daily.
+
+You can analyze financial data without having to collect the data by yourself. 
 
      pip3 install FinMind
      
   
   ## Api
-  * [python demo](https://github.com/linsamtw/FinMind/blob/master/api_demo.py)
-     
+  * [Python](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.py)
+  
+  
+		import requests
+		url = 'http://finmindapi.servebeer.com/api/data'
+		form_data = {'dataset':'TaiwanStockInfo'}
+		res = requests.post(url,verify = True,data = form_data)
+
+		url = 'http://finmindapi.servebeer.com/api/data'
+		form_data = {'dataset':'TaiwanStockPrice','stock_id':['2330','2317'],'date':'2019-06-01'}
+		res = requests.post(url,verify = True,,data = form_data)
+  * [R](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.r)
+  
+  
+		library(httr) 
+		library(jsonlite)
+		library('data.table')
+		library(dplyr)
+
+		url = 'http://finmindapi.servebeer.com/api/data'
+
+		# TaiwanStockInfo
+		payload<-list( 'dataset' = 'TaiwanStockInfo')
+
+		response = POST(url,body =payload,encode="json")
+		data = response %>% content 
+		data = do.call('cbind',data$data) %>%data.table
+		head(data)
+  
   ## Data
   * [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
-  * [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)
+  * [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)  
   
+  
+		from FinMind.Data import Load
+		TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
+	    	data = Load.FinData(dataset = 'TaiwanStockPrice',select = ['2330','2317'],
+						date = '2018-10-10')
+					
   ## Mind
   * [FinMind.Mind](https://github.com/linsamtw/FinMind/tree/master/Mining)
   * [GRU_LSTM_demo](https://github.com/linsamtw/FinMind/blob/master/Mining/GRU_LSTM_demo.py)

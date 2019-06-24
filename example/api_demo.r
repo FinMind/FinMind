@@ -5,14 +5,11 @@ library(jsonlite)
 library('data.table')
 library(dplyr)
 
-url = 'http://192.168.25.140/api/data'
-list_url = 'http://192.168.25.140/api/datalist'
-#url = 'http://finmindapi.servebeer.com/api/data'
+url = 'http://finmindapi.servebeer.com/api/data'
+list_url = 'http://finmindapi.servebeer.com/api/datalist'
 
 # TaiwanStockInfo
-payload<-list( 'dataset' = 'TaiwanStockInfo', 
-               'stock_id' = '', 
-               'date'='' )
+payload<-list( 'dataset' = 'TaiwanStockInfo')
 
 response = POST(url,body =payload,encode="json")
 data = response %>% content 
