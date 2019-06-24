@@ -16,7 +16,8 @@ You can analyze financial data without having to collect the data by yourself.
      
   
   ## Api
-  * [Python](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.py)
+  * [Python document](https://github.com/linsamtw/FinMind/blob/master/example/Python%20document.md)
+  * [Python code](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.py)
   
   
 		import requests
@@ -26,8 +27,9 @@ You can analyze financial data without having to collect the data by yourself.
 
 		url = 'http://finmindapi.servebeer.com/api/data'
 		form_data = {'dataset':'TaiwanStockPrice','stock_id':['2330','2317'],'date':'2019-06-01'}
-		res = requests.post(url,verify = True,,data = form_data)
-  * [R](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.r)
+		res = requests.post(url,verify = True,data = form_data)
+  * [R document](https://github.com/linsamtw/FinMind/blob/master/example/R%20document.md)
+  * [R code](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.r)
   
   
 		library(httr) 
@@ -40,7 +42,7 @@ You can analyze financial data without having to collect the data by yourself.
 		# TaiwanStockInfo
 		payload<-list( 'dataset' = 'TaiwanStockInfo')
 
-		response = POST(url,body =payload,encode="json")
+		response = POST(url,body = payload,encode="json")
 		data = response %>% content 
 		data = do.call('cbind',data$data) %>%data.table
 		head(data)
