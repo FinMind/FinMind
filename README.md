@@ -4,8 +4,8 @@
 [![Documentation Status](https://readthedocs.org/projects/finminddoc/badge/?version=latest)](https://finminddoc.readthedocs.io/en/latest/?badge=latest)
 <!--[![Coverage Status](https://coveralls.io/repos/github/linsamtw/FinMind/badge.svg?branch=master)](https://coveralls.io/github/linsamtw/FinMind?branch=master)-->
 
-<!--Solicit partners who are interested in joint development. <br>
-徵求有興趣共同開發的夥伴。<br>-->
+Solicit partners who are interested in joint development. <br>
+徵求有興趣共同開發的夥伴。<br>
 
 ## What is it?
 **FinMind** is open source of more than 40 dataset, contain Taiwan stock, US stock, Europe stock, Japan stock, oil price, gold price, G7 exchange rate, interest rate, government bonds. The datasets are automatically updated daily.
