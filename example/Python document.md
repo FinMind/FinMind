@@ -8,7 +8,7 @@
 
 #### Example
 
-* Load Taiwan Stock info
+* Load Taiwan Stock info 股票資訊
 
       from FinMind.Data import Load
       import requests
@@ -28,7 +28,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load Taiwan Stock Price
+* Load Taiwan Stock Price 股價
 
       form_data = {'dataset':'TaiwanStockPrice',
                    'stock_id':['2330','2317'],
@@ -41,7 +41,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load Taiwan Stock Financial Statements
+* Load Taiwan Stock Financial Statements 財報
 
       form_data = {'dataset':'FinancialStatements',
                    'stock_id':['2330','2317'],
@@ -55,7 +55,7 @@
       data = Load.transpose(data)
       data.head()
 
-* Load Taiwan Stock Stock Dividend
+* Load Taiwan Stock Stock Dividend 股息股利
 
       form_data = {'dataset':'TaiwanStockStockDividend',
                    'stock_id':['2330','2317'],
@@ -69,7 +69,7 @@
       data.head()
 
 
-* Load Taiwan Stock Margin Purchase Short Sale
+* Load Taiwan Stock Margin Purchase Short Sale 融資融券
 
       form_data = {'dataset':'TaiwanStockMarginPurchaseShortSale',
                    'stock_id':['2330','2317'],
@@ -82,7 +82,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load Taiwan Stock Institutional Investors Buy Sell
+* Load Taiwan Stock Institutional Investors Buy Sell 個股外資買賣
 
       form_data = {'dataset':'InstitutionalInvestorsBuySell',
                    'stock_id':['2330','2317'],
@@ -96,7 +96,7 @@
       data.head()
 
 
-* Load Taiwan Stock Share holding
+* Load Taiwan Stock Share holding 外資持股
 
       form_data = {'dataset':'Shareholding',
                    'stock_id':['2330','2317'],
@@ -109,7 +109,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load Taiwan Stock Balance Sheet
+* Load Taiwan Stock Balance Sheet 資產負債表
 
       form_data = {'dataset':'BalanceSheet',
                    'stock_id':['2330','2317'],
@@ -122,7 +122,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load Taiwan Stock Holding Shares Per
+* Load Taiwan Stock Holding Shares Per 股權分散表
 
       form_data = {'dataset':'TaiwanStockHoldingSharesPer',
                    'stock_id':['2330','2317'],
@@ -135,7 +135,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load Taiwan Stock Month Revenue
+* Load Taiwan Stock Month Revenue 月營收
 
       form_data = {'dataset':'TaiwanStockMonthRevenue',
                    'stock_id':['2330','2317'],
@@ -148,7 +148,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load US Stock Info
+* Load US Stock Info 美股股票資訊
 
       form_data = {'dataset':'USStockInfo',
                    'stock_id':'',
@@ -161,7 +161,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load US Stock Price
+* Load US Stock Price 美股股價
 
       form_data = {'dataset':'USStockPrice',
                    'stock_id':['^GSPC','^DJI'],
@@ -174,7 +174,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load US Stock Financial Statements
+* Load US Stock Financial Statements 財報
 
       form_data = {'dataset':'FinancialStatements',
                    'stock_id':['AAPL'],
@@ -187,7 +187,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load Japan Stock Info
+* Load Japan Stock Info 日股股票資訊
 
       form_data = {'dataset':'JapanStockInfo',
                    'stock_id':'',
@@ -200,7 +200,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load Japan Stock Price
+* Load Japan Stock Price 日股股價
 
       form_data = {'dataset':'JapanStockPrice',
                    'stock_id':['1352.T','1376.T'],
@@ -213,7 +213,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load UK Stock Info
+* Load UK Stock Info 英股股票資訊
 
       form_data = {'dataset':'UKStockInfo',
                    'stock_id':['2330','2317'],
@@ -226,7 +226,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load UK Stock Price
+* Load UK Stock Price 英股股價
 
       form_data = {'dataset':'UKStockPrice',
                    'stock_id':['0TWH.L','0HZU.L'],
@@ -239,7 +239,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load Europe Stock Info
+* Load Europe Stock Info  歐股股票資訊
 
       form_data = {'dataset':'EuropeStockInfo',
                    'stock_id':'',
@@ -253,7 +253,7 @@
       data.head()
 
 
-* Load Europe Stock Price
+* Load Europe Stock Price 歐股股價
 
       form_data = {'dataset':'EuropeStockPrice',
                    'stock_id':['AB.PA','ABCA.PA'],
@@ -266,7 +266,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load list of Exchange Rate
+* Load list of Exchange Rate 匯率列表
 
 
       form_data = {'dataset':'ExchangeRate',}
@@ -279,7 +279,7 @@
       data
 
 
-* Load Exchange Rate
+* Load Exchange Rate 匯率
 
       form_data = {'dataset':'ExchangeRate',
                    'data_id':['Canda', 'China', 'Euro', 'Japan', 'Taiwan', 'UK'],
@@ -292,7 +292,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load list of Institutional Investors
+* Load list of Institutional Investors 外資列表
 
 
       form_data = {'dataset':'InstitutionalInvestors'}
@@ -304,7 +304,7 @@
       data = temp['data']
       data
 
-* Load Institutional Investors
+* Load Institutional Investors 整體外資買賣
 
 
       form_data = {'dataset':'InstitutionalInvestors',
@@ -319,7 +319,7 @@
       data.head()
 
 
-* Load list of Interest Rate
+* Load list of Interest Rate 各國利率列表
 
       form_data = {'dataset':'InterestRate'}
       res = requests.post(
@@ -331,7 +331,7 @@
       data
 
 
-* Load Interest Rate
+* Load Interest Rate 利率
 
       form_data = {'dataset':'InterestRate',
                    'data_id':['BCB','BOC',],
@@ -345,7 +345,7 @@
       data.head()
 
 
-* Load list of Government Bonds
+* Load list of Government Bonds 政府債券列表
 
       form_data = {'dataset':'GovernmentBonds'}
       res = requests.post(
@@ -356,7 +356,7 @@
       data = temp['data']
       data
 
-* Load Government Bonds
+* Load Government Bonds 政府債券
 
 
       form_data = {'dataset':'GovernmentBonds',
@@ -370,7 +370,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load list of Crude Oil Prices
+* Load list of Crude Oil Prices 油價列表
 
       form_data = {'dataset':'CrudeOilPrices'}
       res = requests.post(
@@ -381,7 +381,7 @@
       data = temp['data']
       data
 
-* Load Crude Oil Prices
+* Load Crude Oil Prices 油價
 
       form_data = {'dataset':'CrudeOilPrices',
                    'data_id':['Brent', 'WTI'],
@@ -394,7 +394,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load list of Raw Material Futures Prices
+* Load list of Raw Material Futures Prices 原物料期貨列表
 
       form_data = {'dataset':'RawMaterialFuturesPrices'}
       res = requests.post(
@@ -405,7 +405,7 @@
       data = temp['data']
       data
 
-* Load Raw Material Futures Prices
+* Load Raw Material Futures Prices 原物料期貨
 
       form_data = {'dataset':'RawMaterialFuturesPrices',
                    'data_id':['US Corn Futures','US Soybean Meal Futures',],
@@ -419,7 +419,7 @@
       data.head()
 
 
-* Load Gold Price
+* Load Gold Price 金價
 
       form_data = {'dataset':'GoldPrice','date':'2019-06-06'}
       res = requests.post(
@@ -430,7 +430,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load list of Currency Circulation
+* Load list of Currency Circulation 
 
       form_data = {'dataset':'CurrencyCirculation'}
       res = requests.post(
