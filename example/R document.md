@@ -8,7 +8,7 @@
 
 #### Example
 
-* Load Taiwan Stock info
+* Load Taiwan Stock info 股票資訊
 
 
         library(httr) 
@@ -26,7 +26,7 @@
         data = do.call('cbind',data$data) %>%data.table
         head(data)
 
-* Load Taiwan Stock Price
+* Load Taiwan Stock Price 股價
 
 
             payload<-list( 'dataset' = 'TaiwanStockPrice', 
@@ -38,7 +38,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load Taiwan Stock Financial Statements
+* Load Taiwan Stock Financial Statements 財報
 
 
             payload<-list( 'dataset' = 'FinancialStatements', 
@@ -50,7 +50,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load Taiwan Stock Stock Dividend
+* Load Taiwan Stock Stock Dividend 股息股利
 
 
             payload<-list( 'dataset' = 'TaiwanStockStockDividend', 
@@ -62,7 +62,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load Taiwan Stock Margin Purchase Short Sale
+* Load Taiwan Stock Margin Purchase Short Sale 融資融券
 
 
             payload<-list( 'dataset' = 'TaiwanStockMarginPurchaseShortSale', 
@@ -74,7 +74,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load Taiwan Stock Institutional Investors Buy Sell
+* Load Taiwan Stock Institutional Investors Buy Sell 個股外資買賣
 
 
             payload<-list( 'dataset' = 'InstitutionalInvestorsBuySell', 
@@ -86,7 +86,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load Taiwan Stock Share holding
+* Load Taiwan Stock Share holding 外資持股
 
 
             payload<-list( 'dataset' = 'Shareholding', 
@@ -98,7 +98,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load Taiwan Stock Balance Sheet
+* Load Taiwan Stock Balance Sheet 資產負債表
 
 
             payload<-list( 'dataset' = 'BalanceSheet', 
@@ -110,7 +110,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load Taiwan Stock Holding Shares Per
+* Load Taiwan Stock Holding Shares Per 股權分散表
 
 
             payload<-list( 'dataset' = 'TaiwanStockHoldingSharesPer', 
@@ -122,7 +122,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load Taiwan Stock Month Revenue
+* Load Taiwan Stock Month Revenue 月營收
 
 
             payload<-list( 'dataset' = 'TaiwanStockMonthRevenue', 
@@ -134,7 +134,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load US Stock Info
+* Load US Stock Info 美股股票資訊
 
 
             payload<-list( 'dataset' = 'USStockInfo', 
@@ -146,7 +146,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load US Stock Price
+* Load US Stock Price 美股股價
 
 
             payload<-list( 'dataset' = 'USStockPrice', 
@@ -158,7 +158,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load US Stock Financial Statements
+* Load US Stock Financial Statements 財報
 
 
             payload<-list( 'dataset' = 'FinancialStatements', 
@@ -170,7 +170,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load Japan Stock Info
+* Load Japan Stock Info 日股股票資訊
 
 
             payload<-list( 'dataset' = 'JapanStockInfo', 
@@ -182,7 +182,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load Japan Stock Price
+* Load Japan Stock Price 日股股價
 
 
             payload<-list( 'dataset' = 'JapanStockPrice', 
@@ -194,7 +194,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load UK Stock Info
+* Load UK Stock Info 英股股票資訊
 
 
             payload<-list( 'dataset' = 'UKStockInfo', 
@@ -206,7 +206,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load UK Stock Price
+* Load UK Stock Price 英股股價
 
 
             payload<-list( 'dataset' = 'UKStockPrice', 
@@ -218,7 +218,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load Europe Stock Info
+* Load Europe Stock Info 歐股股票資訊
 
 
             payload<-list( 'dataset' = 'EuropeStockInfo', 
@@ -230,7 +230,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load Europe Stock Price
+* Load Europe Stock Price 歐股股價
 
 
             payload<-list( 'dataset' = 'EuropeStockPrice', 
@@ -242,7 +242,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load list of Exchange Rate
+* Load list of Exchange Rate 匯率列表
 
 
             payload<-list( 'dataset' = 'ExchangeRate' )
@@ -251,7 +251,7 @@
             data = response %>% content 
             data = do.call('c',data$data)
 
-* Load Exchange Rate
+* Load Exchange Rate 匯率
 
 
             payload<-list( 'dataset' = 'ExchangeRate', 
@@ -263,7 +263,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load lsit of Institutional Investors
+* Load lsit of Institutional Investors 外資列表
 
 
             payload<-list( 'dataset' = 'InstitutionalInvestors')
@@ -272,7 +272,7 @@
             data = response %>% content 
             data = do.call('c',data$data)
 
-* Load Institutional Investors
+* Load Institutional Investors 整體外資買賣
 
 
             payload<-list( 'dataset' = 'InstitutionalInvestors', 
@@ -284,7 +284,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load lsit of Interest Rate
+* Load list of Interest Rate 各國利率列表
 
 
             payload<-list( 'dataset' = 'InterestRate',  )
@@ -293,7 +293,7 @@
             data = response %>% content 
             data = do.call('c',data$data)
 
-* Load Interest Rate
+* Load Interest Rate 利率
 
 
             payload<-list( 'dataset' = 'InterestRate', 
@@ -305,7 +305,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load lsit of Government Bonds
+* Load lsit of Government Bonds 政府債券列表
 
 
             payload<-list( 'dataset' = 'GovernmentBonds' )
@@ -314,7 +314,7 @@
             data = response %>% content 
             data = do.call('c',data$data) 
 
-* Load Government Bonds
+* Load Government Bonds 政府債券
 
 
             payload<-list( 'dataset' = 'GovernmentBonds', 
@@ -326,7 +326,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load lsit of Crude Oil Prices
+* Load lsit of Crude Oil Prices 油價列表
 
 
             payload<-list( 'dataset' = 'CrudeOilPrices' )
@@ -335,7 +335,7 @@
             data = response %>% content 
             data = do.call('c',data$data)
 
-* Load Crude Oil Prices
+* Load Crude Oil Prices 油價
 
 
             payload<-list( 'dataset' = 'CrudeOilPrices', 
@@ -347,7 +347,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load list of Raw Material Futures Prices
+* Load list of Raw Material Futures Prices 原物料期貨列表
 
 
             payload<-list( 'dataset' = 'RawMaterialFuturesPrices' )
@@ -356,7 +356,7 @@
             data = response %>% content 
             data = do.call('c',data$data)
 
-* Load Raw Material Futures Prices
+* Load Raw Material Futures Prices 原物料期貨
 
 
             payload<-list( 'dataset' = 'RawMaterialFuturesPrices', 
@@ -368,7 +368,7 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
-* Load Gold Price
+* Load Gold Price 金價
 
 
             payload<-list( 'dataset' = 'GoldPrice', 'date'='2019-06-01' )
