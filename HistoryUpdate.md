@@ -1,6 +1,10 @@
 ## History Update
 
 --------------------------------------
+ #### FinMind 1.0.80 (2019-07-15) 
+ * 重大更新，過去是直接連 DataBase，目前改走 api 方式，未來舊版 package 將會失效，無法直接連 DataBase。請更新到最新版本，或是直接走 api。
+ 
+--------------------------------------
  #### FinMind 1.0.70 (2019-06-23) 
  * add [api](https://github.com/linsamtw/FinMind/blob/master/api_demo.py)
  
