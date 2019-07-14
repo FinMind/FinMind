@@ -114,7 +114,7 @@ print( UKStockInfo[:5] )
 print('load UKStockPrice {} '.format(UKStockInfo.loc[2,'stock_id']))
 UKStockPrice = Load.FinData(
         dataset = 'UKStockPrice',
-        select = UKStockInfo.loc[2,'stock_id'],
+        select = UKStockInfo.loc[200,'stock_id'],
         date = date)
 print( UKStockPrice[:5] )
 #---------------------------------------------------------------
