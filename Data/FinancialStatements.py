@@ -1,5 +1,5 @@
 
-TABLE = 'FinancialStatements2'
+TABLE = 'FinancialStatements'
 import os, sys
 import platform
 if 'Windows' in platform.platform():

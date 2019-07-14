@@ -8,4 +8,4 @@ Created on Thu Aug  2 00:11:48 2018
 
 # __init__
 
-__version__ = '1.0.70'
+__version__ = '1.0.72'

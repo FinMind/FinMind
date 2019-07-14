@@ -2,11 +2,12 @@
 
 import pandas as pd
 import numpy as np
+import requests
 from FinMind.Data import Load
-
 
 class Stock:
     def __init__(self,stock_id,date):
+        self.url = 'http://finmindapi.servebeer.com/api/data'
         self.date = date
         self.country = 'Taiwan'
         if isinstance(stock_id,str):
@@ -24,7 +25,14 @@ class Stock:
         self.BalanceSheet = pd.DataFrame()
 
     def init_stock_info(self):
-        stock_info = Load.FinData(dataset = '{}StockInfo'.format(self.country))
+
+        form_data = {'dataset':'TaiwanStockInfo',
+                     'stock_id':self.stock_id,
+                     'date':self.date}
+        res = requests.post(self.url,verify = True,data = form_data)
+        temp = res.json()
+        stock_info = pd.DataFrame(temp['data'])
+
         if 'industry_category' in stock_info.columns:
             _bool = [ False if x in ['ETF','不動產投資信託證券'] else True 
                          for x in stock_info['industry_category'] ]
@@ -131,11 +139,13 @@ class Stock:
     
     def load_data(self,dataset,transpose = False):
         #dataset = 'Shareholding'
-        data = Load.FinData(
-                dataset = dataset,
-                select = self.stock_id,
-                date = self.date)      
-        
+        form_data = {'dataset':dataset,
+                     'stock_id':self.stock_id,
+                     'date':self.date}
+        res = requests.post(self.url,verify = True,data = form_data)
+        temp = res.json()
+        data = pd.DataFrame(temp['data'])
+
         if len(data) == 0:
             return data
         if transpose:

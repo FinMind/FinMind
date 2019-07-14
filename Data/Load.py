@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import os, sys
 import importlib
+import requests
 import platform
 if 'Windows' in platform.platform():
     PATH = "\\".join( os.path.abspath(__file__).split('\\')[:-2])
@@ -11,39 +12,22 @@ else:
 sys.path.append(PATH)
 
 #---------------------------------------------------------------
-def FinData(dataset,select='',date='2000-01-01'):# dataset = 'BalanceSheet'
-    
+def FinData(
+        dataset,select = '',date = '2000-01-01',
+        url = 'http://finmindapi.servebeer.com/api/data'):# dataset = 'BalanceSheet'
+
+    parameter = {'dataset':dataset,
+                 'stock_id':select,
+                 'date':date}
+    res = requests.post(
+            url,verify = True,headers = {},
+            json = parameter)
         
-    if dataset not in ['TaiwanStockInfo','TaiwanStockPrice',
-                       'TaiwanStockFinancialStatements','TaiwanStockStockDividend',
-                       'TaiwanStockMarginPurchaseShortSale',
-                       'TaiwanStockHoldingSharesPer',
-                       'BalanceSheet','TaiwanStockMonthRevenue',
-                       #-----------------------------------
-                       'USStockInfo','USStockPrice',
-                       #-----------------------------------
-                       'JapanStockInfo','JapanStockPrice',
-                       #-----------------------------------
-                       'UKStockInfo','UKStockPrice',
-                       #-----------------------------------
-                       'EuropeStockInfo','EuropeStockPrice',
-                       #-----------------------------------
-                       'FinancialStatements','InstitutionalInvestorsBuySell',
-                       'ExchangeRate','InstitutionalInvestors',
-                       'InterestRate','GovernmentBonds','CrudeOilPrices',
-                       'EnergyFuturesPrices','GoldPrice','RawMaterialFuturesPrices',
-                       #-----------------------------------
-                       'CurrencyCirculation','Shareholding']:
-        raise(AttributeError, "Hidden attribute")  
-    else:
-        if select in ['',[]] and dataset in ['ExchangeRate','InstitutionalInvestors',
-                       'InterestRate','GovernmentBonds',
-                       'CrudeOilPrices','EnergyFuturesPrices','RawMaterialFuturesPrices',
-                       'CurrencyCirculation']:
-            select = FinDataList(dataset)        
-        data = getattr(importlib.import_module("FinMind.Data.{}".format(dataset)), dataset)(
-                select = select,date = date)
-        return data
+    data2 = res.json()
+    if data2['status'] == 200:
+        data2 = pd.DataFrame( data2['data'] )
+    
+    return data2
 #-------------------------------------------------------------------------------------------
 def FinDataList(dataset):
     if dataset not in ['ExchangeRate','InstitutionalInvestors',
