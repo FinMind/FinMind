@@ -8,7 +8,9 @@ Solicit partners who are interested in joint development. <br>
 徵求有興趣共同開發的夥伴。<br>
 
 ## 重大更新 FinMind 1.0.80
-過去是直接連 DataBase，目前改走 api 方式，未來舊版 package 將會失效，無法直接連 DataBase。請更新到最新版本，或是直接走 api。
+過去是直接連 DataBase，由於 server 在國外，直接連 DataBase 斷線機率高。<br>
+目前改走 api 方式，未來舊版 package 將會失效，無法直接連 DataBase。請更新到最新版本，或是直接走 api。<br>
+[Python document](https://github.com/linsamtw/FinMind/blob/master/example/Python%20document.md)
 
 ## What is it?
 **FinMind** is open source of more than 40 dataset, contain Taiwan stock, US stock, Europe stock, Japan stock, oil price, gold price, G7 exchange rate, interest rate, government bonds. The datasets are automatically updated daily.
