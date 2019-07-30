@@ -1,8 +1,8 @@
 
-## Variable Document 
+# Variable Document 
 
 
-#### Taiwan Stock Financial Statements
+### Taiwan Stock Financial Statements
 
 |Variable name|Chinese translation|
 |--------|-|
@@ -34,7 +34,7 @@
  
  #
  
- #### Taiwan Stock Balance Sheet
+ ### Taiwan Stock Balance Sheet
 
 |Variable name|Chinese translation|
 |-|-|
@@ -95,7 +95,7 @@
  #
 
 
-#### Taiwan Stock Margin Purchase Short Sale
+### Taiwan Stock Margin Purchase Short Sale
 
 |Variable name|Chinese translation|
 |--------|-|
@@ -119,7 +119,7 @@
  
  
 #
-#### Taiwan Stock Share holding
+### Taiwan Stock Share holding
 
 |Variable name|Chinese translation|
 |--------|-|
