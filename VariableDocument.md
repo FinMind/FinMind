@@ -92,7 +92,48 @@
 |OtherReceivable|其他應收款淨額|
 |CurrentIncomeTaxAssets|本期所得稅資產|
  
+ #
+
+
+#### Taiwan Stock Margin Purchase Short Sale
+
+|Variable name|Chinese translation|
+|--------|-|
+|stock_id|股票代碼|
+|stock_name|股票名稱|
+|MarginPurchaseBuy|融資買進|
+|MarginPurchaseSell|融資賣出|
+|MarginPurchaseCashRepayment|現金償還|
+|MarginPurchaseYesterdayBalance|融資前日餘額|
+|MarginPurchaseTodayBalance|融資今日餘額|
+|MarginPurchaseLimit|融資限額|
+|ShortSaleBuy|融券買進|
+|ShortSaleSell|融券賣出|
+|ShortSaleCashRepayment|現卷償還|
+|ShortSaleYesterdayBalance|融券前日餘額|
+|ShortSaleTodayBalance|融券今日餘額|
+|ShortSaleLimit|融券限額|
+|OffsetLoanAndShort|資券互抵|
+|Note|註|
+|date|日期|
  
+ 
+#
+#### Taiwan Stock Share holding
+
+|Variable name|Chinese translation|
+|--------|-|
+|stock_id|股票代碼|
+|stock_name|股票名稱|
+|InternationalCode|國際證券編碼|
+|NumberOfSharesIssued|發行股數|
+|ForeignInvestmentRemainingShares|外資尚可投資股數|
+|ForeignInvestmentShares|外資持有股數|
+|ForeignInvestmentUpperLimitRatio|外資投資上限比例|
+|ChineseInvestmentUpperLimitRatio|陸資投資上限比例|
+|note|註|
+|RecentlyDeclareDate|最近一次上櫃公司申報外資持股異動日期|
+|date|日期|
 
 
  
