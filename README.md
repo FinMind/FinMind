@@ -10,6 +10,7 @@ You can analyze financial data without having to collect the data by yourself.
 
      pip3 install FinMind
 
+-------------------------------------------------------------------
 Solicit partners who are interested in joint development. <br>
 徵求有興趣共同開發的夥伴。<br>
 
