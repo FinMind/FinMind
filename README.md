@@ -52,6 +52,22 @@ You can analyze financial data without having to collect the data by yourself.
 		url = 'http://finmindapi.servebeer.com/api/data'
 		form_data = {'dataset':'TaiwanStockPrice','stock_id':['2330','2317'],'date':'2019-06-01'}
 		res = requests.post(url,verify = True,data = form_data)
+		
+		
+
+  ## translation 中英對照
+  
+		import requests
+		url = 'http://finmindapi.servebeer.com/api/translation'
+		dataset = 'RawMaterialFuturesPrices'
+		# or 
+		# dataset = 'FinancialStatements'
+		parameter = {'dataset':dataset}
+
+		res = requests.post(url,verify = True,data = parameter)
+		#res.text
+		data = res.json()
+		data = pd.DataFrame( data['data'] )
 
   ## Data
   * [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
@@ -62,7 +78,7 @@ You can analyze financial data without having to collect the data by yourself.
 		TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
 	    	data = Load.FinData(dataset = 'TaiwanStockPrice',select = ['2330','2317'],
 						date = '2018-10-10')
-					
+
   ## Mind
   * [FinMind.Mind](https://github.com/linsamtw/FinMind/tree/master/Mining)
   * [GRU_LSTM_demo](https://github.com/linsamtw/FinMind/blob/master/Mining/GRU_LSTM_demo.py)
