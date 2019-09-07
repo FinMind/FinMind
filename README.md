@@ -4,6 +4,12 @@
 [![Documentation Status](https://readthedocs.org/projects/finminddoc/badge/?version=latest)](https://finminddoc.readthedocs.io/en/latest/?badge=latest)
 <!--[![Coverage Status](https://coveralls.io/repos/github/linsamtw/FinMind/badge.svg?branch=master)](https://coveralls.io/github/linsamtw/FinMind?branch=master)-->
 
+## What is it?
+**FinMind** is open source of more than 40 dataset, contain Taiwan stock, US stock, Europe stock, Japan stock, oil price, gold price, G7 exchange rate, interest rate, government bonds. The datasets are automatically updated daily.
+You can analyze financial data without having to collect the data by yourself. 
+
+     pip3 install FinMind
+
 Solicit partners who are interested in joint development. <br>
 徵求有興趣共同開發的夥伴。<br>
 
@@ -12,12 +18,6 @@ Solicit partners who are interested in joint development. <br>
 目前改走 api 方式，未來舊版 package 將會失效，無法直接連 DataBase。請更新到最新版本，或是直接走 api。<br>
 [Python document](https://github.com/linsamtw/FinMind/blob/master/example/Python%20document.md)
 
-## What is it?
-**FinMind** is open source of more than 40 dataset, contain Taiwan stock, US stock, Europe stock, Japan stock, oil price, gold price, G7 exchange rate, interest rate, government bonds. The datasets are automatically updated daily.
-You can analyze financial data without having to collect the data by yourself. 
-
-     pip3 install FinMind
-     
   
   ## Api
   * [R document](https://github.com/linsamtw/FinMind/blob/master/example/R%20document.md)
