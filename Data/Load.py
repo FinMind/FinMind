@@ -63,3 +63,20 @@ def transpose(data):
             
     data1.index = range(len(data1))
     return data1
+
+
+def translation(dataset):
+    url = 'http://finmindapi.servebeer.com/api/translation'
+    parameter = {'dataset':dataset}
+    
+    res = requests.post(
+            url,verify = True,headers = {},
+            data = parameter)
+    #res.text
+    data = res.json()
+    if data['status'] == 200:
+        data = pd.DataFrame( data['data'] )
+
+    return data
+
+
