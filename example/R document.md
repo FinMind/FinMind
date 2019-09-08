@@ -30,7 +30,7 @@
 
 
             payload<-list( 'dataset' = 'TaiwanStockPrice', 
-                           'stock_id' = list('2330','2317'), 
+                           'stock_id' = '2317', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -42,7 +42,7 @@
 
 
             payload<-list( 'dataset' = 'FinancialStatements', 
-                           'stock_id' = list('2330','2317'), 
+                           'stock_id' = '2317', 
                            'date'='2018-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -54,7 +54,7 @@
 
 
             payload<-list( 'dataset' = 'TaiwanStockStockDividend', 
-                           'stock_id' = list('2330','2317'), 
+                           'stock_id' = '2317', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -66,7 +66,7 @@
 
 
             payload<-list( 'dataset' = 'TaiwanStockMarginPurchaseShortSale', 
-                           'stock_id' = list('2330','2317'), 
+                           'stock_id' = '2317', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -78,7 +78,7 @@
 
 
             payload<-list( 'dataset' = 'InstitutionalInvestorsBuySell', 
-                           'stock_id' = list('2330','2317'), 
+                           'stock_id' = '2317', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -90,7 +90,7 @@
 
 
             payload<-list( 'dataset' = 'Shareholding', 
-                           'stock_id' = list('2330','2317'), 
+                           'stock_id' = '2317', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -102,7 +102,7 @@
 
 
             payload<-list( 'dataset' = 'BalanceSheet', 
-                           'stock_id' = list('2330','2317'), 
+                           'stock_id' = '2317', 
                            'date'='2018-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -114,7 +114,7 @@
 
 
             payload<-list( 'dataset' = 'TaiwanStockHoldingSharesPer', 
-                           'stock_id' = list('2330','2317'), 
+                           'stock_id' = '2317', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -126,7 +126,7 @@
 
 
             payload<-list( 'dataset' = 'TaiwanStockMonthRevenue', 
-                           'stock_id' = list('2330','2317'), 
+                           'stock_id' = '2317', 
                            'date'='2019-01-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -137,9 +137,7 @@
 * Load US Stock Info 美股股票資訊
 
 
-            payload<-list( 'dataset' = 'USStockInfo', 
-                           'stock_id' = '', 
-                           'date'='' )
+            payload<-list( 'dataset' = 'USStockInfo' )
 
             response = POST(url,body = payload,encode="json")
             data = response %>% content 
@@ -150,7 +148,7 @@
 
 
             payload<-list( 'dataset' = 'USStockPrice', 
-                           'stock_id' = list('^GSPC','^DJI'), 
+                           'stock_id' = '^GSPC', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -162,7 +160,7 @@
 
 
             payload<-list( 'dataset' = 'FinancialStatements', 
-                           'stock_id' = list('AAPL'), 
+                           'stock_id' = 'AAPL', 
                            'date'='2018-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -173,9 +171,7 @@
 * Load Japan Stock Info 日股股票資訊
 
 
-            payload<-list( 'dataset' = 'JapanStockInfo', 
-                           'stock_id' = '', 
-                           'date'='2019-06-01' )
+            payload<-list( 'dataset' = 'JapanStockInfo')
 
             response = POST(url,body = payload,encode="json")
             data = response %>% content 
@@ -186,7 +182,7 @@
 
 
             payload<-list( 'dataset' = 'JapanStockPrice', 
-                           'stock_id' = list('1352.T','1376.T'), 
+                           'stock_id' = '1376.T', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -197,9 +193,7 @@
 * Load UK Stock Info 英股股票資訊
 
 
-            payload<-list( 'dataset' = 'UKStockInfo', 
-                           'stock_id' = '', 
-                           'date'='2019-06-01' )
+            payload<-list( 'dataset' = 'UKStockInfo' )
 
             response = POST(url,body = payload,encode="json")
             data = response %>% content 
@@ -210,7 +204,7 @@
 
 
             payload<-list( 'dataset' = 'UKStockPrice', 
-                           'stock_id' = list('0TWH.L','0HZU.L'), 
+                           'stock_id' = '0TWH.L', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -221,9 +215,7 @@
 * Load Europe Stock Info 歐股股票資訊
 
 
-            payload<-list( 'dataset' = 'EuropeStockInfo', 
-                           'stock_id' = '', 
-                           'date'='2019-06-01' )
+            payload<-list( 'dataset' = 'EuropeStockInfo')
 
             response = POST(url,body = payload,encode="json")
             data = response %>% content 
@@ -234,7 +226,7 @@
 
 
             payload<-list( 'dataset' = 'EuropeStockPrice', 
-                           'stock_id' = list('AB.PA','ABCA.PA'), 
+                           'stock_id' = 'ABCA.PA', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -255,7 +247,7 @@
 
 
             payload<-list( 'dataset' = 'ExchangeRate', 
-                           'data_id' = list('Canda', 'China', 'Euro', 'Japan', 'Taiwan', 'UK'), 
+                           'data_id' = 'Taiwan', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -276,7 +268,7 @@
 
 
             payload<-list( 'dataset' = 'InstitutionalInvestors', 
-                           'data_id' = list('Dealer'), 
+                           'data_id' = 'Dealer', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -287,7 +279,7 @@
 * Load list of Interest Rate 各國利率列表
 
 
-            payload<-list( 'dataset' = 'InterestRate',  )
+            payload<-list( 'dataset' = 'InterestRate' )
 
             response = POST(list_url,body = payload,encode="json")
             data = response %>% content 
@@ -297,7 +289,7 @@
 
 
             payload<-list( 'dataset' = 'InterestRate', 
-                           'data_id' = list('BCB','BOC'), 
+                           'data_id' = 'BOC', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -318,7 +310,7 @@
 
 
             payload<-list( 'dataset' = 'GovernmentBonds', 
-                           'data_id' = list('France 9-Month','France 9-Year'), 
+                           'data_id' = 'France 9-Year', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -339,7 +331,7 @@
 
 
             payload<-list( 'dataset' = 'CrudeOilPrices', 
-                           'data_id' = list('Brent', 'WTI'), 
+                           'data_id' = 'WTI', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -360,7 +352,7 @@
 
 
             payload<-list( 'dataset' = 'RawMaterialFuturesPrices', 
-                           'data_id' = list('US Wheat Futures', 'Tin Futures'), 
+                           'data_id' = 'Tin Futures', 
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
@@ -391,7 +383,7 @@
 
 
             payload<-list( 'dataset' = 'CurrencyCirculation', 
-                           'data_id' = list('US'), 
+                           'data_id' = 'US', 
                            'date'='2018-01-01' )
 
             response = POST(url,body = payload,encode="json")
