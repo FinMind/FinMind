@@ -17,9 +17,7 @@
       list_url = 'http://finmindapi.servebeer.com/api/datalist'
 
 
-      form_data = {'dataset':'TaiwanStockInfo',
-                   'stock_id':'',
-                   'date':''}
+      form_data = {'dataset':'TaiwanStockInfo'}
       res = requests.post(
               url,verify = True,headers = {},
               data = form_data)
@@ -31,7 +29,7 @@
 * Load Taiwan Stock Price 股價
 
       form_data = {'dataset':'TaiwanStockPrice',
-                   'stock_id':['2330','2317'],
+                   'stock_id':'2330',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -44,7 +42,7 @@
 * Load Taiwan Stock Financial Statements 財報
 
       form_data = {'dataset':'FinancialStatements',
-                   'stock_id':['2330','2317'],
+                   'stock_id':'2330',
                    'date':'2019-01-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -58,7 +56,7 @@
 * Load Taiwan Stock Stock Dividend 股息股利
 
       form_data = {'dataset':'TaiwanStockStockDividend',
-                   'stock_id':['2330','2317'],
+                   'stock_id':'2317',
                    'date':'2018-01-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -72,7 +70,7 @@
 * Load Taiwan Stock Margin Purchase Short Sale 融資融券
 
       form_data = {'dataset':'TaiwanStockMarginPurchaseShortSale',
-                   'stock_id':['2330','2317'],
+                   'stock_id':'2317',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -85,7 +83,7 @@
 * Load Taiwan Stock Institutional Investors Buy Sell 個股外資買賣
 
       form_data = {'dataset':'InstitutionalInvestorsBuySell',
-                   'stock_id':['2330','2317'],
+                   'stock_id':'2317',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -99,7 +97,7 @@
 * Load Taiwan Stock Share holding 外資持股
 
       form_data = {'dataset':'Shareholding',
-                   'stock_id':['2330','2317'],
+                   'stock_id':'2317',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -112,7 +110,7 @@
 * Load Taiwan Stock Balance Sheet 資產負債表
 
       form_data = {'dataset':'BalanceSheet',
-                   'stock_id':['2330','2317'],
+                   'stock_id':'2317',
                    'date':'2019-01-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -125,7 +123,7 @@
 * Load Taiwan Stock Holding Shares Per 股權分散表
 
       form_data = {'dataset':'TaiwanStockHoldingSharesPer',
-                   'stock_id':['2330','2317'],
+                   'stock_id':'2317',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -138,7 +136,7 @@
 * Load Taiwan Stock Month Revenue 月營收
 
       form_data = {'dataset':'TaiwanStockMonthRevenue',
-                   'stock_id':['2330','2317'],
+                   'stock_id':'2317',
                    'date':'2019-01-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -150,9 +148,7 @@
 
 * Load US Stock Info 美股股票資訊
 
-      form_data = {'dataset':'USStockInfo',
-                   'stock_id':'',
-                   'date':''}
+      form_data = {'dataset':'USStockInfo'}
       res = requests.post(
               url,verify = True,headers = {},
               data = form_data)
@@ -164,7 +160,7 @@
 * Load US Stock Price 美股股價
 
       form_data = {'dataset':'USStockPrice',
-                   'stock_id':['^GSPC','^DJI'],
+                   'stock_id':'^GSPC',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -177,7 +173,7 @@
 * Load US Stock Financial Statements 財報
 
       form_data = {'dataset':'FinancialStatements',
-                   'stock_id':['AAPL'],
+                   'stock_id':'AAPL',
                    'date':'2018-01-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -189,9 +185,7 @@
 
 * Load Japan Stock Info 日股股票資訊
 
-      form_data = {'dataset':'JapanStockInfo',
-                   'stock_id':'',
-                   'date':''}
+      form_data = {'dataset':'JapanStockInfo'}
       res = requests.post(
               url,verify = True,headers = {},
               data = form_data)
@@ -203,7 +197,7 @@
 * Load Japan Stock Price 日股股價
 
       form_data = {'dataset':'JapanStockPrice',
-                   'stock_id':['1352.T','1376.T'],
+                   'stock_id':'1376.T',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -216,7 +210,7 @@
 * Load UK Stock Info 英股股票資訊
 
       form_data = {'dataset':'UKStockInfo',
-                   'stock_id':['2330','2317'],
+                   'stock_id':'2317',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -229,7 +223,7 @@
 * Load UK Stock Price 英股股價
 
       form_data = {'dataset':'UKStockPrice',
-                   'stock_id':['0TWH.L','0HZU.L'],
+                   'stock_id':'0TWH.L',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -241,9 +235,7 @@
 
 * Load Europe Stock Info  歐股股票資訊
 
-      form_data = {'dataset':'EuropeStockInfo',
-                   'stock_id':'',
-                   'date':''}
+      form_data = {'dataset':'EuropeStockInfo'}
       res = requests.post(
               url,verify = True,headers = {},
               data = form_data)
@@ -256,7 +248,7 @@
 * Load Europe Stock Price 歐股股價
 
       form_data = {'dataset':'EuropeStockPrice',
-                   'stock_id':['AB.PA','ABCA.PA'],
+                   'stock_id':'ABCA.PA',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -269,7 +261,7 @@
 * Load list of Exchange Rate 匯率列表
 
 
-      form_data = {'dataset':'ExchangeRate',}
+      form_data = {'dataset':'ExchangeRate'}
       res = requests.post(
               list_url,verify = True,headers = {},
               data = form_data)
@@ -282,7 +274,7 @@
 * Load Exchange Rate 匯率
 
       form_data = {'dataset':'ExchangeRate',
-                   'data_id':['Canda', 'China', 'Euro', 'Japan', 'Taiwan', 'UK'],
+                   'data_id':'Taiwan',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -308,7 +300,7 @@
 
 
       form_data = {'dataset':'InstitutionalInvestors',
-                   'data_id':['Dealer', 'Dealer_Hedging', 'Foreign_Investor', 'Investment_Trust'],
+                   'data_id':'Dealer_Hedging',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -334,7 +326,7 @@
 * Load Interest Rate 利率
 
       form_data = {'dataset':'InterestRate',
-                   'data_id':['BCB','BOC',],
+                   'data_id':'BOC',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -360,7 +352,7 @@
 
 
       form_data = {'dataset':'GovernmentBonds',
-                   'data_id':['France 9-Month','France 9-Year'],
+                   'data_id':'France 9-Year',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -384,7 +376,7 @@
 * Load Crude Oil Prices 油價
 
       form_data = {'dataset':'CrudeOilPrices',
-                   'data_id':['Brent', 'WTI'],
+                   'data_id': 'WTI',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -408,7 +400,7 @@
 * Load Raw Material Futures Prices 原物料期貨
 
       form_data = {'dataset':'RawMaterialFuturesPrices',
-                   'data_id':['US Corn Futures','US Soybean Meal Futures',],
+                   'data_id':'US Soybean Meal Futures',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
@@ -445,7 +437,7 @@
 
 
       form_data = {'dataset':'CurrencyCirculation',
-                   'data_id':['Europe', 'Taiwan','US'],
+                   'data_id':'Taiwan',
                    'date':'2019-06-01'}
       res = requests.post(
               url,verify = True,headers = {},
