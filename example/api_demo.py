@@ -10,9 +10,7 @@ url = 'http://finmindapi.servebeer.com/api/data'
 list_url = 'http://finmindapi.servebeer.com/api/datalist'
 
 '''----------------TaiwanStockInfo----------------'''
-form_data = {'dataset':'TaiwanStockInfo',
-             'stock_id':'',
-             'date':''}
+form_data = {'dataset':'TaiwanStockInfo'}
 res = requests.post(
         url,verify = True,headers = {},
         data = form_data)
@@ -146,7 +144,7 @@ data.head()
 
 '''----------------USStockPrice----------------'''
 form_data = {'dataset':'USStockPrice',
-             'stock_id':['^GSPC','^DJI'],
+             'stock_id':'^DJI',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -158,7 +156,7 @@ data.head()
 
 '''----------------FinancialStatements----------------'''
 form_data = {'dataset':'FinancialStatements',
-             'stock_id':['AAPL'],
+             'stock_id':'AAPL',
              'date':'2018-01-01'}
 res = requests.post(
         url,verify = True,headers = {},
