@@ -63,6 +63,9 @@ Solicit partners who are interested in joint development. <br>
 		dataset = 'RawMaterialFuturesPrices'
 		# or 
 		# dataset = 'FinancialStatements'
+		# dataset = 'BalanceSheet'
+		# dataset = 'StockDividend'
+		# dataset = 'TaiwanStockMarginPurchaseShortSale'
 		parameter = {'dataset':dataset}
 
 		res = requests.post(url,verify = True,data = parameter)
