@@ -15,14 +15,14 @@ _index = 9010
 print('load TaiwanStockPrice {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 TaiwanStockPrice = Load.FinData(
         dataset = 'TaiwanStockPrice',
-        select = ['2330','2317'],
+        select = '2330',
         date = date2 )
 print( TaiwanStockPrice[:5] )
 
 print('load 財報 FinancialStatements {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 TaiwanStockFinancialStatements = Load.FinData(
         dataset = 'FinancialStatements',
-        select = list(TaiwanStockInfo.loc[9010:9015,'stock_id']),
+        select = TaiwanStockInfo.loc[9010,'stock_id'],
         date = date3)
 print( TaiwanStockFinancialStatements[:5] )
 # transpose
@@ -59,7 +59,7 @@ print( Shareholding[:5] )
 print('load 資產負債表 BalanceSheet {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 BalanceSheet = Load.FinData(
         dataset = 'BalanceSheet',
-        select = ['2330','2317'],
+        select = '2317',
         date = date3)
 print( BalanceSheet[:5] )
 data = Load.transpose(BalanceSheet)
@@ -85,7 +85,7 @@ print( USStockInfo[:5] )
 print('load USStockPrice {} '.format(USStockInfo.loc[20,'stock_id']))
 USStockPrice = Load.FinData(
         dataset = 'USStockPrice',
-        select = list(USStockInfo.loc[20:30,'stock_id']),
+        select = USStockInfo.loc[20,'stock_id'],
         date = date)
 print( USStockPrice[:5] )
 
