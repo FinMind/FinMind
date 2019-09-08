@@ -23,7 +23,7 @@ data.head()
 
 '''----------------TaiwanStockPrice----------------'''
 form_data = {'dataset':'TaiwanStockPrice',
-             'stock_id':['2330','2317'],
+             'stock_id':'2317',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -36,7 +36,7 @@ data.head()
 
 '''----------------FinancialStatements----------------'''
 form_data = {'dataset':'FinancialStatements',
-             'stock_id':['2330','2317'],
+             'stock_id':'2317',
              'date':'2019-01-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -50,7 +50,7 @@ data.head()
 
 '''----------------TaiwanStockStockDividend----------------'''
 form_data = {'dataset':'TaiwanStockStockDividend',
-             'stock_id':['2330','2317'],
+             'stock_id':'2317',
              'date':'2018-01-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -63,7 +63,7 @@ data.head()
 
 '''----------------TaiwanStockMarginPurchaseShortSale----------------'''
 form_data = {'dataset':'TaiwanStockMarginPurchaseShortSale',
-             'stock_id':['2330','2317'],
+             'stock_id':'2317',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -75,7 +75,7 @@ data.head()
 
 '''----------------InstitutionalInvestorsBuySell----------------'''
 form_data = {'dataset':'InstitutionalInvestorsBuySell',
-             'stock_id':['2330','2317'],
+             'stock_id':'2317',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -88,7 +88,7 @@ data.head()
 
 '''----------------Shareholding----------------'''
 form_data = {'dataset':'Shareholding',
-             'stock_id':['2330','2317'],
+             'stock_id':'2317',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -100,7 +100,7 @@ data.head()
 
 '''----------------BalanceSheet----------------'''
 form_data = {'dataset':'BalanceSheet',
-             'stock_id':['2330','2317'],
+             'stock_id':'2317',
              'date':'2019-01-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -112,7 +112,7 @@ data.head()
 
 '''----------------TaiwanStockHoldingSharesPer----------------'''
 form_data = {'dataset':'TaiwanStockHoldingSharesPer',
-             'stock_id':['2330','2317'],
+             'stock_id':'2317',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -124,7 +124,7 @@ data.head()
 
 '''----------------TaiwanStockMonthRevenue----------------'''
 form_data = {'dataset':'TaiwanStockMonthRevenue',
-             'stock_id':['2330','2317'],
+             'stock_id':'2317',
              'date':'2019-01-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -135,9 +135,7 @@ data = pd.DataFrame(temp['data'])
 data.head()
 
 '''----------------USStockInfo----------------'''
-form_data = {'dataset':'USStockInfo',
-             'stock_id':'',
-             'date':''}
+form_data = {'dataset':'USStockInfo'}
 res = requests.post(
         url,verify = True,headers = {},
         data = form_data)
@@ -171,9 +169,7 @@ data = pd.DataFrame(temp['data'])
 data.head()
 
 '''----------------JapanStockInfo----------------'''
-form_data = {'dataset':'JapanStockInfo',
-             'stock_id':'',
-             'date':''}
+form_data = {'dataset':'JapanStockInfo'}
 res = requests.post(
         url,verify = True,headers = {},
         data = form_data)
@@ -184,7 +180,7 @@ data.head()
 
 '''----------------JapanStockPrice----------------'''
 form_data = {'dataset':'JapanStockPrice',
-             'stock_id':['1352.T','1376.T'],
+             'stock_id':'1376.T',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -196,7 +192,7 @@ data.head()
 
 '''----------------UKStockInfo----------------'''
 form_data = {'dataset':'UKStockInfo',
-             'stock_id':['2330','2317'],
+             'stock_id':'2317',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -208,7 +204,7 @@ data.head()
 
 '''----------------UKStockPrice----------------'''
 form_data = {'dataset':'UKStockPrice',
-             'stock_id':['0TWH.L','0HZU.L'],
+             'stock_id':'0HZU.L',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -219,9 +215,7 @@ data = pd.DataFrame(temp['data'])
 data.head()
 
 '''----------------EuropeStockInfo----------------'''
-form_data = {'dataset':'EuropeStockInfo',
-             'stock_id':'',
-             'date':''}
+form_data = {'dataset':'EuropeStockInfo'}
 res = requests.post(
         url,verify = True,headers = {},
         data = form_data)
@@ -231,7 +225,7 @@ data = pd.DataFrame(temp['data'])
 data.head()
 '''----------------EuropeStockPrice----------------'''
 form_data = {'dataset':'EuropeStockPrice',
-             'stock_id':['AB.PA','ABCA.PA'],
+             'stock_id':'ABCA.PA',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -251,7 +245,7 @@ data = temp['data']
 data
 '''----------------ExchangeRate----------------'''
 form_data = {'dataset':'ExchangeRate',
-             'data_id':['Canda', 'China', 'Euro', 'Japan', 'Taiwan', 'UK'],
+             'data_id':'Taiwan',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -271,7 +265,7 @@ data = temp['data']
 data
 '''----------------InstitutionalInvestors----------------'''
 form_data = {'dataset':'InstitutionalInvestors',
-             'data_id':['Dealer', 'Dealer_Hedging', 'Foreign_Investor', 'Investment_Trust'],
+             'data_id':'Foreign_Investor',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -291,7 +285,7 @@ data = temp['data']
 data
 '''----------------InterestRate----------------'''
 form_data = {'dataset':'InterestRate',
-             'data_id':['BCB','BOC',],
+             'data_id':'BOC',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -311,7 +305,7 @@ data = temp['data']
 data
 '''----------------GovernmentBonds----------------'''
 form_data = {'dataset':'GovernmentBonds',
-             'data_id':['France 9-Month','France 9-Year'],
+             'data_id':'France 9-Year',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -331,7 +325,7 @@ data = temp['data']
 data
 '''----------------CrudeOilPrices----------------'''
 form_data = {'dataset':'CrudeOilPrices',
-             'data_id':['Brent', 'WTI'],
+             'data_id': 'WTI',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -351,7 +345,7 @@ data = temp['data']
 data
 '''----------------RawMaterialFuturesPrices----------------'''
 form_data = {'dataset':'RawMaterialFuturesPrices',
-             'data_id':['US Corn Futures','US Soybean Meal Futures',],
+             'data_id':'US Soybean Meal Futures',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
@@ -382,7 +376,7 @@ data = temp['data']
 data
 '''----------------CurrencyCirculation----------------'''
 form_data = {'dataset':'CurrencyCirculation',
-             'data_id':['Europe', 'Taiwan','US'],
+             'data_id': 'Taiwan',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,headers = {},
