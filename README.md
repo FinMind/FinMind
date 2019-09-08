@@ -51,7 +51,7 @@ Solicit partners who are interested in joint development. <br>
 		res = requests.post(url,verify = True,data = form_data)
 
 		url = 'http://finmindapi.servebeer.com/api/data'
-		form_data = {'dataset':'TaiwanStockPrice','stock_id':['2330','2317'],'date':'2019-06-01'}
+		form_data = {'dataset':'TaiwanStockPrice','stock_id':'2317','date':'2019-06-01'}
 		res = requests.post(url,verify = True,data = form_data)
 		
 		
@@ -80,7 +80,7 @@ Solicit partners who are interested in joint development. <br>
   
 		from FinMind.Data import Load
 		TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
-	    	data = Load.FinData(dataset = 'TaiwanStockPrice',select = ['2330','2317'],
+	    	data = Load.FinData(dataset = 'TaiwanStockPrice',select = '2317',
 						date = '2018-10-10')
 
   ## Mind
