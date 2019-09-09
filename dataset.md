@@ -1,51 +1,64 @@
+### data set
 
-[DataSource](https://github.com/linsamtw/FinMind/blob/master/Data/DataSource.md)
+* Taiwan Stock Price 
+* Taiwan Stock Stock Dividend
+* Taiwan Stock Balance Sheet
+* Taiwan Stock Holding Shares Per
+* Taiwan Stock Shareholding
+* Taiwan Stock Institutional Investors Buy and Sell
+* Taiwan Stock Margin Purchase Short Sale
+* Taiwan Stock Month Revenue
+* Taiwan Financial Statements 
+* US Stock Price
+* Japan Stock Price
+* UK Stock Price
+* Europe Stock Price
+* US Financial Statements ( Data Source  )
+* Crude Oil Prices ( Data Source  )
+* China Exchange Rates ( vs US )
+* Euro Exchange Rates ( vs US )
+* Japan Exchange Rates ( vs US )
+* Taiwan Exchange Rates ( vs US )
+* UK Exchange Rates ( vs US )
+* BCB Interest Rate
+* BOC Interest Rate
+* BOE Interest Rate
+* BOJ Interest Rate
+* CBR Interest Rate
+* ECB Interest Rate
+* FED Interest Rate
+* PBOC Interest Rate
+* RBA Interest Rate
+* RBI Interest Rate
+* RBNZ Interest Rate
+* SNB Interest Rate
+* Canada : 1-Month ~ 30-Year Government Bonds 
+* China : 1-Year ~ 30-Year Government Bonds 
+* France : 1-Month ~ 50-Year Government Bonds 
+* Germany : 3-Month ~ 30-Year Government Bonds 
+* Italy : 1-Month ~ 50-Year Government Bonds 
+* Japan : 1-Month ~ 40-Year Government Bonds 
+* Russia : 1-Week ~ 20-Year Government Bonds 
+* United Kingdom : 1-Month ~ 50-Year Government Bonds 
+* United States : 1-Month ~ 30-Year Government Bonds 
+* meats Futures Prices
+* grains Futures Prices
+* energies Futures Prices
+* softs Futures Prices
+* metals Futures Prices
+* Gold Price ( Data Source  )
 
-1. Taiwan Stock Price
-2. US Stock Price
-3. Japan Stock Price
-4. UK Stock Price
-5. Europe Stock Price
-6. Taiwan Financial Statements 
-7. US Financial Statements 
-8. Crude Oil Prices
-9. China Exchange Rates ( vs US )
-10. Euro Exchange Rates ( vs US )
-11. Japan Exchange Rates ( vs US )
-12. Taiwan Exchange Rates ( vs US )
-13. UK Exchange Rates ( vs US )
-14. BCB Interest Rate
-15. BOC Interest Rate
-16. BOE Interest Rate
-17. BOJ Interest Rate
-18. CBR Interest Rate
-19. ECB Interest Rate
-20. FED Interest Rate
-21. PBOC Interest Rate
-22. RBA Interest Rate
-23. RBI Interest Rate
-24. RBNZ Interest Rate
-25. SNB Interest Rate
-26. Canada : 1-Month ~ 30-Year Government Bonds 
-27. China : 1-Year ~ 30-Year Government Bonds 
-28. France : 1-Month ~ 50-Year Government Bonds 
-29. Germany : 3-Month ~ 30-Year Government Bonds 
-30. Italy : 1-Month ~ 50-Year Government Bonds 
-31. Japan : 1-Month ~ 40-Year Government Bonds 
-32. Russia : 1-Week ~ 20-Year Government Bonds 
-33. United Kingdom : 1-Month ~ 50-Year Government Bonds 
-34. United States : 1-Month ~ 30-Year Government Bonds 
-35. meats Futures Prices
-36. grains Futures Prices
-37. energies Futures Prices
-38. softs Futures Prices
-39. metals Futures Prices
-40. Taiwan Stock Stock Dividend
-41. Taiwan Stock Balance Sheet
-42. Taiwan Stock Holding Shares Per
-43. Taiwan Stock Shareholding
-44. Taiwan Stock Institutional Investors Buy and Sell
-45. Taiwan Stock Margin Purchase Short Sale
-46. Taiwan Stock Month Revenue
-47. Gold Price
+
+### Data Source <br>
+[http://www.twse.com.tw](http://www.twse.com.tw)<br>
+[https://www.tpex.org.tw](https://www.tpex.org.tw)<br>
+[http://mops.twse.com.tw/mops/web/index](http://mops.twse.com.tw/mops/web/index)<br>
+[https://www.tdcc.com.tw/portal](https://www.tdcc.com.tw/portal)<br>
+[https://www.investing.com](https://www.investing.com)<br>
+[https://www.gold.org](https://www.gold.org)<br>
+[https://www.ofx.com/en-au](https://www.ofx.com/en-au)<br>
+[https://www.eia.gov](https://www.eia.gov)<br>
+[https://www.macrotrends.net](https://www.macrotrends.net)<br>
+`yahoo finance api`<br>
+
 
