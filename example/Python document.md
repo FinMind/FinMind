@@ -8,14 +8,14 @@
 
 #### Example
 
-* Load Taiwan Stock info 股票資訊
-
       from FinMind.Data import Load
       import requests
       import pandas as pd
       url = 'http://finmindapi.servebeer.com/api/data'
       list_url = 'http://finmindapi.servebeer.com/api/datalist'
+      translate_url = 'http://finmindapi.servebeer.com/api/translation'
 
+* Load Taiwan Stock info 股票資訊
 
       form_data = {'dataset':'TaiwanStockInfo'}
       res = requests.post(
