@@ -22,7 +22,6 @@ Solicit partners who are interested in joint development. <br>
   
   ## Api
   * [R document](https://github.com/linsamtw/FinMind/blob/master/example/R%20document.md)
-  * [R code](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.r)
   
   
 		library(httr) 
@@ -42,7 +41,6 @@ Solicit partners who are interested in joint development. <br>
     
   
   * [Python document](https://github.com/linsamtw/FinMind/blob/master/example/Python%20document.md)
-  * [Python code](https://github.com/linsamtw/FinMind/blob/master/example/api_demo.py)
   
   
 		import requests
