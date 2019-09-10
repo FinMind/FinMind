@@ -15,8 +15,8 @@
 * Japan Stock Price
 * UK Stock Price
 * Europe Stock Price
-* US Financial Statements ( Data Source  )
-* Crude Oil Prices ( Data Source  )
+* US Financial Statements
+* Crude Oil Prices
 * China Exchange Rates ( vs US )
 * Euro Exchange Rates ( vs US )
 * Japan Exchange Rates ( vs US )
@@ -48,20 +48,20 @@
 * energies Futures Prices
 * softs Futures Prices
 * metals Futures Prices
-* Gold Price ( Data Source  )
+* Gold Price
 
 
 ### Data Source <br>
 [http://www.twse.com.tw](http://www.twse.com.tw)<br>
 [https://www.tpex.org.tw](https://www.tpex.org.tw)<br>
 [http://mops.twse.com.tw/mops/web/index](http://mops.twse.com.tw/mops/web/index)<br>
+[https://www.taifex.com.tw/cht/index](https://www.taifex.com.tw/cht/index)<br>
 [https://www.tdcc.com.tw/portal](https://www.tdcc.com.tw/portal)<br>
 [https://www.investing.com](https://www.investing.com)<br>
 [https://www.gold.org](https://www.gold.org)<br>
 [https://www.ofx.com/en-au](https://www.ofx.com/en-au)<br>
 [https://www.eia.gov](https://www.eia.gov)<br>
 [https://www.macrotrends.net](https://www.macrotrends.net)<br>
-[https://www.taifex.com.tw/cht/index](https://www.taifex.com.tw/cht/index)<br>
 `yahoo finance api`<br>
 
 
