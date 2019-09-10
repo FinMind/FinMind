@@ -142,7 +142,7 @@ temp = res.json()
 data = pd.DataFrame(temp['data'])
 data.head()
 
-parameter = {'dataset':'TaiwanOption',
+form_data = {'dataset':'TaiwanOption',
 		   'stock_id':'OCO',
 		   'date':'2019-09-05',
 		   }
@@ -165,7 +165,7 @@ temp = res.json()
 data = pd.DataFrame(temp['data'])
 data.head()
 
-parameter = {'dataset':'TaiwanFutures',
+form_data = {'dataset':'TaiwanFutures',
 		   'stock_id':'MTX',
 		   'date':'2019-09-02',
 		   }
