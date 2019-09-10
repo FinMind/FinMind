@@ -21,6 +21,19 @@ Solicit partners who are interested in joint development. <br>
 
   
   ## Api
+  
+  * [Python document](https://github.com/linsamtw/FinMind/blob/master/example/Python%20document.md)
+  
+  
+		import requests
+		url = 'http://finmindapi.servebeer.com/api/data'
+		form_data = {'dataset':'TaiwanStockInfo'}
+		res = requests.post(url,verify = True,data = form_data)
+
+		url = 'http://finmindapi.servebeer.com/api/data'
+		form_data = {'dataset':'TaiwanStockPrice','stock_id':'2317','date':'2019-06-01'}
+		res = requests.post(url,verify = True,data = form_data)
+  
   * [R document](https://github.com/linsamtw/FinMind/blob/master/example/R%20document.md)
   
   
@@ -37,22 +50,7 @@ Solicit partners who are interested in joint development. <br>
 		response = POST(url,body = payload,encode="json")
 		data = response %>% content 
 		data = do.call('cbind',data$data) %>%data.table
-		head(data)
-    
-  
-  * [Python document](https://github.com/linsamtw/FinMind/blob/master/example/Python%20document.md)
-  
-  
-		import requests
-		url = 'http://finmindapi.servebeer.com/api/data'
-		form_data = {'dataset':'TaiwanStockInfo'}
-		res = requests.post(url,verify = True,data = form_data)
-
-		url = 'http://finmindapi.servebeer.com/api/data'
-		form_data = {'dataset':'TaiwanStockPrice','stock_id':'2317','date':'2019-06-01'}
-		res = requests.post(url,verify = True,data = form_data)
-		
-		
+		head(data)	
 
   ## translation 中英對照
   
