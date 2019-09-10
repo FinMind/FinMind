@@ -133,7 +133,7 @@ temp = res.json()
 data = pd.DataFrame(temp['data'])
 data.head()
 
-'''----------------TaiwanStockMonthRevenue----------------'''
+'''----------------TaiwanOption----------------'''
 form_data = {'dataset':'TaiwanOption'}
 res = requests.post(
 	  translate_url,verify = True,
