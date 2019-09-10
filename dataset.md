@@ -9,6 +9,8 @@
 * Taiwan Stock Margin Purchase Short Sale
 * Taiwan Stock Month Revenue
 * Taiwan Financial Statements 
+* Taiwan Futures
+* Taiwan Option
 * US Stock Price
 * Japan Stock Price
 * UK Stock Price
