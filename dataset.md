@@ -59,7 +59,7 @@
 [https://www.ofx.com/en-au](https://www.ofx.com/en-au)<br>
 [https://www.eia.gov](https://www.eia.gov)<br>
 [https://www.macrotrends.net](https://www.macrotrends.net)<br>
-[https://www.taifex.com.tw/cht/index](https://www.taifex.com.tw/cht/index)<>
+[https://www.taifex.com.tw/cht/index](https://www.taifex.com.tw/cht/index)<br>
 `yahoo finance api`<br>
 
 
