@@ -19,7 +19,7 @@
 
       form_data = {'dataset':'TaiwanStockInfo'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -32,7 +32,7 @@
                    'stock_id':'2330',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -45,7 +45,7 @@
                    'stock_id':'2330',
                    'date':'2019-01-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -59,7 +59,7 @@
                    'stock_id':'2317',
                    'date':'2018-01-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -73,7 +73,7 @@
                    'stock_id':'2317',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -86,7 +86,7 @@
                    'stock_id':'2317',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -100,7 +100,7 @@
                    'stock_id':'2317',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -113,7 +113,7 @@
                    'stock_id':'2317',
                    'date':'2019-01-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -126,7 +126,7 @@
                    'stock_id':'2317',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -139,18 +139,66 @@
                    'stock_id':'2317',
                    'date':'2019-01-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
       data = pd.DataFrame(temp['data'])
       data.head()
 
+* Load Taiwan Option 台股選擇權，
+			 
+        #load stock_id table, 讀取代碼表，用於輸入以下 stock_id 參數
+		form_data = {'dataset':'TaiwanOption'}
+		res = requests.post(
+			  translate_url,verify = True,
+			  data = form_data)
+		temp = res.json()
+		data = pd.DataFrame(temp['data'])
+		data.head()
+
+		parameter = {'dataset':'TaiwanOption',
+				   'stock_id':'OCO',
+				   'date':'2019-09-05',
+				   }
+
+		res = requests.post(
+			  url,verify = True,
+			  data = form_data)
+
+		temp = res.json()
+		data = pd.DataFrame(temp['data'])
+		data.head()
+	  
+* Load Taiwan Futures 台股期貨明細，由於資料過多，只會回傳 date 當天 data，如要長期資料，請用 loop call api
+
+      #load stock_id table, 讀取代碼表，用於輸入以下 stock_id 參數
+      form_data = {'dataset':'TaiwanFutures'}
+      res = requests.post(
+            translate_url,verify = True,
+            data = form_data)
+      temp = res.json()
+      data = pd.DataFrame(temp['data'])
+      data.head()
+
+      parameter = {'dataset':'TaiwanFutures',
+                 'stock_id':'MTX',
+                 'date':'2019-09-02',
+                 }
+
+      res = requests.post(
+            url,verify = True,
+            data = form_data)
+
+      temp = res.json()
+      data = pd.DataFrame(temp['data'])
+      data.head()
+      
 * Load US Stock Info 美股股票資訊
 
       form_data = {'dataset':'USStockInfo'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -163,7 +211,7 @@
                    'stock_id':'^GSPC',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -176,7 +224,7 @@
                    'stock_id':'AAPL',
                    'date':'2018-01-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -187,7 +235,7 @@
 
       form_data = {'dataset':'JapanStockInfo'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -200,7 +248,7 @@
                    'stock_id':'1376.T',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -213,7 +261,7 @@
                    'stock_id':'2317',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -226,7 +274,7 @@
                    'stock_id':'0TWH.L',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -237,7 +285,7 @@
 
       form_data = {'dataset':'EuropeStockInfo'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -251,7 +299,7 @@
                    'stock_id':'ABCA.PA',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -263,7 +311,7 @@
 
       form_data = {'dataset':'ExchangeRate'}
       res = requests.post(
-              list_url,verify = True,headers = {},
+              list_url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -277,7 +325,7 @@
                    'data_id':'Taiwan',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -289,7 +337,7 @@
 
       form_data = {'dataset':'InstitutionalInvestors'}
       res = requests.post(
-              list_url,verify = True,headers = {},
+              list_url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -303,7 +351,7 @@
                    'data_id':'Dealer_Hedging',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -315,7 +363,7 @@
 
       form_data = {'dataset':'InterestRate'}
       res = requests.post(
-              list_url,verify = True,headers = {},
+              list_url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -329,7 +377,7 @@
                    'data_id':'BOC',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -341,7 +389,7 @@
 
       form_data = {'dataset':'GovernmentBonds'}
       res = requests.post(
-              list_url,verify = True,headers = {},
+              list_url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -355,7 +403,7 @@
                    'data_id':'France 9-Year',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -366,7 +414,7 @@
 
       form_data = {'dataset':'CrudeOilPrices'}
       res = requests.post(
-              list_url,verify = True,headers = {},
+              list_url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -379,7 +427,7 @@
                    'data_id': 'WTI',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -390,7 +438,7 @@
 
       form_data = {'dataset':'RawMaterialFuturesPrices'}
       res = requests.post(
-              list_url,verify = True,headers = {},
+              list_url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -403,7 +451,7 @@
                    'data_id':'US Soybean Meal Futures',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -415,7 +463,7 @@
 
       form_data = {'dataset':'GoldPrice','date':'2019-06-06'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -426,7 +474,7 @@
 
       form_data = {'dataset':'CurrencyCirculation'}
       res = requests.post(
-              list_url,verify = True,headers = {},
+              list_url,verify = True,
               data = form_data)
 
       temp = res.json()
@@ -440,7 +488,7 @@
                    'data_id':'Taiwan',
                    'date':'2019-06-01'}
       res = requests.post(
-              url,verify = True,headers = {},
+              url,verify = True,
               data = form_data)
 
       temp = res.json()
