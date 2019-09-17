@@ -93,7 +93,7 @@ Solicit partners who are interested in joint development. <br>
 
 ### Financial Visualize ( In development )
 At least five kinds of visualization tools for every data type. ( In development )<br>
-[http://finmind.servebeer.com/](http://finmind.servebeer.com/)
+[https://finmind.servebeer.com/](http://finmind.servebeer.com/)
 開發中
 
 ### [License](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
