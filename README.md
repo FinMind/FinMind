@@ -5,8 +5,28 @@
 <!--[![Coverage Status](https://coveralls.io/repos/github/linsamtw/FinMind/badge.svg?branch=master)](https://coveralls.io/github/linsamtw/FinMind?branch=master)-->
 
 ## What is it?
-**FinMind** is open source of more than [50 datasets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)  , contain Taiwan stock, Taiwan stock 5 seconds data, Financial Statements, Balance Sheet, Holding Shares Per, US stock, Europe stock, Japan stock, oil price, gold price, G7 exchange rate, Raw Material Futures Prices, interest rate, government bonds. The datasets are automatically updated daily.
-You can analyze financial data without having to collect the data by yourself.
+**FinMind** is open source of more than [50 datasets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)  , contain 
+
+Taiwan stock trade data daily, Taiwan stock trade data (5 seconds), Financial Statements, Balance Sheet, Cash Flows Statement, Month Revenue, Holding Shares Per, Institutional Investors Buy Sell. Taiwan Futures Trade Detail, Taiwan Option Trade Detail.
+
+US, Europe, Japan stock price, oil price, gold price, [G7](https://zh.wikipedia.org/zh-tw/%E5%85%AB%E5%A4%A7%E5%B7%A5%E6%A5%AD%E5%9C%8B%E7%B5%84%E7%B9%94) exchange rate, interest rate, government bonds futures. 
+
+Raw Material Futures Prices ( meats, grains, energies, softs, metals ), US Government Bonds Yield. 
+
+The datasets are automatically updated daily.
+You can analyze financial data without having to collect the data by yourself.<br>
+
+## 這是什麼?
+**FinMind** 是超過 50 種金融開源數據 [50 datasets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)。
+包含
+
+台股股價 daily、台股5秒交易資料、財報、資產負債表、現金流量表、月營收、外資持股、股權分散表、融資融券、三大法人買賣，台股期貨、選擇權交易明細。
+
+美股股價，[G7](https://zh.wikipedia.org/zh-tw/%E5%85%AB%E5%A4%A7%E5%B7%A5%E6%A5%AD%E5%9C%8B%E7%B5%84%E7%B9%94) 匯率、利率、債券期貨。
+
+原物料期貨價格( 肉、穀物、金屬、能源、軟商品 )，國際原油價格、黃金價格，美國期貨殖利率。
+
+資料每天更新。你不需收集資料，就可進行分析。
 
      pip3 install FinMind
 
