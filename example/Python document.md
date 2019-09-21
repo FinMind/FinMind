@@ -244,6 +244,19 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
+* Load US Stock Price Minute 美股分鐘交易 data
+
+      form_data = {'dataset':'USStockPriceMinute',
+                  'stock_id':'MTX',
+                  'date':'2019-06-01'}
+      res = requests.post(
+            url,verify = True,
+            data = form_data)
+
+      temp = res.json()
+      data = pd.DataFrame(temp['data'])
+      data.head()
+
 * Load US Stock Financial Statements 財報
 
       form_data = {'dataset':'FinancialStatements',
