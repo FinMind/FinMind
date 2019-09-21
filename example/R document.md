@@ -410,4 +410,16 @@
             response = POST(url,body = payload,encode="json")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
-            head(data
+            head(data)
+
+* Load Taiwan Cash Flows Statement 台灣現金流量表
+
+
+             payload<-list( 'dataset' = 'TaiwanCashFlowsStatement',
+                            'stock_id' = '2330',
+                            'date'='2019-06-01' )
+
+            response = POST(url,body = payload,encode="json")
+            data = response %>% content
+            data = do.call('cbind',data$data) %>%data.table
+            head(data)
