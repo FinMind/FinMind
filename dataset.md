@@ -1,7 +1,7 @@
 ### data set
 
 * Taiwan Stock Price
-* Taiwan Stock Price Minute
+* Taiwan Stock Price Minute ( 台灣 5 秒交易 data )
 * Taiwan Stock Stock Dividend
 * Taiwan Stock Balance Sheet
 * Taiwan Stock Holding Shares Per
@@ -67,5 +67,5 @@
 [https://www.eia.gov](https://www.eia.gov)<br>
 [https://www.macrotrends.net](https://www.macrotrends.net)<br>
 `yahoo finance api`<br>
-
+[https://tw.stock.yahoo.com/q/ts?s=2330&t=50](https://tw.stock.yahoo.com/q/ts?s=2330&t=50)<br>
 
