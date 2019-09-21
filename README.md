@@ -29,8 +29,6 @@ You can analyze financial data without having to collect the data by yourself.<b
      pip3 install FinMind
 
 -------------------------------------------------------------------
-Solicit partners who are interested in joint development. <br>
-徵求有興趣共同開發的夥伴。<br>
 <!--
 ## 重大更新 FinMind 1.0.80
 過去是直接連 DataBase，由於 server 在國外，直接連 DataBase 斷線機率高。<br>
@@ -89,7 +87,7 @@ Solicit partners who are interested in joint development. <br>
 
   ## Data
   * [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
-  * [40 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)  
+  * [50 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)  
   * [Variable Document](https://github.com/linsamtw/FinMind/blob/master/VariableDocument.md)
   
 		from FinMind.Data import Load
@@ -116,7 +114,8 @@ At least five kinds of visualization tools for every data type. ( In development
 
 ### [License](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
 
-
+Solicit partners who are interested in joint development. <br>
+徵求有興趣共同開發的夥伴。<br>
 email : linsam.tw.github@gmail.com
 
 
