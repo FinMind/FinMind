@@ -69,4 +69,4 @@
 [https://www.macrotrends.net](https://www.macrotrends.net)<br>
 `yahoo finance api`<br>
 [https://tw.stock.yahoo.com/q/ts?s=2330&t=50](https://tw.stock.yahoo.com/q/ts?s=2330&t=50)<br>
-
+[https://finance.yahoo.com/](https://finance.yahoo.com/)<br>
