@@ -14,6 +14,7 @@
 * Taiwan Futures Trade Detail
 * Taiwan Option Trade Detail
 * US Stock Price
+* US Stock Price Minute
 * Japan Stock Price
 * UK Stock Price
 * Europe Stock Price
