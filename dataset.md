@@ -11,8 +11,8 @@
 * Taiwan Stock Month Revenue
 * Taiwan Financial Statements
 * Taiwan Cash Flows Statement
-* Taiwan Futures
-* Taiwan Option
+* Taiwan Futures Trade Detail
+* Taiwan Option Trade Detail
 * US Stock Price
 * Japan Stock Price
 * UK Stock Price
