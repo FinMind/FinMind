@@ -1,6 +1,7 @@
 ### data set
 
 * Taiwan Stock Price
+* Taiwan Stock Price Minute
 * Taiwan Stock Stock Dividend
 * Taiwan Stock Balance Sheet
 * Taiwan Stock Holding Shares Per
@@ -9,6 +10,7 @@
 * Taiwan Stock Margin Purchase Short Sale
 * Taiwan Stock Month Revenue
 * Taiwan Financial Statements
+* Taiwan Cash Flows Statement
 * Taiwan Futures
 * Taiwan Option
 * US Stock Price
@@ -50,6 +52,7 @@
 * softs Futures Prices
 * metals Futures Prices
 * Gold Price
+* Raw Material Futures Prices Minute
 
 
 ### Data Source <br>

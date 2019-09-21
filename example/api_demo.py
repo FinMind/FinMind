@@ -449,3 +449,39 @@ res = requests.post(
 temp = res.json()
 data = pd.DataFrame(temp['data'])
 data.head()
+
+'''----------------TaiwanCashFlowsStatement----------------'''
+form_data = {'dataset':'TaiwanCashFlowsStatement',
+             'stock_id':'2330',
+             'date':'2019-06-01'}
+res = requests.post(
+        url,verify = True,
+        data = form_data)
+
+temp = res.json()
+data = pd.DataFrame(temp['data'])
+data.head()
+
+'''----------------TaiwanStockPriceMinute----------------'''
+form_data = {'dataset':'TaiwanStockPriceMinute',
+             'stock_id':'2330',
+             'date':'2019-06-01'}
+res = requests.post(
+        url,verify = True,
+        data = form_data)
+
+temp = res.json()
+data = pd.DataFrame(temp['data'])
+data.head()
+
+'''----------------RawMaterialFuturesPricesMinute----------------'''
+form_data = {'dataset':'RawMaterialFuturesPricesMinute',
+             'data_id':'London Robusta Coffee Futures',
+             'date':'2019-08-01'}
+res = requests.post(
+        url,verify = True,
+        data = form_data)
+
+temp = res.json()
+data = pd.DataFrame(temp['data'])
+data.head()
