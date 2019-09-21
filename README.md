@@ -5,7 +5,7 @@
 <!--[![Coverage Status](https://coveralls.io/repos/github/linsamtw/FinMind/badge.svg?branch=master)](https://coveralls.io/github/linsamtw/FinMind?branch=master)-->
 
 ## What is it?
-**FinMind** is open source of more than [40 datasets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)  , contain Taiwan stock, Financial Statements, Balance Sheet, Holding Shares Per, US stock, Europe stock, Japan stock, oil price, gold price, G7 exchange rate, Raw Material Futures Prices, interest rate, government bonds. The datasets are automatically updated daily.
+**FinMind** is open source of more than [50 datasets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)  , contain Taiwan stock, Taiwan stock 5 seconds data, Financial Statements, Balance Sheet, Holding Shares Per, US stock, Europe stock, Japan stock, oil price, gold price, G7 exchange rate, Raw Material Futures Prices, interest rate, government bonds. The datasets are automatically updated daily.
 You can analyze financial data without having to collect the data by yourself.
 
      pip3 install FinMind
