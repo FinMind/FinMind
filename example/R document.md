@@ -435,3 +435,15 @@
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
+
+* Load Raw Material Futures Prices Minute 原物料每分鐘期貨價格
+
+
+             payload<-list( 'dataset' = 'RawMaterialFuturesPricesMinute',
+                            'data_id':'London Robusta Coffee Futures',
+                            'date'='2019-08-01' )
+
+            response = POST(url,body = payload,encode="json")
+            data = response %>% content
+            data = do.call('cbind',data$data) %>%data.table
+            head(data)

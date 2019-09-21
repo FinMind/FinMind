@@ -52,6 +52,7 @@
 * softs Futures Prices
 * metals Futures Prices
 * Gold Price
+* Raw Material Futures Prices Minute
 
 
 ### Data Source <br>
