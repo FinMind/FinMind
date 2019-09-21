@@ -1,6 +1,6 @@
 
 '''
-example of loading FinMind api 
+example of loading FinMind api
 '''
 
 from FinMind.Data import Load
@@ -428,4 +428,24 @@ res = requests.post(
 temp = res.json()
 data = pd.DataFrame(temp['data'])
 data.head()
+'''----------------GovernmentBondsYield----------------'''
+form_data = {'dataset':'GovernmentBondsYield'}
+res = requests.post(
+        list_url,verify = True,
+        data = form_data)
 
+temp = res.json()
+data = temp['data']
+data
+
+'''----------------GovernmentBondsYield----------------'''
+form_data = {'dataset':'GovernmentBondsYield',
+             'data_id':'United States 1-Year',
+             'date':'2019-06-01'}
+res = requests.post(
+        url,verify = True,
+        data = form_data)
+
+temp = res.json()
+data = pd.DataFrame(temp['data'])
+data.head()
