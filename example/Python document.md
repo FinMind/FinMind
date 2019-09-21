@@ -172,7 +172,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load Taiwan Option 台股選擇權
+* Load Taiwan Option Trade Detail 台股選擇權交易明細
 
         #load stock_id table, 讀取代碼表，用於輸入以下 stock_id 參數
 		form_data = {'dataset':'TaiwanOption'}
@@ -196,7 +196,7 @@
 		data = pd.DataFrame(temp['data'])
 		data.head()
 
-* Load Taiwan Futures 台股期貨明細，由於資料過多，只會回傳 date 當天 data，如要長期資料，請用 loop call api
+* Load Taiwan Futures Trade Detail 台股期貨交易明細，由於資料過多，只會回傳 date 當天 data，如要長期資料，請用 loop call api
 
       #load stock_id table, 讀取代碼表，用於輸入以下 stock_id 參數
       form_data = {'dataset':'TaiwanFutures'}
