@@ -31,11 +31,11 @@ You can analyze financial data without having to collect the data by yourself.<b
 -------------------------------------------------------------------
 Solicit partners who are interested in joint development. <br>
 徵求有興趣共同開發的夥伴。<br>
-
+<!--
 ## 重大更新 FinMind 1.0.80
 過去是直接連 DataBase，由於 server 在國外，直接連 DataBase 斷線機率高。<br>
 目前改走 api 方式，未來舊版 package 將會失效，無法直接連 DataBase。請更新到最新版本，或是直接走 api。<br>
-
+-->
   
   ## Api
   
