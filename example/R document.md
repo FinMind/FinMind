@@ -423,3 +423,15 @@
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
+
+* Load Taiwan Stock Price Minute 台灣每分鐘股價
+
+
+             payload<-list( 'dataset' = 'TaiwanStockPriceMinute',
+                            'stock_id' = '2330',
+                            'date'='2019-06-01' )
+
+            response = POST(url,body = payload,encode="json")
+            data = response %>% content
+            data = do.call('cbind',data$data) %>%data.table
+            head(data)

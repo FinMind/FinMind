@@ -1,6 +1,7 @@
 ### data set
 
 * Taiwan Stock Price
+* Taiwan Stock Price Minute
 * Taiwan Stock Stock Dividend
 * Taiwan Stock Balance Sheet
 * Taiwan Stock Holding Shares Per
