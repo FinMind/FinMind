@@ -39,6 +39,19 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
+* Load Taiwan Stock Price Minute 台灣 5 秒交易 data
+
+      form_data = {'dataset':'TaiwanStockPriceMinute',
+                  'stock_id':'2330',
+                  'date':'2019-06-01'}
+      res = requests.post(
+            url,verify = True,
+            data = form_data)
+
+      temp = res.json()
+      data = pd.DataFrame(temp['data'])
+      data.head()
+
 * Load Taiwan Stock Financial Statements 財報
 
       form_data = {'dataset':'FinancialStatements',
@@ -51,6 +64,19 @@
       temp = res.json()
       data = pd.DataFrame(temp['data'])
       data = Load.transpose(data)
+      data.head()
+
+* Load Taiwan Cash Flows Statement 台灣現金流量表
+
+      form_data = {'dataset':'TaiwanCashFlowsStatement',
+                  'stock_id':'2330',
+                  'date':'2019-06-01'}
+      res = requests.post(
+            url,verify = True,
+            data = form_data)
+
+      temp = res.json()
+      data = pd.DataFrame(temp['data'])
       data.head()
 
 * Load Taiwan Stock Stock Dividend 股息股利
@@ -146,7 +172,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load Taiwan Option 台股選擇權，
+* Load Taiwan Option 台股選擇權
 
         #load stock_id table, 讀取代碼表，用於輸入以下 stock_id 參數
 		form_data = {'dataset':'TaiwanOption'}
@@ -458,6 +484,18 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
+* Load Raw Material Futures Prices Minute 原物料每分鐘期貨價格
+
+      form_data = {'dataset':'RawMaterialFuturesPricesMinute',
+                  'data_id':'London Robusta Coffee Futures',
+                  'date':'2019-08-01'}
+      res = requests.post(
+            url,verify = True,
+            data = form_data)
+
+      temp = res.json()
+      data = pd.DataFrame(temp['data'])
+      data.head()
 
 * Load Gold Price 金價
 
@@ -519,41 +557,3 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load Taiwan Cash Flows Statement 台灣現金流量表
-
-      form_data = {'dataset':'TaiwanCashFlowsStatement',
-                  'stock_id':'2330',
-                  'date':'2019-06-01'}
-      res = requests.post(
-            url,verify = True,
-            data = form_data)
-
-      temp = res.json()
-      data = pd.DataFrame(temp['data'])
-      data.head()
-
-* Load Taiwan Stock Price Minute 台灣每分鐘股價
-
-      form_data = {'dataset':'TaiwanStockPriceMinute',
-                  'stock_id':'2330',
-                  'date':'2019-06-01'}
-      res = requests.post(
-            url,verify = True,
-            data = form_data)
-
-      temp = res.json()
-      data = pd.DataFrame(temp['data'])
-      data.head()
-
-* Load Raw Material Futures Prices Minute 原物料每分鐘期貨價格
-
-      form_data = {'dataset':'RawMaterialFuturesPricesMinute',
-                  'data_id':'London Robusta Coffee Futures',
-                  'date':'2019-08-01'}
-      res = requests.post(
-            url,verify = True,
-            data = form_data)
-
-      temp = res.json()
-      data = pd.DataFrame(temp['data'])
-      data.head()
