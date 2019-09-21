@@ -147,7 +147,7 @@
       data.head()
 
 * Load Taiwan Option 台股選擇權，
-			 
+
         #load stock_id table, 讀取代碼表，用於輸入以下 stock_id 參數
 		form_data = {'dataset':'TaiwanOption'}
 		res = requests.post(
@@ -169,7 +169,7 @@
 		temp = res.json()
 		data = pd.DataFrame(temp['data'])
 		data.head()
-	  
+
 * Load Taiwan Futures 台股期貨明細，由於資料過多，只會回傳 date 當天 data，如要長期資料，請用 loop call api
 
       #load stock_id table, 讀取代碼表，用於輸入以下 stock_id 參數
@@ -193,7 +193,7 @@
       temp = res.json()
       data = pd.DataFrame(temp['data'])
       data.head()
-      
+
 * Load US Stock Info 美股股票資訊
 
       form_data = {'dataset':'USStockInfo'}
@@ -470,7 +470,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-* Load list of Currency Circulation 
+* Load list of Currency Circulation
 
       form_data = {'dataset':'CurrencyCirculation'}
       res = requests.post(
@@ -490,6 +490,30 @@
       res = requests.post(
               url,verify = True,
               data = form_data)
+
+      temp = res.json()
+      data = pd.DataFrame(temp['data'])
+      data.head()
+
+* Load list of Government Bonds Yield 政府債券殖利率列表
+
+      form_data = {'dataset':'GovernmentBondsYield'}
+      res = requests.post(
+            list_url,verify = True,
+            data = form_data)
+
+      temp = res.json()
+      data = temp['data']
+      data
+
+* Load Government Bonds Yield 政府債券殖利率
+
+      form_data = {'dataset':'GovernmentBondsYield',
+                  'data_id':'United States 1-Year',
+                  'date':'2019-06-01'}
+      res = requests.post(
+            url,verify = True,
+            data = form_data)
 
       temp = res.json()
       data = pd.DataFrame(temp['data'])

@@ -11,7 +11,7 @@
 * Load Taiwan Stock info 股票資訊
 
 
-        library(httr) 
+        library(httr)
         library(jsonlite)
         library('data.table')
         library(dplyr)
@@ -22,115 +22,115 @@
         payload<-list( 'dataset' = 'TaiwanStockInfo')
 
         response = POST(url,body = payload,encode="json")
-        data = response %>% content 
+        data = response %>% content
         data = do.call('cbind',data$data) %>%data.table
         head(data)
 
 * Load Taiwan Stock Price 股價
 
 
-            payload<-list( 'dataset' = 'TaiwanStockPrice', 
-                           'stock_id' = '2317', 
+            payload<-list( 'dataset' = 'TaiwanStockPrice',
+                           'stock_id' = '2317',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
 * Load Taiwan Stock Financial Statements 財報
 
 
-            payload<-list( 'dataset' = 'FinancialStatements', 
-                           'stock_id' = '2317', 
+            payload<-list( 'dataset' = 'FinancialStatements',
+                           'stock_id' = '2317',
                            'date'='2018-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
 * Load Taiwan Stock Stock Dividend 股息股利
 
 
-            payload<-list( 'dataset' = 'TaiwanStockStockDividend', 
-                           'stock_id' = '2317', 
+            payload<-list( 'dataset' = 'TaiwanStockStockDividend',
+                           'stock_id' = '2317',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
 * Load Taiwan Stock Margin Purchase Short Sale 融資融券
 
 
-            payload<-list( 'dataset' = 'TaiwanStockMarginPurchaseShortSale', 
-                           'stock_id' = '2317', 
+            payload<-list( 'dataset' = 'TaiwanStockMarginPurchaseShortSale',
+                           'stock_id' = '2317',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
 * Load Taiwan Stock Institutional Investors Buy Sell 個股外資買賣
 
 
-            payload<-list( 'dataset' = 'InstitutionalInvestorsBuySell', 
-                           'stock_id' = '2317', 
+            payload<-list( 'dataset' = 'InstitutionalInvestorsBuySell',
+                           'stock_id' = '2317',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
 * Load Taiwan Stock Share holding 外資持股
 
 
-            payload<-list( 'dataset' = 'Shareholding', 
-                           'stock_id' = '2317', 
+            payload<-list( 'dataset' = 'Shareholding',
+                           'stock_id' = '2317',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
 * Load Taiwan Stock Balance Sheet 資產負債表
 
 
-            payload<-list( 'dataset' = 'BalanceSheet', 
-                           'stock_id' = '2317', 
+            payload<-list( 'dataset' = 'BalanceSheet',
+                           'stock_id' = '2317',
                            'date'='2018-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
 * Load Taiwan Stock Holding Shares Per 股權分散表
 
 
-            payload<-list( 'dataset' = 'TaiwanStockHoldingSharesPer', 
-                           'stock_id' = '2317', 
+            payload<-list( 'dataset' = 'TaiwanStockHoldingSharesPer',
+                           'stock_id' = '2317',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
 * Load Taiwan Stock Month Revenue 月營收
 
 
-            payload<-list( 'dataset' = 'TaiwanStockMonthRevenue', 
-                           'stock_id' = '2317', 
+            payload<-list( 'dataset' = 'TaiwanStockMonthRevenue',
+                           'stock_id' = '2317',
                            'date'='2019-01-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
@@ -140,31 +140,31 @@
             payload<-list( 'dataset' = 'USStockInfo' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
 * Load US Stock Price 美股股價
 
 
-            payload<-list( 'dataset' = 'USStockPrice', 
-                           'stock_id' = '^GSPC', 
+            payload<-list( 'dataset' = 'USStockPrice',
+                           'stock_id' = '^GSPC',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
 * Load US Stock Financial Statements 財報
 
 
-            payload<-list( 'dataset' = 'FinancialStatements', 
-                           'stock_id' = 'AAPL', 
+            payload<-list( 'dataset' = 'FinancialStatements',
+                           'stock_id' = 'AAPL',
                            'date'='2018-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
@@ -174,19 +174,19 @@
             payload<-list( 'dataset' = 'JapanStockInfo')
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
 * Load Japan Stock Price 日股股價
 
 
-            payload<-list( 'dataset' = 'JapanStockPrice', 
-                           'stock_id' = '1376.T', 
+            payload<-list( 'dataset' = 'JapanStockPrice',
+                           'stock_id' = '1376.T',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
@@ -196,19 +196,19 @@
             payload<-list( 'dataset' = 'UKStockInfo' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
 * Load UK Stock Price 英股股價
 
 
-            payload<-list( 'dataset' = 'UKStockPrice', 
-                           'stock_id' = '0TWH.L', 
+            payload<-list( 'dataset' = 'UKStockPrice',
+                           'stock_id' = '0TWH.L',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
@@ -218,19 +218,19 @@
             payload<-list( 'dataset' = 'EuropeStockInfo')
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
 * Load Europe Stock Price 歐股股價
 
 
-            payload<-list( 'dataset' = 'EuropeStockPrice', 
-                           'stock_id' = 'ABCA.PA', 
+            payload<-list( 'dataset' = 'EuropeStockPrice',
+                           'stock_id' = 'ABCA.PA',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
@@ -240,18 +240,18 @@
             payload<-list( 'dataset' = 'ExchangeRate' )
 
             response = POST(list_url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('c',data$data)
 
 * Load Exchange Rate 匯率
 
 
-            payload<-list( 'dataset' = 'ExchangeRate', 
-                           'data_id' = 'Taiwan', 
+            payload<-list( 'dataset' = 'ExchangeRate',
+                           'data_id' = 'Taiwan',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
@@ -261,18 +261,18 @@
             payload<-list( 'dataset' = 'InstitutionalInvestors')
 
             response = POST(list_url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('c',data$data)
 
 * Load Institutional Investors 整體外資買賣
 
 
-            payload<-list( 'dataset' = 'InstitutionalInvestors', 
-                           'data_id' = 'Dealer', 
+            payload<-list( 'dataset' = 'InstitutionalInvestors',
+                           'data_id' = 'Dealer',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
@@ -282,18 +282,18 @@
             payload<-list( 'dataset' = 'InterestRate' )
 
             response = POST(list_url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('c',data$data)
 
 * Load Interest Rate 利率
 
 
-            payload<-list( 'dataset' = 'InterestRate', 
-                           'data_id' = 'BOC', 
+            payload<-list( 'dataset' = 'InterestRate',
+                           'data_id' = 'BOC',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
@@ -303,18 +303,18 @@
             payload<-list( 'dataset' = 'GovernmentBonds' )
 
             response = POST(list_url,body = payload,encode="json")
-            data = response %>% content 
-            data = do.call('c',data$data) 
+            data = response %>% content
+            data = do.call('c',data$data)
 
 * Load Government Bonds 政府債券
 
 
-            payload<-list( 'dataset' = 'GovernmentBonds', 
-                           'data_id' = 'France 9-Year', 
+            payload<-list( 'dataset' = 'GovernmentBonds',
+                           'data_id' = 'France 9-Year',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
@@ -324,18 +324,18 @@
             payload<-list( 'dataset' = 'CrudeOilPrices' )
 
             response = POST(list_url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('c',data$data)
 
 * Load Crude Oil Prices 油價
 
 
-            payload<-list( 'dataset' = 'CrudeOilPrices', 
-                           'data_id' = 'WTI', 
+            payload<-list( 'dataset' = 'CrudeOilPrices',
+                           'data_id' = 'WTI',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
@@ -345,18 +345,18 @@
             payload<-list( 'dataset' = 'RawMaterialFuturesPrices' )
 
             response = POST(list_url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('c',data$data)
 
 * Load Raw Material Futures Prices 原物料期貨
 
 
-            payload<-list( 'dataset' = 'RawMaterialFuturesPrices', 
-                           'data_id' = 'Tin Futures', 
+            payload<-list( 'dataset' = 'RawMaterialFuturesPrices',
+                           'data_id' = 'Tin Futures',
                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
@@ -366,7 +366,7 @@
             payload<-list( 'dataset' = 'GoldPrice', 'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
@@ -376,19 +376,38 @@
             payload<-list( 'dataset' = 'CurrencyCirculation' )
 
             response = POST(list_url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('c',data$data)
 
 * Load Currency Circulation
 
 
-            payload<-list( 'dataset' = 'CurrencyCirculation', 
-                           'data_id' = 'US', 
+            payload<-list( 'dataset' = 'CurrencyCirculation',
+                           'data_id' = 'US',
                            'date'='2018-01-01' )
 
             response = POST(url,body = payload,encode="json")
-            data = response %>% content 
+            data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
+* Load lsit of Government Bonds Yield 政府債券殖利率列表
 
+
+            payload<-list( 'dataset' = 'GovernmentBondsYield' )
+
+            response = POST(list_url,body = payload,encode="json")
+            data = response %>% content
+            data = do.call('c',data$data)
+
+* Load Government Bonds Yield 政府債券殖利率
+
+
+            payload<-list( 'dataset' = 'GovernmentBondsYield',
+                           'data_id' = 'United States 1-Year',
+                           'date'='2019-06-01' )
+
+            response = POST(url,body = payload,encode="json")
+            data = response %>% content
+            data = do.call('cbind',data$data) %>%data.table
+            head(data
