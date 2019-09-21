@@ -1,7 +1,7 @@
 ### data set
 
 * Taiwan Stock Price
-* Taiwan Stock Price Minute ( 台灣 5 秒交易 data )
+* Taiwan Stock Price Minute ( 台灣 5 秒交易 data )( 2019-05-29 ~ now, more than 30 million data )
 * Taiwan Stock Stock Dividend
 * Taiwan Stock Balance Sheet
 * Taiwan Stock Holding Shares Per
