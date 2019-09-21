@@ -38,12 +38,36 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
+* Load Taiwan Stock Price Minute 台灣 5 秒交易 data
+
+
+             payload<-list( 'dataset' = 'TaiwanStockPriceMinute',
+                            'stock_id' = '2330',
+                            'date'='2019-06-01' )
+
+            response = POST(url,body = payload,encode="json")
+            data = response %>% content
+            data = do.call('cbind',data$data) %>%data.table
+            head(data)
+
 * Load Taiwan Stock Financial Statements 財報
 
 
             payload<-list( 'dataset' = 'FinancialStatements',
                            'stock_id' = '2317',
                            'date'='2018-06-01' )
+
+            response = POST(url,body = payload,encode="json")
+            data = response %>% content
+            data = do.call('cbind',data$data) %>%data.table
+            head(data)
+
+* Load Taiwan Cash Flows Statement 台灣現金流量表
+
+
+             payload<-list( 'dataset' = 'TaiwanCashFlowsStatement',
+                            'stock_id' = '2330',
+                            'date'='2019-06-01' )
 
             response = POST(url,body = payload,encode="json")
             data = response %>% content
@@ -360,6 +384,18 @@
             data = do.call('cbind',data$data) %>%data.table
             head(data)
 
+* Load Raw Material Futures Prices Minute 原物料每分鐘期貨價格
+
+
+             payload<-list( 'dataset' = 'RawMaterialFuturesPricesMinute',
+                            'data_id':'London Robusta Coffee Futures',
+                            'date'='2019-08-01' )
+
+            response = POST(url,body = payload,encode="json")
+            data = response %>% content
+            data = do.call('cbind',data$data) %>%data.table
+            head(data)
+
 * Load Gold Price 金價
 
 
@@ -406,42 +442,6 @@
             payload<-list( 'dataset' = 'GovernmentBondsYield',
                            'data_id' = 'United States 1-Year',
                            'date'='2019-06-01' )
-
-            response = POST(url,body = payload,encode="json")
-            data = response %>% content
-            data = do.call('cbind',data$data) %>%data.table
-            head(data)
-
-* Load Taiwan Cash Flows Statement 台灣現金流量表
-
-
-             payload<-list( 'dataset' = 'TaiwanCashFlowsStatement',
-                            'stock_id' = '2330',
-                            'date'='2019-06-01' )
-
-            response = POST(url,body = payload,encode="json")
-            data = response %>% content
-            data = do.call('cbind',data$data) %>%data.table
-            head(data)
-
-* Load Taiwan Stock Price Minute 台灣每分鐘股價
-
-
-             payload<-list( 'dataset' = 'TaiwanStockPriceMinute',
-                            'stock_id' = '2330',
-                            'date'='2019-06-01' )
-
-            response = POST(url,body = payload,encode="json")
-            data = response %>% content
-            data = do.call('cbind',data$data) %>%data.table
-            head(data)
-
-* Load Raw Material Futures Prices Minute 原物料每分鐘期貨價格
-
-
-             payload<-list( 'dataset' = 'RawMaterialFuturesPricesMinute',
-                            'data_id':'London Robusta Coffee Futures',
-                            'date'='2019-08-01' )
 
             response = POST(url,body = payload,encode="json")
             data = response %>% content
