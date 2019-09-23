@@ -85,6 +85,10 @@ You can analyze financial data without having to collect the data by yourself.<b
 		data = res.json()
 		data = pd.DataFrame( data['data'] )
 
+  ## Crawler
+  由於原物料、債券期貨資料，有法規問題，禁止散布，因此我公開爬蟲 code，各位自行爬蟲，就不是從這獲得資料，不會有散布問題。<br>
+  [demo.py](https://github.com/linsamtw/FinMind/blob/master/Crawler/demo.py)
+
   ## Data
   * [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
   * [50 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)  
@@ -109,6 +113,7 @@ You can analyze financial data without having to collect the data by yourself.<b
 
 ### Financial Visualize ( In development )
 At least five kinds of visualization tools for every data type. ( In development )<br>
+
 [https://finmind.servebeer.com/](http://finmind.servebeer.com/)
 開發中
 
