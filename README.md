@@ -86,7 +86,7 @@ You can analyze financial data without having to collect the data by yourself.<b
 		data = pd.DataFrame( data['data'] )
 
   ## Crawler
-  由於原物料、債券期貨資料，有法規問題，禁止散布，因此我公開爬蟲 code，各位自行爬蟲，就不是從這獲得資料，不會有散布問題。<br>
+  由於原物料、債券期貨資料，有法規問題，禁止散布，因此我公開爬蟲 code，並簡化不到 5 行 code，各位自行爬蟲，就不是從我這獲得資料，不會有散布問題。<br>
   [demo.py](https://github.com/linsamtw/FinMind/blob/master/Crawler/demo.py)
 
   ## Data
