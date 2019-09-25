@@ -8,49 +8,49 @@
 
 #### Example
 
-      from FinMind.Data import Load
-      import requests
-      import pandas as pd
-      url = 'http://finmindapi.servebeer.com/api/data'
-      list_url = 'http://finmindapi.servebeer.com/api/datalist'
-      translate_url = 'http://finmindapi.servebeer.com/api/translation'
+	from FinMind.Data import Load
+	import requests
+	import pandas as pd
+	url = 'http://finmindapi.servebeer.com/api/data'
+	list_url = 'http://finmindapi.servebeer.com/api/datalist'
+	translate_url = 'http://finmindapi.servebeer.com/api/translation'
 
 * Load Taiwan Stock info 股票資訊
 
-      form_data = {'dataset':'TaiwanStockInfo'}
-      res = requests.post(
-              url,verify = True,
-              data = form_data)
+	form_data = {'dataset':'TaiwanStockInfo'}
+	res = requests.post(
+	      url,verify = True,
+	      data = form_data)
 
-      temp = res.json()
-      data = pd.DataFrame(temp['data'])
-      data.head()
+	temp = res.json()
+	data = pd.DataFrame(temp['data'])
+	data.head()
 
 * Load Taiwan Stock Price 股價
 
-      form_data = {'dataset':'TaiwanStockPrice',
-                   'stock_id':'2330',
-                   'date':'2019-06-01'}
-      res = requests.post(
-              url,verify = True,
-              data = form_data)
+	form_data = {'dataset':'TaiwanStockPrice',
+		   'stock_id':'2330',
+		   'date':'2019-06-01'}
+	res = requests.post(
+	      url,verify = True,
+	      data = form_data)
 
-      temp = res.json()
-      data = pd.DataFrame(temp['data'])
-      data.head()
+	temp = res.json()
+	data = pd.DataFrame(temp['data'])
+	data.head()
 
 * Load Taiwan Stock Price Minute 台灣 5 秒交易 data
 
-      form_data = {'dataset':'TaiwanStockPriceMinute',
-                  'stock_id':'2330',
-                  'date':'2019-06-01'}
-      res = requests.post(
-            url,verify = True,
-            data = form_data)
+	form_data = {'dataset':'TaiwanStockPriceMinute',
+		  'stock_id':'2330',
+		  'date':'2019-06-01'}
+	res = requests.post(
+	    url,verify = True,
+	    data = form_data)
 
-      temp = res.json()
-      data = pd.DataFrame(temp['data'])
-      data.head()
+	temp = res.json()
+	data = pd.DataFrame(temp['data'])
+	data.head()
 
 * Load Taiwan Stock Financial Statements 財報
 
@@ -207,7 +207,7 @@
       data = pd.DataFrame(temp['data'])
       data.head()
 
-      parameter = {'dataset':'TaiwanFutures',
+      form_data = {'dataset':'TaiwanFutures',
                  'stock_id':'MTX',
                  'date':'2019-09-02',
                  }
