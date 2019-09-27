@@ -67,8 +67,7 @@ You can analyze financial data without having to collect the data by yourself.<b
 		data = do.call('cbind',data$data) %>%data.table
 		head(data)	
 
-  `note` : 限制 request 上限 : 600 / hour。<br>
-  `note` : Limit amount of request, 600 / hour.
+  `note` : 限制 request 上限 : 600 / hour。Limit amount of request, 600 / hour.
 
 
   ## translation 中英對照
