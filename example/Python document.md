@@ -376,23 +376,10 @@
 	      data = pd.DataFrame(temp['data'])
 	      data.head()
 
-* Load list of Institutional Investors 外資列表
-
-
-	      form_data = {'dataset':'InstitutionalInvestors'}
-	      res = requests.post(
-		      list_url,verify = True,
-		      data = form_data)
-
-	      temp = res.json()
-	      data = temp['data']
-	      data
-
 * Load Institutional Investors 整體外資買賣
 
 
 	      form_data = {'dataset':'InstitutionalInvestors',
-			   'data_id':'Dealer_Hedging',
 			   'date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,

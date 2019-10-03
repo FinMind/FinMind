@@ -158,14 +158,10 @@ ExchangeRate = Load.FinData(
 print( ExchangeRate[:5] )
 
 #---------------------------------------------------------------
-print('load InstitutionalInvestors list')
-InstitutionalInvestors_list = Load.FinDataList(dataset = 'InstitutionalInvestors')
-print( InstitutionalInvestors_list[:5] )
 
-print('load InstitutionalInvestors {}'.format(InstitutionalInvestors_list[3]))
+print('load InstitutionalInvestors')
 InstitutionalInvestors = Load.FinData(
         dataset = 'InstitutionalInvestors',
-        select = InstitutionalInvestors_list[1],
         date = date)
 print( InstitutionalInvestors[:5] )
 
@@ -174,7 +170,7 @@ print('load InterestRate list')
 InterestRate_list = Load.FinDataList(dataset = 'InterestRate')
 print( InterestRate_list[:5] )
 
-print('load InterestRate {}'.format(InstitutionalInvestors_list[3]))
+print('load InterestRate {}'.format(InterestRate_list[3]))
 InterestRate = Load.FinData(
         dataset = 'InterestRate',
         select = InterestRate_list[5],

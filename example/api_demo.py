@@ -331,18 +331,9 @@ res = requests.post(
 temp = res.json()
 data = pd.DataFrame(temp['data'])
 data.head()
-'''----------------InstitutionalInvestors----------------'''
-form_data = {'dataset':'InstitutionalInvestors'}
-res = requests.post(
-        list_url,verify = True,
-        data = form_data)
 
-temp = res.json()
-data = temp['data']
-data
 '''----------------InstitutionalInvestors----------------'''
 form_data = {'dataset':'InstitutionalInvestors',
-             'data_id':'Foreign_Investor',
              'date':'2019-06-01'}
 res = requests.post(
         url,verify = True,
