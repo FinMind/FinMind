@@ -72,21 +72,21 @@ You can analyze financial data without having to collect the data by yourself.<b
 
   ## translation 中英對照
   
-		import requests
-		url = 'http://finmindapi.servebeer.com/api/translation'
-		dataset = 'RawMaterialFuturesPrices'
-		# or 
-		# dataset = 'FinancialStatements'
-		# dataset = 'BalanceSheet'
-		# dataset = 'StockDividend'
-		# dataset = 'TaiwanStockMarginPurchaseShortSale'
-		# dataset = 'InstitutionalInvestorsBuySell'
-		parameter = {'dataset':dataset}
+	import requests
+	url = 'http://finmindapi.servebeer.com/api/translation'
+	dataset = 'RawMaterialFuturesPrices'
+	# or 
+	# dataset = 'FinancialStatements'
+	# dataset = 'BalanceSheet'
+	# dataset = 'StockDividend'
+	# dataset = 'TaiwanStockMarginPurchaseShortSale'
+	# dataset = 'InstitutionalInvestorsBuySell'
+	parameter = {'dataset':dataset}
 
-		res = requests.post(url,verify = True,data = parameter)
-		#res.text
-		data = res.json()
-		data = pd.DataFrame( data['data'] )
+	res = requests.post(url,verify = True,data = parameter)
+	#res.text
+	data = res.json()
+	data = pd.DataFrame( data['data'] )
 
   ## Crawler
   由於原物料、債券期貨資料，有法規問題，禁止散布，因此我公開爬蟲 code，並簡化不到 5 行 code，各位自行爬蟲，就不是從我這獲得資料，不會有散布問題。<br>
@@ -99,7 +99,7 @@ You can analyze financial data without having to collect the data by yourself.<b
   
 		from FinMind.Data import Load
 		TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
-	    	data = Load.FinData(dataset = 'TaiwanStockPrice',select = '2317',
+		data = Load.FinData(dataset = 'TaiwanStockPrice',select = '2317',
 						date = '2018-10-10')
 
   ## Mind
