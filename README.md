@@ -124,6 +124,6 @@ At least five kinds of visualization tools for every data type. ( In development
 
 Solicit partners who are interested in joint development. <br>
 徵求有興趣共同開發的夥伴。<br>
-email : linsam.tw.github@gmail.com
+email : FinMind.TW@gmail.com
 
 
