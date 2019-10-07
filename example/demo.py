@@ -42,6 +42,12 @@ TaiwanStockMarginPurchaseShortSale = Load.FinData(
         date = date3)
 print( TaiwanStockMarginPurchaseShortSale[:5] )
 
+print('load total 借卷融資 TotalMarginPurchaseShortSale ')
+TotalMarginPurchaseShortSale = Load.FinData(
+        dataset = 'TotalMarginPurchaseShortSale',
+        date = date3)
+print( TotalMarginPurchaseShortSale[:5] )
+
 print('load 外資買賣 InstitutionalInvestorsBuySell {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 InstitutionalInvestorsBuySell = Load.FinData(
         dataset = 'InstitutionalInvestorsBuySell',
