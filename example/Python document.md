@@ -84,7 +84,7 @@
 	    data = pd.DataFrame(temp['data'])
 	    data.head()
 
-* Load Taiwan Stock Stock Dividend 股息股利 ( 舊版 )
+* Load Taiwan Stock Stock Dividend 股息股利 ( 舊版，不再更新 )
 
 	      form_data = {'dataset':'TaiwanStockStockDividend',
 			   'stock_id':'2317',
