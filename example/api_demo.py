@@ -81,6 +81,20 @@ temp = res.json()
 data = pd.DataFrame(temp['data'])
 data.head()
 
+'''----------------TaiwanStockStockDividend----------------'''
+form_data = {'dataset':'StockDividend',
+             'stock_id':'0050',
+             'date':'2015-01-02',
+             }
+res = requests.post(
+        url,verify = True,
+        data = form_data)
+
+temp = res.json()
+data = pd.DataFrame( temp['data'] )
+data['date'] = data['date'] + '-' + data['period']
+data = data.drop('period',axis = 1)
+data = Load.transpose(data)
 
 '''----------------TaiwanStockMarginPurchaseShortSale----------------'''
 form_data = {'dataset':'TaiwanStockMarginPurchaseShortSale',
