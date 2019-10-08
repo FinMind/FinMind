@@ -84,7 +84,7 @@
 	    data = pd.DataFrame(temp['data'])
 	    data.head()
 
-* Load Taiwan Stock Stock Dividend 股息股利
+* Load Taiwan Stock Stock Dividend 股息股利 ( 舊版 )
 
 	      form_data = {'dataset':'TaiwanStockStockDividend',
 			   'stock_id':'2317',
@@ -97,6 +97,21 @@
 	      data = pd.DataFrame(temp['data'])
 	      data.head()
 
+* Load Stock Dividend 股息股利 ( 新版，資料來源，證交所 )
+
+		form_data = {'dataset':'StockDividend',
+			     'stock_id':'0050',
+			     'date':'2015-01-02',
+			     }
+		res = requests.post(
+			url,verify = True,
+			data = form_data)
+
+		temp = res.json()
+		data = pd.DataFrame( temp['data'] )
+		data['date'] = data['date'] + '-' + data['period']
+		data = data.drop('period',axis = 1)
+		data = Load.transpose(data)
 
 * Load Taiwan Stock Margin Purchase Short Sale 融資融券
 
