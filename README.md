@@ -117,7 +117,7 @@ You can analyze financial data without having to collect the data by yourself.<b
 ### Financial Visualize ( In development )
 At least five kinds of visualization tools for every data type. ( In development )<br>
 
-[https://finmind.servebeer.com/](http://finmind.servebeer.com/)
+[https://finmindtrade.com/](https://finmindtrade.com/)
 開發中
 
 ### [License](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
