@@ -1,30 +1,32 @@
 ### data set
 
-* Taiwan Stock Price
+* Taiwan Stock Price 股價
 * Taiwan Stock Price Minute ( 台股 5 秒交易 data )( 2019-05-29 ~ now, total more than 30 million data )
-* Taiwan Stock Stock Dividend
-* Taiwan Stock Balance Sheet
-* Taiwan Stock Holding Shares Per
-* Taiwan Stock Shareholding
-* Taiwan Stock Institutional Investors Buy and Sell
-* Taiwan Stock Margin Purchase Short Sale
-* Taiwan Stock Month Revenue
-* Taiwan Financial Statements
-* Taiwan Cash Flows Statement
-* Taiwan Futures Trade Detail
-* Taiwan Option Trade Detail
-* US Stock Price
+* Taiwan Stock Stock Dividend 股利
+* Taiwan Stock Balance Sheet 資產負債表
+* Taiwan Stock Holding Shares Per 股權分散表
+* Taiwan Stock Shareholding 外資持股
+* Taiwan Stock Institutional Investors Buy and Sell 三大法人買賣
+* Taiwan Stock Margin Purchase Short Sale 融資融券
+* Taiwan Total Margin Purchase ShortSale 總體融資融券
+* Taiwan Stock Month Revenue 月營收
+* Taiwan Stock News 新聞
+* Taiwan Financial Statements 財報
+* Taiwan Cash Flows Statement 現金流量表
+* Taiwan Futures Trade Detail 期貨交易明細
+* Taiwan Option Trade Detail 選擇權交易明細
+* US Stock Price 美股股價
 * US Stock Price Minute ( 美股 1 分鐘交易 data )( 2019-06-01 ~ now, total more than 80 million data )
-* Japan Stock Price
+* Japan Stock Price 
 * UK Stock Price
 * Europe Stock Price
-* US Financial Statements
-* Crude Oil Prices
-* China Exchange Rates ( vs US )
-* Euro Exchange Rates ( vs US )
-* Japan Exchange Rates ( vs US )
-* Taiwan Exchange Rates ( vs US )
-* UK Exchange Rates ( vs US )
+* US Financial Statements 美股財報
+* Crude Oil Prices 國際原油價格
+* China Exchange Rates ( vs US ) 中國匯率
+* Euro Exchange Rates ( vs US ) 歐元匯率
+* Japan Exchange Rates ( vs US ) 日幣匯率
+* Taiwan Exchange Rates ( vs US ) 台幣匯率
+* UK Exchange Rates ( vs US ) 英鎊匯率
 * BCB Interest Rate
 * BOC Interest Rate
 * BOE Interest Rate
@@ -37,23 +39,22 @@
 * RBI Interest Rate
 * RBNZ Interest Rate
 * SNB Interest Rate
-* Canada : 1-Month ~ 30-Year Government Bonds
-* China : 1-Year ~ 30-Year Government Bonds
-* France : 1-Month ~ 50-Year Government Bonds
-* Germany : 3-Month ~ 30-Year Government Bonds
-* Italy : 1-Month ~ 50-Year Government Bonds
-* Japan : 1-Month ~ 40-Year Government Bonds
-* Russia : 1-Week ~ 20-Year Government Bonds
-* United Kingdom : 1-Month ~ 50-Year Government Bonds
-* United States : 1-Month ~ 30-Year Government Bonds
-* United States : 1-Month ~ 30-Year Government Bonds Yield
-* meats Futures Prices
+* Canada : 1-Month ~ 30-Year Government Bonds Futures
+* China : 1-Year ~ 30-Year Government Bonds Futures
+* France : 1-Month ~ 50-Year Government Bonds Futures
+* Germany : 3-Month ~ 30-Year Government Bonds Futures
+* Italy : 1-Month ~ 50-Year Government Bonds Futures
+* Japan : 1-Month ~ 40-Year Government Bonds Futures
+* Russia : 1-Week ~ 20-Year Government Bonds Futures
+* United Kingdom : 1-Month ~ 50-Year Government Bonds Futures
+* United States : 1-Month ~ 30-Year Government Bonds Futures 美國債券價格
+* United States : 1-Month ~ 30-Year Government Bonds Yield 美國債券殖利率
+* meats Futures Prices 原物料期貨 ( 肉品 )
 * grains Futures Prices
 * energies Futures Prices
 * softs Futures Prices
 * metals Futures Prices
-* Gold Price
-* Raw Material Futures Prices Minute
+* Gold Price 黃金價格
 
 
 ### Data Source <br>
