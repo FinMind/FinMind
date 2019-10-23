@@ -41,7 +41,7 @@ def CrawlerStockInfo(dataset = ''):
     data = FinData(dataset)
     return data
 #-------------------------------------------------------------------------------------------
-def transpose(data):
+def transpose(data,var = 'type'):
     select_variable = 'stock_id'
     date = list( np.unique(data['date']) )
     data1 = pd.DataFrame()
@@ -51,9 +51,9 @@ def transpose(data):
         #data1 = data[]
         for select_var in select_var_list:
             data2 = data.loc[(data['date']==d) & ( data[select_variable] == select_var ),
-                             ['type','value']]
-            data2.index = data2['type']
-            del data2['type']
+                             [var,'value']]
+            data2.index = data2[var]
+            del data2[var]
             data2 = data2.T
             data2.index = range(len(data2))
             data2.columns = list(data2.columns)

@@ -12,6 +12,17 @@ TaiwanStockInfo = Load.FinData(dataset = 'TaiwanStockInfo')
 print( TaiwanStockInfo[:5] )
 _index = 9010
 
+print('load TotalMarginPurchaseShortSale')
+TotalMarginPurchaseShortSale = Load.FinData(dataset = 'TotalMarginPurchaseShortSale',
+                               date = date)
+print( TotalMarginPurchaseShortSale[:5] )
+
+print('load TaiwanStockNews')
+TaiwanStockNews = Load.FinData(dataset = 'TaiwanStockNews',
+                               date = date,
+                               select = '2317')
+print( TaiwanStockNews[:5] )
+
 print('load TaiwanStockPrice {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 TaiwanStockPrice = Load.FinData(
         dataset = 'TaiwanStockPrice',

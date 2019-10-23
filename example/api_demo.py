@@ -20,6 +20,29 @@ temp = res.json()
 data = pd.DataFrame(temp['data'])
 data.head()
 
+'''----------------TotalMarginPurchaseShortSale----------------'''
+form_data = {'dataset':'TotalMarginPurchaseShortSale',
+             'date':'2019-10-10'}
+res = requests.post(
+        url,verify = True,
+        data = form_data)
+
+temp = res.json()
+data = pd.DataFrame(temp['data'])
+data.head()
+
+'''----------------TaiwanStockNews----------------'''
+form_data = {'dataset':'TaiwanStockNews',
+             'date':'2019-10-10',
+             'stock_id':'2317'}
+res = requests.post(
+        url,verify = True,
+        data = form_data)
+
+temp = res.json()
+data = pd.DataFrame(temp['data'])
+data.head()
+
 '''----------------TaiwanStockPrice----------------'''
 form_data = {'dataset':'TaiwanStockPrice',
              'stock_id':'2317',
