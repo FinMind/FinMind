@@ -126,6 +126,32 @@
 		data = pd.DataFrame(temp['data'])
 		data.head()
 
+
+* Load Taiwan Total Stock Margin Purchase Short Sale 總體融資融券
+
+		form_data = {'dataset':'TotalMarginPurchaseShortSale',
+			   'date':'2019-10-01'}
+		res = requests.post(
+		      url,verify = True,
+		      data = form_data)
+
+		temp = res.json()
+		data = pd.DataFrame(temp['data'])
+		data.head()
+
+* Load Taiwan Stock News 台股相關新聞
+
+	      form_data = {'dataset':'TaiwanStockNews',
+			   'stock_id':'2317',
+			   'date':'2019-10-20'}
+	      res = requests.post(
+		      url,verify = True,
+		      data = form_data)
+
+	      temp = res.json()
+	      data = pd.DataFrame(temp['data'])
+	      data.head()
+
 * Load Taiwan Stock Institutional Investors Buy Sell 個股外資買賣
 
 	      form_data = {'dataset':'InstitutionalInvestorsBuySell',
@@ -138,7 +164,6 @@
 	      temp = res.json()
 	      data = pd.DataFrame(temp['data'])
 	      data.head()
-
 
 * Load Taiwan Stock Share holding 外資持股
 
