@@ -1,5 +1,14 @@
 ## History Update
 
+
+#### 2019-10-23
+ * 新增 TotalMarginPurchaseShortSale 當天總體融資融券買賣
+ * 新增 TaiwanStockNews 台股相關新聞
+
+#### 2019-10-10
+ * 新增 TaiwanFutures 台股期貨交易明細
+ * 新增 TaiwanOption 台股選擇權交易明細
+
 --------------------------------------
  #### FinMind 1.0.80 (2019-07-15) 
  * 重大更新，過去是直接連 DataBase，目前改走 api 方式，未來舊版 package 將會失效，無法直接連 DataBase。請更新到最新版本，或是直接走 api。
