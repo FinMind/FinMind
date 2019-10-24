@@ -116,7 +116,7 @@ res = requests.post(
 temp = res.json()
 data = pd.DataFrame( temp['data'] )
 data['date'] = data['date'] + '-' + data['period']
-data = data.drop('period',axis = 1)
+#data = data.drop('period',axis = 1)
 data = Load.transpose(data)
 
 '''----------------TaiwanStockMarginPurchaseShortSale----------------'''

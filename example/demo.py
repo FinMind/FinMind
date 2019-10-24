@@ -52,7 +52,7 @@ data = Load.FinData(
         select = '0050',
         date = '2015-01-01')
 data['date'] = data['date'] + '-' + data['period']
-data = data.drop('period',axis = 1)
+#data = data.drop('period',axis = 1)
 data = Load.transpose(data)
 
 print('load 借卷融資 TaiwanStockMarginPurchaseShortSale {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
