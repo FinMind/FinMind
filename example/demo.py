@@ -51,7 +51,7 @@ data = Load.FinData(
         dataset = 'StockDividend',
         select = '0050',
         date = '2015-01-01')
-data['date'] = data['date'] + '-' + data['period']
+#data['date'] = data['date'] + '-' + data['period']
 #data = data.drop('period',axis = 1)
 data = Load.transpose(data)
 
