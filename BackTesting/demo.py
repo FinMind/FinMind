@@ -28,11 +28,13 @@ class demo:
 
 
 def test():
+    stock_id = '2330'
+    date = '2018-01-01'
     
     url = 'http://finmindapi.servebeer.com/api/data'
     form_data = {'dataset':'TaiwanStockPrice',
-                 'stock_id':'2330',
-                 'date':'2018-06-01'}
+                 'stock_id':stock_id,
+                 'date':date}
     
     res = requests.post(url,verify = True,data = form_data)
         
@@ -41,8 +43,8 @@ def test():
 
             
     form_data = {'dataset':'TaiwanStockMarginPurchaseShortSale',
-    	   'stock_id':'2317',
-    	   'date':'2019-06-01'}
+    	   'stock_id':stock_id,
+    	   'date':date}
     res = requests.post(
           url,verify = True,
           data = form_data)
@@ -52,8 +54,8 @@ def test():
 
     
     form_data = {'dataset':'InstitutionalInvestorsBuySell',
-  	   'stock_id':'2317',
-  	   'date':'2019-06-01'}
+  	   'stock_id':stock_id,
+  	   'date':date}
     res = requests.post(
         url,verify = True,
         data = form_data)
@@ -63,8 +65,8 @@ def test():
 
 
     form_data = {'dataset':'Shareholding',
-  	   'stock_id':'2317',
-  	   'date':'2019-06-01'}
+  	   'stock_id':stock_id,
+  	   'date':date}
     res = requests.post(
         url,verify = True,
         data = form_data)
