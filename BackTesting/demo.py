@@ -1,22 +1,35 @@
 
 import pandas as pd
-from random import randint
+import numpy as np
 import requests
 
 class demo:
     def __init__(self,
                  stock_price,
                  **kwargs,):
-        
+        #-------------------------------------------------------------------    
+        # 此區塊請勿更動
         stock_price = stock_price.sort_values('date')
-        
+        # 股價
         self.stock_price = stock_price
+        # 融資融券
         self.MarginPurchaseShortSale = kwargs.get("MarginPurchaseShortSale", pd.DataFrame())
+        # 三大法人買賣
         self.InstitutionalInvestorsBuySell = kwargs.get("InstitutionalInvestorsBuySell", pd.DataFrame())
+        # 外資持股
         self.Shareholding = kwargs.get("Shareholding", pd.DataFrame())
+        # 此區塊請勿更動
         #-------------------------------------------------------------------
     
     def trade(self,date):
+        ''' 
+        此區塊，可進行資料處理、做技術指標，寫自己的策略，
+        寫你自己的策略, 必須 return : 1 (買) or -1 (賣) or 0 (不操作)
+        根據時間date，回傳當下要進行什麼操作 ( 買/賣/不操作 )
+        '''
+        # example
+        from random import randint
+        
         x = randint(1,10)
         x = x%3
         if x == 1:
@@ -28,6 +41,9 @@ class demo:
 
 
 def test():
+    '''
+    測試
+    '''
     stock_id = '2330'
     date = '2018-01-01'
     
@@ -81,8 +97,8 @@ def test():
             InstitutionalInvestorsBuySell = InstitutionalInvestorsBuySell,
             Shareholding = Shareholding,)
     
-    
-    
+    self.trade('2019-05-03')
+    self.trade('2019-05-05')
     
     
 
