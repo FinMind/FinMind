@@ -3,7 +3,7 @@ import pandas as pd
 from random import randint
 import requests
 
-class random:
+class demo:
     def __init__(self,
                  stock_price,
                  **kwargs,):
@@ -73,7 +73,7 @@ def test():
     Shareholding = pd.DataFrame(temp['data'])
 
     
-    self = random(
+    self = demo(
             stock_price = stock_price,
             MarginPurchaseShortSale = MarginPurchaseShortSale,
             InstitutionalInvestorsBuySell = InstitutionalInvestorsBuySell,
