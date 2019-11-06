@@ -20,9 +20,20 @@ temp = res.json()
 data = pd.DataFrame(temp['data'])
 data.head()
 
+'''----------------Taiwan Stock Dividend Result----------------'''
+form_data = {'dataset':'StockDividendResult'}
+res = requests.post(
+        url,verify = True,
+        data = form_data)
+
+temp = res.json()
+data = pd.DataFrame(temp['data'])
+data.head()
+
 '''----------------TotalMarginPurchaseShortSale----------------'''
-form_data = {'dataset':'TotalMarginPurchaseShortSale',
-             'date':'2019-10-10'}
+form_data = {'dataset':'StockDividendResult',
+             'stock_id':'2330',
+             'date':'2010-10-01'}
 res = requests.post(
         url,verify = True,
         data = form_data)

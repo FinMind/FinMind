@@ -30,6 +30,13 @@ TaiwanStockPrice = Load.FinData(
         date = date2 )
 print( TaiwanStockPrice[:5] )
 
+print('load StockDividendResult {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
+StockDividendResult = Load.FinData(
+        dataset = 'StockDividendResult',
+        select = '2330',
+        date = '2010-01-01' )
+print( StockDividendResult[:5] )
+
 print('load 財報 FinancialStatements {} '.format(TaiwanStockInfo.loc[_index,'stock_id']))
 TaiwanStockFinancialStatements = Load.FinData(
         dataset = 'FinancialStatements',
