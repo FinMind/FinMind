@@ -30,12 +30,22 @@
 * Load Taiwan Stock Price 股價
 
 
-		form_data = {'dataset':'TaiwanStockPrice',
-		'stock_id':'2330',
-		'date':'2019-06-01'}
+		form_data = {'dataset':'TaiwanStockPrice','stock_id':'2330','date':'2019-06-01'}
 		res = requests.post(
 		url,verify = True,
 		data = form_data)
+
+		temp = res.json()
+		data = pd.DataFrame(temp['data'])
+		data.head()
+* Load Taiwan Stock Dividend Result 台股除權除息計算結果表 ( 還原股價 )
+
+
+		form_data = {'dataset':'StockDividendResult','stock_id':'2330','date':'2012-06-01'}
+		
+		res = requests.post(
+			url,verify = True,
+			data = form_data)
 
 		temp = res.json()
 		data = pd.DataFrame(temp['data'])
@@ -44,9 +54,7 @@
 * Load Taiwan Stock Price Minute 台灣 5 秒交易 data
 
 
-		form_data = {'dataset':'TaiwanStockPriceMinute',
-		'stock_id':'2330',
-		'date':'2019-06-01'}
+		form_data = {'dataset':'TaiwanStockPriceMinute','stock_id':'2330','date':'2019-06-01'}
 		res = requests.post(
 		url,verify = True,
 		data = form_data)
@@ -58,9 +66,7 @@
 * Load Taiwan Stock Financial Statements 財報
 
 
-		form_data = {'dataset':'FinancialStatements',
-			   'stock_id':'2330',
-			   'date':'2019-01-01'}
+		form_data = {'dataset':'FinancialStatements','stock_id':'2330','date':'2019-01-01'}
 		res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -73,9 +79,7 @@
 * Load Taiwan Cash Flows Statement 台灣現金流量表
 
 
-	    form_data = {'dataset':'TaiwanCashFlowsStatement',
-	    'stock_id':'2330',
-	    'date':'2019-06-01'}
+	    form_data = {'dataset':'TaiwanCashFlowsStatement','stock_id':'2330','date':'2019-06-01'}
 	    res = requests.post(
 	    url,verify = True,
 	    data = form_data)
@@ -86,9 +90,7 @@
 
 * Load Taiwan Stock Stock Dividend 股息股利 ( 舊版，不再更新 )
 
-	      form_data = {'dataset':'TaiwanStockStockDividend',
-			   'stock_id':'2317',
-			   'date':'2018-01-01'}
+	      form_data = {'dataset':'TaiwanStockStockDividend','stock_id':'2317','date':'2018-01-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -99,10 +101,7 @@
 
 * Load Stock Dividend 股息股利 ( 新版，資料來源，證交所 )
 
-		form_data = {'dataset':'StockDividend',
-			     'stock_id':'0050',
-			     'date':'2015-01-02',
-			     }
+		form_data = {'dataset':'StockDividend','stock_id':'0050','date':'2015-01-02',}
 		res = requests.post(
 			url,verify = True,
 			data = form_data)
@@ -115,9 +114,7 @@
 
 * Load Taiwan Stock Margin Purchase Short Sale 融資融券
 
-		form_data = {'dataset':'TaiwanStockMarginPurchaseShortSale',
-			   'stock_id':'2317',
-			   'date':'2019-06-01'}
+		form_data = {'dataset':'TaiwanStockMarginPurchaseShortSale','stock_id':'2317','date':'2019-06-01'}
 		res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -129,8 +126,7 @@
 
 * Load Taiwan Total Stock Margin Purchase Short Sale 總體融資融券
 
-		form_data = {'dataset':'TotalMarginPurchaseShortSale',
-			   'date':'2019-10-01'}
+		form_data = {'dataset':'TotalMarginPurchaseShortSale','date':'2019-10-01'}
 		res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -141,9 +137,7 @@
 
 * Load Taiwan Stock News 台股相關新聞
 
-	      form_data = {'dataset':'TaiwanStockNews',
-			   'stock_id':'2317',
-			   'date':'2019-10-20'}
+	      form_data = {'dataset':'TaiwanStockNews','stock_id':'2317','date':'2019-10-20'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -154,9 +148,7 @@
 
 * Load Taiwan Stock Institutional Investors Buy Sell 個股外資買賣
 
-	      form_data = {'dataset':'InstitutionalInvestorsBuySell',
-			   'stock_id':'2317',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'InstitutionalInvestorsBuySell','stock_id':'2317','date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -167,9 +159,7 @@
 
 * Load Taiwan Stock Share holding 外資持股
 
-	      form_data = {'dataset':'Shareholding',
-			   'stock_id':'2317',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'Shareholding','stock_id':'2317','date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -180,9 +170,7 @@
 
 * Load Taiwan Stock Balance Sheet 資產負債表
 
-	      form_data = {'dataset':'BalanceSheet',
-			   'stock_id':'2317',
-			   'date':'2019-01-01'}
+	      form_data = {'dataset':'BalanceSheet','stock_id':'2317','date':'2019-01-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -193,9 +181,7 @@
 
 * Load Taiwan Stock Holding Shares Per 股權分散表
 
-	      form_data = {'dataset':'TaiwanStockHoldingSharesPer',
-			   'stock_id':'2317',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'TaiwanStockHoldingSharesPer','stock_id':'2317','date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -206,9 +192,7 @@
 
 * Load Taiwan Stock Month Revenue 月營收
 
-	      form_data = {'dataset':'TaiwanStockMonthRevenue',
-			   'stock_id':'2317',
-			   'date':'2019-01-01'}
+	      form_data = {'dataset':'TaiwanStockMonthRevenue','stock_id':'2317','date':'2019-01-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -228,10 +212,7 @@
 		data = pd.DataFrame(temp['data'])
 		data.head()
 
-		parameter = {'dataset':'TaiwanOption',
-				   'stock_id':'OCO',
-				   'date':'2019-09-05',
-				   }
+		parameter = {'dataset':'TaiwanOption','stock_id':'OCO','date':'2019-09-05',}
 
 		res = requests.post(
 			  url,verify = True,
@@ -252,10 +233,7 @@
 	      data = pd.DataFrame(temp['data'])
 	      data.head()
 
-	      form_data = {'dataset':'TaiwanFutures',
-			 'stock_id':'MTX',
-			 'date':'2019-09-02',
-			 }
+	      form_data = {'dataset':'TaiwanFutures','stock_id':'MTX', 'date':'2019-09-02',}
 
 	      res = requests.post(
 		    url,verify = True,
@@ -278,9 +256,7 @@
 
 * Load US Stock Price 美股股價
 
-	      form_data = {'dataset':'USStockPrice',
-			   'stock_id':'^GSPC',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'USStockPrice','stock_id':'^GSPC','date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -291,9 +267,7 @@
 
 * Load US Stock Price Minute 美股分鐘交易 data
 
-	      form_data = {'dataset':'USStockPriceMinute',
-			  'stock_id':'MTX',
-			  'date':'2019-06-01'}
+	      form_data = {'dataset':'USStockPriceMinute','stock_id':'MTX','date':'2019-06-01'}
 	      res = requests.post(
 		    url,verify = True,
 		    data = form_data)
@@ -304,9 +278,7 @@
 
 * Load US Stock Financial Statements 財報
 
-	      form_data = {'dataset':'FinancialStatements',
-			   'stock_id':'AAPL',
-			   'date':'2018-01-01'}
+	      form_data = {'dataset':'FinancialStatements','stock_id':'AAPL','date':'2018-01-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -328,9 +300,7 @@
 
 * Load Japan Stock Price 日股股價
 
-	      form_data = {'dataset':'JapanStockPrice',
-			   'stock_id':'1376.T',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'JapanStockPrice','stock_id':'1376.T','date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -341,9 +311,7 @@
 
 * Load UK Stock Info 英股股票資訊
 
-	      form_data = {'dataset':'UKStockInfo',
-			   'stock_id':'2317',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'UKStockInfo'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -354,9 +322,7 @@
 
 * Load UK Stock Price 英股股價
 
-	      form_data = {'dataset':'UKStockPrice',
-			   'stock_id':'0TWH.L',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'UKStockPrice','stock_id':'0TWH.L','date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -379,9 +345,7 @@
 
 * Load Europe Stock Price 歐股股價
 
-	      form_data = {'dataset':'EuropeStockPrice',
-			   'stock_id':'ABCA.PA',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'EuropeStockPrice','stock_id':'ABCA.PA','date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -405,9 +369,7 @@
 
 * Load Exchange Rate 匯率
 
-	      form_data = {'dataset':'ExchangeRate',
-			   'data_id':'Taiwan',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'ExchangeRate','data_id':'Taiwan','date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -419,8 +381,7 @@
 * Load Institutional Investors 整體外資買賣
 
 
-	      form_data = {'dataset':'InstitutionalInvestors',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'InstitutionalInvestors','date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -444,9 +405,7 @@
 
 * Load Interest Rate 利率
 
-	      form_data = {'dataset':'InterestRate',
-			   'data_id':'BOC',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'InterestRate','data_id':'BOC','date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -470,9 +429,7 @@
 * Load Government Bonds 政府債券
 
 
-	      form_data = {'dataset':'GovernmentBonds',
-			   'data_id':'France 9-Year',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'GovernmentBonds','data_id':'France 9-Year','date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -494,9 +451,7 @@
 
 * Load Crude Oil Prices 油價
 
-	      form_data = {'dataset':'CrudeOilPrices',
-			   'data_id': 'WTI',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'CrudeOilPrices','data_id': 'WTI','date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -541,9 +496,7 @@
 * Load Currency Circulation
 
 
-	      form_data = {'dataset':'CurrencyCirculation',
-			   'data_id':'Taiwan',
-			   'date':'2019-06-01'}
+	      form_data = {'dataset':'CurrencyCirculation','data_id':'Taiwan','date':'2019-06-01'}
 	      res = requests.post(
 		      url,verify = True,
 		      data = form_data)
@@ -565,9 +518,7 @@
 
 * Load Government Bonds Yield 政府債券殖利率
 
-	      form_data = {'dataset':'GovernmentBondsYield',
-			  'data_id':'United States 1-Year',
-			  'date':'2019-06-01'}
+	      form_data = {'dataset':'GovernmentBondsYield','data_id':'United States 1-Year','date':'2019-06-01'}
 	      res = requests.post(
 		    url,verify = True,
 		    data = form_data)
