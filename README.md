@@ -88,11 +88,11 @@ You can analyze financial data without having to collect the data by yourself.<b
 	data = res.json()
 	data = pd.DataFrame( data['data'] )
 
-  ## Crawler
+  ## 爬蟲 Crawler 
   由於原物料、債券期貨資料，有法規問題，禁止散布，因此我公開爬蟲 code，並簡化不到 5 行 code，各位自行爬蟲，就不是從我這獲得資料，不會有散布問題。<br>
   [demo.py](https://github.com/linsamtw/FinMind/blob/master/Crawler/demo.py)
 
-  ## Data
+  ## 資料 Data
   * [FinMind.Data](https://github.com/linsamtw/FinMind/tree/master/Data)
   * [50 data sets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)  
   * [Variable Document](https://github.com/linsamtw/FinMind/blob/master/VariableDocument.md)
@@ -102,8 +102,8 @@ You can analyze financial data without having to collect the data by yourself.<b
 		data = Load.FinData(dataset = 'TaiwanStockPrice',select = '2317',
 						date = '2018-10-10')
 
-  ## Mind
-  * [FinMind.Mind](https://github.com/linsamtw/FinMind/tree/master/Mining)
+  ## 分析 Analysis 
+  * [回測 backtesting](https://github.com/FinMind/FinMind/blob/master/BackTesting/README.md)
   * [GRU_LSTM_demo](https://github.com/linsamtw/FinMind/blob/master/Mining/GRU_LSTM_demo.py)
 
   ## Document
