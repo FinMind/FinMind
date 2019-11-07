@@ -15,6 +15,9 @@
 
 資料每天更新。你不需收集資料，就可進行分析。
 
+## 新增回測 backtesting
+[回測 backtesting](https://github.com/FinMind/FinMind/blob/master/BackTesting/README.md)
+
 ## What is it?
 **FinMind** is open source of more than [50 datasets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)  , contain 
 
@@ -114,11 +117,9 @@ You can analyze financial data without having to collect the data by yourself.<b
 [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
 
 
-### Financial Visualize ( In development )
-At least five kinds of visualization tools for every data type. ( In development )<br>
-
+### Web
 [https://finmindtrade.com/](https://finmindtrade.com/)
-開發中
+
 
 ### [License](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
 
