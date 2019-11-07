@@ -15,9 +15,6 @@
 
 資料每天更新。你不需收集資料，就可進行分析。
 
-## 新增回測 backtesting
-[回測 backtesting](https://github.com/FinMind/FinMind/blob/master/BackTesting/README.md)
-
 ## What is it?
 **FinMind** is open source of more than [50 datasets](https://github.com/linsamtw/FinMind/blob/master/dataset.md)  , contain 
 
@@ -31,12 +28,8 @@ You can analyze financial data without having to collect the data by yourself.<b
 
      pip3 install FinMind
 
--------------------------------------------------------------------
-<!--
-## 重大更新 FinMind 1.0.80
-過去是直接連 DataBase，由於 server 在國外，直接連 DataBase 斷線機率高。<br>
-目前改走 api 方式，未來舊版 package 將會失效，無法直接連 DataBase。請更新到最新版本，或是直接走 api。<br>
--->
+## 新增回測 backtesting
+[回測 backtesting](https://github.com/FinMind/FinMind/blob/master/BackTesting/README.md)
   
   ## Api
   
