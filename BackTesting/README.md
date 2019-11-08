@@ -19,6 +19,8 @@
 #### [線下開發](https://github.com/FinMind/FinMind/blob/master/BackTesting/test.ipynb)
 
 ![](https://raw.githubusercontent.com/FinMind/FinMind/master/BackTesting/offline.png)
-
+UnrealizedProfit : 未實現損益<br>
+realizedProfit : 已實現損益<br>
+everytime_profit : 當下結算獲利<br>
 
 
