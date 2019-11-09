@@ -30,7 +30,18 @@ You can analyze financial data without having to collect the data by yourself.<b
 
 ## 新增回測 backtesting
 [回測 backtesting](https://github.com/FinMind/FinMind/blob/master/BackTesting/README.md)
-  
+
+可[上傳自己設計的策略](https://finmindtrade.com/analysis/upload)，進行[線上模擬](https://finmindtrade.com/analysis/back_testing)。<br>
+卷商交易功能(開發中)，未來，使用者只需專注在策略開發上，即可利用選定策略、個股，進行自動化交易。<br>
+
+![](https://raw.githubusercontent.com/FinMind/FinMind/master/BackTesting/online.png)
+
+策略上傳範例，可使用[線下開發](https://github.com/FinMind/FinMind/blob/master/BackTesting/test.ipynb)，進行線下測試，範例如下。
+
+[demo](https://github.com/FinMind/FinMind/blob/master/BackTesting/demo.py)<br>
+[BAIS](https://github.com/FinMind/FinMind/blob/master/BackTesting/BAIS.py)<br>
+[KD](https://github.com/FinMind/FinMind/blob/master/BackTesting/KD.py)
+
   ## Api
   
   * [Python document](https://github.com/linsamtw/FinMind/blob/master/example/Python%20document.md)
