@@ -4,7 +4,7 @@
 
 #### [ 線上回測系統 ](https://finmindtrade.com/analysis/back_testing)
 
-可[上傳自己設計的策略](https://finmindtrade.com/analysis/upload)，進行線上模擬。<br>
+可[上傳自己設計的策略](https://finmindtrade.com/analysis/upload)，進行[線上模擬](https://finmindtrade.com/analysis/back_testing)。<br>
 卷商交易功能(開發中)，未來，使用者只需專注在策略開發上，即可利用選定策略、個股，進行自動化交易。<br>
 
 ![](https://raw.githubusercontent.com/FinMind/FinMind/master/BackTesting/online.png)
