@@ -1,9 +1,9 @@
 ## Python
 ###### Arguments
 
-* **dataset** : string.
-* **stock_id** : list. USing for stock related dataset.
-* **data_id** : list. USing for non stock related dataset, e.g exchange rate, crude oil prices.
+* **dataset** : 輸入資料集名稱，string.
+* **stock_id** : 輸入股票 ID，string. USing for stock related dataset.
+* **data_id** : 輸入 data_id，string. USing for non stock related dataset, e.g exchange rate, crude oil prices.
 * **date** : string. Data time interval is **date** ~ now.( e.g '2019-01-01' )
 
 #### Example
