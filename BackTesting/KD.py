@@ -78,6 +78,9 @@ class KD:
         此區塊，可進行資料處理、做技術指標，寫自己的策略，
         寫你自己的策略, 必須 return : 1 (買) or -1 (賣) or 0 (不操作)
         根據時間date，回傳當下要進行什麼操作 ( 買/賣/不操作 )
+            
+        date : 昨天時間
+        用昨天的資料，計算技術指標，判斷今天買/賣
         '''
         # example
         value = self.stock_price[ self.stock_price['date'] == date ]
