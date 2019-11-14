@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import requests
 
-# class name，必須跟檔案名一致，例如 class demo，檔名也是 demo.py
+# class name，必須跟檔案名一致，例如 class KD，檔名也是 KD.py
 class KD:
     def __init__(self,
                  stock_price,
