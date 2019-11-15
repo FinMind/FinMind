@@ -56,6 +56,10 @@ You can analyze financial data without having to collect the data by yourself.<b
 		form_data = {'dataset':'TaiwanStockPrice','stock_id':'2317','date':'2019-06-01'}
 		res = requests.post(url,verify = True,data = form_data)
   
+		temp = res.json()
+		data = pd.DataFrame(temp['data'])
+		data.head()
+  
   * [R document](https://github.com/linsamtw/FinMind/blob/master/example/R%20document.md)
   
   
