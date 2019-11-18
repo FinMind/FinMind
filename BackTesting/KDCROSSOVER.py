@@ -116,5 +116,3 @@ def test():
         stock_price=stock_price
     )
     obj.trade('2019-05-07')
-
-test()
