@@ -3,8 +3,8 @@ import pandas as pd
 import numpy as np
 import requests
 
-# class name，必須跟檔案名一致，例如 class INSTITUTIONAL_INVESTORS_FOLLOWER，檔名也是 INSTITUTIONAL_INVESTORS_FOLLOWER.py
-class INSTITUTIONAL_INVESTORS_FOLLOWER:
+# class name，必須跟檔案名一致，例如 class MACROSSOVER，檔名也是 MACROSSOVER.py
+class MACROSSOVER:
     def __init__(self,
                  stock_price,
                  **kwargs,):
@@ -75,8 +75,7 @@ def test():
     temp = res.json()
     stock_price = pd.DataFrame(temp['data'])
 
-    obj = INSTITUTIONAL_INVESTORS_FOLLOWER(
+    obj = MACROSSOVER(
         stock_price=stock_price
     )
-    print(obj.trade('2019-05-07'))
-test()
+    obj.trade('2019-05-07')
