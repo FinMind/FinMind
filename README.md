@@ -40,7 +40,13 @@ You can analyze financial data without having to collect the data by yourself.<b
 
 [demo](https://github.com/FinMind/FinMind/blob/master/BackTesting/demo.py)<br>
 [BAIS](https://github.com/FinMind/FinMind/blob/master/BackTesting/BAIS.py)<br>
-[KD](https://github.com/FinMind/FinMind/blob/master/BackTesting/KD.py)
+[KD](https://github.com/FinMind/FinMind/blob/master/BackTesting/KD.py)<br>
+[INSTITUTIONAL_INVESTORS_FOLLOWER](https://github.com/FinMind/FinMind/blob/master/BackTesting/INSTITUTIONAL_INVESTORS_FOLLOWER.py)<br>
+[KDCROSSOVER](https://github.com/FinMind/FinMind/blob/master/BackTesting/KDCROSSOVER.py)<br>
+[MACDCROSSOVER](https://github.com/FinMind/FinMind/blob/master/BackTesting/MACDCROSSOVER.py)<br>
+[MACROSSOVER](https://github.com/FinMind/FinMind/blob/master/BackTesting/MACROSSOVER.py)<br>
+[MAXMINPERIODBAIS](https://github.com/FinMind/FinMind/blob/master/BackTesting/MAXMINPERIODBAIS.py)<br>
+[SHORTSALE_MARGINPURCHASE_RATIO](https://github.com/FinMind/FinMind/blob/master/BackTesting/SHORTSALE_MARGINPURCHASE_RATIO.py)<br>
 
   ## Api
   
@@ -115,7 +121,6 @@ You can analyze financial data without having to collect the data by yourself.<b
 
   ## 分析 Analysis 
   * [回測 backtesting](https://github.com/FinMind/FinMind/blob/master/BackTesting/README.md)
-  * [GRU_LSTM_demo](https://github.com/linsamtw/FinMind/blob/master/Mining/GRU_LSTM_demo.py)
 
   ## Document
   * The full version of this documentation is at [https://linsamtw.github.io/FinMindDoc/](https://linsamtw.github.io/FinMindDoc/).
