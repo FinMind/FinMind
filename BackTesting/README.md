@@ -9,7 +9,7 @@
 
 ![](https://raw.githubusercontent.com/FinMind/FinMind/master/BackTesting/online.png)
 
-策略上傳範例，可使用[線下開發](https://github.com/FinMind/FinMind/blob/master/BackTesting/test.ipynb)，進行線下測試，範例如下。
+策略上傳範例如下，可使用[線下開發](https://github.com/FinMind/FinMind/blob/master/BackTesting/test.ipynb)，進行線下測試。
 
 
     import pandas as pd
