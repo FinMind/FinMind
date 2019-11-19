@@ -36,17 +36,6 @@ You can analyze financial data without having to collect the data by yourself.<b
 
 ![](https://raw.githubusercontent.com/FinMind/FinMind/master/BackTesting/online.png)
 
-策略上傳範例，可使用[線下開發](https://github.com/FinMind/FinMind/blob/master/BackTesting/test.ipynb)，進行線下測試，範例如下。
-
-[demo](https://github.com/FinMind/FinMind/blob/master/BackTesting/demo.py)<br>
-[BAIS](https://github.com/FinMind/FinMind/blob/master/BackTesting/BAIS.py)<br>
-[KD](https://github.com/FinMind/FinMind/blob/master/BackTesting/KD.py)<br>
-[INSTITUTIONAL_INVESTORS_FOLLOWER](https://github.com/FinMind/FinMind/blob/master/BackTesting/INSTITUTIONAL_INVESTORS_FOLLOWER.py)<br>
-[KDCROSSOVER](https://github.com/FinMind/FinMind/blob/master/BackTesting/KDCROSSOVER.py)<br>
-[MACDCROSSOVER](https://github.com/FinMind/FinMind/blob/master/BackTesting/MACDCROSSOVER.py)<br>
-[MACROSSOVER](https://github.com/FinMind/FinMind/blob/master/BackTesting/MACROSSOVER.py)<br>
-[MAXMINPERIODBAIS](https://github.com/FinMind/FinMind/blob/master/BackTesting/MAXMINPERIODBAIS.py)<br>
-[SHORTSALE_MARGINPURCHASE_RATIO](https://github.com/FinMind/FinMind/blob/master/BackTesting/SHORTSALE_MARGINPURCHASE_RATIO.py)<br>
 
   ## Api
   
