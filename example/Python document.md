@@ -347,25 +347,6 @@
 	      data.head()
 
 
-* Load list of Government Bonds 政府債券列表
-
-	      form_data = {'dataset':'GovernmentBonds'}
-	      res = requests.post(list_url,verify = True,data = form_data)
-
-	      temp = res.json()
-	      data = temp['data']
-	      data.head()
-
-* Load Government Bonds 政府債券
-
-
-	      form_data = {'dataset':'GovernmentBonds','data_id':'France 9-Year','date':'2019-06-01'}
-	      res = requests.post(url,verify = True,data = form_data)
-
-	      temp = res.json()
-	      data = pd.DataFrame(temp['data'])
-	      data.head()
-
 * Load list of Crude Oil Prices 油價列表
 
 	      form_data = {'dataset':'CrudeOilPrices'}
@@ -384,14 +365,6 @@
 	      data = pd.DataFrame(temp['data'])
 	      data.head()
 
-* Load list of Raw Material Futures Prices 原物料期貨列表
-
-	      form_data = {'dataset':'RawMaterialFuturesPrices'}
-	      res = requests.post(list_url,verify = True,data = form_data)
-
-	      temp = res.json()
-	      data = temp['data']
-	      data.head()
 
 * Load Gold Price 金價
 
