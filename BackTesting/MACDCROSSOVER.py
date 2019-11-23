@@ -21,6 +21,13 @@ class MACDCROSSOVER:
         self.Shareholding = kwargs.get("Shareholding", pd.DataFrame())
         # 此區塊請勿更動
         #-------------------------------------------------------------------
+        self.url = 'https://www.cmoney.tw/learn/course/technicals/topic/750'
+        self.summary = '''MACD 指標由 DIF 與 MACD 兩條線組成
+                          DIF（快）短期，判斷股價趨勢的變化
+                          MACD（慢）長期，判斷股價大趨勢
+                          短期線 突破 長期線(黃金交叉)，進場
+                          長期線 突破 短期線(死亡交叉)，出場
+                          '''
         self.create_feature()
 
     def create_feature(self):
