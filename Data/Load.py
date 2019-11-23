@@ -7,12 +7,12 @@ def FinData(
         dataset,select = '',date = '2000-01-01',
         url = 'http://finmindapi.servebeer.com/api/data'):# dataset = 'BalanceSheet'
 
-    parameter = {'dataset':dataset,
+    form_data = {'dataset':dataset,
                  'stock_id':select,
                  'date':date}
     res = requests.post(
             url,verify = True,headers = {},
-            json = parameter)
+            data = form_data)
         
     data = res.json()
     if data['status'] == 200:
@@ -24,10 +24,10 @@ def FinDataList(
         dataset,
         list_url = 'http://finmindapi.servebeer.com/api/datalist'):# dataset = 'BalanceSheet'
 
-    parameter = {'dataset':dataset}
+    form_data = {'dataset':dataset}
     res = requests.post(
             list_url,verify = True,headers = {},
-            json = parameter)
+            data = form_data)
         
     data = res.json()
     if data['status'] == 200:
@@ -67,11 +67,11 @@ def transpose(data,var = 'type'):
 
 def translation(dataset):
     url = 'http://finmindapi.servebeer.com/api/translation'
-    parameter = {'dataset':dataset}
+    form_data = {'dataset':dataset}
     
     res = requests.post(
             url,verify = True,headers = {},
-            data = parameter)
+            data = form_data)
     #res.text
     data = res.json()
     if data['status'] == 200:

@@ -104,7 +104,7 @@ data = pd.DataFrame(temp['data'])
 data.head()
 
 '''----------------TaiwanStockStockDividend----------------'''
-form_data = {'dataset':'TaiwanStockStockDividend',
+form_data = {'dataset':'StockDividend',
              'stock_id':'2317',
              'date':'2018-01-01'}
 res = requests.post(
