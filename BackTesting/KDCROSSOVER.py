@@ -21,6 +21,11 @@ class KDCROSSOVER:
         self.Shareholding = kwargs.get("Shareholding", pd.DataFrame())
         # 此區塊請勿更動
         #-------------------------------------------------------------------
+        self.url = 'http://smart.businessweekly.com.tw/Reading/WebArticle.aspx?id=68129&p=2'
+        self.summary = '''日KD黃金交叉和死亡交叉
+                          日K線 小於 日D線 翻轉成 日K線 大於 日D線 稱為黃金交叉
+                          日K線 大於 日D線 翻轉成 日K線 小於 日D線 稱為死亡交叉
+                          黃金交叉進場，死亡交叉出場'''
         self.create_feature()
 
     def RSV(self):

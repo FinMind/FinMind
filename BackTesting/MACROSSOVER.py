@@ -21,6 +21,15 @@ class MACROSSOVER:
         self.Shareholding = kwargs.get("Shareholding", pd.DataFrame())
         # 此區塊請勿更動
         #-------------------------------------------------------------------
+        self.url = 'https://www.cmoney.tw/learn/course/technicalanalysisfast/topic/1811'
+        self.summary = '''均線黃金交叉
+                          以短線操作來說，當 5日均線 向上突破 20日均線
+                          也就是短期的平均買進成本大於長期平均成本
+                          代表短期買方的力道較大，市場上大多數人獲利
+                          市場易走出「多頭」的趨勢，進而帶動長期均線向上，讓股價上漲機率較大
+                          短期線 突破 長期線(黃金交叉)，進場
+                          長期線 突破 短期線(死亡交叉)，出場
+                          '''
         self.create_feature()
 
     def create_feature(self):

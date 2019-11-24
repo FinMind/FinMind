@@ -7,9 +7,9 @@ import requests
 class MAXMINPERIODBAIS:
     def __init__(self,
                  stock_price,
-                 ma_days = 20,
-                 bais_lower = -1.1,
-                 bais_upper = 1.25,
+                 ma_days = 24,
+                 bais_lower = -7,
+                 bais_upper = 8,
                  period_days = 5,
                  **kwargs,):
         #-------------------------------------------------------------------
@@ -25,6 +25,14 @@ class MAXMINPERIODBAIS:
         self.Shareholding = kwargs.get("Shareholding", pd.DataFrame())
         # 此區塊請勿更動
         #-------------------------------------------------------------------
+        self.url = 'http://www.bituzi.com/2013/03/bias.html'
+        self.summary = '''乖離率加上最近 k 天最大最小值進出法
+                          單存乖離率來判斷進出相對而言比較不穩定，因此多一個限制是跟最近 k 天最大最小值股價做比較來段進出
+                          負乖離表示股價 低 於過去一段時間平均價且股價大於過去k天最大值，意味著股價相對過去 低 且即將走高 ，則選擇進場
+                          正乖離表示股價 高 於過去一段時間平均價且股價大於過去k天最小值，意味著股價相對過去 高 且即將走低，則選擇出場
+                          相對於單存乖離率而言來的保守
+                          '''
+
         self.ma_days = ma_days
         self.bais_lower = bais_lower
         self.bais_upper = bais_upper
