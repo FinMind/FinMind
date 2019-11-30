@@ -28,7 +28,13 @@ You can analyze financial data without having to collect the data by yourself.<b
 
      pip3 install FinMind
 
-## 新增回測 backtesting
+-------------------------------------------
+
+[Open Data Api](https://github.com/FinMind/FinMind#api)<br>
+[回測](https://github.com/FinMind/FinMind#%E5%9B%9E%E6%B8%AC-backtesting)<br>
+[Website](https://finmindtrade.com/)
+
+## 回測 backtesting
 [回測 backtesting](https://github.com/FinMind/FinMind/blob/master/BackTesting/README.md)
 
 可[上傳自己設計的策略](https://finmindtrade.com/analysis/upload)，進行[線上模擬](https://finmindtrade.com/analysis/back_testing)。<br>
