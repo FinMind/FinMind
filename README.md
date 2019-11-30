@@ -123,7 +123,7 @@ You can analyze financial data without having to collect the data by yourself.<b
 [https://finmindtrade.com/](https://finmindtrade.com/)
 
 ### PPT
-[https://www.slideshare.net/ssusera12be6/finmind-project-demo](https://www.slideshare.net/ssusera12be6/finmind-project-demo)
+[https://www.slideshare.net/ssusera12be6/finmind-project-demo-199815617](https://www.slideshare.net/ssusera12be6/finmind-project-demo-199815617)
 
 ### [License](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
 
