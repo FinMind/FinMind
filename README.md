@@ -28,6 +28,10 @@ You can analyze financial data without having to collect the data by yourself.<b
 
      pip3 install FinMind
 
+
+## 至[官網](https://finmindtrade.com/)註冊後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。
+user_id, password 參數使用方法，可參考[線上 api](http://finmindapi.servebeer.com/docs#/default/data_api_data_post)。
+
 -------------------------------------------
 
 [Open Data Api](https://github.com/FinMind/FinMind#api)<br>
