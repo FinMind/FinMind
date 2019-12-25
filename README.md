@@ -29,9 +29,6 @@ You can analyze financial data without having to collect the data by yourself.<b
      pip3 install FinMind
 
 
-## 至[官網](https://finmindtrade.com/)註冊後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。
-user_id, password 參數使用方法，可參考[線上 api](http://finmindapi.servebeer.com/docs#/default/data_api_data_post)。
-
 -------------------------------------------
 
 [Open Data Api](https://github.com/FinMind/FinMind#api)<br>
@@ -83,7 +80,9 @@ user_id, password 參數使用方法，可參考[線上 api](http://finmindapi.s
 		data = do.call('cbind',data$data) %>%data.table
 		head(data)	
 
-  `note` : 限制 request 上限 : 600 / hour，如果希望提高次數，可寄信給我。Limit amount of request, 600 / hour.
+  `note` : 限制 request 上限 : 600 / hour，如果希望提高次數，可寄信給我。Limit amount of request, 600 / hour.<br>
+  至[官網](https://finmindtrade.com/)註冊後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。<br>
+  user_id, password 參數使用方法，可參考[線上 api](http://finmindapi.servebeer.com/docs#/default/data_api_data_post)。
 
 
   ## translation 中英對照
