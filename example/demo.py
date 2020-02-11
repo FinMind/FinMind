@@ -147,17 +147,17 @@ print(TaiwanStockMonthRevenue[:5])
 
 
 print("load 選擇權 TaiwanOption ")
-TaiwanOption = Load.FinData(
-    dataset="TaiwanOption", select="OCO", date="2019-09-05",
-)
-print(TaiwanOption[:5])
+#TaiwanOption = Load.FinData(
+#    dataset="TaiwanOption", select="OCO", date="2019-09-05",
+#)
+#print(TaiwanOption[:5])
 
 
 print("load 期貨 TaiwanFutures ")
-TaiwanFutures = Load.FinData(
-    dataset="TaiwanFutures", select="MTX", date="2019-09-02"
-)
-print(TaiwanFutures[:5])
+#TaiwanFutures = Load.FinData(
+#    dataset="TaiwanFutures", select="MTX", date="2019-09-02"
+#)
+#print(TaiwanFutures[:5])
 
 # ---------------------------------------------------------------
 print("load USStockInfo")
