@@ -40,13 +40,13 @@ email : FinMind.TW@gmail.com
 ## Project of Contents
 
 - [Website](https://finmindtrade.com/)
-	- [Backtesting (回測)](https://github.com/FinMind/FinMind/tree/master#backtesting-(回測))
+	- [Backtesting (回測)](https://github.com/FinMind/FinMind/tree/master#backtesting-回測)
 	- [個股分析](https://finmindtrade.com/analysis/taiwan_stock_analysis)
 
 - Dataset
 	- [Dataset Api](https://github.com/FinMind/FinMind/tree/master#Dataset-Api)
-	- [中英對照表](translation-中英對照)
-	- [Crawler (爬蟲)](https://github.com/FinMind/FinMind/tree/master#Crawler-(爬蟲))
+	- [中英對照表](https://github.com/FinMind/FinMind/tree/master#translation-中英對照)
+	- [Crawler (爬蟲)](https://github.com/FinMind/FinMind/tree/master#Crawler-爬蟲)
 
 - Other
 
@@ -60,7 +60,7 @@ email : FinMind.TW@gmail.com
 
 -------------------------------------------
 
-### Backtesting (回測)
+### Backtesting 回測
 
 - [上傳自己設計的策略](https://finmindtrade.com/analysis/upload)，進行[線上模擬](https://finmindtrade.com/analysis/back_testing)
 - 券商交易功能(開發中)，未來，使用者只需專注在策略開發上，即可利用選定策略、個股，進行自動化交易
@@ -137,7 +137,7 @@ data = res.json()
 data = pd.DataFrame( data['data'] )
 ```
 
-### Crawler (爬蟲)
+### Crawler 爬蟲
 
 - 由於原物料、債券期貨資料，有法規問題，禁止散布，因此我公開爬蟲 code，各位自行爬蟲，就不是從我這獲得資料，不會有散布問題
 - [demo code](https://github.com/linsamtw/FinMind/blob/master/Crawler/demo.py)
