@@ -40,7 +40,7 @@ email : FinMind.TW@gmail.com
 ## Project of Contents
 
 - [Website](https://finmindtrade.com/)
-	- [Backtesting (回測)](https://github.com/FinMind/FinMind#Backtesting&emsp;(回測))
+	- [Backtesting (回測)](https://github.com/FinMind/FinMind#Backtesting(回測))
 	- [個股分析](https://finmindtrade.com/analysis/taiwan_stock_analysis)
 
 - Dataset
@@ -58,9 +58,9 @@ email : FinMind.TW@gmail.com
 
 	- [Open UP Summit Slide(PPT)](https://www.slideshare.net/ssusera12be6/finmind-project-demo-199815617)
 
+-------------------------------------------
 
-
-### Backtesting (回測)
+### Backtesting(回測)
 
 - [上傳自己設計的策略](https://finmindtrade.com/analysis/upload)，進行[線上模擬](https://finmindtrade.com/analysis/back_testing)
 - 券商交易功能(開發中)，未來，使用者只需專注在策略開發上，即可利用選定策略、個股，進行自動化交易
