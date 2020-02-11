@@ -10,4 +10,3 @@ script:
   - pip3 install FinMind
   - pip3 install requests
   - python3 example/demo.py 
-  - python3 example/api_demo.py
