@@ -92,8 +92,8 @@ res = requests.post(
 
 temp = res.json()
 data = pd.DataFrame(temp['data'])
-data = Load.transpose(data)
-data.head()
+#data = Load.transpose(data)
+#data.head()
 
 '''----------------TaiwanCashFlowsStatement----------------'''
 form_data = {'dataset':'TaiwanCashFlowsStatement',
@@ -132,7 +132,7 @@ temp = res.json()
 data = pd.DataFrame( temp['data'] )
 #data['date'] = data['date'] + '-' + data['period']
 #data = data.drop('period',axis = 1)
-data = Load.transpose(data)
+#data = Load.transpose(data)
 
 '''----------------TaiwanStockMarginPurchaseShortSale----------------'''
 form_data = {'dataset':'TaiwanStockMarginPurchaseShortSale',
