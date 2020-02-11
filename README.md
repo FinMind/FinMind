@@ -71,6 +71,8 @@ email : FinMind.TW@gmail.com
 
 - [Data sets list](https://github.com/linsamtw/FinMind/blob/master/dataset.md)
 
+- [Dataset table Schemas](http://finmindapi.servebeer.com/docs#/default/data_api_data_post)
+
 - [Python dataset api document](https://github.com/linsamtw/FinMind/blob/master/example/Python%20document.md)
 
 ```
@@ -88,7 +90,7 @@ data = pd.DataFrame(temp['data'])
 data.head()
 ```
 
-  * [R document](https://github.com/linsamtw/FinMind/blob/master/example/R%20document.md)
+  * [R dataset api document](https://github.com/linsamtw/FinMind/blob/master/example/R%20document.md)
 
 ```
 library(httr)
