@@ -28,22 +28,37 @@ You can analyze financial data without having to collect the data by yourself.<b
 
      pip3 install FinMind
 
+Solicit partners who are interested in joint development. <br>
+徵求有興趣共同開發的夥伴。<br>
+email : FinMind.TW@gmail.com
 
 -------------------------------------------
+## License
+
+- [License Detail](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
 
 ## Project of Contents
 
 - [Website](https://finmindtrade.com/)
-	- [Backtesting (回測)](https://github.com/FinMind/FinMind#Backtesting (回測))
+	- [Backtesting (回測)](https://github.com/FinMind/FinMind#Backtesting&emsp;(回測))
 	- [個股分析](https://finmindtrade.com/analysis/taiwan_stock_analysis)
 
 - Dataset
-	- [Dataset Api](http://finmindapi.servebeer.com/docs#/default/data_api_data_post)
+	- [Dataset Api](https://github.com/FinMind/FinMind#Dataset&emsp;Api)
 	- [中英對照表](https://github.com/FinMind/FinMind/blob/master/VariableDocument.md)
 	- [Crawler (爬蟲)]()
 
 - Other
-	-
+
+	- The full version of this [documentation](https://linsamtw.github.io/FinMindDoc/)
+
+	- [Median Sharing](https://medium.com/@yanweiliu/finmind-%E4%BD%BF%E7%94%A8python%E6%9F%A5%E5%85%A8%E7%90%83%E8%82%A1%E5%83%B9-%E5%82%B5%E5%88%B8-%E5%8E%9F%E6%B2%B9%E5%83%B9%E6%A0%BC-f39d13ad6a68)
+
+	- [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
+
+	- [Open UP Summit Slide(PPT)](https://www.slideshare.net/ssusera12be6/finmind-project-demo-199815617)
+
+
 
 ### Backtesting (回測)
 
@@ -124,28 +139,3 @@ data = pd.DataFrame( data['data'] )
 
 - 由於原物料、債券期貨資料，有法規問題，禁止散布，因此我公開爬蟲 code，各位自行爬蟲，就不是從我這獲得資料，不會有散布問題
 - [demo code](https://github.com/linsamtw/FinMind/blob/master/Crawler/demo.py)
-
-
-### [License](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
-
-Solicit partners who are interested in joint development. <br>
-徵求有興趣共同開發的夥伴。<br>
-email : FinMind.TW@gmail.com
-
-[HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
-
-### PPT
-[project slide](https://www.slideshare.net/ssusera12be6/finmind-project-demo-199815617)
-
--------------------------------------------
-
-[Open Data Api](https://github.com/FinMind/FinMind#api)<br>
-
-
-  ## Document
-  * The full version of this documentation is at [https://linsamtw.github.io/FinMindDoc/](https://linsamtw.github.io/FinMindDoc/).
-  * [median](https://medium.com/@yanweiliu/finmind-%E4%BD%BF%E7%94%A8python%E6%9F%A5%E5%85%A8%E7%90%83%E8%82%A1%E5%83%B9-%E5%82%B5%E5%88%B8-%E5%8E%9F%E6%B2%B9%E5%83%B9%E6%A0%BC-f39d13ad6a68)
-
-
-### Web
-[https://finmindtrade.com/](https://finmindtrade.com/)
