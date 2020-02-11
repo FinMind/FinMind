@@ -6,6 +6,10 @@ example of loading FinMind api
 from FinMind.Data import Load
 import requests
 import pandas as pd
+import datetime
+
+today = str(datetime.datetime.now().date())
+
 url = 'http://finmindapi.servebeer.com/api/data'
 list_url = 'http://finmindapi.servebeer.com/api/datalist'
 translate_url = 'http://finmindapi.servebeer.com/api/translation'
@@ -33,7 +37,7 @@ data.head()
 '''----------------TotalMarginPurchaseShortSale----------------'''
 form_data = {'dataset':'StockDividendResult',
              'stock_id':'2330',
-             'date':'2010-10-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -44,7 +48,7 @@ data.head()
 
 '''----------------TaiwanStockNews----------------'''
 form_data = {'dataset':'TaiwanStockNews',
-             'date':'2019-10-10',
+             'date':today,
              'stock_id':'2317'}
 res = requests.post(
         url,verify = True,
@@ -57,7 +61,7 @@ data.head()
 '''----------------TaiwanStockPrice----------------'''
 form_data = {'dataset':'TaiwanStockPrice',
              'stock_id':'2317',
-             'date':'2019-06-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -69,7 +73,7 @@ data.head()
 '''----------------TaiwanStockPriceMinute----------------'''
 form_data = {'dataset':'TaiwanStockPriceMinute',
              'stock_id':'2330',
-             'date':'2019-06-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -106,7 +110,7 @@ data.head()
 '''----------------TaiwanStockStockDividend----------------'''
 form_data = {'dataset':'StockDividend',
              'stock_id':'2317',
-             'date':'2018-01-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -118,7 +122,7 @@ data.head()
 '''----------------TaiwanStockStockDividend----------------'''
 form_data = {'dataset':'StockDividend',
              'stock_id':'0050',
-             'date':'2015-01-02',
+             'date':today,
              }
 res = requests.post(
         url,verify = True,
@@ -143,7 +147,7 @@ data = pd.DataFrame(temp['data'])
 data.head()
 '''----------------TotalMarginPurchaseShortSale----------------'''
 form_data = {'dataset':'TotalMarginPurchaseShortSale',
-             'date':'2019-06-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -156,7 +160,7 @@ data.head()
 '''----------------InstitutionalInvestorsBuySell----------------'''
 form_data = {'dataset':'InstitutionalInvestorsBuySell',
              'stock_id':'2317',
-             'date':'2019-06-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -169,7 +173,7 @@ data.head()
 '''----------------Shareholding----------------'''
 form_data = {'dataset':'Shareholding',
              'stock_id':'2317',
-             'date':'2019-06-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -193,7 +197,7 @@ data.head()
 '''----------------TaiwanStockHoldingSharesPer----------------'''
 form_data = {'dataset':'TaiwanStockHoldingSharesPer',
              'stock_id':'2317',
-             'date':'2019-06-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -274,7 +278,7 @@ data.head()
 '''----------------USStockPrice----------------'''
 form_data = {'dataset':'USStockPrice',
              'stock_id':'^DJI',
-             'date':'2019-06-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -286,7 +290,7 @@ data.head()
 '''----------------USStockPriceMinute----------------'''
 form_data = {'dataset':'USStockPriceMinute',
              'stock_id':'MTX',
-             'date':'2019-06-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -320,7 +324,7 @@ data.head()
 '''----------------JapanStockPrice----------------'''
 form_data = {'dataset':'JapanStockPrice',
              'stock_id':'1376.T',
-             'date':'2019-06-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -344,7 +348,7 @@ data.head()
 '''----------------UKStockPrice----------------'''
 form_data = {'dataset':'UKStockPrice',
              'stock_id':'0HZU.L',
-             'date':'2019-06-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -385,7 +389,7 @@ data
 '''----------------ExchangeRate----------------'''
 form_data = {'dataset':'ExchangeRate',
              'data_id':'Taiwan',
-             'date':'2019-06-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -396,7 +400,7 @@ data.head()
 
 '''----------------InstitutionalInvestors----------------'''
 form_data = {'dataset':'InstitutionalInvestors',
-             'date':'2019-06-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -456,7 +460,7 @@ data
 '''----------------CrudeOilPrices----------------'''
 form_data = {'dataset':'CrudeOilPrices',
              'data_id': 'WTI',
-             'date':'2019-06-01'}
+             'date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
@@ -498,7 +502,7 @@ data = pd.DataFrame(temp['data'])
 data.head()
 
 '''----------------GoldPrice----------------'''
-form_data = {'dataset':'GoldPrice','date':'2019-06-06'}
+form_data = {'dataset':'GoldPrice','date':today}
 res = requests.post(
         url,verify = True,
         data = form_data)
