@@ -215,6 +215,7 @@ data = pd.DataFrame(temp['data'])
 data.head()
 
 '''----------------TaiwanOption----------------'''
+'''
 form_data = {'dataset':'TaiwanOption'}
 res = requests.post(
 	  translate_url,verify = True,
@@ -235,8 +236,9 @@ res = requests.post(
 temp = res.json()
 data = pd.DataFrame(temp['data'])
 data.head()
-
+'''
 '''----------------TaiwanFutures----------------'''
+'''
 #load stock_id table, 讀取代碼表，用於輸入以下 stock_id 參數
 form_data = {'dataset':'TaiwanFutures'}
 res = requests.post(
@@ -258,6 +260,7 @@ res = requests.post(
 temp = res.json()
 data = pd.DataFrame(temp['data'])
 data.head()
+'''
 '''----------------USStockInfo----------------'''
 form_data = {'dataset':'USStockInfo'}
 res = requests.post(
