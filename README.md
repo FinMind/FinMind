@@ -40,13 +40,13 @@ email : FinMind.TW@gmail.com
 ## Project of Contents
 
 - [Website](https://finmindtrade.com/)
-	- [Backtesting (回測)](https://github.com/FinMind/FinMind#Backtesting(回測))
+	- [Backtesting (回測)](https://github.com/FinMind/FinMind/tree/master#backtesting-(回測))
 	- [個股分析](https://finmindtrade.com/analysis/taiwan_stock_analysis)
 
 - Dataset
-	- [Dataset Api](https://github.com/FinMind/FinMind#Dataset&emsp;Api)
-	- [中英對照表](https://github.com/FinMind/FinMind/blob/master/VariableDocument.md)
-	- [Crawler (爬蟲)]()
+	- [Dataset Api](https://github.com/FinMind/FinMind/tree/master#Dataset-Api)
+	- [中英對照表](translation-中英對照)
+	- [Crawler (爬蟲)](https://github.com/FinMind/FinMind/tree/master#Crawler-(爬蟲))
 
 - Other
 
@@ -60,7 +60,7 @@ email : FinMind.TW@gmail.com
 
 -------------------------------------------
 
-### Backtesting(回測)
+### Backtesting (回測)
 
 - [上傳自己設計的策略](https://finmindtrade.com/analysis/upload)，進行[線上模擬](https://finmindtrade.com/analysis/back_testing)
 - 券商交易功能(開發中)，未來，使用者只需專注在策略開發上，即可利用選定策略、個股，進行自動化交易
