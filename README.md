@@ -50,7 +50,7 @@ email : FinMind.TW@gmail.com
 
 - Other
 
-	- The full version of this [documentation](https://linsamtw.github.io/FinMindDoc/)
+	- The full version of [documentation](https://linsamtw.github.io/FinMindDoc/)
 
 	- [Median Sharing](https://medium.com/@yanweiliu/finmind-%E4%BD%BF%E7%94%A8python%E6%9F%A5%E5%85%A8%E7%90%83%E8%82%A1%E5%83%B9-%E5%82%B5%E5%88%B8-%E5%8E%9F%E6%B2%B9%E5%83%B9%E6%A0%BC-f39d13ad6a68)
 
@@ -108,12 +108,12 @@ head(data)
 ```
 
   `note` : 限制 request 上限 : 600 / hour。Limit amount of request, 600 / hour.<br>
-  至[官網](https://finmindtrade.com/)註冊後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。<br>
+  至[FinMind官網](https://finmindtrade.com/)註冊後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。<br>
   user_id, password 參數使用方法，可參考[線上 api](http://finmindapi.servebeer.com/docs#/default/data_api_data_post)。
 
 ## translation 中英對照
 
-- [中英對照 Document](https://github.com/linsamtw/FinMind/blob/master/VariableDocument.md)
+- [中英對照 Document(不再維護)](https://github.com/linsamtw/FinMind/blob/master/VariableDocument.md)
 
 - 中英對照 api
 
