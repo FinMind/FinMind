@@ -47,8 +47,8 @@ print(
 )
 TaiwanStockFinancialStatements = Load.FinData(
     dataset="FinancialStatements",
-    select=TaiwanStockInfo.loc[9010, "stock_id"],
-    date=date3,
+    select=2330,
+    date='2019-01-01',
 )
 print(TaiwanStockFinancialStatements[:5])
 # transpose
