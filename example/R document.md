@@ -12,7 +12,7 @@
 
 
         library(httr)
-        library(jsonlite)
+        library(formlite)
         library('data.table')
         library(dplyr)
 
@@ -21,7 +21,7 @@
 
         payload<-list( 'dataset' = 'TaiwanStockInfo')
 
-        response = POST(url,body = payload,encode="json")
+        response = POST(url,body = payload,encode="form")
         data = response %>% content
         data = do.call('cbind',data$data) %>%data.table
         head(data)
@@ -33,7 +33,7 @@
                            'stock_id' = '2317',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -45,7 +45,7 @@
                             'stock_id' = '2330',
                             'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -57,7 +57,7 @@
                            'stock_id' = '2317',
                            'date'='2018-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -69,7 +69,7 @@
                             'stock_id' = '2330',
                             'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -81,7 +81,7 @@
                            'stock_id' = '2317',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -93,7 +93,7 @@
                            'stock_id' = '2317',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -105,7 +105,7 @@
                            'stock_id' = '2317',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -117,7 +117,7 @@
                            'stock_id' = '2317',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -129,7 +129,7 @@
                            'stock_id' = '2317',
                            'date'='2018-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -141,7 +141,7 @@
                            'stock_id' = '2317',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -153,7 +153,7 @@
                            'stock_id' = '2317',
                            'date'='2019-01-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -163,7 +163,7 @@
 
             payload<-list( 'dataset' = 'USStockInfo' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -175,7 +175,7 @@
                            'stock_id' = '^GSPC',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -187,7 +187,7 @@
                            'stock_id' = 'AAPL',
                            'date'='2018-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -197,7 +197,7 @@
 
             payload<-list( 'dataset' = 'JapanStockInfo')
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -209,7 +209,7 @@
                            'stock_id' = '1376.T',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -219,7 +219,7 @@
 
             payload<-list( 'dataset' = 'UKStockInfo' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -231,7 +231,7 @@
                            'stock_id' = '0TWH.L',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -241,7 +241,7 @@
 
             payload<-list( 'dataset' = 'EuropeStockInfo')
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -253,7 +253,7 @@
                            'stock_id' = 'ABCA.PA',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -263,7 +263,7 @@
 
             payload<-list( 'dataset' = 'ExchangeRate' )
 
-            response = POST(list_url,body = payload,encode="json")
+            response = POST(list_url,body = payload,encode="form")
             data = response %>% content
             data = do.call('c',data$data)
 
@@ -274,7 +274,7 @@
                            'data_id' = 'Taiwan',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -284,7 +284,7 @@
 
             payload<-list( 'dataset' = 'InstitutionalInvestors')
 
-            response = POST(list_url,body = payload,encode="json")
+            response = POST(list_url,body = payload,encode="form")
             data = response %>% content
             data = do.call('c',data$data)
 
@@ -295,7 +295,7 @@
                            'data_id' = 'Dealer',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -305,7 +305,7 @@
 
             payload<-list( 'dataset' = 'InterestRate' )
 
-            response = POST(list_url,body = payload,encode="json")
+            response = POST(list_url,body = payload,encode="form")
             data = response %>% content
             data = do.call('c',data$data)
 
@@ -316,7 +316,7 @@
                            'data_id' = 'BOC',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -326,7 +326,7 @@
 
             payload<-list( 'dataset' = 'GovernmentBonds' )
 
-            response = POST(list_url,body = payload,encode="json")
+            response = POST(list_url,body = payload,encode="form")
             data = response %>% content
             data = do.call('c',data$data)
 
@@ -337,7 +337,7 @@
                            'data_id' = 'France 9-Year',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -347,7 +347,7 @@
 
             payload<-list( 'dataset' = 'CrudeOilPrices' )
 
-            response = POST(list_url,body = payload,encode="json")
+            response = POST(list_url,body = payload,encode="form")
             data = response %>% content
             data = do.call('c',data$data)
 
@@ -358,7 +358,7 @@
                            'data_id' = 'WTI',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -368,7 +368,7 @@
 
             payload<-list( 'dataset' = 'RawMaterialFuturesPrices' )
 
-            response = POST(list_url,body = payload,encode="json")
+            response = POST(list_url,body = payload,encode="form")
             data = response %>% content
             data = do.call('c',data$data)
 
@@ -379,7 +379,7 @@
                            'data_id' = 'Tin Futures',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -391,7 +391,7 @@
                             'data_id':'London Robusta Coffee Futures',
                             'date'='2019-08-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -401,7 +401,7 @@
 
             payload<-list( 'dataset' = 'GoldPrice', 'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -411,7 +411,7 @@
 
             payload<-list( 'dataset' = 'CurrencyCirculation' )
 
-            response = POST(list_url,body = payload,encode="json")
+            response = POST(list_url,body = payload,encode="form")
             data = response %>% content
             data = do.call('c',data$data)
 
@@ -422,7 +422,7 @@
                            'data_id' = 'US',
                            'date'='2018-01-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
@@ -432,7 +432,7 @@
 
             payload<-list( 'dataset' = 'GovernmentBondsYield' )
 
-            response = POST(list_url,body = payload,encode="json")
+            response = POST(list_url,body = payload,encode="form")
             data = response %>% content
             data = do.call('c',data$data)
 
@@ -443,7 +443,7 @@
                            'data_id' = 'United States 1-Year',
                            'date'='2019-06-01' )
 
-            response = POST(url,body = payload,encode="json")
+            response = POST(url,body = payload,encode="form")
             data = response %>% content
             data = do.call('cbind',data$data) %>%data.table
             head(data)
