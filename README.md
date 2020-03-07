@@ -103,7 +103,7 @@ url = 'http://finmindapi.servebeer.com/api/data'
 # TaiwanStockInfo
 payload<-list( 'dataset' = 'TaiwanStockInfo')
 
-response = POST(url,body = payload,encode="json")
+response = POST(url,body = payload,encode="form")
 data = response %>% content
 data = do.call('cbind',data$data) %>%data.table
 head(data)
