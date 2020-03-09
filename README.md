@@ -77,6 +77,7 @@ email : FinMind.TW@gmail.com
 
 ```
 import requests
+import pandas as pd
 url = 'http://finmindapi.servebeer.com/api/data'
 form_data = {'dataset':'TaiwanStockInfo'}
 res = requests.post(url,verify = True,data = form_data)
