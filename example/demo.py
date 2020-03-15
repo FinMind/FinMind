@@ -225,17 +225,6 @@ InterestRate = Load.FinData(
 print(InterestRate[:5])
 
 # ---------------------------------------------------------------
-print("load GovernmentBonds list")
-GovernmentBonds_list = Load.FinDataList(dataset="GovernmentBonds")
-print(GovernmentBonds_list[:5])
-
-print("load GovernmentBonds {}".format(GovernmentBonds_list[3]))
-GovernmentBonds = Load.FinData(
-    dataset="GovernmentBonds", select=GovernmentBonds_list[3], date=date
-)
-print(GovernmentBonds[:5])
-
-# ---------------------------------------------------------------
 print("load CrudeOilPrices list")
 CrudeOilPrices_list = Load.FinDataList(dataset="CrudeOilPrices")
 print(CrudeOilPrices_list[:5])
