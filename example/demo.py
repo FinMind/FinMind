@@ -54,23 +54,6 @@ print(TaiwanStockFinancialStatements[:5])
 # transpose
 data = Load.transpose(TaiwanStockFinancialStatements)
 
-print(
-    "load 台股配息 TaiwanStockStockDividend {} ".format(
-        TaiwanStockInfo.loc[_index, "stock_id"]
-    )
-)
-TaiwanStockStockDividend = Load.FinData(
-    dataset="TaiwanStockStockDividend",
-    select=TaiwanStockInfo.loc[_index, "stock_id"],
-    date=date3,
-)
-print(TaiwanStockStockDividend[:5])
-
-print("load 台股配息 StockDividend 0050 ")
-data = Load.FinData(dataset="StockDividend", select="0050", date="2015-01-01")
-# data['date'] = data['date'] + '-' + data['period']
-# data = data.drop('period',axis = 1)
-data = Load.transpose(data)
 
 print(
     "load 借卷融資 TaiwanStockMarginPurchaseShortSale {} ".format(
