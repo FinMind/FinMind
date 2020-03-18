@@ -8,7 +8,7 @@ import requests
 import pandas as pd
 import datetime
 
-today = str(datetime.datetime.now().date())
+today = str(datetime.datetime.now().date() - datetime.timedelta(1) )
 
 url = 'http://finmindapi.servebeer.com/api/data'
 list_url = 'http://finmindapi.servebeer.com/api/datalist'
