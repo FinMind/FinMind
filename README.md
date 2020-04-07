@@ -38,7 +38,7 @@ email : FinMind.TW@gmail.com
 - [License Detail](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
 
 ## Project of Contents
-
+- [Document](https://finmind.github.io/)
 - [Website](https://finmindtrade.com/)
 	- [Backtesting (回測)](https://github.com/FinMind/FinMind/tree/master#backtesting-回測)
 	- [個股分析](https://finmindtrade.com/analysis/taiwan_stock_analysis)
