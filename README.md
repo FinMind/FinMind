@@ -4,7 +4,7 @@
 [![Documentation Status](https://readthedocs.org/projects/finminddoc/badge/?version=latest)](https://finmind.github.io/)
 <!--[![Coverage Status](https://coveralls.io/repos/github/linsamtw/FinMind/badge.svg?branch=master)](https://coveralls.io/github/linsamtw/FinMind?branch=master)-->
 
-### [Document](https://finmind.github.io/)
+### [Document](https://finmind.github.io/quickstart/)
 
 ## 這是什麼? 
 **FinMind** 是超過 50 種金融開源數據 [50 datasets](https://finmind.github.io/)。
