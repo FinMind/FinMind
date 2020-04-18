@@ -42,7 +42,8 @@ email : FinMind.TW@gmail.com
 ## Project of Contents
 
 - Dataset
-	- [Dataset Api](http://finmindapi.servebeer.com/docs#/default/data_api_data_post)
+	- [線上 Api](http://api.finmindtrade.com/docs)
+	- [Taiwan Stock Data](https://finmind.github.io/tutor/TaiwanStock/)
 	- [Document](https://finmind.github.io/)
 	- [Crawler (爬蟲)](https://github.com/FinMind/FinMind/tree/master#Crawler-爬蟲)
 
@@ -68,7 +69,7 @@ email : FinMind.TW@gmail.com
 
   `note` : 限制 request 上限 : 600 / hour。Limit amount of request, 600 / hour.<br>
   至[FinMind官網](https://finmindtrade.com/)註冊後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。<br>
-  user_id, password 參數使用方法，可參考[線上 api](http://finmindapi.servebeer.com/docs#/default/data_api_data_post)。
+  user_id, password 參數使用方法，可參考[線上 api](http://api.finmindtrade.com/docs)。
 
 ### Crawler 爬蟲
 
