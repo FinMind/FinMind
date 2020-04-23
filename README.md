@@ -36,7 +36,8 @@ You can analyze financial data without having to collect the data by yourself.<b
 
 Solicit partners who are interested in joint development. <br>
 徵求有興趣共同開發的夥伴。<br>
-email : FinMind.TW@gmail.com
+email : FinMind.TW@gmail.com<br>
+每週日早上 0 am ~ 7 am 維護時間，不提供服務。
 
 -------------------------------------------
 ## License
