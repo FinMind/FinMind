@@ -39,6 +39,9 @@ Solicit partners who are interested in joint development. <br>
 email : FinMind.TW@gmail.com<br>
 每週日早上 0 am ~ 7 am 維護時間，不提供服務。
 
+  `note` : 限制 request 上限 : 600 / hour。Limit amount of request, 600 / hour.<br>
+  至[FinMind官網](https://finmindtrade.com/)註冊後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。<br>
+  user_id, password 參數使用方法，可參考[線上 api](http://api.finmindtrade.com/docs)。
 -------------------------------------------
 ## License
 
@@ -48,13 +51,9 @@ email : FinMind.TW@gmail.com<br>
 
 - Dataset
 	- [線上 Api](http://api.finmindtrade.com/docs)
-	- [Taiwan Stock Data](https://finmind.github.io/tutor/TaiwanStock/)
+	- [Taiwan Stock Data](https://finmind.github.io/tutor/TaiwanMarket/DataList/)
 	- [Document](https://finmind.github.io/)
-	- [Crawler (爬蟲)](https://github.com/FinMind/FinMind/tree/master#Crawler-爬蟲)
-
-- [Website](https://finmindtrade.com/)
-	- [Backtesting (回測)](https://github.com/FinMind/FinMind/tree/master#backtesting-回測)
-	- [個股分析](https://finmindtrade.com/analysis/taiwan_stock_analysis)
+	<!--- [Crawler (爬蟲)](https://github.com/FinMind/FinMind/tree/master#Crawler-爬蟲)-->
 
 - Other
 
@@ -62,9 +61,13 @@ email : FinMind.TW@gmail.com<br>
 	- [Median Sharing](https://medium.com/@yanweiliu/finmind-%E4%BD%BF%E7%94%A8python%E6%9F%A5%E5%85%A8%E7%90%83%E8%82%A1%E5%83%B9-%E5%82%B5%E5%88%B8-%E5%8E%9F%E6%B2%B9%E5%83%B9%E6%A0%BC-f39d13ad6a68)
 	- [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
 
-
+<!---
+- [Website](https://finmindtrade.com/)
+	- [Backtesting (回測)](https://github.com/FinMind/FinMind/tree/master#backtesting-回測)
+	- [個股分析](https://finmindtrade.com/analysis/taiwan_stock_analysis)
+-->
 -------------------------------------------
-
+<!--
 ### Backtesting 回測
 
 - [上傳自己設計的策略](https://finmindtrade.com/analysis/upload)，進行[線上模擬](https://finmindtrade.com/analysis/back_testing)
@@ -80,3 +83,4 @@ email : FinMind.TW@gmail.com<br>
 
 - 由於原物料、債券期貨資料，有法規問題，禁止散布，因此我公開爬蟲 code，各位自行爬蟲，就不是從我這獲得資料，不會有散布問題
 - [demo code](https://github.com/linsamtw/FinMind/blob/master/Crawler/demo.py)
+-->
