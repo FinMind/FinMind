@@ -39,9 +39,10 @@ Solicit partners who are interested in joint development. <br>
 email : FinMind.TW@gmail.com<br>
 每週日早上 0 am ~ 7 am 維護時間，不提供服務。
 
-  `note` : 限制 request 上限 : 600 / hour。Limit amount of request, 600 / hour.<br>
-  至[FinMind官網](https://finmindtrade.com/)註冊後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。<br>
-  user_id, password 參數使用方法，可參考[線上 api](http://api.finmindtrade.com/docs)。
+`note` : 限制 request 上限 : 600 / hour。Limit amount of request, 600 / hour.<br>
+至[FinMind官網](https://finmindtrade.com/)註冊後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。<br>
+user_id, password 參數使用方法，可參考[線上 api](http://api.finmindtrade.com/docs)。
+
 -------------------------------------------
 ## License
 
