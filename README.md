@@ -32,18 +32,8 @@ US Government Bonds Yield.
 The datasets are automatically updated daily.
 You can analyze financial data without having to collect the data by yourself.<br>
 
-     pip3 install FinMind
+--------------
 
-Solicit partners who are interested in joint development. <br>
-徵求有興趣共同開發的夥伴。<br>
-email : FinMind.TW@gmail.com<br>
-每週日早上 0 am ~ 7 am 維護時間，不提供服務。
-
-`note` : 限制 request 上限 : 600 / hour。Limit amount of request, 600 / hour.<br>
-至[FinMind官網](https://finmindtrade.com/)註冊後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。<br>
-user_id, password 參數使用方法，可參考[線上 api](http://api.finmindtrade.com/docs)。
-
--------------------------------------------
 ## License
 
 - [License Detail](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
@@ -61,6 +51,19 @@ user_id, password 參數使用方法，可參考[線上 api](http://api.finmindt
 	- [Open UP Summit Slide(PPT)](https://www.slideshare.net/ssusera12be6/finmind-project-demo-199815617)
 	- [Median Sharing](https://medium.com/@yanweiliu/finmind-%E4%BD%BF%E7%94%A8python%E6%9F%A5%E5%85%A8%E7%90%83%E8%82%A1%E5%83%B9-%E5%82%B5%E5%88%B8-%E5%8E%9F%E6%B2%B9%E5%83%B9%E6%A0%BC-f39d13ad6a68)
 	- [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
+
+-------------------------------------------
+
+Solicit partners who are interested in joint development. <br>
+徵求有興趣共同開發的夥伴。<br>
+email : FinMind.TW@gmail.com<br>
+每週日早上 0 am ~ 7 am 維護時間，不提供服務。
+
+`note` : 限制 request 上限 : 600 / hour。Limit amount of request, 600 / hour.<br>
+至[FinMind官網](https://finmindtrade.com/)註冊後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。<br>
+user_id, password 參數使用方法，可參考[線上 api](http://api.finmindtrade.com/docs)。
+
+
 
 <!---
 - [Website](https://finmindtrade.com/)
