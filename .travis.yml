@@ -5,7 +5,7 @@ matrix:
     python: "3.6"
     env: TEST_SUITE=suite_3_6_unit
 script: 
-  - pip3 install FinMind
-  - pip3 install pytest
-  - pip3 install pytest-mock
-  - pytest tests
+  - pip3 install pipenv
+  - pipenv --python /usr/bin/python3
+  - pipenv sync
+  - pipenv run pytest
