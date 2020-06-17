@@ -5,8 +5,6 @@ matrix:
     python: "3.6"
     env: TEST_SUITE=suite_3_6_unit
 script: 
-  - pip3 install pandas 
-  - pip3 install pymysql
   - pip3 install FinMind
-  - pip3 install requests
-  - python3 example/demo.py 
+  - pip3 install pytest
+  - pytest tests
