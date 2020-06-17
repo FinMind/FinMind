@@ -7,4 +7,5 @@ matrix:
 script: 
   - pip3 install FinMind
   - pip3 install pytest
+  - pip3 install pytest-mock
   - pytest tests

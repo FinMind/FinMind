@@ -10,7 +10,7 @@ with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
 
 
 requirements = [
-    "ta",
+    "ta", "requests", "importlib_metadata", "matplotlib", "pandas"
 ]
 
 setup(
@@ -30,7 +30,7 @@ setup(
         "Programming Language :: Python :: 3.6",
     ],
     keywords="financial, python",  # Optional
-    packages=find_packages(exclude=["importlib", "pymysql", "ta"]),
+    packages=find_packages(exclude=["importlib", "ta"]),
     install_requires=requirements,
     project_urls={  # Optional
         "documentation": "https://linsamtw.github.io/FinMindDoc/",

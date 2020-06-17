@@ -2,6 +2,7 @@ deploy-github-page:
 	git clone https://github.com/FinMind/FinMind.git ../finmind-github && \
 	rm -r -f ../finmind-github/* && \
 	mv * ../finmind-github/ && \
+	cp .travis.yml ../finmind-github/ && \
 	cd ../finmind-github/ && \
 	git config user.name "sam" && git config user.email "finmind.tw@gmail.com" && \
 	git remote set-url origin https://gitlabci:${GITHUB_TOKEN}@github.com/FinMind/FinMind.git && \
