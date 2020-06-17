@@ -1,0 +1,20 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+numpy = "*"
+pandas = "*"
+matplotlib = "*"
+requests = "*"
+pytest = "*"
+FinMind = {editable = true,version = "*"}
+mock = "*"
+pytest-mock = "*"
+ta = "*"
+
+[requires]
+python_version = "3.6"
