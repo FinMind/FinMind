@@ -68,7 +68,7 @@ Email: FinMind.TW@gmail.com
 ## Note
 + API Request 上限：600 / 小時。
 + Limit amount of request, 600 / hour.
-+ 至[FinMind官網](https://finmindtrade.com/)註冊後，API 的 Request 加上 `user_id` 與 `password` 參數可以提高使用上限到 1500/hr。
++ 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `user_id` 與 `password` 參數可以提高使用上限到 1500/hr。
 + `user_id` 與 `password` 參數的使用方法，可參考[線上 API](http://api.finmindtrade.com/docs)。
 
 
@@ -88,7 +88,7 @@ Email: FinMind.TW@gmail.com
 ![](https://raw.githubusercontent.com/FinMind/FinMind/master/BackTesting/online.png)
 
   `note` : 限制 request 上限 : 600 / hour。Limit amount of request, 600 / hour.<br>
-  至[FinMind官網](https://finmindtrade.com/)註冊後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。<br>
+  至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。<br>
   user_id, password 參數使用方法，可參考[線上 api](http://api.finmindtrade.com/docs)。
 
 ### Crawler 爬蟲
