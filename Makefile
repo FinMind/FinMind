@@ -17,7 +17,7 @@ install-python-evn:
 	pip3 install twine
 
 build-dist:
-	python3 setup.py sdist
+	CI_COMMIT_TAG=${CI_COMMIT_TAG} python3 setup.py sdist
 
 upload-pypi:
 	twine upload -u ${TWINE_USERNAME} -p ${TWINE_PASSWORD} dist/*

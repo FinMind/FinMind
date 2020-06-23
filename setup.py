@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 from io import open
 import os
 
-_version = os.environ.get("CI_COMMIT_TAG", "0.0.2.dev1")
+_version = os.environ.get("CI_COMMIT_TAG", "1.2.0.dev6")
 here = os.path.abspath(os.path.dirname(__file__))
 
 with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
