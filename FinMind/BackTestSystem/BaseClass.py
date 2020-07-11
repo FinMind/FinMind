@@ -234,7 +234,7 @@ class BackTest:
                 how="left",
             ).fillna(0)
         else:
-            self.base_data["CashExDividendTradingDate"] = 0
+            self.base_data["StockEarningsDistribution"] = 0
             self.base_data["CashEarningsDistribution"] = 0
 
     def simulate(self):
