@@ -1,13 +1,4 @@
-"""
-Todo:
-    1. kama, mama
-    2. convert to return version
-    3. pre-check
 
-Finish:
-    1. sma, ssma, ssma_v2, ema, dema, tema, vma, macd, macdl
-    2. high performance interface
-"""
 import pandas as pd
 import numpy as np
 import math
