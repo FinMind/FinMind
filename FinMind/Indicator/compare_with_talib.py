@@ -3,14 +3,20 @@ from timeit import default_timer as timer
 # from ..indicator 
 from FinMind.Data import Load
 import moving_average as ima
+import statistic as iStatistic
+import bands as iBands
 import pandas as pd
 import talib
 import math
+import requests
+
 
 # def COMPARE_SWITCH(Enum):
+COMPARE_SWITCH_STDDEV   = True      # Done
+COMPARE_SWITCH_LINREG   = True      # Done
 COMPARE_SWITCH_SMA      = True      # Done
-COMPARE_SWITCH_EMA      = True      # Done
-
+COMPARE_SWITCH_EMA      = False      # Done
+COMPARE_SWITCH_BBANDS   = True      # Done
 
 def indicator_compare(pd_personal, pd_talib, message, dates=[]):
     is_same = True
@@ -31,26 +37,71 @@ def indicator_compare(pd_personal, pd_talib, message, dates=[]):
         print(message, 'Inconsistent')
 
 
-def simple_download_from_FinMind(code=2330, from_date='2019-1-1'):
-    FMDBN = 'TaiwanStockPrice'
-    data = Load.FinData(dataset = FMDBN, select = str(code), date = from_date)
-    # data.rename({ 'date'             : 'Date', 
-    #               'Trading_Volume'   : 'Capacity',
-    #               'Trading_money'    : 'Turnover',
-    #               'open'             : 'Open',
-    #               'max'              : 'High',
-    #               'min'              : 'Low',
-    #               'close'            : 'Close',
-    #               'spread'           : 'Change',
-    #               'Trading_turnover' : 'Transaction' }, axis=1, inplace=True)
-    return data
+def simple_download_from_FinMind(from_date='2019-01-01'):
+    '''
+    Return:
+        column name : date future_id contract_date     open      max      min    close  spread  spread_per  volume  settlement_price  open_interest trading_session
+    '''
+    url = "https://api.finmindtrade.com/api/v3/data"
+    parameter = {
+        "dataset": "TaiwanFuturesDaily",
+        "stock_id": "TX",
+        "date": from_date,
+        "end_date": "2020-04-25",
+    }
+    resp = requests.get(url, params=parameter)
+    data = resp.json()
+    pd_data = pd.DataFrame(data['data'])
+    pd_data = pd_data.groupby('date', as_index=False).apply(lambda t: t[t.volume==t.volume.max()])
+    pd_data.reset_index(drop=True, inplace=True)
 
+    return pd_data
 
 def compare_all():
     # ----------------------------------------------------------
     #  Download data
     # ----------------------------------------------------------
     pd_src = simple_download_from_FinMind()
+
+    # ----------------------------------------------------------
+    #  Compare Standard Deviation
+    # ----------------------------------------------------------
+    if COMPARE_SWITCH_STDDEV:
+        period = 20
+        close_name = 'close'
+
+        start = timer()
+        pd_personal = iStatistic.standard_deviation(pd_src, period, close_name, 'population')
+        end = timer()
+        print('My    StdDev',end - start)
+        
+        start = timer()
+        pd_talib = talib.STDDEV(pd_src[close_name], period, 1)
+        end = timer()
+        print('TaLib StdDev',end - start)
+
+        indicator_compare(pd_personal, pd_talib, 'Standard Deviation:')
+
+    # ----------------------------------------------------------
+    #  Compare Linear Regression
+    # ----------------------------------------------------------
+    if COMPARE_SWITCH_LINREG:
+        period = 20
+        close_name = 'close'
+
+        start = timer()
+        pd_linreg_intercept, pd_linreg_slope = iStatistic.linear_regression(pd_src, period, close_name)
+        end = timer()
+        print('My    LinReg',end - start)
+
+        start = timer()
+        pd_talib_intercept  = talib.LINEARREG_INTERCEPT(pd_src[close_name], period)
+        pd_talib_slope      = talib.LINEARREG_SLOPE(pd_src[close_name], period)
+        end = timer()
+        print('TaLib LinReg',end - start)
+
+        indicator_compare(pd_linreg_intercept, pd_talib_intercept, 'Linear Regression Intercept:')
+        indicator_compare(pd_linreg_slope, pd_talib_slope, 'Linear Regression Slope:')
 
     # ----------------------------------------------------------
     #  Compare Simple Moving Average
@@ -93,6 +144,27 @@ def compare_all():
         print('TaLib EMA',end - start)
 
         indicator_compare(pd_personal, pd_talib, 'Exponential Moving Average:')
+
+    if COMPARE_SWITCH_BBANDS:
+        period = 20
+        period_2 = 2
+        close_name = 'close'
+
+        start = timer()
+        upperband, middleband, lowerband = iBands.bollinger_bands(pd_src, close_name, period, period_2, 'population')
+        end = timer()
+        print('My    BBands',end - start)
+
+        start = timer()
+        # MA_Type: 0=SMA, 1=EMA, 2=WMA, 3=DEMA, 4=TEMA, 5=TRIMA, 6=KAMA, 7=MAMA, 8=T3 (Default=SMA)
+        ta_upperband, ta_middleband, ta_lowerband = talib.BBANDS(pd_src[close_name], period, period_2, period_2, matype=0)
+        end = timer()
+        print('TaLib BBands',end - start)
+
+        indicator_compare(ta_upperband,  upperband,  'Bollinger Bands Upperband:')
+        indicator_compare(ta_middleband, middleband, 'Bollinger Bands Middleband:')
+        indicator_compare(ta_lowerband,  lowerband,  'Bollinger Bands Lowerband:')
+
 
 
 compare_all()
