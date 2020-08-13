@@ -10,16 +10,10 @@ Finish:
 """
 import pandas as pd
 import numpy as np
-# import talib
 import math
-
 
 def simple_moving_average(pd_src, period):
     """
-    Goal
-    ----------
-    simple moving average.
-
     Args:
         pd_src (pandas.Series) : 
         period (int) : 
@@ -28,9 +22,6 @@ def simple_moving_average(pd_src, period):
 
 def exponential_moving_average(pd_src, period):
     """
-    Goal:
-        exponential moving average.
-
     Args:
         pd_src (pandas.Series) : 
         period (int) : 

@@ -1,14 +1,13 @@
 
 from timeit import default_timer as timer
-# from ..indicator 
-from FinMind.Data import Load
+import pandas as pd
+import requests
+import talib
+import math
+
 import moving_average as ima
 import statistic as iStatistic
 import bands as iBands
-import pandas as pd
-import talib
-import math
-import requests
 
 
 # def COMPARE_SWITCH(Enum):
@@ -35,7 +34,6 @@ def indicator_compare(pd_personal, pd_talib, message, dates=[]):
         print(message, 'Same')
     else:
         print(message, 'Inconsistent')
-
 
 def simple_download_from_FinMind(from_date='2019-01-01'):
     '''
@@ -144,7 +142,10 @@ def compare_all():
         print('TaLib EMA',end - start)
 
         indicator_compare(pd_personal, pd_talib, 'Exponential Moving Average:')
-
+        
+    # ----------------------------------------------------------
+    #  Compare Bollinger Bands
+    # ----------------------------------------------------------
     if COMPARE_SWITCH_BBANDS:
         period = 20
         period_2 = 2
