@@ -3,7 +3,7 @@
 <img src="https://raw.githubusercontent.com/FinMind/FinMind/master/logo.png" width="820" height="312">
 
 [![Build Status](https://travis-ci.org/FinMind/FinMind.svg?branch=master)](https://travis-ci.org/FinMind/FinMind)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
+[![license](https://img.shields.io/github/license/FinMind/FinMind)](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
 [![Documentation Status](https://readthedocs.org/projects/finminddoc/badge/?version=latest)](https://finmind.github.io/)
 [![Gitter](https://badges.gitter.im/FinMindTW/community.svg)](https://gitter.im/FinMindTW/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![PyPI version](https://badge.fury.io/py/FinMind.svg)](https://badge.fury.io/py/FinMind)
