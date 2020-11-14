@@ -6,6 +6,8 @@ import pandas as pd
 from FinMind.BackTestSystem.utils import (
     get_asset_underlying_type,
     get_underlying_trading_tax,
+    calculate_Datenbr,
+    calculate_sharp_ratio,
 )
 from FinMind.Data.Load import FinData
 
@@ -262,6 +264,7 @@ class BackTest:
             self.__compute_div_income(strategy.trader, cash_div, stock_div)
             dic_value = strategy.trader.__dict__
             dic_value["date"] = self.base_data.loc[i, "date"]
+            dic_value["signal"] = self.base_data.loc[i, "signal"]
             self._results = self._results.append(dic_value, ignore_index=True)
 
         self.__compute_final_stats()
@@ -303,6 +306,14 @@ class BackTest:
         self._final_stats["MaxLossPer[%]"] = round(
             self._final_stats["MaxLoss"] / self.trader_fund * 100, 2
         )
+        # +1, calculate_Datenbr not include last day
+        trade_days = calculate_Datenbr(self._results["date"].min(), self._results["date"].max()) + 1
+        trade_years = (trade_days + 1) / 365
+        # +1, self._results wihtout contain first day
+        self._final_stats["AnnualReturnPer"] = round(((self._final_stats["FinalProfitPer[%]"] / 100 + 1)**(1/trade_years) - 1) * 100, 2)
+        stratagy_return = np.mean((self._results["EverytimeProfit"] - self._results["EverytimeProfit"].shift(1)) / self._results["EverytimeProfit"].shift(1))
+        stratagy_std = np.std((self._results["EverytimeProfit"] - self._results["EverytimeProfit"].shift(1)) / self._results["EverytimeProfit"].shift(1))
+        self._final_stats["AnnualSharpRatio"] = calculate_sharp_ratio(stratagy_return, stratagy_std)
 
     def get_final_stats(self) -> pd.Series():
         return self._final_stats
