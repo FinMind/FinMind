@@ -68,7 +68,8 @@ class Trader:
             sell_total_price = sell_price - sell_tax - sell_fee
             self.trader_fund = self.trader_fund + sell_total_price
             self.RealizedProfit = self.RealizedProfit + round(
-                sell_total_price - (self.hold_cost * trade_volume), 2,
+                sell_total_price - (self.hold_cost * trade_volume),
+                2,
             )
             self.hold_volume = self.hold_volume - trade_volume
 
@@ -307,13 +308,40 @@ class BackTest:
             self._final_stats["MaxLoss"] / self.trader_fund * 100, 2
         )
         # +1, calculate_Datenbr not include last day
-        trade_days = calculate_Datenbr(self._results["date"].min(), self._results["date"].max()) + 1
+        trade_days = (
+            calculate_Datenbr(
+                self._results["date"].min(), self._results["date"].max()
+            )
+            + 1
+        )
         trade_years = (trade_days + 1) / 365
         # +1, self._results wihtout contain first day
-        self._final_stats["AnnualReturnPer"] = round(((self._final_stats["FinalProfitPer[%]"] / 100 + 1)**(1/trade_years) - 1) * 100, 2)
-        stratagy_return = np.mean((self._results["EverytimeProfit"] - self._results["EverytimeProfit"].shift(1)) / self._results["EverytimeProfit"].shift(1))
-        stratagy_std = np.std((self._results["EverytimeProfit"] - self._results["EverytimeProfit"].shift(1)) / self._results["EverytimeProfit"].shift(1))
-        self._final_stats["AnnualSharpRatio"] = calculate_sharp_ratio(stratagy_return, stratagy_std)
+        self._final_stats["AnnualReturnPer"] = round(
+            (
+                (self._final_stats["FinalProfitPer[%]"] / 100 + 1)
+                ** (1 / trade_years)
+                - 1
+            )
+            * 100,
+            2,
+        )
+        stratagy_return = np.mean(
+            (
+                self._results["EverytimeProfit"]
+                - self._results["EverytimeProfit"].shift(1)
+            )
+            / self._results["EverytimeProfit"].shift(1)
+        )
+        stratagy_std = np.std(
+            (
+                self._results["EverytimeProfit"]
+                - self._results["EverytimeProfit"].shift(1)
+            )
+            / self._results["EverytimeProfit"].shift(1)
+        )
+        self._final_stats["AnnualSharpRatio"] = calculate_sharp_ratio(
+            stratagy_return, stratagy_std
+        )
 
     def get_final_stats(self) -> pd.Series():
         return self._final_stats

@@ -43,7 +43,10 @@ class InstitutionalInvestorsFollower(Strategy):
         ).fillna(0)
 
         base_data["signal_info"] = self.detect_Abnormal_Peak(
-            y=base_data["diff"].values, lag=10, threshold=3, influence=0.35,
+            y=base_data["diff"].values,
+            lag=10,
+            threshold=3,
+            influence=0.35,
         )["signals"]
 
         base_data["signal"] = 0
