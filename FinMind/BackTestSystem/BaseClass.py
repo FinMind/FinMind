@@ -325,20 +325,12 @@ class BackTest:
             * 100,
             2,
         )
-        stratagy_return = np.mean(
-            (
-                self._results["EverytimeProfit"]
-                - self._results["EverytimeProfit"].shift(1)
-            )
-            / self._results["EverytimeProfit"].shift(1)
-        )
-        stratagy_std = np.std(
-            (
-                self._results["EverytimeProfit"]
-                - self._results["EverytimeProfit"].shift(1)
-            )
-            / self._results["EverytimeProfit"].shift(1)
-        )
+        timestep_returns = (
+            self._results["EverytimeProfit"]
+            - self._results["EverytimeProfit"].shift(1)
+        ) / (self._results["EverytimeProfit"].shift(1) + self.trader_fund)
+        stratagy_return = np.mean(timestep_returns)
+        stratagy_std = np.std(timestep_returns)
         self._final_stats["AnnualSharpRatio"] = calculate_sharp_ratio(
             stratagy_return, stratagy_std
         )
