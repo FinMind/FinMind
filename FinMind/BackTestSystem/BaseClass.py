@@ -186,7 +186,7 @@ class BackTest:
         self.user_id = user_id
         self.password = password
         self.strategy = strategy
-        self._results = pd.DataFrame()
+        self._trade_detail = pd.DataFrame()
         self._final_stats = pd.Series()
 
     def __init_base_data(self) -> pd.DataFrame:
@@ -266,7 +266,9 @@ class BackTest:
             dic_value = strategy.trader.__dict__
             dic_value["date"] = self.base_data.loc[i, "date"]
             dic_value["signal"] = self.base_data.loc[i, "signal"]
-            self._results = self._results.append(dic_value, ignore_index=True)
+            self._trade_detail = self._trade_detail.append(
+                dic_value, ignore_index=True
+            )
 
         self.__compute_final_stats()
 
@@ -292,10 +294,12 @@ class BackTest:
 
     def __compute_final_stats(self):
         self._final_stats["MeanProfit"] = np.mean(
-            self._results["EverytimeProfit"]
+            self._trade_detail["EverytimeProfit"]
         )
-        self._final_stats["MaxLoss"] = np.min(self._results["EverytimeProfit"])
-        self._final_stats["FinalProfit"] = self._results[
+        self._final_stats["MaxLoss"] = np.min(
+            self._trade_detail["EverytimeProfit"]
+        )
+        self._final_stats["FinalProfit"] = self._trade_detail[
             "EverytimeProfit"
         ].values[-1]
         self._final_stats["MeanProfitPer[%]"] = round(
@@ -310,12 +314,13 @@ class BackTest:
         # +1, calculate_Datenbr not include last day
         trade_days = (
             calculate_Datenbr(
-                self._results["date"].min(), self._results["date"].max()
+                self._trade_detail["date"].min(),
+                self._trade_detail["date"].max(),
             )
             + 1
         )
         trade_years = (trade_days + 1) / 365
-        # +1, self._results wihtout contain first day
+        # +1, self._trade_detail wihtout contain first day
         self._final_stats["AnnualReturnPer"] = round(
             (
                 (self._final_stats["FinalProfitPer[%]"] / 100 + 1)
@@ -326,20 +331,22 @@ class BackTest:
             2,
         )
         timestep_returns = (
-            self._results["EverytimeProfit"]
-            - self._results["EverytimeProfit"].shift(1)
-        ) / (self._results["EverytimeProfit"].shift(1) + self.trader_fund)
+            self._trade_detail["EverytimeProfit"]
+            - self._trade_detail["EverytimeProfit"].shift(1)
+        ) / (self._trade_detail["EverytimeProfit"].shift(1) + self.trader_fund)
         stratagy_return = np.mean(timestep_returns)
         stratagy_std = np.std(timestep_returns)
         self._final_stats["AnnualSharpRatio"] = calculate_sharp_ratio(
             stratagy_return, stratagy_std
         )
 
-    def get_final_stats(self) -> pd.Series():
+    @property
+    def final_stats(self) -> pd.Series():
         return self._final_stats
 
-    def get_results(self) -> pd.DataFrame():
-        return self._results
+    @property
+    def trade_detail(self) -> pd.DataFrame():
+        return self._trade_detail
 
     def plot(
         self,
@@ -357,16 +364,20 @@ class BackTest:
         fig = plt.figure(figsize=(12, 8))
         gs = gridspec.GridSpec(4, 1, figure=fig)
         ax = fig.add_subplot(gs[:2, :])
-        xpos = self._results.index
-        ax.plot("UnrealizedProfit", data=self._results, marker="", alpha=0.8)
-        ax.plot("RealizedProfit", data=self._results, marker="", alpha=0.8)
-        ax.plot("EverytimeProfit", data=self._results, marker="", alpha=0.8)
+        xpos = self._trade_detail.index
+        ax.plot(
+            "UnrealizedProfit", data=self._trade_detail, marker="", alpha=0.8
+        )
+        ax.plot("RealizedProfit", data=self._trade_detail, marker="", alpha=0.8)
+        ax.plot(
+            "EverytimeProfit", data=self._trade_detail, marker="", alpha=0.8
+        )
         ax.grid(grid)
         ax.legend(loc=2)
         axx = ax.twinx()
         axx.bar(
             xpos,
-            self._results["hold_volume"],
+            self._trade_detail["hold_volume"],
             alpha=0.2,
             label="hold_volume",
             color="pink",
@@ -375,14 +386,14 @@ class BackTest:
         ax2 = fig.add_subplot(gs[2:, :], sharex=ax)
         ax2.plot(
             "trade_price",
-            data=self._results,
+            data=self._trade_detail,
             marker="",
             label="open",
             alpha=0.8,
         )
         ax2.plot(
             "hold_cost",
-            data=self._results,
+            data=self._trade_detail,
             marker="",
             label="hold_cost",
             alpha=0.8,
