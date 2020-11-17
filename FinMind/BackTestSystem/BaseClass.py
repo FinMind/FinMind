@@ -10,7 +10,7 @@ from FinMind.BackTestSystem.utils import (
     calculate_sharp_ratio,
 )
 from FinMind.Data.Load import FinData
-
+from FinMind.BackTestSystem.Schema import output
 
 class Trader:
     def __init__(
@@ -302,13 +302,13 @@ class BackTest:
         self._final_stats["FinalProfit"] = self._trade_detail[
             "EverytimeProfit"
         ].values[-1]
-        self._final_stats["MeanProfitPer[%]"] = round(
+        self._final_stats["MeanProfitPer"] = round(
             self._final_stats["MeanProfit"] / self.trader_fund * 100, 2
         )
-        self._final_stats["FinalProfitPer[%]"] = round(
+        self._final_stats["FinalProfitPer"] = round(
             self._final_stats["FinalProfit"] / self.trader_fund * 100, 2
         )
-        self._final_stats["MaxLossPer[%]"] = round(
+        self._final_stats["MaxLossPer"] = round(
             self._final_stats["MaxLoss"] / self.trader_fund * 100, 2
         )
         # +1, calculate_Datenbr not include last day
@@ -323,7 +323,7 @@ class BackTest:
         # +1, self._trade_detail wihtout contain first day
         self._final_stats["AnnualReturnPer"] = round(
             (
-                (self._final_stats["FinalProfitPer[%]"] / 100 + 1)
+                (self._final_stats["FinalProfitPer"] / 100 + 1)
                 ** (1 / trade_years)
                 - 1
             )
@@ -342,10 +342,12 @@ class BackTest:
 
     @property
     def final_stats(self) -> pd.Series():
+        self._final_stats = pd.Series(output.final_stats(**self._final_stats.to_dict()).dict())
         return self._final_stats
 
     @property
     def trade_detail(self) -> pd.DataFrame():
+        self._trade_detail = pd.DataFrame([output.trade_detail(**row_dict).dict() for row_dict in self._trade_detail.to_dict('records')])
         return self._trade_detail
 
     def plot(
