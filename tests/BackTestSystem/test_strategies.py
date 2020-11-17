@@ -32,9 +32,9 @@ def test_ContinueHolding():
     assert int(obj.final_stats.MaxLoss) == -9663
     assert int(obj.final_stats.FinalProfit) == 3407
 
-    assert obj.final_stats["MeanProfitPer[%]"] == 0.56
-    assert obj.final_stats["FinalProfitPer[%]"] == 0.68
-    assert obj.final_stats["MaxLossPer[%]"] == -1.93
+    assert obj.final_stats["MeanProfitPer"] == 0.56
+    assert obj.final_stats["FinalProfitPer"] == 0.68
+    assert obj.final_stats["MaxLossPer"] == -1.93
 
     assert obj.trade_detail.to_dict("r")[0] == {
         "EverytimeProfit": -96.83,
@@ -68,9 +68,9 @@ def test_Bias():
     assert int(obj.final_stats.MaxLoss) == -863
     assert int(obj.final_stats.FinalProfit) == 2845
 
-    assert obj.final_stats["MeanProfitPer[%]"] == 0.20
-    assert obj.final_stats["FinalProfitPer[%]"] == 0.57
-    assert obj.final_stats["MaxLossPer[%]"] == -0.17
+    assert obj.final_stats["MeanProfitPer"] == 0.20
+    assert obj.final_stats["FinalProfitPer"] == 0.57
+    assert obj.final_stats["MaxLossPer"] == -0.17
 
     assert obj.trade_detail.to_dict("r")[0] == {
         "EverytimeProfit": 0.0,
@@ -104,9 +104,9 @@ def test_NaiveKd():
     assert int(obj.final_stats.MaxLoss) == -16840
     assert int(obj.final_stats.FinalProfit) == 20442
 
-    assert obj.final_stats["MeanProfitPer[%]"] == 2.39
-    assert obj.final_stats["FinalProfitPer[%]"] == 4.09
-    assert obj.final_stats["MaxLossPer[%]"] == -3.37
+    assert obj.final_stats["MeanProfitPer"] == 2.39
+    assert obj.final_stats["FinalProfitPer"] == 4.09
+    assert obj.final_stats["MaxLossPer"] == -3.37
 
 
 def test_Kd():
@@ -124,9 +124,9 @@ def test_Kd():
     assert int(obj.final_stats.MaxLoss) == -6243
     assert int(obj.final_stats.FinalProfit) == 10233
 
-    assert obj.final_stats["MeanProfitPer[%]"] == 1.13
-    assert obj.final_stats["FinalProfitPer[%]"] == 2.05
-    assert obj.final_stats["MaxLossPer[%]"] == -1.25
+    assert obj.final_stats["MeanProfitPer"] == 1.13
+    assert obj.final_stats["FinalProfitPer"] == 2.05
+    assert obj.final_stats["MaxLossPer"] == -1.25
 
 
 def test_KdCrossOver():
@@ -144,9 +144,9 @@ def test_KdCrossOver():
     assert int(obj.final_stats.MaxLoss) == -17322
     assert int(obj.final_stats.FinalProfit) == 5197
 
-    assert obj.final_stats["MeanProfitPer[%]"] == 0.85
-    assert obj.final_stats["FinalProfitPer[%]"] == 1.04
-    assert obj.final_stats["MaxLossPer[%]"] == -3.46
+    assert obj.final_stats["MeanProfitPer"] == 0.85
+    assert obj.final_stats["FinalProfitPer"] == 1.04
+    assert obj.final_stats["MaxLossPer"] == -3.46
 
 
 def test_InstitutionalInvestorsFollower():
@@ -164,9 +164,9 @@ def test_InstitutionalInvestorsFollower():
     assert int(obj.final_stats.MaxLoss) == -23650
     assert int(obj.final_stats.FinalProfit) == 13633
 
-    assert obj.final_stats["MeanProfitPer[%]"] == 1.44
-    assert obj.final_stats["FinalProfitPer[%]"] == 2.73
-    assert obj.final_stats["MaxLossPer[%]"] == -4.73
+    assert obj.final_stats["MeanProfitPer"] == 1.44
+    assert obj.final_stats["FinalProfitPer"] == 2.73
+    assert obj.final_stats["MaxLossPer"] == -4.73
 
 
 def test_ShortSaleMarginPurchaseRatio():
@@ -184,9 +184,9 @@ def test_ShortSaleMarginPurchaseRatio():
     assert int(obj.final_stats.MaxLoss) == -17331
     assert int(obj.final_stats.FinalProfit) == 19952
 
-    assert obj.final_stats["MeanProfitPer[%]"] == 2.44
-    assert obj.final_stats["FinalProfitPer[%]"] == 3.99
-    assert obj.final_stats["MaxLossPer[%]"] == -3.47
+    assert obj.final_stats["MeanProfitPer"] == 2.44
+    assert obj.final_stats["FinalProfitPer"] == 3.99
+    assert obj.final_stats["MaxLossPer"] == -3.47
 
 
 def test_MacdCrossOver():
@@ -204,9 +204,9 @@ def test_MacdCrossOver():
     assert int(obj.final_stats.MaxLoss) == -3797
     assert int(obj.final_stats.FinalProfit) == 5036
 
-    assert obj.final_stats["MeanProfitPer[%]"] == 0.5
-    assert obj.final_stats["FinalProfitPer[%]"] == 1.01
-    assert obj.final_stats["MaxLossPer[%]"] == -0.76
+    assert obj.final_stats["MeanProfitPer"] == 0.5
+    assert obj.final_stats["FinalProfitPer"] == 1.01
+    assert obj.final_stats["MaxLossPer"] == -0.76
 
 
 def test_MaCrossOver():
@@ -224,9 +224,9 @@ def test_MaCrossOver():
     assert int(obj.final_stats.MaxLoss) == -6842
     assert int(obj.final_stats.FinalProfit) == 444
 
-    assert obj.final_stats["MeanProfitPer[%]"] == 0.14
-    assert obj.final_stats["FinalProfitPer[%]"] == 0.09
-    assert obj.final_stats["MaxLossPer[%]"] == -1.37
+    assert obj.final_stats["MeanProfitPer"] == 0.14
+    assert obj.final_stats["FinalProfitPer"] == 0.09
+    assert obj.final_stats["MaxLossPer"] == -1.37
 
 
 def test_MaxMinPeriodBias():
@@ -244,6 +244,6 @@ def test_MaxMinPeriodBias():
     assert int(obj.final_stats.MaxLoss) == 0
     assert int(obj.final_stats.FinalProfit) == 0
 
-    assert obj.final_stats["MeanProfitPer[%]"] == 0
-    assert obj.final_stats["FinalProfitPer[%]"] == 0
-    assert obj.final_stats["MaxLossPer[%]"] == 0
+    assert obj.final_stats["MeanProfitPer"] == 0
+    assert obj.final_stats["FinalProfitPer"] == 0
+    assert obj.final_stats["MaxLossPer"] == 0
