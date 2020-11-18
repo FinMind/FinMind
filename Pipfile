@@ -15,6 +15,7 @@ FinMind = {editable = true,version = "*"}
 mock = "*"
 pytest-mock = "*"
 ta = "*"
+pydantic = "*"
 
 [requires]
 python_version = "3.6"

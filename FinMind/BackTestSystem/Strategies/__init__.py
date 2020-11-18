@@ -12,4 +12,3 @@ from FinMind.BackTestSystem.Strategies.NaiveKd import NaiveKd
 from FinMind.BackTestSystem.Strategies.ShortSaleMarginPurchaseRatio import (
     ShortSaleMarginPurchaseRatio,
 )
-
