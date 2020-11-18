@@ -11,8 +11,8 @@ deploy-github-page:
 
 
 install-python-evn:
-	apt-get update && \
-	apt-get install python3-pip -y && \
+	sudo apt-get update && \
+	sudo apt-get install python3-pip -y && \
 	pip3 install setuptools && \
 	pip3 install twine
 
