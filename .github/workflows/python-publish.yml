@@ -26,6 +26,7 @@ jobs:
       env:
         TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+        CI_COMMIT_TAG: ${GITHUB_REF#refs/*/}
       run: |
         make build-dist
         twine upload dist/* --verbose
