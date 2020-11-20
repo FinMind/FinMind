@@ -22,6 +22,8 @@ jobs:
     - name: Install dependencies
       run: |
         make install-python-evn
+    - name: Set env
+      run: echo "CI_COMMIT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Build and publish
       env:
         TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
