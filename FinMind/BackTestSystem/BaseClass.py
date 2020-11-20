@@ -10,7 +10,7 @@ from FinMind.BackTestSystem.utils import (
     calculate_sharp_ratio,
 )
 from FinMind.Data.Load import FinData
-from FinMind.BackTestSystem.Schema import output
+from FinMind.Schema import output
 
 class Trader:
     def __init__(
