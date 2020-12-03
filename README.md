@@ -26,6 +26,7 @@
 
 資料每天更新。你不需收集資料，就可進行分析。
 
+
 ## What is this?
 **FinMind** is open source of more than [50 datasets](https://finmind.github.io/), including
 
@@ -42,6 +43,9 @@ You can analyze financial data without having to collect the data by yourself.
 
 ## License
 - [License Detail](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
+
+- 資料來源: 
+	[證交所](https://www.twse.com.tw/zh/), [櫃買中心](https://www.tpex.org.tw/web/), [公開資訊觀測站](https://mops.twse.com.tw/mops/web/index), [期交所](https://www.taifex.com.tw/cht/index)。資料僅供參考，使用者依本資料交易發生交易損失需自行負責，本專案不對資料內容錯誤、更新延誤或傳輸中斷負任何責任。 )
 
 ## Project of Contents
 - Dataset
