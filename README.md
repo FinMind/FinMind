@@ -71,28 +71,9 @@ Email: FinMind.TW@gmail.com
 + 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `user_id` 與 `password` 參數可以提高使用上限到 1500/hr。
 + `user_id` 與 `password` 參數的使用方法，可參考[線上 API](http://api.finmindtrade.com/docs)。
 
+## dotnet
 
 
-<!---
-- [Website](https://finmindtrade.com/)
-	- [Backtesting (回測)](https://github.com/FinMind/FinMind/tree/master#backtesting-回測)
-	- [個股分析](https://finmindtrade.com/analysis/taiwan_stock_analysis)
--->
+* [贊助我們發展更多功能 (金額由你決定)](https://p.ecpay.com.tw/8196A98)
 
-<!--
-### Backtesting 回測
-
-- [上傳自己設計的策略](https://finmindtrade.com/analysis/upload)，進行[線上模擬](https://finmindtrade.com/analysis/back_testing)
-- 券商交易功能(開發中)，未來，使用者只需專注在策略開發上，即可利用選定策略、個股，進行自動化交易
-
-![](https://raw.githubusercontent.com/FinMind/FinMind/master/BackTesting/online.png)
-
-  `note` : 限制 request 上限 : 600 / hour。Limit amount of request, 600 / hour.<br>
-  至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，request api 帶 user_id, password 參數，使用上限可提高到 1500/hr。<br>
-  user_id, password 參數使用方法，可參考[線上 api](http://api.finmindtrade.com/docs)。
-
-### Crawler 爬蟲
-
-- 由於原物料、債券期貨資料，有法規問題，禁止散布，因此我公開爬蟲 code，各位自行爬蟲，就不是從我這獲得資料，不會有散布問題
-- [demo code](https://github.com/linsamtw/FinMind/blob/master/Crawler/demo.py)
--->
+<a href="https://p.ecpay.com.tw/8196A98"><img src="https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png" alt=""/></a>
