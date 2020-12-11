@@ -35,8 +35,6 @@ class Trader:
         self.UnrealizedProfit = 0
         self.RealizedProfit = 0
         self.EverytimeProfit = 0
-        self.fee_money = 0
-        self.tax_money = 0
         # TODO: EverytimeTraderFund
 
     def buy(self, trade_price: float, trade_lots: float):
