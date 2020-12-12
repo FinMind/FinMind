@@ -12,6 +12,7 @@ from FinMind.BackTestSystem.utils import (
 from FinMind.Data.Load import FinData
 from FinMind.Schema import output
 
+
 class Trader:
     def __init__(
         self,
@@ -59,9 +60,9 @@ class Trader:
         self.trade_price = trade_price
         if (
             self.__confirm_trade_lots(trade_lots, trade_price, self.trader_fund)
-            > 0
+            < 0
         ):
-            trade_volume = trade_lots * self.board_lot
+            trade_volume = abs(trade_lots) * self.board_lot
             sell_fee = max(20, trade_price * trade_volume * self.fee)
             sell_tax = trade_price * trade_volume * self.tax
             sell_price = trade_price * trade_volume
@@ -116,7 +117,7 @@ class Trader:
             --> not buy, since money not enough, as the same as sell
         """
         final_trade_lots = 0
-        trade_volume = trade_lots * self.board_lot
+        trade_volume = abs(trade_lots) * self.board_lot
         if trade_lots > 0:
             if self.__have_enough_money(trader_fund, trade_price, trade_volume):
                 final_trade_lots = trade_lots
@@ -342,12 +343,19 @@ class BackTest:
 
     @property
     def final_stats(self) -> pd.Series():
-        self._final_stats = pd.Series(output.final_stats(**self._final_stats.to_dict()).dict())
+        self._final_stats = pd.Series(
+            output.final_stats(**self._final_stats.to_dict()).dict()
+        )
         return self._final_stats
 
     @property
     def trade_detail(self) -> pd.DataFrame():
-        self._trade_detail = pd.DataFrame([output.trade_detail(**row_dict).dict() for row_dict in self._trade_detail.to_dict('records')])
+        self._trade_detail = pd.DataFrame(
+            [
+                output.trade_detail(**row_dict).dict()
+                for row_dict in self._trade_detail.to_dict("records")
+            ]
+        )
         return self._trade_detail
 
     def plot(
