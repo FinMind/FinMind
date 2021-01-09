@@ -9,6 +9,12 @@
 [![PyPI version](https://badge.fury.io/py/FinMind.svg)](https://badge.fury.io/py/FinMind)
 <!--[![Coverage Status](https://coveralls.io/repos/github/linsamtw/FinMind/badge.svg?branch=master)](https://coveralls.io/github/linsamtw/FinMind?branch=master)-->
 
+## dotnet
+
+
+* [贊助我們發展更多功能 (金額由你決定)](https://p.ecpay.com.tw/8196A98)
+
+<a href="https://p.ecpay.com.tw/8196A98"><img src="https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png" alt=""/></a>
 
 ## Quickstart
 + Refer to our [Official Documentation](https://finmind.github.io/quickstart/).
@@ -76,9 +82,3 @@ Email: FinMind.TW@gmail.com
 + 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `user_id` 與 `password` 參數可以提高使用上限到 1500/hr。
 + `user_id` 與 `password` 參數的使用方法，可參考[線上 API](http://api.finmindtrade.com/docs)。
 
-## dotnet
-
-
-* [贊助我們發展更多功能 (金額由你決定)](https://p.ecpay.com.tw/8196A98)
-
-<a href="https://p.ecpay.com.tw/8196A98"><img src="https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png" alt=""/></a>
