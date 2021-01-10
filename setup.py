@@ -1,13 +1,9 @@
 from setuptools import setup, find_packages
 from io import open
 import os
-from importlib_metadata import version
 
-_version = ""
-if os.environ.get("CI_COMMIT_TAG", ""):
-    _version = os.environ.get("CI_COMMIT_TAG")
-else:
-    _version = version("FinMind")
+print(os.environ.get("CI_COMMIT_TAG", "0.0.0"))
+_version = os.environ.get("CI_COMMIT_TAG", "0.0.1.dev2")
 
 here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, "README.md"), encoding="utf-8") as f:

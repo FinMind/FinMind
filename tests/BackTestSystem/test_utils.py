@@ -33,7 +33,7 @@ testdata_get_asset_underlying_type = [
 )
 def test_get_asset_underlying_type(stock_id, return_value, mocker):
     mock_load = mocker.patch("FinMind.Data.Load.FinData")
-    mock_load.get_data.return_value = return_value
+    mock_load.return_value = return_value
     underlying_type = get_asset_underlying_type(stock_id)
     assert underlying_type == "半導體業"
 
