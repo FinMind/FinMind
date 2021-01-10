@@ -26,6 +26,7 @@ jobs:
         pip3 install pipenv
         pipenv --python /usr/bin/python3
         pipenv sync
+        pip install twine
     - name: Set env
       run: echo "CI_COMMIT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Build and publish
