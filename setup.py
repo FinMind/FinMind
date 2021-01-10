@@ -1,17 +1,26 @@
 from setuptools import setup, find_packages
 from io import open
 import os
+from importlib_metadata import version
 
-print(os.environ.get("CI_COMMIT_TAG", "0.0.0"))
-_version = os.environ.get("CI_COMMIT_TAG", "1.2.8")
+_version = ""
+if os.environ.get("CI_COMMIT_TAG", ""):
+    _version = os.environ.get("CI_COMMIT_TAG")
+else:
+    _version = version("FinMind")
+
 here = os.path.abspath(os.path.dirname(__file__))
-
 with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 
 requirements = [
-    "ta", "requests", "importlib_metadata", "matplotlib", "pandas"
+    "ta",
+    "requests",
+    "importlib_metadata",
+    "matplotlib",
+    "pandas",
+    "pydantic",
 ]
 
 setup(
@@ -25,10 +34,10 @@ setup(
     author_email="samlin266118@gmail.com",  # Optional
     classifiers=[  # Optional
         "Development Status :: 3 - Alpha",
-        "Intended Audience :: Developers",
-        "Topic :: Software Development :: Build Tools",
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.6",
+        # "Intended Audience :: Developers",
+        # "Topic :: Software Development :: Buil Tools",
+        # "License :: OSI Approved :: MIT License",
+        # "Programming Language :: Python :: 3.6",
     ],
     keywords="financial, python",  # Optional
     packages=find_packages(exclude=["importlib", "ta"]),
