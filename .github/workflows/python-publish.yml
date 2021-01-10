@@ -1,5 +1,5 @@
-# This workflows will upload a Python Package using Twine when a release is created
-# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
 name: Upload Python Package
 
@@ -9,19 +9,23 @@ on:
       - "*"
 
 jobs:
-  deploy:
-
+  build:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        python-version: [3.6]
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
-        python-version: '3.6'
+        python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        make install-python-evn
+        python -m pip install --upgrade pip
+        pip3 install pipenv
+        pipenv --python /usr/bin/python3
+        pipenv sync
     - name: Set env
       run: echo "CI_COMMIT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Build and publish
