@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Python package
+name: test build python package
 
 on:
   pull_request:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8]
+        python-version: [3.6]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -25,9 +25,6 @@ jobs:
         pip3 install pipenv
         pipenv --python /usr/bin/python3
         pipenv sync
-    - name: Test with pytest
-      run: |
-        pipenv run pytest
     - name: test wheel
       run: |
         CI_COMMIT_TAG=${GITHUB_REF#refs/*/} pip wheel ./ --no-deps -w wheelhouse/
