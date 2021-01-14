@@ -15,7 +15,7 @@ requirements = [
     "requests==2.23.0",
     "importlib_metadata==1.6.1",
     "matplotlib==3.2.1",
-    "pandas==1.0.4",
+    "pandas==1.1.5",
     "pydantic==1.6.1",
 ]
 
