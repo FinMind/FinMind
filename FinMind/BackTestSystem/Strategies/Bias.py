@@ -1,6 +1,6 @@
-from ta.trend import SMAIndicator
-
+import pandas as pd
 from FinMind.BackTestSystem.BaseClass import Strategy
+from ta.trend import SMAIndicator
 
 
 class Bias(Strategy):
@@ -21,24 +21,22 @@ class Bias(Strategy):
     bias_lower = -7
     bias_upper = 8
 
-    def init(self, base_data):
-        base_data = base_data.sort_values("date")
-
-        base_data[f"ma{self.ma_days}"] = SMAIndicator(
-            base_data["close"], self.ma_days
+    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
+        stock_price = stock_price.sort_values("date")
+        stock_price[f"ma{self.ma_days}"] = SMAIndicator(
+            stock_price["close"], self.ma_days
         ).sma_indicator()
-        base_data["bias"] = (
-            (base_data["close"] - base_data[f"ma{self.ma_days}"])
-            / base_data[f"ma{self.ma_days}"]
+        stock_price["bias"] = (
+            (stock_price["close"] - stock_price[f"ma{self.ma_days}"])
+            / stock_price[f"ma{self.ma_days}"]
         ) * 100
-        base_data = base_data.dropna()
-        base_data.index = range(len(base_data))
-
-        base_data["signal"] = base_data["bias"].map(
+        stock_price = stock_price.dropna()
+        stock_price.index = range(len(stock_price))
+        stock_price["signal"] = stock_price["bias"].map(
             lambda x: 1
             if x < self.bias_lower
             else (-1 if x > self.bias_upper else 0)
         )
 
-        base_data["signal"] = base_data["signal"].fillna(0)
-        return base_data
+        stock_price["signal"] = stock_price["signal"].fillna(0)
+        return stock_price

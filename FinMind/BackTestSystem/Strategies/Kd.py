@@ -1,7 +1,7 @@
 import numpy as np
-from ta.momentum import StochasticOscillator
-
+import pandas as pd
 from FinMind.BackTestSystem.BaseClass import Strategy
+from ta.momentum import StochasticOscillator
 
 
 class Kd(Strategy):
@@ -17,19 +17,17 @@ class Kd(Strategy):
     kd_upper = 80
     kd_lower = 20
 
-    def init(self, base_data):
-        base_data = base_data.sort_values("date")
-
+    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
+        stock_price = stock_price.sort_values("date")
         kd = StochasticOscillator(
-            high=base_data["max"],
-            low=base_data["min"],
-            close=base_data["close"],
+            high=stock_price["max"],
+            low=stock_price["min"],
+            close=stock_price["close"],
             n=self.kdays,
         )
         rsv_ = kd.stoch().fillna(50)
-
-        _k = np.zeros(base_data.shape[0])
-        _d = np.zeros(base_data.shape[0])
+        _k = np.zeros(stock_price.shape[0])
+        _d = np.zeros(stock_price.shape[0])
         for i, r in enumerate(rsv_):
             if i == 0:
                 _k[i] = 50
@@ -38,12 +36,10 @@ class Kd(Strategy):
                 _k[i] = _k[i - 1] * 2 / 3 + r / 3
                 _d[i] = _d[i - 1] * 2 / 3 + _k[i] / 3
 
-        base_data["K"] = _k
-        base_data["D"] = _d
-
-        base_data.index = range(len(base_data))
-
-        base_data["signal"] = 0
-        base_data.loc[base_data["K"] <= self.kd_lower, "signal"] = 1
-        base_data.loc[base_data["K"] >= self.kd_upper, "signal"] = -1
-        return base_data
+        stock_price["K"] = _k
+        stock_price["D"] = _d
+        stock_price.index = range(len(stock_price))
+        stock_price["signal"] = 0
+        stock_price.loc[stock_price["K"] <= self.kd_lower, "signal"] = 1
+        stock_price.loc[stock_price["K"] >= self.kd_upper, "signal"] = -1
+        return stock_price

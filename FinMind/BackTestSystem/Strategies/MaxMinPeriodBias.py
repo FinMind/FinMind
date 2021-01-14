@@ -1,5 +1,5 @@
 from ta.trend import SMAIndicator
-
+import pandas as pd
 from FinMind.BackTestSystem.BaseClass import Strategy
 
 
@@ -20,46 +20,40 @@ class MaxMinPeriodBias(Strategy):
     bais_lower = -7
     bais_upper = 8
 
-    def init(self, base_data):
-        base_data = base_data.sort_values("date")
-
-        base_data[f"ma{self.ma_days}"] = SMAIndicator(
-            base_data["close"], self.ma_days
+    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
+        stock_price = stock_price.sort_values("date")
+        stock_price[f"ma{self.ma_days}"] = SMAIndicator(
+            stock_price["close"], self.ma_days
         ).sma_indicator()
-
-        base_data["bias"] = (
-            (base_data["close"] - base_data[f"ma{self.ma_days}"])
-            / base_data[f"ma{self.ma_days}"]
+        stock_price["bias"] = (
+            (stock_price["close"] - stock_price[f"ma{self.ma_days}"])
+            / stock_price[f"ma{self.ma_days}"]
         ) * 100
-
-        base_data[f"max_last_k_days{self.last_k_days}"] = (
-            base_data["close"].shift(1).rolling(window=self.last_k_days).max()
+        stock_price[f"max_last_k_days{self.last_k_days}"] = (
+            stock_price["close"].shift(1).rolling(window=self.last_k_days).max()
         )
-
-        base_data[f"min_last_k_days{self.last_k_days}"] = (
-            base_data["close"].shift(1).rolling(window=self.last_k_days).min()
+        stock_price[f"min_last_k_days{self.last_k_days}"] = (
+            stock_price["close"].shift(1).rolling(window=self.last_k_days).min()
         )
-
-        base_data["signal"] = 0
-        base_data.loc[
+        stock_price["signal"] = 0
+        stock_price.loc[
             (
-                (base_data["bias"] < self.bais_lower)
+                (stock_price["bias"] < self.bais_lower)
                 & (
-                    base_data["close"]
-                    > base_data[f"max_last_k_days{self.last_k_days}"]
+                    stock_price["close"]
+                    > stock_price[f"max_last_k_days{self.last_k_days}"]
                 )
             ),
             "signal",
         ] = 1
-        base_data.loc[
+        stock_price.loc[
             (
-                (base_data["bias"] > self.bais_upper)
+                (stock_price["bias"] > self.bais_upper)
                 & (
-                    base_data["close"]
-                    < base_data[f"min_last_k_days{self.last_k_days}"]
+                    stock_price["close"]
+                    < stock_price[f"min_last_k_days{self.last_k_days}"]
                 )
             ),
             "signal",
         ] = -1
-
-        return base_data
+        return stock_price

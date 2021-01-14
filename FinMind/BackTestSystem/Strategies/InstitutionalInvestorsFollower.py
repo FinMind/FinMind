@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from ta.momentum import StochasticOscillator
 
 from FinMind.BackTestSystem.BaseClass import Strategy
 from FinMind.Data import Load
@@ -14,19 +13,14 @@ class InstitutionalInvestorsFollower(Strategy):
         策略規則: 三大法人大量買超隔天就賣，大量賣超就買
     """
 
-    def init(self, base_data):
-        base_data = base_data.sort_values("date")
-        base_data.index = range(len(base_data))
-
-        stock_id = base_data["stock_id"].unique()
-        start_date = base_data["date"].min()
-        end_date = base_data["date"].max()
-
+    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
+        stock_price = stock_price.sort_values("date")
+        stock_price.index = range(len(stock_price))
         InstitutionalInvestorsBuySell = Load.FinData(
             dataset="InstitutionalInvestorsBuySell",
-            select=stock_id,
-            date=start_date,
-            end_date=end_date,
+            select=self.stock_id,
+            date=self.start_date,
+            end_date=self.end_date,
         )
         InstitutionalInvestorsBuySell = InstitutionalInvestorsBuySell.groupby(
             ["date", "stock_id"], as_index=False
@@ -35,24 +29,23 @@ class InstitutionalInvestorsFollower(Strategy):
             InstitutionalInvestorsBuySell["buy"]
             - InstitutionalInvestorsBuySell["sell"]
         )
-        base_data = pd.merge(
-            base_data,
+        stock_price = pd.merge(
+            stock_price,
             InstitutionalInvestorsBuySell[["stock_id", "date", "diff"]],
             on=["stock_id", "date"],
             how="left",
         ).fillna(0)
-
-        base_data["signal_info"] = self.detect_Abnormal_Peak(
-            y=base_data["diff"].values,
+        stock_price["signal_info"] = self.detect_Abnormal_Peak(
+            y=stock_price["diff"].values,
             lag=10,
             threshold=3,
             influence=0.35,
         )["signals"]
 
-        base_data["signal"] = 0
-        base_data.loc[base_data["signal_info"] == -1, "signal"] = 1
-        base_data.loc[base_data["signal_info"] == 1, "signal"] = -1
-        return base_data
+        stock_price["signal"] = 0
+        stock_price.loc[stock_price["signal_info"] == -1, "signal"] = 1
+        stock_price.loc[stock_price["signal_info"] == 1, "signal"] = -1
+        return stock_price
 
     def detect_Abnormal_Peak(
         self, y: np.array, lag: int, threshold: float, influence: float

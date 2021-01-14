@@ -1,7 +1,5 @@
 import numpy as np
 import pandas as pd
-from ta.momentum import StochasticOscillator
-
 from FinMind.BackTestSystem.BaseClass import Strategy
 from FinMind.Data import Load
 
@@ -17,77 +15,79 @@ class ShortSaleMarginPurchaseRatio(Strategy):
 
     ShortSaleMarginPurchaseTodayRatioThreshold = 0.3
 
-    def init(self, base_data):
-        base_data = base_data.sort_values("date")
-
-        stock_id = base_data["stock_id"].unique()
-        start_date = base_data["date"].min()
-        end_date = base_data["date"].max()
-
-        TaiwanStockMarginPurchaseShortSale = Load.FinData(
+    def load_taiwan_stock_margin_purchase_short_sale(self):
+        self.TaiwanStockMarginPurchaseShortSale = Load.FinData(
             dataset="TaiwanStockMarginPurchaseShortSale",
-            select=stock_id,
-            date=start_date,
-            end_date=end_date,
+            select=self.stock_id,
+            date=self.start_date,
+            end_date=self.end_date,
         )
-
-        TaiwanStockMarginPurchaseShortSale[
+        self.TaiwanStockMarginPurchaseShortSale[
             ["ShortSaleTodayBalance", "MarginPurchaseTodayBalance"]
-        ] = TaiwanStockMarginPurchaseShortSale[
+        ] = self.TaiwanStockMarginPurchaseShortSale[
             ["ShortSaleTodayBalance", "MarginPurchaseTodayBalance"]
         ].astype(
             int
         )
-        TaiwanStockMarginPurchaseShortSale[
+        self.TaiwanStockMarginPurchaseShortSale[
             "ShortSaleMarginPurchaseTodayRatio"
         ] = (
-            TaiwanStockMarginPurchaseShortSale["ShortSaleTodayBalance"]
-            / TaiwanStockMarginPurchaseShortSale["MarginPurchaseTodayBalance"]
+            self.TaiwanStockMarginPurchaseShortSale["ShortSaleTodayBalance"]
+            / self.TaiwanStockMarginPurchaseShortSale[
+                "MarginPurchaseTodayBalance"
+            ]
         )
 
-        InstitutionalInvestorsBuySell = Load.FinData(
+    def load_institutional_investors_buy_sell(self):
+        self.InstitutionalInvestorsBuySell = Load.FinData(
             dataset="InstitutionalInvestorsBuySell",
-            select=stock_id,
-            date=start_date,
-            end_date=end_date,
+            select=self.stock_id,
+            date=self.start_date,
+            end_date=self.end_date,
+        )
+        self.InstitutionalInvestorsBuySell[["sell", "buy"]] = (
+            self.InstitutionalInvestorsBuySell[["sell", "buy"]]
+            .fillna(0)
+            .astype(int)
+        )
+        self.InstitutionalInvestorsBuySell = (
+            self.InstitutionalInvestorsBuySell.groupby(
+                ["date", "stock_id"], as_index=False
+            ).agg({"buy": np.sum, "sell": np.sum})
+        )
+        self.InstitutionalInvestorsBuySell["diff"] = (
+            self.InstitutionalInvestorsBuySell["buy"]
+            - self.InstitutionalInvestorsBuySell["sell"]
         )
 
-        InstitutionalInvestorsBuySell[["sell", "buy"]] = (
-            InstitutionalInvestorsBuySell[["sell", "buy"]].fillna(0).astype(int)
-        )
-        InstitutionalInvestorsBuySell = InstitutionalInvestorsBuySell.groupby(
-            ["date", "stock_id"], as_index=False
-        ).agg({"buy": np.sum, "sell": np.sum})
-        InstitutionalInvestorsBuySell["diff"] = (
-            InstitutionalInvestorsBuySell["buy"]
-            - InstitutionalInvestorsBuySell["sell"]
-        )
-        base_data = pd.merge(
-            base_data,
-            InstitutionalInvestorsBuySell[["stock_id", "date", "diff"]],
+    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
+        stock_price = stock_price.sort_values("date")
+        self.load_taiwan_stock_margin_purchase_short_sale()
+        self.load_institutional_investors_buy_sell()
+        stock_price = pd.merge(
+            stock_price,
+            self.InstitutionalInvestorsBuySell[["stock_id", "date", "diff"]],
             on=["stock_id", "date"],
             how="left",
         ).fillna(0)
-        base_data = pd.merge(
-            base_data,
-            TaiwanStockMarginPurchaseShortSale[
+        stock_price = pd.merge(
+            stock_price,
+            self.TaiwanStockMarginPurchaseShortSale[
                 ["stock_id", "date", "ShortSaleMarginPurchaseTodayRatio"]
             ],
             on=["stock_id", "date"],
             how="left",
         ).fillna(0)
-
-        base_data.index = range(len(base_data))
-
-        base_data["signal"] = 0
+        stock_price.index = range(len(stock_price))
+        stock_price["signal"] = 0
         sell_mask = (
-            base_data["ShortSaleMarginPurchaseTodayRatio"]
+            stock_price["ShortSaleMarginPurchaseTodayRatio"]
             >= self.ShortSaleMarginPurchaseTodayRatioThreshold
-        ) & (base_data["diff"] > 0)
-        base_data.loc[sell_mask, "signal"] = -1
+        ) & (stock_price["diff"] > 0)
+        stock_price.loc[sell_mask, "signal"] = -1
         buy_mask = (
-            base_data["ShortSaleMarginPurchaseTodayRatio"]
+            stock_price["ShortSaleMarginPurchaseTodayRatio"]
             < self.ShortSaleMarginPurchaseTodayRatioThreshold
-        ) & (base_data["diff"] < 0)
-        base_data.loc[buy_mask, "signal"] = 1
-        return base_data
+        ) & (stock_price["diff"] < 0)
+        stock_price.loc[buy_mask, "signal"] = 1
+        return stock_price
