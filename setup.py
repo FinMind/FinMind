@@ -11,12 +11,12 @@ with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
 
 
 requirements = [
-    "ta",
-    "requests",
-    "importlib_metadata",
-    "matplotlib",
-    "pandas",
-    "pydantic",
+    "ta==0.5.25",
+    "requests==2.23.0",
+    "importlib_metadata==1.6.1",
+    "matplotlib==3.2.1",
+    "pandas==1.0.4",
+    "pydantic==1.6.1",
 ]
 
 setup(
