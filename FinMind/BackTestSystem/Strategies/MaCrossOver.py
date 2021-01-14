@@ -1,5 +1,5 @@
 from ta.trend import SMAIndicator
-
+import pandas as pd
 from FinMind.BackTestSystem.BaseClass import Strategy
 
 
@@ -21,45 +21,40 @@ class MaCrossOver(Strategy):
     ma_fast_days = 10
     ma_slow_days = 30
 
-    def init(self, base_data):
-        base_data = base_data.sort_values("date")
-
-        base_data[f"ma{self.ma_fast_days}"] = SMAIndicator(
-            base_data["close"], self.ma_fast_days
+    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
+        stock_price = stock_price.sort_values("date")
+        stock_price[f"ma{self.ma_fast_days}"] = SMAIndicator(
+            stock_price["close"], self.ma_fast_days
         ).sma_indicator()
-
-        base_data[f"ma{self.ma_slow_days}"] = SMAIndicator(
-            base_data["close"], self.ma_slow_days
+        stock_price[f"ma{self.ma_slow_days}"] = SMAIndicator(
+            stock_price["close"], self.ma_slow_days
         ).sma_indicator()
-
-        base_data["madiff"] = (
-            base_data[f"ma{self.ma_fast_days}"]
-            - base_data[f"ma{self.ma_slow_days}"]
+        stock_price["madiff"] = (
+            stock_price[f"ma{self.ma_fast_days}"]
+            - stock_price[f"ma{self.ma_slow_days}"]
         )
-        base_data["bool_signal"] = base_data["madiff"].map(
+        stock_price["bool_signal"] = stock_price["madiff"].map(
             lambda x: 1 if x > 0 else -1
         )
-        base_data["bool_signal_shift1"] = (
-            base_data["bool_signal"].shift(1).fillna(0)
+        stock_price["bool_signal_shift1"] = (
+            stock_price["bool_signal"].shift(1).fillna(0)
         )
-
-        base_data["bool_signal_shift1"] = base_data[
+        stock_price["bool_signal_shift1"] = stock_price[
             "bool_signal_shift1"
         ].astype(int)
-
-        base_data["signal"] = 0
-        base_data.loc[
+        stock_price["signal"] = 0
+        stock_price.loc[
             (
-                (base_data["bool_signal"] > 0)
-                & (base_data["bool_signal_shift1"] < 0)
+                (stock_price["bool_signal"] > 0)
+                & (stock_price["bool_signal_shift1"] < 0)
             ),
             "signal",
         ] = 1
-        base_data.loc[
+        stock_price.loc[
             (
-                (base_data["bool_signal"] < 0)
-                & (base_data["bool_signal_shift1"] > 0)
+                (stock_price["bool_signal"] < 0)
+                & (stock_price["bool_signal_shift1"] > 0)
             ),
             "signal",
         ] = -1
-        return base_data
+        return stock_price

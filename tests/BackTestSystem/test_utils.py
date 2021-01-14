@@ -29,7 +29,8 @@ testdata_get_asset_underlying_type = [
 
 
 @pytest.mark.parametrize(
-    "stock_id, return_value", testdata_get_asset_underlying_type,
+    "stock_id, return_value",
+    testdata_get_asset_underlying_type,
 )
 def test_get_asset_underlying_type(stock_id, return_value, mocker):
     mock_load = mocker.patch("FinMind.Data.Load.FinData")
@@ -42,16 +43,23 @@ testdata_get_underlying_trading_tax = [("半導體", 0.003), ("ETF", 0.001)]
 
 
 @pytest.mark.parametrize(
-    "underlying_type, expected", testdata_get_underlying_trading_tax,
+    "underlying_type, expected",
+    testdata_get_underlying_trading_tax,
 )
 def test_get_underlying_trading_tax(underlying_type, expected):
     resp = get_underlying_trading_tax(underlying_type)
     assert resp == expected
 
-testdata_calculate_Datenbr = [("2020-01-01", "2020-01-05", 4), ("2019-12-29", "2020-01-03", 5)]
+
+testdata_calculate_Datenbr = [
+    ("2020-01-01", "2020-01-05", 4),
+    ("2019-12-29", "2020-01-03", 5),
+]
+
 
 @pytest.mark.parametrize(
-    "day1, day2, expected", testdata_calculate_Datenbr,
+    "day1, day2, expected",
+    testdata_calculate_Datenbr,
 )
 def test_calculate_Datenbr(day1, day2, expected):
     resp = calculate_Datenbr(day1, day2)
@@ -60,8 +68,10 @@ def test_calculate_Datenbr(day1, day2, expected):
 
 testdata_calculate_sharp_ratio = [(0.05, 0.01, 79.37), (0.1, 0.21, 7.56)]
 
+
 @pytest.mark.parametrize(
-    "retrun, std, expected", testdata_calculate_sharp_ratio,
+    "retrun, std, expected",
+    testdata_calculate_sharp_ratio,
 )
 def test_calculate_sharp_ratio(retrun, std, expected):
     resp = calculate_sharp_ratio(retrun, std)

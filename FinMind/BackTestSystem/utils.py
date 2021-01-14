@@ -27,4 +27,8 @@ def calculate_Datenbr(day1: str, day2: str) -> int:
 
 def calculate_sharp_ratio(retrun: float, std: float) -> float:
     risk_free_rate = 0
-    return 0 if std==0 else round(((retrun - risk_free_rate) / std) * np.sqrt(252), 2)
+    return (
+        0
+        if std == 0
+        else round(((retrun - risk_free_rate) / std) * np.sqrt(252), 2)
+    )

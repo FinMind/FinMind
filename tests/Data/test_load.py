@@ -10,7 +10,10 @@ def test_FinData():
     date = "2020-03-10"
     end_date = "2020-03-15"
     data = FinData(
-        dataset=dataset, select=stock_id, date=date, end_date=end_date,
+        dataset=dataset,
+        select=stock_id,
+        date=date,
+        end_date=end_date,
     )
     assert all(
         data

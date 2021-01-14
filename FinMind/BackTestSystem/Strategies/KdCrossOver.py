@@ -1,7 +1,7 @@
 import numpy as np
-from ta.momentum import StochasticOscillator
-
+import pandas as pd
 from FinMind.BackTestSystem.BaseClass import Strategy
+from ta.momentum import StochasticOscillator
 
 
 class KdCrossOver(Strategy):
@@ -15,19 +15,17 @@ class KdCrossOver(Strategy):
 
     kdays = 9
 
-    def init(self, base_data):
-        base_data = base_data.sort_values("date")
-
+    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
+        stock_price = stock_price.sort_values("date")
         kd = StochasticOscillator(
-            high=base_data["max"],
-            low=base_data["min"],
-            close=base_data["close"],
+            high=stock_price["max"],
+            low=stock_price["min"],
+            close=stock_price["close"],
             n=self.kdays,
         )
         rsv_ = kd.stoch().fillna(50)
-
-        _k = np.zeros(base_data.shape[0])
-        _d = np.zeros(base_data.shape[0])
+        _k = np.zeros(stock_price.shape[0])
+        _d = np.zeros(stock_price.shape[0])
         for i, r in enumerate(rsv_):
             if i == 0:
                 _k[i] = 50
@@ -36,34 +34,30 @@ class KdCrossOver(Strategy):
                 _k[i] = _k[i - 1] * 2 / 3 + r / 3
                 _d[i] = _d[i - 1] * 2 / 3 + _k[i] / 3
 
-        base_data["K"] = _k
-        base_data["D"] = _d
-
-        base_data.index = range(len(base_data))
-
-        base_data["diff"] = base_data["K"] - base_data["D"]
-        base_data.loc[(base_data.index < self.kdays), "diff"] = np.nan
-
-        base_data["bool_diff"] = base_data["diff"].map(
+        stock_price["K"] = _k
+        stock_price["D"] = _d
+        stock_price.index = range(len(stock_price))
+        stock_price["diff"] = stock_price["K"] - stock_price["D"]
+        stock_price.loc[(stock_price.index < self.kdays), "diff"] = np.nan
+        stock_price["bool_diff"] = stock_price["diff"].map(
             lambda x: 1 if x >= 0 else (-1 if x < 0 else 0)
         )
-        base_data["bool_diff_shift1"] = (
-            base_data["bool_diff"].shift(1).fillna(0).astype(int)
+        stock_price["bool_diff_shift1"] = (
+            stock_price["bool_diff"].shift(1).fillna(0).astype(int)
         )
-
-        base_data["signal"] = 0
-        base_data.loc[
+        stock_price["signal"] = 0
+        stock_price.loc[
             (
-                (base_data["bool_diff"] > 0)
-                & (base_data["bool_diff_shift1"] < 0)
+                (stock_price["bool_diff"] > 0)
+                & (stock_price["bool_diff_shift1"] < 0)
             ),
             "signal",
         ] = 1
-        base_data.loc[
+        stock_price.loc[
             (
-                (base_data["bool_diff"] < 0)
-                & (base_data["bool_diff_shift1"] > 0)
+                (stock_price["bool_diff"] < 0)
+                & (stock_price["bool_diff_shift1"] > 0)
             ),
             "signal",
         ] = -1
-        return base_data
+        return stock_price

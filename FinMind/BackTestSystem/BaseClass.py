@@ -133,8 +133,13 @@ class Trader:
 
 
 class Strategy:
-    def __init__(self, trader):
+    def __init__(
+        self, trader: Trader, stock_id: str, start_date: str, end_date: str
+    ):
         self.trader = trader
+        self.stock_id = stock_id
+        self.start_date = start_date
+        self.end_date = end_date
 
     def trade(self, signal: float, trade_price: float):
         if signal > 0:
@@ -157,7 +162,6 @@ class Strategy:
 class BackTest:
     def __init__(
         self,
-        strategy: typing.Type[Strategy],
         user_id: str = "",
         password: str = "",
         stock_id: str = "",
@@ -165,10 +169,8 @@ class BackTest:
         end_date: str = "",
         trader_fund: float = 0,
         fee: float = 0.001425,
+        strategy: Strategy = None,
     ):
-        if not (isinstance(strategy, type) and issubclass(strategy, Strategy)):
-            raise TypeError("`strategy` must be a Strategy sub-type")
-
         self.stock_id = stock_id
         self.start_date = start_date
         self.end_date = end_date
@@ -189,10 +191,14 @@ class BackTest:
         self.strategy = strategy
         self._trade_detail = pd.DataFrame()
         self._final_stats = pd.Series()
+        self.__init_base_data()
+
+    def add_strategy(self, strategy: Strategy):
+        self.strategy = strategy
 
     def __init_base_data(self) -> pd.DataFrame:
         # FIXME: some stock_id do not have div
-        self.base_data = FinData(
+        self.stock_price = FinData(
             dataset="TaiwanStockPrice",
             select=self.stock_id,
             date=self.start_date,
@@ -223,50 +229,53 @@ class BackTest:
                     "StockEarningsDistribution",
                 ]
             ].rename(columns={"StockExDividendTradingDate": "date"})
-            self.base_data = pd.merge(
-                self.base_data,
+            self.stock_price = pd.merge(
+                self.stock_price,
                 cash_div,
                 left_on=["stock_id", "date"],
                 right_on=["stock_id", "date"],
                 how="left",
             ).fillna(0)
-            self.base_data = pd.merge(
-                self.base_data,
+            self.stock_price = pd.merge(
+                self.stock_price,
                 stock_div,
                 left_on=["stock_id", "date"],
                 right_on=["stock_id", "date"],
                 how="left",
             ).fillna(0)
         else:
-            self.base_data["StockEarningsDistribution"] = 0
-            self.base_data["CashEarningsDistribution"] = 0
+            self.stock_price["StockEarningsDistribution"] = 0
+            self.stock_price["CashEarningsDistribution"] = 0
 
     def simulate(self):
-        self.__init_base_data()
         trader = self.trader
-        strategy = self.strategy(trader)
-        self.base_data = strategy.init(base_data=self.base_data)
+        strategy = self.strategy(
+            trader, self.stock_id, self.start_date, self.end_date
+        )
+        self.stock_price = strategy.create_trade_sign(
+            stock_price=self.stock_price
+        )
         assert (
-            "signal" in self.base_data.columns
-        ), "Must be create signal columns in base_data"
-        if not self.base_data.index.is_monotonic_increasing:
+            "signal" in self.stock_price.columns
+        ), "Must be create signal columns in stock_price"
+        if not self.stock_price.index.is_monotonic_increasing:
             warnings.warn(
                 "Data index is not sorted in ascending order. Sorting.",
                 stacklevel=2,
             )
-            self.base_data = self.base_data.sort_index()
-        for i in range(1, len(self.base_data)):
+            self.stock_price = self.stock_price.sort_index()
+        for i in range(1, len(self.stock_price)):
             # use last date to decide buy or sell or nothing
             last_date_index = i - 1
-            signal = self.base_data.loc[last_date_index, "signal"]
-            trade_price = self.base_data.loc[i, "open"]
+            signal = self.stock_price.loc[last_date_index, "signal"]
+            trade_price = self.stock_price.loc[i, "open"]
             strategy.trade(signal, trade_price)
-            cash_div = self.base_data.loc[i, "CashEarningsDistribution"]
-            stock_div = self.base_data.loc[i, "StockEarningsDistribution"]
+            cash_div = self.stock_price.loc[i, "CashEarningsDistribution"]
+            stock_div = self.stock_price.loc[i, "StockEarningsDistribution"]
             self.__compute_div_income(strategy.trader, cash_div, stock_div)
             dic_value = strategy.trader.__dict__
-            dic_value["date"] = self.base_data.loc[i, "date"]
-            dic_value["signal"] = self.base_data.loc[i, "signal"]
+            dic_value["date"] = self.stock_price.loc[i, "date"]
+            dic_value["signal"] = self.stock_price.loc[i, "signal"]
             self._trade_detail = self._trade_detail.append(
                 dic_value, ignore_index=True
             )
