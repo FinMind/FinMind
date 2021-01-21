@@ -11,6 +11,7 @@ class final_stats(BaseModel):
     MaxLossPer: float
     AnnualReturnPer: float
     AnnualSharpRatio: float
+    TAIEXAnnualReturnPer: float
 
 
 class trade_detail(BaseModel):
@@ -27,3 +28,4 @@ class trade_detail(BaseModel):
     fee: float
     trade_price: float
     trader_fund: float
+    CumTaiexDailyRetrun: float

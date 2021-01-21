@@ -62,6 +62,7 @@ def test_ContinueHolding():
         "tax": 0.001,
         "trade_price": 25.15,
         "trader_fund": 474814.16125,
+        "CumTaiexDailyRetrun":0.00845102950452592,
     }
 
 
@@ -99,6 +100,7 @@ def test_ContinueHolding_add_strategy():
         "tax": 0.001,
         "trade_price": 25.15,
         "trader_fund": 474814.16125,
+        "CumTaiexDailyRetrun":0.00845102950452592,
     }
 
 
@@ -135,6 +137,7 @@ def test_Bias():
         "tax": 0.001,
         "trade_price": 26.1,
         "trader_fund": 500000.0,
+        "CumTaiexDailyRetrun":0.021749122268570176
     }
 
 
@@ -172,6 +175,7 @@ def test_Bias_add_strategy():
         "tax": 0.001,
         "trade_price": 26.1,
         "trader_fund": 500000.0,
+        "CumTaiexDailyRetrun":0.021749122268570176
     }
 
 

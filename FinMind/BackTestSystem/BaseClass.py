@@ -197,7 +197,6 @@ class BackTest:
         self.strategy = strategy
 
     def __init_base_data(self) -> pd.DataFrame:
-        # FIXME: some stock_id do not have div
         self.stock_price = FinData(
             dataset="TaiwanStockPrice",
             select=self.stock_id,
@@ -303,6 +302,25 @@ class BackTest:
         trader.EverytimeProfit = trader.RealizedProfit + trader.UnrealizedProfit
 
     def __compute_final_stats(self):
+        TAIEX = FinData(
+            dataset="TaiwanStockPrice",
+            select="TAIEX",
+            date=self.start_date,
+            end_date=self.end_date,
+            user_id=self.user_id,
+            password=self.password,
+        )[["date", "close"]]
+        TAIEX["CumTaiexDailyRetrun"] = np.log(TAIEX["close"]) - np.log(
+            TAIEX["close"].shift(1)
+        )
+        TAIEX["CumTaiexDailyRetrun"] = TAIEX["CumTaiexDailyRetrun"].cumsum()
+
+        self._trade_detail = pd.merge(
+            self._trade_detail,
+            TAIEX[["date", "CumTaiexDailyRetrun"]],
+            on=["date"],
+            how="left",
+        )
         self._final_stats["MeanProfit"] = np.mean(
             self._trade_detail["EverytimeProfit"]
         )
@@ -348,6 +366,16 @@ class BackTest:
         stratagy_std = np.std(timestep_returns)
         self._final_stats["AnnualSharpRatio"] = calculate_sharp_ratio(
             stratagy_return, stratagy_std
+        )
+
+        self._final_stats["TAIEXAnnualReturnPer"] = round(
+            (
+                (self._trade_detail["CumTaiexDailyRetrun"].values[-1] + 1)
+                ** (1 / trade_years)
+                - 1
+            )
+            * 100,
+            2,
         )
 
     @property
