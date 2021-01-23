@@ -1,6 +1,7 @@
+import typing
+
 import numpy as np
 import pandas as pd
-
 from FinMind.BackTestSystem.BaseClass import Strategy
 from FinMind.Data import Load
 
@@ -40,8 +41,7 @@ class InstitutionalInvestorsFollower(Strategy):
             lag=10,
             threshold=3,
             influence=0.35,
-        )["signals"]
-
+        )
         stock_price["signal"] = 0
         stock_price.loc[stock_price["signal_info"] == -1, "signal"] = 1
         stock_price.loc[stock_price["signal_info"] == 1, "signal"] = -1
@@ -49,7 +49,7 @@ class InstitutionalInvestorsFollower(Strategy):
 
     def detect_Abnormal_Peak(
         self, y: np.array, lag: int, threshold: float, influence: float
-    ):
+    ) -> typing.List[float]:
         signals = np.zeros(len(y))
         filteredY = np.array(y)
         avgFilter = [0] * len(y)
@@ -73,9 +73,4 @@ class InstitutionalInvestorsFollower(Strategy):
                 filteredY[i] = y[i]
                 avgFilter[i] = np.mean(filteredY[(i - lag + 1) : i + 1])
                 stdFilter[i] = np.std(filteredY[(i - lag + 1) : i + 1])
-
-        return dict(
-            signals=np.asarray(signals),
-            avgFilter=np.asarray(avgFilter),
-            stdFilter=np.asarray(stdFilter),
-        )
+        return list(signals)
