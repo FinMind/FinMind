@@ -27,6 +27,7 @@ class trade_detail(BaseModel):
     fee: float
     trade_price: float
     trader_fund: float
+    EverytimeTotalProfit: float
 
 class compare_market_detail(BaseModel):
     date: str
