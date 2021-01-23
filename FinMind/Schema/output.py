@@ -23,8 +23,6 @@ class trade_detail(BaseModel):
     hold_cost: float
     hold_volume: int
     signal: int
-    tax: float
-    fee: float
     trade_price: float
     trader_fund: float
     EverytimeTotalProfit: float

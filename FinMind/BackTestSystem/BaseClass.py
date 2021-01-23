@@ -270,20 +270,28 @@ class BackTest:
         for i in range(0, len(self.stock_price)):
             # use last date to decide buy or sell or nothing
             last_date_index = i - 1
-            signal = self.stock_price.loc[last_date_index, "signal"] if i != 0 else 0
+            signal = (
+                self.stock_price.loc[last_date_index, "signal"] if i != 0 else 0
+            )
             trade_price = self.stock_price.loc[i, "open"]
             strategy.trade(signal, trade_price)
             cash_div = self.stock_price.loc[i, "CashEarningsDistribution"]
             stock_div = self.stock_price.loc[i, "StockEarningsDistribution"]
             self.__compute_div_income(strategy.trader, cash_div, stock_div)
             dic_value = strategy.trader.__dict__
+            dic_value = {
+                k: v for k, v in dic_value.items() if k not in ["tax", "fee"]
+            }
             dic_value["date"] = self.stock_price.loc[i, "date"]
             dic_value["signal"] = self.stock_price.loc[i, "signal"]
             self._trade_detail = self._trade_detail.append(
                 dic_value, ignore_index=True
             )
 
-        self._trade_detail["EverytimeTotalProfit"] = self._trade_detail["trader_fund"] + self._trade_detail["EverytimeProfit"]
+        self._trade_detail["EverytimeTotalProfit"] = (
+            self._trade_detail["trader_fund"]
+            + self._trade_detail["EverytimeProfit"]
+        )
         self.__compute_final_stats()
         self.__compute_compare_market()
 
@@ -332,7 +340,7 @@ class BackTest:
                 self._trade_period_years,
             )
             * 100,
-            2
+            2,
         )
         timestep_returns = (
             self._trade_detail["EverytimeProfit"]
@@ -353,10 +361,10 @@ class BackTest:
         ].copy()
         self._compare_market_detail["CumDailyRetrun"] = (
             np.log(self._compare_market_detail["EverytimeTotalProfit"])
-            - np.log(self._compare_market_detail["EverytimeTotalProfit"].shift(1))
-        ).fillna(
-            0
-        )  # since 2nd data is the first date in backtesting _trade_detail
+            - np.log(
+                self._compare_market_detail["EverytimeTotalProfit"].shift(1)
+            )
+        ).fillna(0)
         self._compare_market_detail[
             "CumDailyRetrun"
         ] = self._compare_market_detail["CumDailyRetrun"].cumsum()
@@ -369,9 +377,9 @@ class BackTest:
             user_id=self.user_id,
             password=self.password,
         )[["date", "close"]]
-        TAIEX["CumTaiexDailyRetrun"] = np.log(TAIEX["close"]) - np.log(
-            TAIEX["close"].shift(1)
-        )
+        TAIEX["CumTaiexDailyRetrun"] = (
+            np.log(TAIEX["close"]) - np.log(TAIEX["close"].shift(1))
+        ).fillna(0)
         TAIEX["CumTaiexDailyRetrun"] = TAIEX["CumTaiexDailyRetrun"].cumsum()
         self._compare_market_detail = pd.merge(
             self._compare_market_detail,

@@ -54,21 +54,19 @@ def test_ContinueHolding():
         "UnrealizedProfit": -96.83,
         "board_lot": 1000.0,
         "date": "2018-01-03",
-        "fee": 0.001425,
         "hold_cost": 25.18583875,
         "hold_volume": 1000.0,
         "signal": 0.0,
         "stock_id": "0056",
-        "tax": 0.001,
         "trade_price": 25.15,
         "trader_fund": 474814.16125,
-        "EverytimeTotalProfit":474717.33125
+        "EverytimeTotalProfit": 474717.33125,
     }
 
     assert obj.compare_market_detail.to_dict("r")[-1] == {
-        'CumDailyRetrun':-0.6100265888946055,
-        'CumTaiexDailyRetrun':-0.09629556808745043,
-        'date': '2018-12-28',
+        "CumDailyRetrun": -0.6100265888946055,
+        "CumTaiexDailyRetrun": -0.09629556808745043,
+        "date": "2018-12-28",
     }
     assert obj.compare_market_stats["AnnualTaiexReturnPer"] == -9.6
     assert obj.compare_market_stats["AnnualReturnPer"] == 0.68
@@ -100,15 +98,13 @@ def test_ContinueHolding_add_strategy():
         "UnrealizedProfit": -96.83,
         "board_lot": 1000.0,
         "date": "2018-01-03",
-        "fee": 0.001425,
         "hold_cost": 25.18583875,
         "hold_volume": 1000.0,
         "signal": 0.0,
         "stock_id": "0056",
-        "tax": 0.001,
         "trade_price": 25.15,
         "trader_fund": 474814.16125,
-        "EverytimeTotalProfit":474717.33125
+        "EverytimeTotalProfit": 474717.33125,
     }
 
 
@@ -137,25 +133,24 @@ def test_Bias():
         "UnrealizedProfit": 0.0,
         "board_lot": 1000.0,
         "date": "2018-02-05",
-        "fee": 0.001425,
         "hold_cost": 0.0,
         "hold_volume": 0.0,
         "signal": 0.0,
         "stock_id": "0056",
-        "tax": 0.001,
         "trade_price": 26.1,
         "trader_fund": 500000.0,
-        'EverytimeTotalProfit':500000.0
+        "EverytimeTotalProfit": 500000.0,
     }
 
     assert obj.compare_market_detail.to_dict("r")[-1] == {
-        'CumDailyRetrun': -0.3984257355870433,
-        'CumTaiexDailyRetrun': -0.09629556808745043,
-        'date': '2018-12-28',
+        "CumDailyRetrun": -0.3984257355870433,
+        "CumTaiexDailyRetrun": -0.09629556808745043,
+        "date": "2018-12-28",
     }
 
     assert obj.compare_market_stats["AnnualTaiexReturnPer"] == -9.6
     assert obj.compare_market_stats["AnnualReturnPer"] == 0.57
+
 
 def test_Bias_add_strategy():
     obj = BackTest(
@@ -183,15 +178,13 @@ def test_Bias_add_strategy():
         "UnrealizedProfit": 0.0,
         "board_lot": 1000.0,
         "date": "2018-02-05",
-        "fee": 0.001425,
         "hold_cost": 0.0,
         "hold_volume": 0.0,
         "signal": 0.0,
         "stock_id": "0056",
-        "tax": 0.001,
         "trade_price": 26.1,
         "trader_fund": 500000.0,
-        "EverytimeTotalProfit":500000.0
+        "EverytimeTotalProfit": 500000.0,
     }
 
 
