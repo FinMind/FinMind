@@ -8,8 +8,8 @@ class KdCrossOver(Strategy):
     """
     url: "http://smart.businessweekly.com.tw/Reading/WebArticle.aspx?id=68129&p=2"
     summary: 日KD黃金交叉和死亡交叉
-            日K線 小於 日D線 翻轉成 日K線 大於 日D線 稱為黃金交叉
-            日K線 大於 日D線 翻轉成 日K線 小於 日D線 稱為死亡交叉
+            日K線 小於 日D線，翻轉成，日K線 大於 日D線 稱為黃金交叉
+            日K線 大於 日D線，翻轉成，日K線 小於 日D線 稱為死亡交叉
             黃金交叉進場，死亡交叉出場
     """
 
@@ -33,30 +33,29 @@ class KdCrossOver(Strategy):
             else:
                 _k[i] = _k[i - 1] * 2 / 3 + r / 3
                 _d[i] = _d[i - 1] * 2 / 3 + _k[i] / 3
-
         stock_price["K"] = _k
         stock_price["D"] = _d
         stock_price.index = range(len(stock_price))
         stock_price["diff"] = stock_price["K"] - stock_price["D"]
         stock_price.loc[(stock_price.index < self.kdays), "diff"] = np.nan
-        stock_price["bool_diff"] = stock_price["diff"].map(
+        stock_price["diff_sign"] = stock_price["diff"].map(
             lambda x: 1 if x >= 0 else (-1 if x < 0 else 0)
         )
-        stock_price["bool_diff_shift1"] = (
-            stock_price["bool_diff"].shift(1).fillna(0).astype(int)
+        stock_price["diff_sign_yesterday"] = (
+            stock_price["diff_sign"].shift(1).fillna(0).astype(int)
         )
         stock_price["signal"] = 0
         stock_price.loc[
             (
-                (stock_price["bool_diff"] > 0)
-                & (stock_price["bool_diff_shift1"] < 0)
+                (stock_price["diff_sign"] > 0)
+                & (stock_price["diff_sign_yesterday"] < 0)
             ),
             "signal",
         ] = 1
         stock_price.loc[
             (
-                (stock_price["bool_diff"] < 0)
-                & (stock_price["bool_diff_shift1"] > 0)
+                (stock_price["diff_sign"] < 0)
+                & (stock_price["diff_sign_yesterday"] > 0)
             ),
             "signal",
         ] = -1
