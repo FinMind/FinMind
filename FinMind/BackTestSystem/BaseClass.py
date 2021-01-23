@@ -37,7 +37,6 @@ class Trader:
         self.UnrealizedProfit = 0
         self.RealizedProfit = 0
         self.EverytimeProfit = 0
-        # TODO: EverytimeTraderFund
 
     def buy(self, trade_price: float, trade_lots: float):
         self.trade_price = trade_price
@@ -327,12 +326,13 @@ class BackTest:
         self._final_stats["MaxLossPer"] = round(
             self._final_stats["MaxLoss"] / self.trader_fund * 100, 2
         )
-        self._final_stats["AnnualReturnPer"] = (
+        self._final_stats["AnnualReturnPer"] = round(
             convert_Return2Annual(
                 self._final_stats["FinalProfitPer"] / 100,
                 self._trade_period_years,
             )
-            * 100
+            * 100,
+            2
         )
         timestep_returns = (
             self._trade_detail["EverytimeProfit"]
