@@ -8,6 +8,8 @@ from FinMind.BackTestSystem.utils import (
     get_underlying_trading_tax,
     calculate_Datenbr,
     calculate_sharp_ratio,
+    convert_Return2Annual,
+    convert_period_days2years,
 )
 from FinMind.Data.Load import FinData
 from FinMind.Schema import output
@@ -192,6 +194,9 @@ class BackTest:
         self._trade_detail = pd.DataFrame()
         self._final_stats = pd.Series()
         self.__init_base_data()
+        self._trade_period_years = convert_period_days2years(
+            calculate_Datenbr(start_date, end_date) + 1
+        )
 
     def add_strategy(self, strategy: Strategy):
         self.strategy = strategy
@@ -280,6 +285,7 @@ class BackTest:
             )
 
         self.__compute_final_stats()
+        self.__compute_compare_market()
 
     def __compute_div_income(self, trader, cash_div: float, stock_div: float):
         gain_stock_div = stock_div * trader.hold_volume / 10
@@ -302,25 +308,6 @@ class BackTest:
         trader.EverytimeProfit = trader.RealizedProfit + trader.UnrealizedProfit
 
     def __compute_final_stats(self):
-        TAIEX = FinData(
-            dataset="TaiwanStockPrice",
-            select="TAIEX",
-            date=self.start_date,
-            end_date=self.end_date,
-            user_id=self.user_id,
-            password=self.password,
-        )[["date", "close"]]
-        TAIEX["CumTaiexDailyRetrun"] = np.log(TAIEX["close"]) - np.log(
-            TAIEX["close"].shift(1)
-        )
-        TAIEX["CumTaiexDailyRetrun"] = TAIEX["CumTaiexDailyRetrun"].cumsum()
-
-        self._trade_detail = pd.merge(
-            self._trade_detail,
-            TAIEX[["date", "CumTaiexDailyRetrun"]],
-            on=["date"],
-            how="left",
-        )
         self._final_stats["MeanProfit"] = np.mean(
             self._trade_detail["EverytimeProfit"]
         )
@@ -339,24 +326,12 @@ class BackTest:
         self._final_stats["MaxLossPer"] = round(
             self._final_stats["MaxLoss"] / self.trader_fund * 100, 2
         )
-        # +1, calculate_Datenbr not include last day
-        trade_days = (
-            calculate_Datenbr(
-                self._trade_detail["date"].min(),
-                self._trade_detail["date"].max(),
+        self._final_stats["AnnualReturnPer"] = (
+            convert_Return2Annual(
+                self._final_stats["FinalProfitPer"] / 100,
+                self._trade_period_years,
             )
-            + 1
-        )
-        trade_years = (trade_days + 1) / 365
-        # +1, self._trade_detail wihtout contain first day
-        self._final_stats["AnnualReturnPer"] = round(
-            (
-                (self._final_stats["FinalProfitPer"] / 100 + 1)
-                ** (1 / trade_years)
-                - 1
-            )
-            * 100,
-            2,
+            * 100
         )
         timestep_returns = (
             self._trade_detail["EverytimeProfit"]
@@ -368,15 +343,60 @@ class BackTest:
             stratagy_return, stratagy_std
         )
 
-        self._final_stats["TAIEXAnnualReturnPer"] = round(
-            (
-                (self._trade_detail["CumTaiexDailyRetrun"].values[-1] + 1)
-                ** (1 / trade_years)
-                - 1
-            )
-            * 100,
-            2,
+    # TODO:
+    # future can compare with diff market, such as America, China
+    # now only Taiwan
+    def __compute_compare_market(self):
+        self._compare_market_detail = self._trade_detail[
+            ["date", "EverytimeProfit", "trader_fund"]
+        ].copy()
+        self._compare_market_detail["CumDailyRetrun"] = (
+            self._trade_detail["trader_fund"]
+            + self._trade_detail["EverytimeProfit"]
         )
+        self._compare_market_detail = self._compare_market_detail.drop(
+            ["EverytimeProfit", "trader_fund"], axis=1
+        )
+        self._compare_market_detail["CumDailyRetrun"] = (
+            np.log(self._compare_market_detail["CumDailyRetrun"])
+            - np.log(self._compare_market_detail["CumDailyRetrun"].shift(1))
+        ).fillna(
+            0
+        )  # since 2nd data is the first date in backtesting _trade_detail
+        self._compare_market_detail[
+            "CumDailyRetrun"
+        ] = self._compare_market_detail["CumDailyRetrun"].cumsum()
+
+        TAIEX = FinData(
+            dataset="TaiwanStockPrice",
+            select="TAIEX",
+            date=self.start_date,
+            end_date=self.end_date,
+            user_id=self.user_id,
+            password=self.password,
+        )[["date", "close"]]
+        TAIEX["CumTaiexDailyRetrun"] = np.log(TAIEX["close"]) - np.log(
+            TAIEX["close"].shift(1)
+        )
+        TAIEX["CumTaiexDailyRetrun"] = TAIEX["CumTaiexDailyRetrun"].cumsum()
+        self._compare_market_detail = pd.merge(
+            self._compare_market_detail,
+            TAIEX[["date", "CumTaiexDailyRetrun"]],
+            on=["date"],
+            how="left",
+        )
+
+        self._compare_market_stats = pd.Series()
+        self._compare_market_stats["AnnualTaiexReturnPer"] = (
+            convert_Return2Annual(
+                self._compare_market_detail["CumTaiexDailyRetrun"].values[-1],
+                self._trade_period_years,
+            )
+            * 100
+        )
+        self._compare_market_stats["AnnualReturnPer"] = self._final_stats[
+            "AnnualReturnPer"
+        ]
 
     @property
     def final_stats(self) -> pd.Series():
@@ -394,6 +414,25 @@ class BackTest:
             ]
         )
         return self._trade_detail
+
+    @property
+    def compare_market_detail(self) -> pd.DataFrame():
+        self._compare_market_detail = pd.DataFrame(
+            [
+                output.compare_market_detail(**row_dict).dict()
+                for row_dict in self._compare_market_detail.to_dict("records")
+            ]
+        )
+        return self._compare_market_detail
+
+    @property
+    def compare_market_stats(self) -> pd.Series():
+        self._compare_market_stats = pd.Series(
+            output.compare_market_stats(
+                **self._compare_market_stats.to_dict()
+            ).dict()
+        )
+        return self._compare_market_stats
 
     def plot(
         self,
