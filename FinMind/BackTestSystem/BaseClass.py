@@ -268,10 +268,10 @@ class BackTest:
                 stacklevel=2,
             )
             self.stock_price = self.stock_price.sort_index()
-        for i in range(1, len(self.stock_price)):
+        for i in range(0, len(self.stock_price)):
             # use last date to decide buy or sell or nothing
             last_date_index = i - 1
-            signal = self.stock_price.loc[last_date_index, "signal"]
+            signal = self.stock_price.loc[last_date_index, "signal"] if i != 0 else 0
             trade_price = self.stock_price.loc[i, "open"]
             strategy.trade(signal, trade_price)
             cash_div = self.stock_price.loc[i, "CashEarningsDistribution"]
@@ -284,6 +284,7 @@ class BackTest:
                 dic_value, ignore_index=True
             )
 
+        self._trade_detail["EverytimeTotalProfit"] = self._trade_detail["trader_fund"] + self._trade_detail["EverytimeProfit"]
         self.__compute_final_stats()
         self.__compute_compare_market()
 
@@ -348,18 +349,11 @@ class BackTest:
     # now only Taiwan
     def __compute_compare_market(self):
         self._compare_market_detail = self._trade_detail[
-            ["date", "EverytimeProfit", "trader_fund"]
+            ["date", "EverytimeTotalProfit"]
         ].copy()
         self._compare_market_detail["CumDailyRetrun"] = (
-            self._trade_detail["trader_fund"]
-            + self._trade_detail["EverytimeProfit"]
-        )
-        self._compare_market_detail = self._compare_market_detail.drop(
-            ["EverytimeProfit", "trader_fund"], axis=1
-        )
-        self._compare_market_detail["CumDailyRetrun"] = (
-            np.log(self._compare_market_detail["CumDailyRetrun"])
-            - np.log(self._compare_market_detail["CumDailyRetrun"].shift(1))
+            np.log(self._compare_market_detail["EverytimeTotalProfit"])
+            - np.log(self._compare_market_detail["EverytimeTotalProfit"].shift(1))
         ).fillna(
             0
         )  # since 2nd data is the first date in backtesting _trade_detail
