@@ -8,6 +8,7 @@ class Kd(Strategy):
     """
     url: "https://www.mirrormedia.mg/story/20180719fin012/"
     summary:
+        網路上常見的 kd 交易策略
         日KD 80 20
         日K線 <= 20 進場
         日K線 >= 80 出場

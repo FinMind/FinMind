@@ -8,6 +8,8 @@ from FinMind.BackTestSystem.utils import (
     get_underlying_trading_tax,
     calculate_Datenbr,
     calculate_sharp_ratio,
+    convert_Return2Annual,
+    convert_period_days2years,
 )
 from FinMind.Data.Load import FinData
 from FinMind.Schema import output
@@ -35,7 +37,6 @@ class Trader:
         self.UnrealizedProfit = 0
         self.RealizedProfit = 0
         self.EverytimeProfit = 0
-        # TODO: EverytimeTraderFund
 
     def buy(self, trade_price: float, trade_lots: float):
         self.trade_price = trade_price
@@ -189,15 +190,20 @@ class BackTest:
         self.user_id = user_id
         self.password = password
         self.strategy = strategy
+        self.stock_price = pd.DataFrame()
         self._trade_detail = pd.DataFrame()
         self._final_stats = pd.Series()
         self.__init_base_data()
+        self._trade_period_years = convert_period_days2years(
+            calculate_Datenbr(start_date, end_date) + 1
+        )
+        self._compare_market_detail = pd.DataFrame()
+        self._compare_market_stats = pd.Series()
 
     def add_strategy(self, strategy: Strategy):
         self.strategy = strategy
 
     def __init_base_data(self) -> pd.DataFrame:
-        # FIXME: some stock_id do not have div
         self.stock_price = FinData(
             dataset="TaiwanStockPrice",
             select=self.stock_id,
@@ -264,23 +270,33 @@ class BackTest:
                 stacklevel=2,
             )
             self.stock_price = self.stock_price.sort_index()
-        for i in range(1, len(self.stock_price)):
+        for i in range(0, len(self.stock_price)):
             # use last date to decide buy or sell or nothing
             last_date_index = i - 1
-            signal = self.stock_price.loc[last_date_index, "signal"]
+            signal = (
+                self.stock_price.loc[last_date_index, "signal"] if i != 0 else 0
+            )
             trade_price = self.stock_price.loc[i, "open"]
             strategy.trade(signal, trade_price)
             cash_div = self.stock_price.loc[i, "CashEarningsDistribution"]
             stock_div = self.stock_price.loc[i, "StockEarningsDistribution"]
             self.__compute_div_income(strategy.trader, cash_div, stock_div)
             dic_value = strategy.trader.__dict__
+            dic_value = {
+                k: v for k, v in dic_value.items() if k not in ["tax", "fee"]
+            }
             dic_value["date"] = self.stock_price.loc[i, "date"]
             dic_value["signal"] = self.stock_price.loc[i, "signal"]
             self._trade_detail = self._trade_detail.append(
                 dic_value, ignore_index=True
             )
 
+        self._trade_detail["EverytimeTotalProfit"] = (
+            self._trade_detail["trader_fund"]
+            + self._trade_detail["EverytimeProfit"]
+        )
         self.__compute_final_stats()
+        self.__compute_compare_market()
 
     def __compute_div_income(self, trader, cash_div: float, stock_div: float):
         gain_stock_div = stock_div * trader.hold_volume / 10
@@ -321,21 +337,10 @@ class BackTest:
         self._final_stats["MaxLossPer"] = round(
             self._final_stats["MaxLoss"] / self.trader_fund * 100, 2
         )
-        # +1, calculate_Datenbr not include last day
-        trade_days = (
-            calculate_Datenbr(
-                self._trade_detail["date"].min(),
-                self._trade_detail["date"].max(),
-            )
-            + 1
-        )
-        trade_years = (trade_days + 1) / 365
-        # +1, self._trade_detail wihtout contain first day
         self._final_stats["AnnualReturnPer"] = round(
-            (
-                (self._final_stats["FinalProfitPer"] / 100 + 1)
-                ** (1 / trade_years)
-                - 1
+            convert_Return2Annual(
+                self._final_stats["FinalProfitPer"] / 100,
+                self._trade_period_years,
             )
             * 100,
             2,
@@ -349,6 +354,56 @@ class BackTest:
         self._final_stats["AnnualSharpRatio"] = calculate_sharp_ratio(
             stratagy_return, stratagy_std
         )
+
+    # TODO:
+    # future can compare with diff market, such as America, China
+    # now only Taiwan
+    def __compute_compare_market(self):
+        self._compare_market_detail = self._trade_detail[
+            ["date", "EverytimeTotalProfit"]
+        ].copy()
+        self._compare_market_detail["CumDailyRetrun"] = (
+            np.log(self._compare_market_detail["EverytimeTotalProfit"])
+            - np.log(
+                self._compare_market_detail["EverytimeTotalProfit"].shift(1)
+            )
+        ).fillna(0)
+        self._compare_market_detail["CumDailyRetrun"] = round(
+            self._compare_market_detail["CumDailyRetrun"].cumsum(), 5
+        )
+
+        TAIEX = FinData(
+            dataset="TaiwanStockPrice",
+            select="TAIEX",
+            date=self.start_date,
+            end_date=self.end_date,
+            user_id=self.user_id,
+            password=self.password,
+        )[["date", "close"]]
+        TAIEX["CumTaiexDailyRetrun"] = (
+            np.log(TAIEX["close"]) - np.log(TAIEX["close"].shift(1))
+        ).fillna(0)
+        TAIEX["CumTaiexDailyRetrun"] = round(
+            TAIEX["CumTaiexDailyRetrun"].cumsum(), 5
+        )
+        self._compare_market_detail = pd.merge(
+            self._compare_market_detail,
+            TAIEX[["date", "CumTaiexDailyRetrun"]],
+            on=["date"],
+            how="left",
+        )
+
+        self._compare_market_stats = pd.Series()
+        self._compare_market_stats["AnnualTaiexReturnPer"] = (
+            convert_Return2Annual(
+                self._compare_market_detail["CumTaiexDailyRetrun"].values[-1],
+                self._trade_period_years,
+            )
+            * 100
+        )
+        self._compare_market_stats["AnnualReturnPer"] = self._final_stats[
+            "AnnualReturnPer"
+        ]
 
     @property
     def final_stats(self) -> pd.Series():
@@ -366,6 +421,25 @@ class BackTest:
             ]
         )
         return self._trade_detail
+
+    @property
+    def compare_market_detail(self) -> pd.DataFrame():
+        self._compare_market_detail = pd.DataFrame(
+            [
+                output.compare_market_detail(**row_dict).dict()
+                for row_dict in self._compare_market_detail.to_dict("records")
+            ]
+        )
+        return self._compare_market_detail
+
+    @property
+    def compare_market_stats(self) -> pd.Series():
+        self._compare_market_stats = pd.Series(
+            output.compare_market_stats(
+                **self._compare_market_stats.to_dict()
+            ).dict()
+        )
+        return self._compare_market_stats
 
     def plot(
         self,

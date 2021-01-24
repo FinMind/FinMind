@@ -23,7 +23,15 @@ class trade_detail(BaseModel):
     hold_cost: float
     hold_volume: int
     signal: int
-    tax: float
-    fee: float
     trade_price: float
     trader_fund: float
+    EverytimeTotalProfit: float
+
+class compare_market_detail(BaseModel):
+    date: str
+    CumDailyRetrun: float
+    CumTaiexDailyRetrun: float
+
+class compare_market_stats(BaseModel):
+    AnnualTaiexReturnPer: float
+    AnnualReturnPer: float

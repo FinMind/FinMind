@@ -8,6 +8,8 @@ from FinMind.BackTestSystem.utils import (
     get_underlying_trading_tax,
     calculate_Datenbr,
     calculate_sharp_ratio,
+    convert_Return2Annual,
+    convert_period_days2years,
 )
 
 testdata_get_asset_underlying_type = [
@@ -76,3 +78,24 @@ testdata_calculate_sharp_ratio = [(0.05, 0.01, 79.37), (0.1, 0.21, 7.56)]
 def test_calculate_sharp_ratio(retrun, std, expected):
     resp = calculate_sharp_ratio(retrun, std)
     assert resp == expected
+
+
+testdata_convert_Return2Annual = [(0.2, 2, 0.0954), (0.5, 5, 0.0845)]
+@pytest.mark.parametrize(
+    "period_return, period_years, expected",
+    testdata_convert_Return2Annual,
+)
+def test_convert_Return2Annual(period_return, period_years, expected):
+    resp = convert_Return2Annual(period_return, period_years)
+    assert resp == expected
+
+
+testdata_convert_period_days2years = [(180, 0.4931506849315068), (30, 0.0821917808219178)]
+@pytest.mark.parametrize(
+    "days, expected",
+    testdata_convert_period_days2years,
+)
+def test_convert_period_days2years(days, expected):
+    resp = convert_period_days2years(days)
+    assert resp == expected
+

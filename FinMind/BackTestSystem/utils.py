@@ -32,3 +32,15 @@ def calculate_sharp_ratio(retrun: float, std: float) -> float:
         if std == 0
         else round(((retrun - risk_free_rate) / std) * np.sqrt(252), 2)
     )
+
+
+def convert_Return2Annual(period_return: float, period_years: float) -> float:
+    annual_return = round(
+        ((period_return + 1) ** (1 / period_years) - 1),
+        4,
+    )
+    return annual_return
+
+
+def convert_period_days2years(days: int) -> float:
+    return days / 365

@@ -40,7 +40,7 @@ def test_ContinueHolding():
     )
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 2821
+    assert int(obj.final_stats.MeanProfit) == 2810
     assert int(obj.final_stats.MaxLoss) == -9663
     assert int(obj.final_stats.FinalProfit) == 3407
 
@@ -48,21 +48,28 @@ def test_ContinueHolding():
     assert obj.final_stats["FinalProfitPer"] == 0.68
     assert obj.final_stats["MaxLossPer"] == -1.93
 
-    assert obj.trade_detail.to_dict("r")[0] == {
+    assert obj.trade_detail.to_dict("r")[1] == {
         "EverytimeProfit": -96.83,
         "RealizedProfit": 0.0,
         "UnrealizedProfit": -96.83,
         "board_lot": 1000.0,
         "date": "2018-01-03",
-        "fee": 0.001425,
         "hold_cost": 25.18583875,
         "hold_volume": 1000.0,
         "signal": 0.0,
         "stock_id": "0056",
-        "tax": 0.001,
         "trade_price": 25.15,
         "trader_fund": 474814.16125,
+        "EverytimeTotalProfit": 474717.33125,
     }
+
+    assert obj.compare_market_detail.to_dict("r")[-1] == {
+        "CumDailyRetrun": -0.61003,
+        "CumTaiexDailyRetrun": -0.0963,
+        "date": "2018-12-28",
+    }
+    assert obj.compare_market_stats["AnnualTaiexReturnPer"] == -9.6
+    assert obj.compare_market_stats["AnnualReturnPer"] == 0.68
 
 
 def test_ContinueHolding_add_strategy():
@@ -77,7 +84,7 @@ def test_ContinueHolding_add_strategy():
     obj.add_strategy(ContinueHolding)
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 2821
+    assert int(obj.final_stats.MeanProfit) == 2810
     assert int(obj.final_stats.MaxLoss) == -9663
     assert int(obj.final_stats.FinalProfit) == 3407
 
@@ -85,20 +92,19 @@ def test_ContinueHolding_add_strategy():
     assert obj.final_stats["FinalProfitPer"] == 0.68
     assert obj.final_stats["MaxLossPer"] == -1.93
 
-    assert obj.trade_detail.to_dict("r")[0] == {
+    assert obj.trade_detail.to_dict("r")[1] == {
         "EverytimeProfit": -96.83,
         "RealizedProfit": 0.0,
         "UnrealizedProfit": -96.83,
         "board_lot": 1000.0,
         "date": "2018-01-03",
-        "fee": 0.001425,
         "hold_cost": 25.18583875,
         "hold_volume": 1000.0,
         "signal": 0.0,
         "stock_id": "0056",
-        "tax": 0.001,
         "trade_price": 25.15,
         "trader_fund": 474814.16125,
+        "EverytimeTotalProfit": 474717.33125,
     }
 
 
@@ -113,7 +119,7 @@ def test_Bias():
     )
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 989
+    assert int(obj.final_stats.MeanProfit) == 984
     assert int(obj.final_stats.MaxLoss) == -863
     assert int(obj.final_stats.FinalProfit) == 2845
 
@@ -121,21 +127,29 @@ def test_Bias():
     assert obj.final_stats["FinalProfitPer"] == 0.57
     assert obj.final_stats["MaxLossPer"] == -0.17
 
-    assert obj.trade_detail.to_dict("r")[0] == {
+    assert obj.trade_detail.to_dict("r")[1] == {
         "EverytimeProfit": 0.0,
         "RealizedProfit": 0.0,
         "UnrealizedProfit": 0.0,
         "board_lot": 1000.0,
         "date": "2018-02-05",
-        "fee": 0.001425,
         "hold_cost": 0.0,
         "hold_volume": 0.0,
         "signal": 0.0,
         "stock_id": "0056",
-        "tax": 0.001,
         "trade_price": 26.1,
         "trader_fund": 500000.0,
+        "EverytimeTotalProfit": 500000.0,
     }
+
+    assert obj.compare_market_detail.to_dict("r")[-1] == {
+        "CumDailyRetrun": -0.39843,
+        "CumTaiexDailyRetrun": -0.0963,
+        "date": "2018-12-28",
+    }
+
+    assert obj.compare_market_stats["AnnualTaiexReturnPer"] == -9.6
+    assert obj.compare_market_stats["AnnualReturnPer"] == 0.57
 
 
 def test_Bias_add_strategy():
@@ -150,7 +164,7 @@ def test_Bias_add_strategy():
     obj.add_strategy(Bias)
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 989
+    assert int(obj.final_stats.MeanProfit) == 984
     assert int(obj.final_stats.MaxLoss) == -863
     assert int(obj.final_stats.FinalProfit) == 2845
 
@@ -158,20 +172,19 @@ def test_Bias_add_strategy():
     assert obj.final_stats["FinalProfitPer"] == 0.57
     assert obj.final_stats["MaxLossPer"] == -0.17
 
-    assert obj.trade_detail.to_dict("r")[0] == {
+    assert obj.trade_detail.to_dict("r")[1] == {
         "EverytimeProfit": 0.0,
         "RealizedProfit": 0.0,
         "UnrealizedProfit": 0.0,
         "board_lot": 1000.0,
         "date": "2018-02-05",
-        "fee": 0.001425,
         "hold_cost": 0.0,
         "hold_volume": 0.0,
         "signal": 0.0,
         "stock_id": "0056",
-        "tax": 0.001,
         "trade_price": 26.1,
         "trader_fund": 500000.0,
+        "EverytimeTotalProfit": 500000.0,
     }
 
 
@@ -186,11 +199,11 @@ def test_NaiveKd():
     )
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 5440
+    assert int(obj.final_stats.MeanProfit) == 5418
     assert int(obj.final_stats.MaxLoss) == -2094
     assert int(obj.final_stats.FinalProfit) == 15033
 
-    assert obj.final_stats["MeanProfitPer"] == 1.09
+    assert obj.final_stats["MeanProfitPer"] == 1.08
     assert obj.final_stats["FinalProfitPer"] == 3.01
     assert obj.final_stats["MaxLossPer"] == -0.42
 
@@ -207,11 +220,11 @@ def test_NaiveKd_add_strategy():
     obj.add_strategy(NaiveKd)
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 5440
+    assert int(obj.final_stats.MeanProfit) == 5418
     assert int(obj.final_stats.MaxLoss) == -2094
     assert int(obj.final_stats.FinalProfit) == 15033
 
-    assert obj.final_stats["MeanProfitPer"] == 1.09
+    assert obj.final_stats["MeanProfitPer"] == 1.08
     assert obj.final_stats["FinalProfitPer"] == 3.01
     assert obj.final_stats["MaxLossPer"] == -0.42
 
@@ -227,7 +240,7 @@ def test_Kd():
     )
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 2366
+    assert int(obj.final_stats.MeanProfit) == 2356
     assert int(obj.final_stats.MaxLoss) == -1425
     assert int(obj.final_stats.FinalProfit) == 6196
 
@@ -248,7 +261,7 @@ def test_Kd_add_strategy():
     obj.add_strategy(Kd)
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 2366
+    assert int(obj.final_stats.MeanProfit) == 2356
     assert int(obj.final_stats.MaxLoss) == -1425
     assert int(obj.final_stats.FinalProfit) == 6196
 
@@ -268,7 +281,7 @@ def test_KdCrossOver():
     )
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 350
+    assert int(obj.final_stats.MeanProfit) == 349
     assert int(obj.final_stats.MaxLoss) == -1223
     assert int(obj.final_stats.FinalProfit) == 933
 
@@ -289,7 +302,7 @@ def test_KdCrossOver_add_strategy():
     obj.add_strategy(KdCrossOver)
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 350
+    assert int(obj.final_stats.MeanProfit) == 349
     assert int(obj.final_stats.MaxLoss) == -1223
     assert int(obj.final_stats.FinalProfit) == 933
 
@@ -309,7 +322,7 @@ def test_InstitutionalInvestorsFollower():
     )
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 6459
+    assert int(obj.final_stats.MeanProfit) == 6433
     assert int(obj.final_stats.MaxLoss) == -16587
     assert int(obj.final_stats.FinalProfit) == 11647
 
@@ -330,7 +343,7 @@ def test_InstitutionalInvestorsFollower_add_strategy():
     obj.add_strategy(InstitutionalInvestorsFollower)
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 6459
+    assert int(obj.final_stats.MeanProfit) == 6433
     assert int(obj.final_stats.MaxLoss) == -16587
     assert int(obj.final_stats.FinalProfit) == 11647
 
@@ -350,11 +363,11 @@ def test_ShortSaleMarginPurchaseRatio():
     )
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 12999
+    assert int(obj.final_stats.MeanProfit) == 12946
     assert int(obj.final_stats.MaxLoss) == -14706
     assert int(obj.final_stats.FinalProfit) == 22576
 
-    assert obj.final_stats["MeanProfitPer"] == 2.6
+    assert obj.final_stats["MeanProfitPer"] == 2.59
     assert obj.final_stats["FinalProfitPer"] == 4.52
     assert obj.final_stats["MaxLossPer"] == -2.94
 
@@ -371,11 +384,11 @@ def test_ShortSaleMarginPurchaseRatio_add_strategy():
     obj.add_strategy(ShortSaleMarginPurchaseRatio)
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 12999
+    assert int(obj.final_stats.MeanProfit) == 12946
     assert int(obj.final_stats.MaxLoss) == -14706
     assert int(obj.final_stats.FinalProfit) == 22576
 
-    assert obj.final_stats["MeanProfitPer"] == 2.6
+    assert obj.final_stats["MeanProfitPer"] == 2.59
     assert obj.final_stats["FinalProfitPer"] == 4.52
     assert obj.final_stats["MaxLossPer"] == -2.94
 
@@ -391,7 +404,7 @@ def test_MacdCrossOver():
     )
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 1353
+    assert int(obj.final_stats.MeanProfit) == 1347
     assert int(obj.final_stats.MaxLoss) == -397
     assert int(obj.final_stats.FinalProfit) == 3232
 
@@ -412,7 +425,7 @@ def test_MacdCrossOver_add_strategy():
     obj.add_strategy(MacdCrossOver)
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 1353
+    assert int(obj.final_stats.MeanProfit) == 1347
     assert int(obj.final_stats.MaxLoss) == -397
     assert int(obj.final_stats.FinalProfit) == 3232
 
@@ -432,7 +445,7 @@ def test_MaCrossOver():
     )
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == -383
+    assert int(obj.final_stats.MeanProfit) == -381
     assert int(obj.final_stats.MaxLoss) == -1230
     assert int(obj.final_stats.FinalProfit) == -1230
 
@@ -453,7 +466,7 @@ def test_MaCrossOver_add_strategy():
     obj.add_strategy(MaCrossOver)
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == -383
+    assert int(obj.final_stats.MeanProfit) == -381
     assert int(obj.final_stats.MaxLoss) == -1230
     assert int(obj.final_stats.FinalProfit) == -1230
 
