@@ -64,8 +64,8 @@ def test_ContinueHolding():
     }
 
     assert obj.compare_market_detail.to_dict("r")[-1] == {
-        "CumDailyRetrun": -0.6100265888946055,
-        "CumTaiexDailyRetrun": -0.09629556808745043,
+        "CumDailyRetrun": -0.61003,
+        "CumTaiexDailyRetrun": -0.0963,
         "date": "2018-12-28",
     }
     assert obj.compare_market_stats["AnnualTaiexReturnPer"] == -9.6
@@ -143,8 +143,8 @@ def test_Bias():
     }
 
     assert obj.compare_market_detail.to_dict("r")[-1] == {
-        "CumDailyRetrun": -0.3984257355870433,
-        "CumTaiexDailyRetrun": -0.09629556808745043,
+        "CumDailyRetrun": -0.39843,
+        "CumTaiexDailyRetrun": -0.0963,
         "date": "2018-12-28",
     }
 

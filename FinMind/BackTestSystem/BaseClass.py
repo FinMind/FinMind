@@ -368,9 +368,9 @@ class BackTest:
                 self._compare_market_detail["EverytimeTotalProfit"].shift(1)
             )
         ).fillna(0)
-        self._compare_market_detail[
-            "CumDailyRetrun"
-        ] = self._compare_market_detail["CumDailyRetrun"].cumsum()
+        self._compare_market_detail["CumDailyRetrun"] = round(
+            self._compare_market_detail["CumDailyRetrun"].cumsum(), 5
+        )
 
         TAIEX = FinData(
             dataset="TaiwanStockPrice",
@@ -383,7 +383,9 @@ class BackTest:
         TAIEX["CumTaiexDailyRetrun"] = (
             np.log(TAIEX["close"]) - np.log(TAIEX["close"].shift(1))
         ).fillna(0)
-        TAIEX["CumTaiexDailyRetrun"] = TAIEX["CumTaiexDailyRetrun"].cumsum()
+        TAIEX["CumTaiexDailyRetrun"] = round(
+            TAIEX["CumTaiexDailyRetrun"].cumsum(), 5
+        )
         self._compare_market_detail = pd.merge(
             self._compare_market_detail,
             TAIEX[["date", "CumTaiexDailyRetrun"]],
