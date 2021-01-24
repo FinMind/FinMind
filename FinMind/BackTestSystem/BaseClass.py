@@ -190,12 +190,15 @@ class BackTest:
         self.user_id = user_id
         self.password = password
         self.strategy = strategy
+        self.stock_price = pd.DataFrame()
         self._trade_detail = pd.DataFrame()
         self._final_stats = pd.Series()
         self.__init_base_data()
         self._trade_period_years = convert_period_days2years(
             calculate_Datenbr(start_date, end_date) + 1
         )
+        self._compare_market_detail = pd.DataFrame()
+        self._compare_market_stats = pd.Series()
 
     def add_strategy(self, strategy: Strategy):
         self.strategy = strategy
