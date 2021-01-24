@@ -5,8 +5,9 @@ from FinMind.BackTestSystem.BaseClass import Strategy
 
 class NaiveKd(Strategy):
     """
-    url: "https://www.mirrormedia.mg/story/20180719fin012/"
+    url: "https://school.stockcharts.com/doku.php?id=technical_indicators:stochastic_oscillator_fast_slow_and_full"
     summary:
+        kd計算方式相較於網路上 kd 交易策略有些微差距，但概念是相同的
         日KD 80 20
         日K線 <= 20 進場
         日K線 >= 80 出場
