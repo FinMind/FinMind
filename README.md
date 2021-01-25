@@ -16,9 +16,11 @@
 <a href="https://p.ecpay.com.tw/8196A98"><img src="https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png" alt=""/></a>
 
 ## Quickstart
+
 + Refer to our [Official Documentation](https://finmind.github.io/quickstart/).
 
 ## 這是什麼?
+
 **FinMind** 是超過 50 種金融開源數據 [50 datasets](https://finmind.github.io/)。
 包含
 
@@ -31,8 +33,8 @@
 
 資料每天更新。你不需收集資料，就可進行分析。
 
-
 ## What is this?
+
 **FinMind** is open source of more than [50 datasets](https://finmind.github.io/), including
 
 Taiwan stock trade data daily, Taiwan stock trade data (5 seconds) (2019-05-29 ~ now, more than 30 million data in total), Financial Statements, Balance Sheet, Cash Flows Statement, Month Revenue, Holding Shares Per, Institutional Investors Buy Sell. Taiwan Futures Trade Detail, Taiwan Option Trade Detail.
@@ -47,6 +49,7 @@ You can analyze financial data without having to collect the data by yourself.
 --------------
 
 ## License
+
 - [License Detail](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
 
 - 資料來源: 
@@ -67,6 +70,7 @@ You can analyze financial data without having to collect the data by yourself.
 -------------------------------------------
 
 ## Contact
+
 Solicit partners who are interested in joint development.
 
 徵求有興趣共同開發的夥伴。
@@ -76,6 +80,7 @@ Email: FinMind.TW@gmail.com
 每週日早上零點至早上七點為維護時間，不提供服務。
 
 ## Note
+
 + API Request 上限：600 / 小時。
 + Limit amount of request, 600 / hour.
 + 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `user_id` 與 `password` 參數可以提高使用上限到 1500/hr。
