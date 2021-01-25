@@ -1,6 +1,8 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/FinMind/FinMind/master/logo.png" width="820" height="312">
+</p>
 
+<p align="center">
   <a href="https://travis-ci.org/FinMind/FinMind"><img src="https://travis-ci.org/FinMind/FinMind.svg?branch=master" alt="Build Status"></a>
   <a href="https://github.com/linsamtw/FinMind/blob/master/LICENSE"><img src="https://img.shields.io/github/license/FinMind/FinMind" alt="license"></a>
   <a href="https://finmind.github.io/"><img src="https://readthedocs.org/projects/finminddoc/badge/?version=latest" alt="Documentation Status"></a>
