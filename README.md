@@ -1,5 +1,3 @@
-
-
 <img src="https://raw.githubusercontent.com/FinMind/FinMind/master/logo.png" width="820" height="312">
 
 <p align="center">
