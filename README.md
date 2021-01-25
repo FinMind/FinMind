@@ -2,15 +2,16 @@
 
 <img src="https://raw.githubusercontent.com/FinMind/FinMind/master/logo.png" width="820" height="312">
 
-[![Build Status](https://travis-ci.org/FinMind/FinMind.svg?branch=master)](https://travis-ci.org/FinMind/FinMind)
-[![license](https://img.shields.io/github/license/FinMind/FinMind)](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
-[![Documentation Status](https://readthedocs.org/projects/finminddoc/badge/?version=latest)](https://finmind.github.io/)
-[![Gitter](https://badges.gitter.im/FinMindTW/community.svg)](https://gitter.im/FinMindTW/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![PyPI version](https://badge.fury.io/py/FinMind.svg)](https://badge.fury.io/py/FinMind)
-<!--[![Coverage Status](https://coveralls.io/repos/github/linsamtw/FinMind/badge.svg?branch=master)](https://coveralls.io/github/linsamtw/FinMind?branch=master)-->
+<p align="center">
+  <a href="https://travis-ci.org/FinMind/FinMind"><img src="https://travis-ci.org/FinMind/FinMind.svg?branch=master" alt="Build Status"></a>
+  <a href="https://github.com/linsamtw/FinMind/blob/master/LICENSE"><img src="https://img.shields.io/github/license/FinMind/FinMind" alt="license"></a>
+  <a href="https://finmind.github.io/"><img src="https://readthedocs.org/projects/finminddoc/badge/?version=latest" alt="Documentation Status"></a>
+  <a href="https://gitter.im/FinMindTW/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src="https://badges.gitter.im/FinMindTW/community.svg" alt="Gitter"></a>
+  <a href="https://badge.fury.io/py/FinMind"><img src="https://badge.fury.io/py/FinMind.svg" alt="PyPI version"></a>
+  <!--<a href="https://coveralls.io/github/linsamtw/FinMind?branch=master"><img src="https://coveralls.io/repos/github/linsamtw/FinMind/badge.svg?branch=master" alt="Coverage Status"></a>-->
+</p>
 
-## dotnet
-
+## Donate
 
 * [贊助我們發展更多功能 (金額由你決定)](https://p.ecpay.com.tw/8196A98)
 
