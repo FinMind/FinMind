@@ -1,4 +1,6 @@
-<img src="https://raw.githubusercontent.com/FinMind/FinMind/master/logo.png" width="820" height="312">
+<p align="center">
+  <img src="https://raw.githubusercontent.com/FinMind/FinMind/master/logo.png" width="820" height="312">
+</p>
 
 <p align="center">
   <a href="https://travis-ci.org/FinMind/FinMind"><img src="https://travis-ci.org/FinMind/FinMind.svg?branch=master" alt="Build Status"></a>
