@@ -75,9 +75,9 @@ You can analyze financial data without having to collect the data by yourself.
 
 ## Contact
 
-Solicit partners who are interested in joint development.
+<!-- Solicit partners who are interested in joint development.
 
-徵求有興趣共同開發的夥伴。
+徵求有興趣共同開發的夥伴。 -->
 
 Email: FinMind.TW@gmail.com
 
