@@ -392,7 +392,7 @@ class BackTest:
             on=["date"],
             how="left",
         )
-
+        self._compare_market_detail = self._compare_market_detail.dropna()
         self._compare_market_stats = pd.Series()
         self._compare_market_stats["AnnualTaiexReturnPer"] = (
             convert_Return2Annual(
