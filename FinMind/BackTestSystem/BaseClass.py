@@ -286,7 +286,9 @@ class BackTest:
                 k: v for k, v in dic_value.items() if k not in ["tax", "fee"]
             }
             dic_value["date"] = self.stock_price.loc[i, "date"]
-            dic_value["signal"] = self.stock_price.loc[i, "signal"]
+            dic_value["signal"] = signal
+            dic_value["CashEarningsDistribution"] = cash_div
+            dic_value["StockEarningsDistribution"] = stock_div
             self._trade_detail = self._trade_detail.append(
                 dic_value, ignore_index=True
             )
