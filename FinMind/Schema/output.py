@@ -26,11 +26,15 @@ class trade_detail(BaseModel):
     trade_price: float
     trader_fund: float
     EverytimeTotalProfit: float
+    CashEarningsDistribution: float
+    StockEarningsDistribution: float
+
 
 class compare_market_detail(BaseModel):
     date: str
     CumDailyRetrun: float
     CumTaiexDailyRetrun: float
+
 
 class compare_market_stats(BaseModel):
     AnnualTaiexReturnPer: float

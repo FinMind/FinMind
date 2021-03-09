@@ -49,18 +49,20 @@ def test_ContinueHolding():
     assert obj.final_stats["MaxLossPer"] == -1.93
 
     assert obj.trade_detail.to_dict("r")[1] == {
+        "stock_id": "0056",
+        "date": "2018-01-03",
         "EverytimeProfit": -96.83,
         "RealizedProfit": 0.0,
         "UnrealizedProfit": -96.83,
-        "board_lot": 1000.0,
-        "date": "2018-01-03",
+        "board_lot": 1000,
         "hold_cost": 25.18583875,
-        "hold_volume": 1000.0,
-        "signal": 0.0,
-        "stock_id": "0056",
+        "hold_volume": 1000,
+        "signal": 1,
         "trade_price": 25.15,
         "trader_fund": 474814.16125,
         "EverytimeTotalProfit": 474717.33125,
+        "CashEarningsDistribution": 0.0,
+        "StockEarningsDistribution": 0.0,
     }
 
     assert obj.compare_market_detail.to_dict("r")[-1] == {
@@ -100,11 +102,13 @@ def test_ContinueHolding_add_strategy():
         "date": "2018-01-03",
         "hold_cost": 25.18583875,
         "hold_volume": 1000.0,
-        "signal": 0.0,
+        "signal": 1,
         "stock_id": "0056",
         "trade_price": 25.15,
         "trader_fund": 474814.16125,
         "EverytimeTotalProfit": 474717.33125,
+        "CashEarningsDistribution": 0.0,
+        "StockEarningsDistribution": 0.0,
     }
 
 
@@ -140,6 +144,8 @@ def test_Bias():
         "trade_price": 26.1,
         "trader_fund": 500000.0,
         "EverytimeTotalProfit": 500000.0,
+        "CashEarningsDistribution": 0.0,
+        "StockEarningsDistribution": 0.0,
     }
 
     assert obj.compare_market_detail.to_dict("r")[-1] == {
@@ -185,6 +191,8 @@ def test_Bias_add_strategy():
         "trade_price": 26.1,
         "trader_fund": 500000.0,
         "EverytimeTotalProfit": 500000.0,
+        "CashEarningsDistribution": 0.0,
+        "StockEarningsDistribution": 0.0,
     }
 
 
