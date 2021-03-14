@@ -24,9 +24,9 @@ jobs:
         python -m pip install --upgrade pip
         pip3 install pipenv
         pipenv --python /usr/bin/python3
-        pipenv sync
     - name: Test with pytest
       run: |
+        pipenv sync
         pipenv run pytest
     - name: test wheel
       run: |
