@@ -330,13 +330,13 @@ def test_InstitutionalInvestorsFollower():
     )
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 6433
-    assert int(obj.final_stats.MaxLoss) == -16587
-    assert int(obj.final_stats.FinalProfit) == 11647
+    assert int(obj.final_stats.MeanProfit) == 6021
+    assert int(obj.final_stats.MaxLoss) == -15410
+    assert int(obj.final_stats.FinalProfit) == 10699
 
-    assert obj.final_stats["MeanProfitPer"] == 1.29
-    assert obj.final_stats["FinalProfitPer"] == 2.33
-    assert obj.final_stats["MaxLossPer"] == -3.32
+    assert obj.final_stats["MeanProfitPer"] == 1.2
+    assert obj.final_stats["FinalProfitPer"] == 2.14
+    assert obj.final_stats["MaxLossPer"] == -3.08
 
 
 def test_InstitutionalInvestorsFollower_add_strategy():
@@ -351,13 +351,13 @@ def test_InstitutionalInvestorsFollower_add_strategy():
     obj.add_strategy(InstitutionalInvestorsFollower)
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 6433
-    assert int(obj.final_stats.MaxLoss) == -16587
-    assert int(obj.final_stats.FinalProfit) == 11647
+    assert int(obj.final_stats.MeanProfit) == 6021
+    assert int(obj.final_stats.MaxLoss) == -15410
+    assert int(obj.final_stats.FinalProfit) == 10699
 
-    assert obj.final_stats["MeanProfitPer"] == 1.29
-    assert obj.final_stats["FinalProfitPer"] == 2.33
-    assert obj.final_stats["MaxLossPer"] == -3.32
+    assert obj.final_stats["MeanProfitPer"] == 1.2
+    assert obj.final_stats["FinalProfitPer"] == 2.14
+    assert obj.final_stats["MaxLossPer"] == -3.08
 
 
 def test_ShortSaleMarginPurchaseRatio():
