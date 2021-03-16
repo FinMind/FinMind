@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from FinMind.Data.Load import FinData, FinDataList, translation
+from FinMind.Data.Load import FinData, FinDataList, translation, get_retroactive_price
 
 
 def test_FinData():
@@ -102,3 +102,12 @@ def test_translation():
             }
         )
     )
+
+
+def test_get_retroactive_price():
+    stock_id = "2330"
+    start_date = "2019-04-01"
+    end_date = "2021-03-06"
+    data = get_retroactive_price(stock_id=stock_id, start_date=start_date, end_date=end_date).iloc[0][
+        ['open', 'close', 'max', 'min']]
+    assert all(data == pd.Series({"open": 232.74, "close": 227.64, "max": 232.74, "min": 227.18}))
