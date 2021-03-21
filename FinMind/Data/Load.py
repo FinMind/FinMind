@@ -166,7 +166,7 @@ def get_retroactive_price(
     del stock_price['retroactive_close']
     del stock_price['change']
     del stock_price['retroactive_change']
-    stock_price['spread'] = stock_price['close'] - stock_price['close'].shift(1)
+    stock_price['spread'] = stock_price['close'] - stock_price['close'].shift(-1)
     stock_price = stock_price.dropna()
     stock_price = stock_price.iloc[::-1].reset_index(drop=True)
     return stock_price

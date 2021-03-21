@@ -110,4 +110,4 @@ def test_get_retroactive_price():
     end_date = "2021-03-06"
     data = get_retroactive_price(stock_id=stock_id, start_date=start_date, end_date=end_date).iloc[0][
         ['open', 'close', 'max', 'min']]
-    assert all(data == pd.Series({"open": 232.74, "close": 227.64, "max": 232.74, "min": 227.18}))
+    assert all(data == pd.Series({"open": 231.35, "close": 228.11, "max": 231.35, "min": 228.11}))
