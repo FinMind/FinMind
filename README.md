@@ -26,11 +26,11 @@
 **FinMind** 是超過 50 種金融開源數據 [50 datasets](https://finmind.github.io/)。
 包含
 
-* 技術面 : 台股股價 daily、即時報價、即時最佳五檔、PER、PBR、每5秒委託成交統計。
+* 技術面 : 台股股價 daily、即時報價、歷史 tick、即時最佳五檔、PER、PBR、每5秒委託成交統計、加權指數、當日沖銷交易標的及成交量值。
 * 基本面 : 綜合損益表、現金流量表、資產負債表、股利政策表、除權除息結果表、月營收。
 * 籌碼面 : 外資持股、股權分散表、融資融券、三大法人買賣、借券成交明細。
 * 消息面 : 台股相關新聞。
-* 衍生性商品 : 期貨、選擇權 daily data、即時報價、交易明細。
+* 衍生性商品 : 期貨、選擇權 daily data、即時報價、交易明細，選擇權、期貨三大法人買賣，期貨各卷商每日交易、選擇權各卷商每日交易。
 * 國際市場 : 美股股價 daily、minute、美國債券殖利率、貨幣發行量(美國)、黃金價格、原油價格、G8 央行利率、G8 匯率、
 
 資料每天更新。你不需收集資料，就可進行分析。
@@ -84,8 +84,8 @@ Email: FinMind.TW@gmail.com
 每週日早上零點至早上七點為維護時間，不提供服務。
 
 ## Note
-
-+ API Request 上限：600 / 小時。
-+ Limit amount of request, 600 / hour.
-+ 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `user_id` 與 `password` 參數可以提高使用上限到 1500/hr。
++ 未來預計新增更多功能，包含個人化回測分析、chatbot 監控策略，因此 4/11 之後會更改使用方案，並增加 backer、sponsor 兩種贊助方案，
++ API Request 上限：600 / 小時。(4/11後，300/hr)
++ Limit amount of request, 600 / hour. (After 4/11，300/hr)
++ 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `user_id` 與 `password` 參數可以提高使用上限到 1500/hr。(4/11後，600/hr)
 + `user_id` 與 `password` 參數的使用方法，可參考[線上 API](http://api.finmindtrade.com/docs)。
