@@ -2,6 +2,7 @@ import typing
 
 import numpy as np
 import pandas as pd
+
 from FinMind.BackTestSystem.BaseClass import Strategy
 from FinMind.Data import Load
 
@@ -27,8 +28,8 @@ class InstitutionalInvestorsFollower(Strategy):
             ["date", "stock_id"], as_index=False
         ).agg({"buy": np.sum, "sell": np.sum})
         InstitutionalInvestorsBuySell["diff"] = (
-            InstitutionalInvestorsBuySell["buy"]
-            - InstitutionalInvestorsBuySell["sell"]
+                InstitutionalInvestorsBuySell["buy"]
+                - InstitutionalInvestorsBuySell["sell"]
         )
         stock_price = pd.merge(
             stock_price,
@@ -48,7 +49,7 @@ class InstitutionalInvestorsFollower(Strategy):
         return stock_price
 
     def detect_Abnormal_Peak(
-        self, y: np.array, lag: int, threshold: float, influence: float
+            self, y: np.array, lag: int, threshold: float, influence: float
     ) -> typing.List[float]:
         signals = np.zeros(len(y))
         filteredY = np.array(y)
@@ -64,13 +65,13 @@ class InstitutionalInvestorsFollower(Strategy):
                     signals[i] = -1
 
                 filteredY[i] = (
-                    influence * y[i] + (1 - influence) * filteredY[i - 1]
+                        influence * y[i] + (1 - influence) * filteredY[i - 1]
                 )
-                avgFilter[i] = np.mean(filteredY[(i - lag + 1) : i + 1])
-                stdFilter[i] = np.std(filteredY[(i - lag + 1) : i + 1])
+                avgFilter[i] = np.mean(filteredY[(i - lag + 1): i + 1])
+                stdFilter[i] = np.std(filteredY[(i - lag + 1): i + 1])
             else:
                 signals[i] = 0
                 filteredY[i] = y[i]
-                avgFilter[i] = np.mean(filteredY[(i - lag + 1) : i + 1])
-                stdFilter[i] = np.std(filteredY[(i - lag + 1) : i + 1])
+                avgFilter[i] = np.mean(filteredY[(i - lag + 1): i + 1])
+                stdFilter[i] = np.std(filteredY[(i - lag + 1): i + 1])
         return list(signals)

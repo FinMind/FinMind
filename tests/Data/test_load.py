@@ -1,5 +1,4 @@
 import pandas as pd
-import pytest
 
 from FinMind.Data.Load import FinData, FinDataList, translation, get_retroactive_price
 

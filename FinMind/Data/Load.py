@@ -8,15 +8,14 @@ from FinMind.config import API_HOST
 
 
 def FinData(
-    dataset: str,
-    select: str = "",
-    date: str = "",
-    end_date: str = "",
-    user_id: str = "",
-    password: str = "",
-    url: str = f"{API_HOST}/data",
+        dataset: str,
+        select: str = "",
+        date: str = "",
+        end_date: str = "",
+        user_id: str = "",
+        password: str = "",
+        url: str = f"{API_HOST}/data",
 ) -> pd.DataFrame:
-
     params = {
         "dataset": dataset,
         "stock_id": select,
@@ -39,12 +38,11 @@ def FinData(
 
 
 def FinDataList(
-    dataset: str,
-    user_id: str = "",
-    password: str = "",
-    list_url=f"{API_HOST}/datalist",
+        dataset: str,
+        user_id: str = "",
+        password: str = "",
+        list_url=f"{API_HOST}/datalist",
 ) -> typing.List:
-
     params = {
         "dataset": dataset,
         "user_id": user_id,
@@ -89,7 +87,7 @@ def transpose(data, var="type"):
 
 
 def translation(
-    dataset: str, user_id: str = "", password: str = ""
+        dataset: str, user_id: str = "", password: str = ""
 ) -> pd.DataFrame:
     url = f"{API_HOST}/translation"
     params = {

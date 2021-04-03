@@ -1,6 +1,8 @@
+from datetime import datetime
+
 import numpy as np
+
 from FinMind.Data.Load import FinData
-from datetime import datetime, timedelta
 
 
 def get_asset_underlying_type(stock_id: str) -> str:

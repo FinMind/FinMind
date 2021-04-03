@@ -1,7 +1,8 @@
 import datetime
+import time
+
 import numpy as np
 import requests
-import time
 
 
 def requests_get(url, header):

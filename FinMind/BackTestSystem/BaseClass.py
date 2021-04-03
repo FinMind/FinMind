@@ -1,8 +1,8 @@
-import typing
 import warnings
 
 import numpy as np
 import pandas as pd
+
 from FinMind.BackTestSystem.utils import (
     get_asset_underlying_type,
     get_underlying_trading_tax,
@@ -17,14 +17,14 @@ from FinMind.Schema import output
 
 class Trader:
     def __init__(
-        self,
-        stock_id: str,
-        trader_fund: int,
-        hold_volume: float,
-        hold_cost: float,
-        fee: float,
-        tax: float,
-        board_lot: int = 1000,
+            self,
+            stock_id: str,
+            trader_fund: int,
+            hold_volume: float,
+            hold_cost: float,
+            fee: float,
+            tax: float,
+            board_lot: int = 1000,
     ):
         self.stock_id = stock_id
         self.trader_fund = trader_fund
@@ -41,8 +41,8 @@ class Trader:
     def buy(self, trade_price: float, trade_lots: float):
         self.trade_price = trade_price
         if (
-            self.__confirm_trade_lots(trade_lots, trade_price, self.trader_fund)
-            > 0
+                self.__confirm_trade_lots(trade_lots, trade_price, self.trader_fund)
+                > 0
         ):
             trade_volume = trade_lots * self.board_lot
             buy_fee = max(20, self.trade_price * trade_volume * self.fee)
@@ -52,16 +52,16 @@ class Trader:
             origin_hold_cost = self.hold_volume * self.hold_cost
             self.hold_volume = self.hold_volume + trade_volume
             self.hold_cost = (
-                origin_hold_cost + buy_total_price
-            ) / self.hold_volume
+                                     origin_hold_cost + buy_total_price
+                             ) / self.hold_volume
 
         self.__compute_realtime_status()
 
     def sell(self, trade_price: float, trade_lots: float):
         self.trade_price = trade_price
         if (
-            self.__confirm_trade_lots(trade_lots, trade_price, self.trader_fund)
-            < 0
+                self.__confirm_trade_lots(trade_lots, trade_price, self.trader_fund)
+                < 0
         ):
             trade_volume = abs(trade_lots) * self.board_lot
             sell_fee = max(20, trade_price * trade_volume * self.fee)
@@ -91,7 +91,7 @@ class Trader:
         self.EverytimeProfit = self.UnrealizedProfit + self.RealizedProfit
 
     def __have_enough_money(
-        self, trader_fund: int, trade_price: float, trade_volume: int
+            self, trader_fund: int, trade_price: float, trade_volume: int
     ) -> bool:
         if trader_fund < (trade_price * trade_volume):
             return False
@@ -99,7 +99,7 @@ class Trader:
             return True
 
     def __have_enough_volume(
-        self, hold_volume: float, trade_volume: int
+            self, hold_volume: float, trade_volume: int
     ) -> bool:
         if hold_volume < trade_volume:
             return False
@@ -107,7 +107,7 @@ class Trader:
             return True
 
     def __confirm_trade_lots(
-        self, trade_lots: int, trade_price: float, trader_fund: int
+            self, trade_lots: int, trade_price: float, trader_fund: int
     ):
         """
         do not have enough money --> not buy
@@ -135,7 +135,7 @@ class Trader:
 
 class Strategy:
     def __init__(
-        self, trader: Trader, stock_id: str, start_date: str, end_date: str
+            self, trader: Trader, stock_id: str, start_date: str, end_date: str
     ):
         self.trader = trader
         self.stock_id = stock_id
@@ -162,15 +162,15 @@ class Strategy:
 
 class BackTest:
     def __init__(
-        self,
-        user_id: str = "",
-        password: str = "",
-        stock_id: str = "",
-        start_date: str = "",
-        end_date: str = "",
-        trader_fund: float = 0,
-        fee: float = 0.001425,
-        strategy: Strategy = None,
+            self,
+            user_id: str = "",
+            password: str = "",
+            stock_id: str = "",
+            start_date: str = "",
+            end_date: str = "",
+            trader_fund: float = 0,
+            fee: float = 0.001425,
+            strategy: Strategy = None,
     ):
         self.stock_id = stock_id
         self.start_date = start_date
@@ -262,7 +262,7 @@ class BackTest:
             stock_price=self.stock_price
         )
         assert (
-            "signal" in self.stock_price.columns
+                "signal" in self.stock_price.columns
         ), "Must be create signal columns in stock_price"
         if not self.stock_price.index.is_monotonic_increasing:
             warnings.warn(
@@ -294,8 +294,8 @@ class BackTest:
             )
 
         self._trade_detail["EverytimeTotalProfit"] = (
-            self._trade_detail["trader_fund"]
-            + self._trade_detail["EverytimeProfit"]
+                self._trade_detail["trader_fund"]
+                + self._trade_detail["EverytimeProfit"]
         )
         self.__compute_final_stats()
         self.__compute_compare_market()
@@ -311,8 +311,8 @@ class BackTest:
         )
         trader.UnrealizedProfit = round(
             (
-                trader.trade_price * (1 - trader.tax - trader.fee)
-                - trader.hold_cost
+                    trader.trade_price * (1 - trader.tax - trader.fee)
+                    - trader.hold_cost
             )
             * trader.hold_volume,
             2,
@@ -348,9 +348,9 @@ class BackTest:
             2,
         )
         timestep_returns = (
-            self._trade_detail["EverytimeProfit"]
-            - self._trade_detail["EverytimeProfit"].shift(1)
-        ) / (self._trade_detail["EverytimeProfit"].shift(1) + self.trader_fund)
+                                   self._trade_detail["EverytimeProfit"]
+                                   - self._trade_detail["EverytimeProfit"].shift(1)
+                           ) / (self._trade_detail["EverytimeProfit"].shift(1) + self.trader_fund)
         stratagy_return = np.mean(timestep_returns)
         stratagy_std = np.std(timestep_returns)
         self._final_stats["AnnualSharpRatio"] = calculate_sharp_ratio(
@@ -365,10 +365,10 @@ class BackTest:
             ["date", "EverytimeTotalProfit"]
         ].copy()
         self._compare_market_detail["CumDailyRetrun"] = (
-            np.log(self._compare_market_detail["EverytimeTotalProfit"])
-            - np.log(
-                self._compare_market_detail["EverytimeTotalProfit"].shift(1)
-            )
+                np.log(self._compare_market_detail["EverytimeTotalProfit"])
+                - np.log(
+            self._compare_market_detail["EverytimeTotalProfit"].shift(1)
+        )
         ).fillna(0)
         self._compare_market_detail["CumDailyRetrun"] = round(
             self._compare_market_detail["CumDailyRetrun"].cumsum(), 5
@@ -383,7 +383,7 @@ class BackTest:
             password=self.password,
         )[["date", "close"]]
         TAIEX["CumTaiexDailyRetrun"] = (
-            np.log(TAIEX["close"]) - np.log(TAIEX["close"].shift(1))
+                np.log(TAIEX["close"]) - np.log(TAIEX["close"].shift(1))
         ).fillna(0)
         TAIEX["CumTaiexDailyRetrun"] = round(
             TAIEX["CumTaiexDailyRetrun"].cumsum(), 5
@@ -397,11 +397,11 @@ class BackTest:
         self._compare_market_detail = self._compare_market_detail.dropna()
         self._compare_market_stats = pd.Series()
         self._compare_market_stats["AnnualTaiexReturnPer"] = (
-            convert_Return2Annual(
-                self._compare_market_detail["CumTaiexDailyRetrun"].values[-1],
-                self._trade_period_years,
-            )
-            * 100
+                convert_Return2Annual(
+                    self._compare_market_detail["CumTaiexDailyRetrun"].values[-1],
+                    self._trade_period_years,
+                )
+                * 100
         )
         self._compare_market_stats["AnnualReturnPer"] = self._final_stats[
             "AnnualReturnPer"
@@ -444,11 +444,11 @@ class BackTest:
         return self._compare_market_stats
 
     def plot(
-        self,
-        title: str = "Backtest Result",
-        xlabel: str = "Time",
-        ylabel: str = "Profit",
-        grid: bool = True,
+            self,
+            title: str = "Backtest Result",
+            xlabel: str = "Time",
+            ylabel: str = "Profit",
+            grid: bool = True,
     ):
         try:
             import matplotlib.pyplot as plt

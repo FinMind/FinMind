@@ -1,5 +1,6 @@
-from ta.momentum import StochasticOscillator
 import pandas as pd
+from ta.momentum import StochasticOscillator
+
 from FinMind.BackTestSystem.BaseClass import Strategy
 
 

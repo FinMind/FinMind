@@ -1,11 +1,12 @@
 TABLE = "RawMaterialFuturesPrices"
 
-import os
-import requests
-import sys
-import pandas as pd
 import datetime
+import os
 import re
+import sys
+
+import pandas as pd
+import requests
 from lxml import etree
 
 PATH = "/".join(os.path.abspath(__file__).split("/")[:-2])
@@ -139,7 +140,7 @@ class Crawler(cbaseclass.Crawler):
         data = pd.DataFrame()
         td_path = page.xpath("//tr//td")
         for i in range(0, len(td_path) - 7, 7):
-            tem = td_path[i : i + 7]
+            tem = td_path[i: i + 7]
             value = get_value(tem)
             data = data.append(value)
 

@@ -1,6 +1,7 @@
 import pandas as pd
-from FinMind.Crawler import RawMaterialFuturesPrices
+
 from FinMind.Crawler import GovernmentBonds
+from FinMind.Crawler import RawMaterialFuturesPrices
 
 # -------------------------------------------------------------------
 RMFP = RawMaterialFuturesPrices.Crawler()

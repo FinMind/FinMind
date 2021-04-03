@@ -1,5 +1,6 @@
-from ta.trend import SMAIndicator
 import pandas as pd
+from ta.trend import SMAIndicator
+
 from FinMind.BackTestSystem.BaseClass import Strategy
 
 
@@ -26,9 +27,9 @@ class MaxMinPeriodBias(Strategy):
             stock_price["close"], self.ma_days
         ).sma_indicator()
         stock_price["bias"] = (
-            (stock_price["close"] - stock_price[f"ma{self.ma_days}"])
-            / stock_price[f"ma{self.ma_days}"]
-        ) * 100
+                                      (stock_price["close"] - stock_price[f"ma{self.ma_days}"])
+                                      / stock_price[f"ma{self.ma_days}"]
+                              ) * 100
         stock_price[f"max_last_k_days{self.last_k_days}"] = (
             stock_price["close"].shift(1).rolling(window=self.last_k_days).max()
         )
@@ -38,21 +39,21 @@ class MaxMinPeriodBias(Strategy):
         stock_price["signal"] = 0
         stock_price.loc[
             (
-                (stock_price["bias"] < self.bais_lower)
-                & (
-                    stock_price["close"]
-                    > stock_price[f"max_last_k_days{self.last_k_days}"]
-                )
+                    (stock_price["bias"] < self.bais_lower)
+                    & (
+                            stock_price["close"]
+                            > stock_price[f"max_last_k_days{self.last_k_days}"]
+                    )
             ),
             "signal",
         ] = 1
         stock_price.loc[
             (
-                (stock_price["bias"] > self.bais_upper)
-                & (
-                    stock_price["close"]
-                    < stock_price[f"min_last_k_days{self.last_k_days}"]
-                )
+                    (stock_price["bias"] > self.bais_upper)
+                    & (
+                            stock_price["close"]
+                            < stock_price[f"min_last_k_days{self.last_k_days}"]
+                    )
             ),
             "signal",
         ] = -1

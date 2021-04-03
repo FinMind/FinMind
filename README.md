@@ -39,14 +39,18 @@
 
 **FinMind** is open source of more than [50 datasets](https://finmind.github.io/), including
 
-Taiwan stock trade data daily, Taiwan stock trade data (5 seconds) (2019-05-29 ~ now, more than 30 million data in total), Financial Statements, Balance Sheet, Cash Flows Statement, Month Revenue, Holding Shares Per, Institutional Investors Buy Sell. Taiwan Futures Trade Detail, Taiwan Option Trade Detail.
+Taiwan stock trade data daily, Taiwan stock trade data (5 seconds) (2019-05-29 ~ now, more than 30 million data in
+total), Financial Statements, Balance Sheet, Cash Flows Statement, Month Revenue, Holding Shares Per, Institutional
+Investors Buy Sell. Taiwan Futures Trade Detail, Taiwan Option Trade Detail.
 
-US stock price daily, minute (2019-06-01 ~ now, more than 80 million data in total), oil price, gold price, [G7](https://zh.wikipedia.org/zh-tw/%E5%85%AB%E5%A4%A7%E5%B7%A5%E6%A5%AD%E5%9C%8B%E7%B5%84%E7%B9%94) exchange rate, interest rate.
+US stock price daily, minute (2019-06-01 ~ now, more than 80 million data in total), oil price, gold
+price, [G7](https://zh.wikipedia.org/zh-tw/%E5%85%AB%E5%A4%A7%E5%B7%A5%E6%A5%AD%E5%9C%8B%E7%B5%84%E7%B9%94) exchange
+rate, interest rate.
 
 US Government Bonds Yield.
 
-The datasets are automatically updated daily.
-You can analyze financial data without having to collect the data by yourself.
+The datasets are automatically updated daily. You can analyze financial data without having to collect the data by
+yourself.
 
 --------------
 
@@ -55,7 +59,8 @@ You can analyze financial data without having to collect the data by yourself.
 - [License Detail](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
 
 - 資料來源:
-    [證交所](https://www.twse.com.tw/zh/), [櫃買中心](https://www.tpex.org.tw/web/), [公開資訊觀測站](https://mops.twse.com.tw/mops/web/index), [期交所](https://www.taifex.com.tw/cht/index)。
+  [證交所](https://www.twse.com.tw/zh/), [櫃買中心](https://www.tpex.org.tw/web/)
+  , [公開資訊觀測站](https://mops.twse.com.tw/mops/web/index), [期交所](https://www.taifex.com.tw/cht/index)。
 - 本專案提供的所有內容均用於教育、非商業用途。資料僅供參考，使用者依本資料交易發生交易損失需自行負責，本專案不對資料內容錯誤、更新延誤或傳輸中斷負任何責任。
 
 ## Project of Contents
@@ -68,9 +73,9 @@ You can analyze financial data without having to collect the data by yourself.
   <!--- [Crawler (爬蟲)](https://github.com/FinMind/FinMind/tree/master#Crawler-爬蟲)-->
 
 - Other
-  - [Open UP Summit Slide (PPT)](https://www.slideshare.net/ssusera12be6/finmind-project-demo-199815617)
-  - [Median Sharing](https://medium.com/@yanweiliu/finmind-%E4%BD%BF%E7%94%A8python%E6%9F%A5%E5%85%A8%E7%90%83%E8%82%A1%E5%83%B9-%E5%82%B5%E5%88%B8-%E5%8E%9F%E6%B2%B9%E5%83%B9%E6%A0%BC-f39d13ad6a68)
-  - [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
+    - [Open UP Summit Slide (PPT)](https://www.slideshare.net/ssusera12be6/finmind-project-demo-199815617)
+    - [Median Sharing](https://medium.com/@yanweiliu/finmind-%E4%BD%BF%E7%94%A8python%E6%9F%A5%E5%85%A8%E7%90%83%E8%82%A1%E5%83%B9-%E5%82%B5%E5%88%B8-%E5%8E%9F%E6%B2%B9%E5%83%B9%E6%A0%BC-f39d13ad6a68)
+    - [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
 
 -------------------------------------------
 
@@ -90,3 +95,4 @@ Email: FinMind.TW@gmail.com
 + Limit amount of request, 300 / hour. 
 + 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `token` 參數可以提高使用上限到 600/hr。
 + `token` 獲取方法，可在[官網](https://finmindtrade.com/analysis/#/account/login)登入後獲取。
+

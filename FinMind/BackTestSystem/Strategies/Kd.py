@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
-from FinMind.BackTestSystem.BaseClass import Strategy
 from ta.momentum import StochasticOscillator
+
+from FinMind.BackTestSystem.BaseClass import Strategy
 
 
 class Kd(Strategy):

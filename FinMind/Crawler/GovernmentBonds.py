@@ -3,18 +3,18 @@ G8
 俄羅斯、美國、加拿大、英國、法國、德國、義大利及日本
 """
 TABLE = "GovernmentBonds"
-import os
-import requests
-import sys
-import pandas as pd
-import re
 import datetime
+import os
+import re
+import sys
+
+import pandas as pd
+import requests
 from lxml import etree
 
 PATH = "/".join(os.path.abspath(__file__).split("/")[:-2])
 sys.path.append(PATH)
 import Crawler.BasedClass as cbaseclass
-
 
 """
 self = Crawler()
@@ -193,7 +193,7 @@ class Crawler(cbaseclass.Crawler):
         data = pd.DataFrame()
         td_path = page.xpath("//tr//td")
         for i in range(0, len(td_path) - 6, 6):
-            tem = td_path[i : i + 6]
+            tem = td_path[i: i + 6]
             value = get_value(tem)
             if len(value) > 0:
                 data = data.append(value)

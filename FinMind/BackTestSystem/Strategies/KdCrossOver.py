@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
-from FinMind.BackTestSystem.BaseClass import Strategy
 from ta.momentum import StochasticOscillator
+
+from FinMind.BackTestSystem.BaseClass import Strategy
 
 
 class KdCrossOver(Strategy):
@@ -47,15 +48,15 @@ class KdCrossOver(Strategy):
         stock_price["signal"] = 0
         stock_price.loc[
             (
-                (stock_price["diff_sign"] > 0)
-                & (stock_price["diff_sign_yesterday"] < 0)
+                    (stock_price["diff_sign"] > 0)
+                    & (stock_price["diff_sign_yesterday"] < 0)
             ),
             "signal",
         ] = 1
         stock_price.loc[
             (
-                (stock_price["diff_sign"] < 0)
-                & (stock_price["diff_sign_yesterday"] > 0)
+                    (stock_price["diff_sign"] < 0)
+                    & (stock_price["diff_sign_yesterday"] > 0)
             ),
             "signal",
         ] = -1

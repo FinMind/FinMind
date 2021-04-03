@@ -12,19 +12,19 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6]
+        python-version: [ 3.6 ]
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip3 install pipenv
-        pipenv --python /usr/bin/python3
-        pipenv sync
-    - name: test wheel
-      run: |
-        CI_COMMIT_TAG=1.1.1 pip wheel ./ --no-deps -w wheelhouse/
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip3 install pipenv
+          pipenv --python /usr/bin/python3
+          pipenv sync
+      - name: test wheel
+        run: |
+          CI_COMMIT_TAG=1.1.1 pip wheel ./ --no-deps -w wheelhouse/

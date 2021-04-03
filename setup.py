@@ -1,6 +1,7 @@
-from setuptools import setup, find_packages
-from io import open
 import os
+from io import open
+
+from setuptools import setup, find_packages
 
 print(os.environ.get("CI_COMMIT_TAG", "0.0.0"))
 _version = os.environ.get("CI_COMMIT_TAG", "0.0.1.dev2")
@@ -8,7 +9,6 @@ _version = os.environ.get("CI_COMMIT_TAG", "0.0.1.dev2")
 here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
-
 
 requirements = [
     "ta==0.5.25",
