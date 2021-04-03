@@ -34,14 +34,16 @@ def get_time():
 
 
 class BaseCrawler:
-    def date2days(self, date):
+    @staticmethod
+    def date2days(date):
         # date = '2018-08-03'
         date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
         value = (date - datetime.date(1970, 1, 1)).days
         value = value * 60 * 60 * 24 * 1000
         return value
 
-    def days2date(self, day):
+    @staticmethod
+    def days2date(day):
         # day = 631497600000
         # 60s = 1min
         # 60min = 1hr
@@ -107,7 +109,8 @@ class BaseCrawler:
         value = "{} {}:{}:{}".format(date, hour, minute, second)
         return value
 
-    def date2millisecond(self, date):
+    @staticmethod
+    def date2millisecond(date):
         # date = '2019-06-02 15:30:00'
         date = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
         date = date + datetime.timedelta(minutes=1)
@@ -118,7 +121,8 @@ class BaseCrawler:
 
         return second
 
-    def create_date(self, start, today=False):  # start = '2018-07-31'
+    @staticmethod
+    def create_date(start, today=False):  # start = '2018-07-31'
         start = datetime.datetime.strptime(
             start, "%Y-%m-%d"
         ).date() + datetime.timedelta(days=1)
@@ -132,7 +136,8 @@ class BaseCrawler:
         ]
         return date
 
-    def remove_outlier(self, data, var_name):
+    @staticmethod
+    def remove_outlier(data, var_name):
 
         value = list(data[var_name])
         mean = np.mean(value, axis=0)

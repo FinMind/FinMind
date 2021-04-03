@@ -18,7 +18,8 @@ sys.path.append(PATH)
 
 
 class GovernmentBondsCrawler(BaseCrawler):
-    def create_loop_list(self):
+    @staticmethod
+    def create_loop_list():
         def get_data_id_name(url):
 
             headers = {
@@ -36,15 +37,15 @@ class GovernmentBondsCrawler(BaseCrawler):
             tem_data_id = re.findall('data-id="[0-9]+"', res.text)
             tem_data_id = [di.replace("data-id=", "") for di in tem_data_id]
             page = etree.HTML(res.text)
-            data_id = []
-            data_name = []
+            _data_id = []
+            _data_name = []
             for di in tem_data_id:
                 tem = page.xpath("//span[@data-id={}]".format(di))
                 if len(tem) > 0:
-                    data_id.append(tem[0].attrib["data-id"])
-                    data_name.append(tem[0].attrib["data-name"])
+                    _data_id.append(tem[0].attrib["data-id"])
+                    _data_name.append(tem[0].attrib["data-name"])
 
-            return data_id, data_name
+            return _data_id, _data_name
 
         def get_country_url():
             index_url = "https://www.investing.com/rates-bonds/"
@@ -86,15 +87,15 @@ class GovernmentBondsCrawler(BaseCrawler):
                 "usa",
                 "italy",
             ]
-            country_url = []
-            for i in range(len(url)):
-                tem = url[i].replace(
+            countries_url = []
+            for url_index in range(len(url)):
+                tem = url[url_index].replace(
                     "https://www.investing.com/rates-bonds/", ""
                 )
                 tem = tem.replace("-government-bonds", "")
                 if tem in select:
-                    country_url.append(url[i])
-            return country_url
+                    countries_url.append(url[url_index])
+            return countries_url
 
         # main
         country_url = get_country_url()
@@ -107,10 +108,8 @@ class GovernmentBondsCrawler(BaseCrawler):
 
         return loop_list
 
-    def get_st_date(self, data_name, cid):
-        return "01/01/1970"
-
-    def get_end_date(self):
+    @staticmethod
+    def get_end_date():
 
         end_date = datetime.datetime.now().date()
         end_date = end_date + datetime.timedelta(-1)
@@ -125,26 +124,26 @@ class GovernmentBondsCrawler(BaseCrawler):
         return "{}/{}/{}".format(m, d, y)
 
     def crawler(self, loop):  # loop = ['23681', 'Germany 3 Month']
-        def get_value(tem):
+        def get_value(template):
 
-            date = int(tem[0].attrib["data-real-value"])
+            date = int(template[0].attrib["data-real-value"])
             date = int(date / 60 / 60 / 24)
             date = str(
                 datetime.date(1970, 1, 1) + datetime.timedelta(days=date)
             )
-            v = [float(tem[i].text) for i in range(1, 5) if tem[i].text is not None]
+            v = [float(template[template_index].text) for template_index in range(1, 5) if
+                 template[template_index].text is not None]
             if len(v) == 0:
                 return pd.DataFrame()
-            price, Open, High, Low = v
+            _price, _open, _high, _low = v
+            change = float(template[5].text.replace("%", "").replace(",", "")) / 100
 
-            change = float(tem[5].text.replace("%", "").replace(",", "")) / 100
-
-            return pd.DataFrame([date, price, Open, High, Low, change]).T
+            return pd.DataFrame([date, _price, _open, _high, _low, change]).T
 
         cid, data_name = loop
         header = data_name + " Bond Yield Historical data"
         st_date, end_date = (
-            self.get_st_date(data_name, cid),
+            "01/01/1970",
             self.get_end_date(),
         )
         bonds_url = "https://www.investing.com/instruments/HistoricalDataAjax"

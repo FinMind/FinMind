@@ -20,13 +20,14 @@ class ShortSaleMarginPurchaseRatio(Strategy):
             self, trader: Trader, stock_id: str, start_date: str, end_date: str
     ):
         super().__init__(trader, stock_id, start_date, end_date)
-        self.InstitutionalInvestorsBuySell = (
-            self.InstitutionalInvestorsBuySell.groupby(
-                ["date", "stock_id"], as_index=False
-            ).agg({"buy": np.sum, "sell": np.sum})
-        )
         self.TaiwanStockMarginPurchaseShortSale = load.FinData(
             dataset="TaiwanStockMarginPurchaseShortSale",
+            select=self.stock_id,
+            date=self.start_date,
+            end_date=self.end_date,
+        )
+        self.InstitutionalInvestorsBuySell = load.FinData(
+            dataset="InstitutionalInvestorsBuySell",
             select=self.stock_id,
             date=self.start_date,
             end_date=self.end_date,
@@ -50,16 +51,15 @@ class ShortSaleMarginPurchaseRatio(Strategy):
         )
 
     def load_institutional_investors_buy_sell(self):
-        self.InstitutionalInvestorsBuySell = load.FinData(
-            dataset="InstitutionalInvestorsBuySell",
-            select=self.stock_id,
-            date=self.start_date,
-            end_date=self.end_date,
-        )
         self.InstitutionalInvestorsBuySell[["sell", "buy"]] = (
             self.InstitutionalInvestorsBuySell[["sell", "buy"]]
                 .fillna(0)
                 .astype(int)
+        )
+        self.InstitutionalInvestorsBuySell = (
+            self.InstitutionalInvestorsBuySell.groupby(
+                ["date", "stock_id"], as_index=False
+            ).agg({"buy": np.sum, "sell": np.sum})
         )
         self.InstitutionalInvestorsBuySell["diff"] = (
                 self.InstitutionalInvestorsBuySell["buy"]

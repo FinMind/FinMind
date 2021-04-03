@@ -32,7 +32,7 @@ class TradeDetail(BaseModel):
 class CompareMarketDetail(BaseModel):
     date: str
     CumDailyReturn: float
-    CumTaiexDailyReturn: float
+    CumTaiExDailyReturn: float
 
 
 class CompareMarketStats(BaseModel):

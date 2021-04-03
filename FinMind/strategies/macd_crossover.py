@@ -16,7 +16,8 @@ class MacdCrossOver(Strategy):
     長期線 突破 短期線(死亡交叉)，出場
     """
 
-    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
+    @staticmethod
+    def create_trade_sign(stock_price: pd.DataFrame) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
         macd = MACD(close=stock_price["close"], n_slow=26, n_fast=12, n_sign=9)
         stock_price["DIF"] = macd.macd_diff()

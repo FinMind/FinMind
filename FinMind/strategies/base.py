@@ -19,7 +19,7 @@ class Trader:
     def __init__(
             self,
             stock_id: str,
-            trader_fund: int,
+            trader_fund: float,
             hold_volume: float,
             hold_cost: float,
             fee: float,
@@ -90,17 +90,12 @@ class Trader:
         self.UnrealizedProfit = capital_gains - sell_fee - sell_tax
         self.EverytimeProfit = self.UnrealizedProfit + self.RealizedProfit
 
-    def __have_enough_money(
-            self, trader_fund: int, trade_price: float, trade_volume: float
-    ) -> bool:
-        if trader_fund < (trade_price * trade_volume):
-            return False
-        else:
-            return True
+    @staticmethod
+    def __have_enough_money(trader_fund: int, trade_price: float, trade_volume: float) -> bool:
+        return trader_fund >= (trade_price * trade_volume)
 
-    def __have_enough_volume(
-            self, hold_volume: float, trade_volume: float
-    ) -> bool:
+    @staticmethod
+    def __have_enough_volume(hold_volume: float, trade_volume: float) -> bool:
         if hold_volume < trade_volume:
             return False
         else:
@@ -203,7 +198,7 @@ class BackTest:
     def add_strategy(self, strategy: Strategy):
         self.strategy = strategy
 
-    def __init_base_data(self) -> pd.DataFrame:
+    def __init_base_data(self):
         self.stock_price = FinData(
             dataset="TaiwanStockPrice",
             select=self.stock_id,
@@ -212,7 +207,7 @@ class BackTest:
             user_id=self.user_id,
             password=self.password,
         )
-        StockDividend = FinData(
+        stock_dividend = FinData(
             dataset="StockDividend",
             select=self.stock_id,
             date=self.start_date,
@@ -220,15 +215,15 @@ class BackTest:
             user_id=self.user_id,
             password=self.password,
         )
-        if not StockDividend.empty:
-            cash_div = StockDividend[
+        if not stock_dividend.empty:
+            cash_div = stock_dividend[
                 [
                     "stock_id",
                     "CashExDividendTradingDate",
                     "CashEarningsDistribution",
                 ]
             ].rename(columns={"CashExDividendTradingDate": "date"})
-            stock_div = StockDividend[
+            stock_div = stock_dividend[
                 [
                     "stock_id",
                     "StockExDividendTradingDate",
@@ -300,7 +295,8 @@ class BackTest:
         self.__compute_final_stats()
         self.__compute_compare_market()
 
-    def __compute_div_income(self, trader, cash_div: float, stock_div: float):
+    @staticmethod
+    def __compute_div_income(trader, cash_div: float, stock_div: float):
         gain_stock_div = stock_div * trader.hold_volume / 10
         gain_cash = cash_div * trader.hold_volume
         origin_cost = trader.hold_cost * trader.hold_volume
@@ -347,12 +343,11 @@ class BackTest:
             * 100,
             2,
         )
-        timestep_returns = (
-                                   self._trade_detail["EverytimeProfit"]
-                                   - self._trade_detail["EverytimeProfit"].shift(1)
-                           ) / (self._trade_detail["EverytimeProfit"].shift(1) + self.trader_fund)
-        strategy_return = np.mean(timestep_returns)
-        strategy_std = np.std(timestep_returns)
+        time_step_returns = (self._trade_detail["EverytimeProfit"]
+                             - self._trade_detail["EverytimeProfit"].shift(1)
+                             ) / (self._trade_detail["EverytimeProfit"].shift(1) + self.trader_fund)
+        strategy_return = np.mean(time_step_returns)
+        strategy_std = np.std(time_step_returns)
         self._final_stats["AnnualSharpRatio"] = calculate_sharp_ratio(
             strategy_return, strategy_std
         )
@@ -366,15 +361,13 @@ class BackTest:
         ].copy()
         self._compare_market_detail["CumDailyReturn"] = (
                 np.log(self._compare_market_detail["EverytimeTotalProfit"])
-                - np.log(
-            self._compare_market_detail["EverytimeTotalProfit"].shift(1)
-        )
+                - np.log(self._compare_market_detail["EverytimeTotalProfit"].shift(1))
         ).fillna(0)
         self._compare_market_detail["CumDailyReturn"] = round(
             self._compare_market_detail["CumDailyReturn"].cumsum(), 5
         )
 
-        TAIEX = FinData(
+        tai_ex = FinData(
             dataset="TaiwanStockPrice",
             select="TAIEX",
             date=self.start_date,
@@ -382,15 +375,15 @@ class BackTest:
             user_id=self.user_id,
             password=self.password,
         )[["date", "close"]]
-        TAIEX["CumTaiexDailyReturn"] = (
-                np.log(TAIEX["close"]) - np.log(TAIEX["close"].shift(1))
+        tai_ex["CumTaiExDailyReturn"] = (
+                np.log(tai_ex["close"]) - np.log(tai_ex["close"].shift(1))
         ).fillna(0)
-        TAIEX["CumTaiexDailyReturn"] = round(
-            TAIEX["CumTaiexDailyReturn"].cumsum(), 5
+        tai_ex["CumTaiExDailyReturn"] = round(
+            tai_ex["CumTaiExDailyReturn"].cumsum(), 5
         )
         self._compare_market_detail = pd.merge(
             self._compare_market_detail,
-            TAIEX[["date", "CumTaiexDailyReturn"]],
+            tai_ex[["date", "CumTaiExDailyReturn"]],
             on=["date"],
             how="left",
         )
@@ -398,7 +391,7 @@ class BackTest:
         self._compare_market_stats = pd.Series()
         self._compare_market_stats["AnnualTaiexReturnPer"] = (
                 period_return2annual_return(
-                    self._compare_market_detail["CumTaiexDailyReturn"].values[-1],
+                    self._compare_market_detail["CumTaiExDailyReturn"].values[-1],
                     self._trade_period_years,
                 )
                 * 100
@@ -446,8 +439,8 @@ class BackTest:
     def plot(
             self,
             title: str = "Backtest Result",
-            xlabel: str = "Time",
-            ylabel: str = "Profit",
+            x_label: str = "Time",
+            y_label: str = "Profit",
             grid: bool = True,
     ):
         try:
@@ -498,8 +491,8 @@ class BackTest:
         ax2.grid(grid)
         if title is not None:
             ax.set_title(title)
-        if xlabel is not None:
-            ax.set_xlabel(xlabel)
-        if ylabel is not None:
-            ax.set_ylabel(ylabel)
+        if x_label is not None:
+            ax.set_xlabel(x_label)
+        if y_label is not None:
+            ax.set_ylabel(y_label)
         plt.show()

@@ -17,7 +17,8 @@ class CommoditiesCrawler(BaseCrawler):
     def __init__(self):
         super(CommoditiesCrawler, self).__init__()
 
-    def create_loop_list(self):
+    @staticmethod
+    def create_loop_list():
         # self.based_url = 'https://www.investing.com/commodities/'
         kind_list = ["meats", "grains", "energies", "softs", "metals"]
         loop_list = []
@@ -49,11 +50,8 @@ class CommoditiesCrawler(BaseCrawler):
             ]
         return loop_list
 
-    def get_st_date(self, futures_id, data_name):
-        return "01/01/1970"
-        # return '01/01/2018'
-
-    def get_end_date(self):
+    @staticmethod
+    def get_end_date():
         end_date = datetime.datetime.now().date()
         end_date = end_date + datetime.timedelta(-1)
         y = str(end_date.year)
@@ -67,30 +65,28 @@ class CommoditiesCrawler(BaseCrawler):
         return m + "/" + d + "/" + y
 
     def crawler(self, loop):  # loop = ['49769', 'Brent Oil Futures']
-        def get_value(tem):
+        def get_value(template):
 
-            date = int(tem[0].attrib["data-real-value"])
+            date = int(template[0].attrib["data-real-value"])
             date = int(date / 60 / 60 / 24)
             date = str(
                 datetime.date(1970, 1, 1) + datetime.timedelta(days=date)
             )
             v = [
-                float(tem[i].attrib["data-real-value"].replace(",", ""))
-                for i in range(1, 6)
+                float(template[template_index].attrib["data-real-value"].replace(",", ""))
+                for template_index in range(1, 6)
             ]
-            price, Open, High, Low, Vol = v
+            _price, _open, _high, _low, _vol = v
 
-            Change = float(tem[6].text.replace("%", "").replace(",", "")) / 100
+            change = float(template[6].text.replace("%", "").replace(",", "")) / 100
 
-            data = pd.DataFrame([date, price, Open, High, Low, Vol, Change]).T
-
-            return data
+            return pd.DataFrame([date, _price, _open, _high, _low, _vol, change]).T
 
         # -------------------------------------------------------------------
         futures_id, data_name = loop
         header = data_name + " Historical data"
         st_date, end_date = (
-            self.get_st_date(futures_id, data_name),
+            "01/01/1970",
             self.get_end_date(),
         )
 

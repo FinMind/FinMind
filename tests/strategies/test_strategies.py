@@ -53,7 +53,7 @@ def test_continue_holding():
 
     assert obj.compare_market_detail.to_dict("r")[-1] == {
         "CumDailyReturn": -0.61003,
-        "CumTaiexDailyReturn": -0.0963,
+        "CumTaiExDailyReturn": -0.0963,
         "date": "2018-12-28",
     }
     assert obj.compare_market_stats["AnnualTaiexReturnPer"] == -9.6
@@ -136,7 +136,7 @@ def test_bias():
 
     assert obj.compare_market_detail.to_dict("r")[-1] == {
         "CumDailyReturn": -0.39843,
-        "CumTaiexDailyReturn": -0.0963,
+        "CumTaiExDailyReturn": -0.0963,
         "date": "2018-12-28",
     }
 

@@ -16,7 +16,6 @@ for loop in loop_list:
     print(loop)
     value = commodities_crawler.crawler(loop)
     commodities_df = commodities_df.append(value)
-
 # -------------------------------------------------------------------
 gb_crawler = GovernmentBondsCrawler()
 # get futures list
