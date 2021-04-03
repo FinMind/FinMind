@@ -17,6 +17,7 @@ pytest-mock = "*"
 ta = "*"
 pydantic = "*"
 importlib-metadata = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.6"
