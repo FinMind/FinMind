@@ -1,9 +1,9 @@
 import pandas as pd
 
-from FinMind.Data.Load import FinData, FinDataList, translation, get_retroactive_price
+from FinMind.data.load import FinData, FinDataList, translation, get_retroactive_price
 
 
-def test_FinData():
+def test_fin_data():
     dataset = "TaiwanStockPrice"
     stock_id = "2330"
     date = "2020-03-10"
@@ -43,7 +43,7 @@ def test_FinData():
     )
 
 
-def test_FinDataList():
+def test_fin_data_list():
     dataset = "TaiwanExchangeRate"
     data = FinDataList(dataset=dataset)
     assert data == [

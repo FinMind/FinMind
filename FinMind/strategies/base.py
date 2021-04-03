@@ -3,16 +3,16 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from FinMind.BackTestSystem.utils import (
+from FinMind.data.load import FinData
+from FinMind.schema import FinalStats, TradeDetail, CompareMarketDetail, CompareMarketStats
+from FinMind.strategies.utils import (
     get_asset_underlying_type,
     get_underlying_trading_tax,
-    calculate_Datenbr,
+    calculate_datenbr,
     calculate_sharp_ratio,
-    convert_Return2Annual,
-    convert_period_days2years,
+    period_return2annual_return,
+    days2years,
 )
-from FinMind.Data.Load import FinData
-from FinMind.Schema import output
 
 
 class Trader:
@@ -45,7 +45,7 @@ class Trader:
                 > 0
         ):
             trade_volume = trade_lots * self.board_lot
-            buy_fee = max(20, self.trade_price * trade_volume * self.fee)
+            buy_fee = max(20.0, self.trade_price * trade_volume * self.fee)
             buy_price = self.trade_price * trade_volume
             buy_total_price = buy_price + buy_fee
             self.trader_fund = self.trader_fund - buy_total_price
@@ -64,7 +64,7 @@ class Trader:
                 < 0
         ):
             trade_volume = abs(trade_lots) * self.board_lot
-            sell_fee = max(20, trade_price * trade_volume * self.fee)
+            sell_fee = max(20.0, trade_price * trade_volume * self.fee)
             sell_tax = trade_price * trade_volume * self.tax
             sell_price = trade_price * trade_volume
             sell_total_price = sell_price - sell_tax - sell_fee
@@ -77,7 +77,7 @@ class Trader:
 
         self.__compute_realtime_status()
 
-    def noaction(self, trade_price: float):
+    def no_action(self, trade_price: float):
         self.trade_price = trade_price
         self.__compute_realtime_status()
 
@@ -91,7 +91,7 @@ class Trader:
         self.EverytimeProfit = self.UnrealizedProfit + self.RealizedProfit
 
     def __have_enough_money(
-            self, trader_fund: int, trade_price: float, trade_volume: int
+            self, trader_fund: int, trade_price: float, trade_volume: float
     ) -> bool:
         if trader_fund < (trade_price * trade_volume):
             return False
@@ -99,7 +99,7 @@ class Trader:
             return True
 
     def __have_enough_volume(
-            self, hold_volume: float, trade_volume: int
+            self, hold_volume: float, trade_volume: float
     ) -> bool:
         if hold_volume < trade_volume:
             return False
@@ -107,7 +107,7 @@ class Trader:
             return True
 
     def __confirm_trade_lots(
-            self, trade_lots: int, trade_price: float, trader_fund: int
+            self, trade_lots: float, trade_price: float, trader_fund: int
     ):
         """
         do not have enough money --> not buy
@@ -148,7 +148,7 @@ class Strategy:
         elif signal < 0:
             self.sell(trade_price=trade_price, trade_lots=signal)
         else:
-            self.noaction(trade_price=trade_price)
+            self.no_action(trade_price=trade_price)
 
     def buy(self, trade_price: float, trade_lots: float):
         self.trader.buy(trade_price, trade_lots)
@@ -156,8 +156,8 @@ class Strategy:
     def sell(self, trade_price: float, trade_lots: float):
         self.trader.sell(trade_price, trade_lots)
 
-    def noaction(self, trade_price: float):
-        self.trader.noaction(trade_price)
+    def no_action(self, trade_price: float):
+        self.trader.no_action(trade_price)
 
 
 class BackTest:
@@ -194,8 +194,8 @@ class BackTest:
         self._trade_detail = pd.DataFrame()
         self._final_stats = pd.Series()
         self.__init_base_data()
-        self._trade_period_years = convert_period_days2years(
-            calculate_Datenbr(start_date, end_date) + 1
+        self._trade_period_years = days2years(
+            calculate_datenbr(start_date, end_date) + 1
         )
         self._compare_market_detail = pd.DataFrame()
         self._compare_market_stats = pd.Series()
@@ -266,7 +266,7 @@ class BackTest:
         ), "Must be create signal columns in stock_price"
         if not self.stock_price.index.is_monotonic_increasing:
             warnings.warn(
-                "Data index is not sorted in ascending order. Sorting.",
+                "data index is not sorted in ascending order. Sorting.",
                 stacklevel=2,
             )
             self.stock_price = self.stock_price.sort_index()
@@ -340,7 +340,7 @@ class BackTest:
             self._final_stats["MaxLoss"] / self.trader_fund * 100, 2
         )
         self._final_stats["AnnualReturnPer"] = round(
-            convert_Return2Annual(
+            period_return2annual_return(
                 self._final_stats["FinalProfitPer"] / 100,
                 self._trade_period_years,
             )
@@ -351,10 +351,10 @@ class BackTest:
                                    self._trade_detail["EverytimeProfit"]
                                    - self._trade_detail["EverytimeProfit"].shift(1)
                            ) / (self._trade_detail["EverytimeProfit"].shift(1) + self.trader_fund)
-        stratagy_return = np.mean(timestep_returns)
-        stratagy_std = np.std(timestep_returns)
+        strategy_return = np.mean(timestep_returns)
+        strategy_std = np.std(timestep_returns)
         self._final_stats["AnnualSharpRatio"] = calculate_sharp_ratio(
-            stratagy_return, stratagy_std
+            strategy_return, strategy_std
         )
 
     # TODO:
@@ -364,14 +364,14 @@ class BackTest:
         self._compare_market_detail = self._trade_detail[
             ["date", "EverytimeTotalProfit"]
         ].copy()
-        self._compare_market_detail["CumDailyRetrun"] = (
+        self._compare_market_detail["CumDailyReturn"] = (
                 np.log(self._compare_market_detail["EverytimeTotalProfit"])
                 - np.log(
             self._compare_market_detail["EverytimeTotalProfit"].shift(1)
         )
         ).fillna(0)
-        self._compare_market_detail["CumDailyRetrun"] = round(
-            self._compare_market_detail["CumDailyRetrun"].cumsum(), 5
+        self._compare_market_detail["CumDailyReturn"] = round(
+            self._compare_market_detail["CumDailyReturn"].cumsum(), 5
         )
 
         TAIEX = FinData(
@@ -382,23 +382,23 @@ class BackTest:
             user_id=self.user_id,
             password=self.password,
         )[["date", "close"]]
-        TAIEX["CumTaiexDailyRetrun"] = (
+        TAIEX["CumTaiexDailyReturn"] = (
                 np.log(TAIEX["close"]) - np.log(TAIEX["close"].shift(1))
         ).fillna(0)
-        TAIEX["CumTaiexDailyRetrun"] = round(
-            TAIEX["CumTaiexDailyRetrun"].cumsum(), 5
+        TAIEX["CumTaiexDailyReturn"] = round(
+            TAIEX["CumTaiexDailyReturn"].cumsum(), 5
         )
         self._compare_market_detail = pd.merge(
             self._compare_market_detail,
-            TAIEX[["date", "CumTaiexDailyRetrun"]],
+            TAIEX[["date", "CumTaiexDailyReturn"]],
             on=["date"],
             how="left",
         )
         self._compare_market_detail = self._compare_market_detail.dropna()
         self._compare_market_stats = pd.Series()
         self._compare_market_stats["AnnualTaiexReturnPer"] = (
-                convert_Return2Annual(
-                    self._compare_market_detail["CumTaiexDailyRetrun"].values[-1],
+                period_return2annual_return(
+                    self._compare_market_detail["CumTaiexDailyReturn"].values[-1],
                     self._trade_period_years,
                 )
                 * 100
@@ -410,7 +410,7 @@ class BackTest:
     @property
     def final_stats(self) -> pd.Series():
         self._final_stats = pd.Series(
-            output.final_stats(**self._final_stats.to_dict()).dict()
+            FinalStats(**self._final_stats.to_dict()).dict()
         )
         return self._final_stats
 
@@ -418,7 +418,7 @@ class BackTest:
     def trade_detail(self) -> pd.DataFrame():
         self._trade_detail = pd.DataFrame(
             [
-                output.trade_detail(**row_dict).dict()
+                TradeDetail(**row_dict).dict()
                 for row_dict in self._trade_detail.to_dict("records")
             ]
         )
@@ -428,7 +428,7 @@ class BackTest:
     def compare_market_detail(self) -> pd.DataFrame():
         self._compare_market_detail = pd.DataFrame(
             [
-                output.compare_market_detail(**row_dict).dict()
+                CompareMarketDetail(**row_dict).dict()
                 for row_dict in self._compare_market_detail.to_dict("records")
             ]
         )
@@ -437,7 +437,7 @@ class BackTest:
     @property
     def compare_market_stats(self) -> pd.Series():
         self._compare_market_stats = pd.Series(
-            output.compare_market_stats(
+            CompareMarketStats(
                 **self._compare_market_stats.to_dict()
             ).dict()
         )

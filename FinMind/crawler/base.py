@@ -4,6 +4,9 @@ import time
 import numpy as np
 import requests
 
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) " \
+             "Chrome/68.0.3440.84 Safari/537.36"
+
 
 def requests_get(url, header):
     try:
@@ -30,7 +33,7 @@ def get_time():
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
 
 
-class Crawler:
+class BaseCrawler:
     def date2days(self, date):
         # date = '2018-08-03'
         date = datetime.datetime.strptime(date, "%Y-%m-%d").date()

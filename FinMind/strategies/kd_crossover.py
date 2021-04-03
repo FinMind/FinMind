@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from ta.momentum import StochasticOscillator
 
-from FinMind.BackTestSystem.BaseClass import Strategy
+from FinMind.strategies.base import Strategy
 
 
 class KdCrossOver(Strategy):
@@ -14,7 +14,7 @@ class KdCrossOver(Strategy):
             黃金交叉進場，死亡交叉出場
     """
 
-    kdays = 9
+    k_days = 9
 
     def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
@@ -22,7 +22,7 @@ class KdCrossOver(Strategy):
             high=stock_price["max"],
             low=stock_price["min"],
             close=stock_price["close"],
-            n=self.kdays,
+            n=self.k_days,
         )
         rsv_ = kd.stoch().fillna(50)
         _k = np.zeros(stock_price.shape[0])
@@ -38,7 +38,7 @@ class KdCrossOver(Strategy):
         stock_price["D"] = _d
         stock_price.index = range(len(stock_price))
         stock_price["diff"] = stock_price["K"] - stock_price["D"]
-        stock_price.loc[(stock_price.index < self.kdays), "diff"] = np.nan
+        stock_price.loc[(stock_price.index < self.k_days), "diff"] = np.nan
         stock_price["diff_sign"] = stock_price["diff"].map(
             lambda x: 1 if x >= 0 else (-1 if x < 0 else 0)
         )

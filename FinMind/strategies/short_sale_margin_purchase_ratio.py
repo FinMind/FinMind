@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 
-from FinMind.BackTestSystem.BaseClass import Strategy
-from FinMind.Data import Load
+from FinMind.data import load
+from FinMind.strategies.base import Strategy, Trader
 
 
 class ShortSaleMarginPurchaseRatio(Strategy):
@@ -16,13 +16,23 @@ class ShortSaleMarginPurchaseRatio(Strategy):
 
     ShortSaleMarginPurchaseTodayRatioThreshold = 0.3
 
-    def load_taiwan_stock_margin_purchase_short_sale(self):
-        self.TaiwanStockMarginPurchaseShortSale = Load.FinData(
+    def __init__(
+            self, trader: Trader, stock_id: str, start_date: str, end_date: str
+    ):
+        super().__init__(trader, stock_id, start_date, end_date)
+        self.InstitutionalInvestorsBuySell = (
+            self.InstitutionalInvestorsBuySell.groupby(
+                ["date", "stock_id"], as_index=False
+            ).agg({"buy": np.sum, "sell": np.sum})
+        )
+        self.TaiwanStockMarginPurchaseShortSale = load.FinData(
             dataset="TaiwanStockMarginPurchaseShortSale",
             select=self.stock_id,
             date=self.start_date,
             end_date=self.end_date,
         )
+
+    def load_taiwan_stock_margin_purchase_short_sale(self):
         self.TaiwanStockMarginPurchaseShortSale[
             ["ShortSaleTodayBalance", "MarginPurchaseTodayBalance"]
         ] = self.TaiwanStockMarginPurchaseShortSale[
@@ -40,7 +50,7 @@ class ShortSaleMarginPurchaseRatio(Strategy):
         )
 
     def load_institutional_investors_buy_sell(self):
-        self.InstitutionalInvestorsBuySell = Load.FinData(
+        self.InstitutionalInvestorsBuySell = load.FinData(
             dataset="InstitutionalInvestorsBuySell",
             select=self.stock_id,
             date=self.start_date,
@@ -50,11 +60,6 @@ class ShortSaleMarginPurchaseRatio(Strategy):
             self.InstitutionalInvestorsBuySell[["sell", "buy"]]
                 .fillna(0)
                 .astype(int)
-        )
-        self.InstitutionalInvestorsBuySell = (
-            self.InstitutionalInvestorsBuySell.groupby(
-                ["date", "stock_id"], as_index=False
-            ).agg({"buy": np.sum, "sell": np.sum})
         )
         self.InstitutionalInvestorsBuySell["diff"] = (
                 self.InstitutionalInvestorsBuySell["buy"]

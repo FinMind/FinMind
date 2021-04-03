@@ -1,8 +1,7 @@
 """
-G8
-俄羅斯、美國、加拿大、英國、法國、德國、義大利及日本
+政府債券
+G8-俄羅斯、美國、加拿大、英國、法國、德國、義大利及日本
 """
-TABLE = "GovernmentBonds"
 import datetime
 import os
 import re
@@ -12,19 +11,15 @@ import pandas as pd
 import requests
 from lxml import etree
 
+from FinMind.crawler.base import BaseCrawler, USER_AGENT
+
 PATH = "/".join(os.path.abspath(__file__).split("/")[:-2])
 sys.path.append(PATH)
-import Crawler.BasedClass as cbaseclass
-
-"""
-self = Crawler()
-
-"""
 
 
-class Crawler(cbaseclass.Crawler):
+class GovernmentBondsCrawler(BaseCrawler):
     def create_loop_list(self):
-        def get_data_id_name(curl):
+        def get_data_id_name(url):
 
             headers = {
                 "Accept": "*/*",
@@ -32,12 +27,12 @@ class Crawler(cbaseclass.Crawler):
                 "Accept-Language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
                 "Connection": "keep-alive",
                 "Host": "www.investing.com",
-                "Referer": curl,
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36",
+                "Referer": url,
+                "User-Agent": USER_AGENT,
                 "X-Requested-With": "XMLHttpRequest",
             }
 
-            res = requests.get(curl, verify=True, headers=headers)
+            res = requests.get(url, verify=True, headers=headers)
             tem_data_id = re.findall('data-id="[0-9]+"', res.text)
             tem_data_id = [di.replace("data-id=", "") for di in tem_data_id]
             page = etree.HTML(res.text)
@@ -61,7 +56,7 @@ class Crawler(cbaseclass.Crawler):
                 "Connection": "keep-alive",
                 "Host": "www.investing.com",
                 "Upgrade-Insecure-Requests": "1",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36",
+                "User-Agent": USER_AGENT,
             }
             res = requests.get(index_url, verify=True, headers=headers)
 
@@ -137,18 +132,17 @@ class Crawler(cbaseclass.Crawler):
             date = str(
                 datetime.date(1970, 1, 1) + datetime.timedelta(days=date)
             )
-            v = [float(tem[i].text) for i in range(1, 5) if tem[i].text != None]
+            v = [float(tem[i].text) for i in range(1, 5) if tem[i].text is not None]
             if len(v) == 0:
                 return pd.DataFrame()
             price, Open, High, Low = v
 
-            Change = float(tem[5].text.replace("%", "").replace(",", "")) / 100
+            change = float(tem[5].text.replace("%", "").replace(",", "")) / 100
 
-            data = pd.DataFrame([date, price, Open, High, Low, Change]).T
-            return data
+            return pd.DataFrame([date, price, Open, High, Low, change]).T
 
         cid, data_name = loop
-        header = data_name + " Bond Yield Historical Data"
+        header = data_name + " Bond Yield Historical data"
         st_date, end_date = (
             self.get_st_date(data_name, cid),
             self.get_end_date(),
@@ -176,7 +170,7 @@ class Crawler(cbaseclass.Crawler):
             "Host": "www.investing.com",
             "Origin": "https://www.investing.com",
             "Referer": "https://www.investing.com/rates-bonds/france-1-month-bond-yield-historical-data",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36",
+            "User-Agent": USER_AGENT,
             "X-Requested-With": "XMLHttpRequest",
         }
         print("requests post")
@@ -187,9 +181,9 @@ class Crawler(cbaseclass.Crawler):
         page = etree.HTML(res.text)
         tr_path = page.xpath("//tr")
 
-        colname = [col.text for col in tr_path[0].xpath("//th")]
-        colname = [c.replace(" %", "Percent") for c in colname]
-        colname = ["date" if c == "Date" else c for c in colname]
+        col_name = [col.text for col in tr_path[0].xpath("//th")]
+        col_name = [c.replace(" %", "Percent") for c in col_name]
+        col_name = ["date" if c == "Date" else c for c in col_name]
         data = pd.DataFrame()
         td_path = page.xpath("//tr//td")
         for i in range(0, len(td_path) - 6, 6):
@@ -199,7 +193,7 @@ class Crawler(cbaseclass.Crawler):
                 data = data.append(value)
 
         if len(data) > 0:
-            data.columns = colname
+            data.columns = col_name
             data["name"] = "{}".format(data_name)
             # data['data_id'] = cid
             data = data.sort_values("date")

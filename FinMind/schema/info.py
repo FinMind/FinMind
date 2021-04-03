@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class final_stats(BaseModel):
+class FinalStats(BaseModel):
     MeanProfit: float
     MaxLoss: float
     FinalProfit: float
@@ -12,7 +12,7 @@ class final_stats(BaseModel):
     AnnualSharpRatio: float
 
 
-class trade_detail(BaseModel):
+class TradeDetail(BaseModel):
     stock_id: str
     date: str
     EverytimeProfit: float
@@ -29,12 +29,12 @@ class trade_detail(BaseModel):
     StockEarningsDistribution: float
 
 
-class compare_market_detail(BaseModel):
+class CompareMarketDetail(BaseModel):
     date: str
-    CumDailyRetrun: float
-    CumTaiexDailyRetrun: float
+    CumDailyReturn: float
+    CumTaiexDailyReturn: float
 
 
-class compare_market_stats(BaseModel):
+class CompareMarketStats(BaseModel):
     AnnualTaiexReturnPer: float
     AnnualReturnPer: float

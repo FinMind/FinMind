@@ -1,5 +1,3 @@
-TABLE = "RawMaterialFuturesPrices"
-
 import datetime
 import os
 import re
@@ -9,18 +7,15 @@ import pandas as pd
 import requests
 from lxml import etree
 
+from FinMind.crawler.base import BaseCrawler, USER_AGENT
+
 PATH = "/".join(os.path.abspath(__file__).split("/")[:-2])
 sys.path.append(PATH)
-import Crawler.BasedClass as cbaseclass
-
-"""
-self = Crawler()
-"""
 
 
-class Crawler(cbaseclass.Crawler):
+class CommoditiesCrawler(BaseCrawler):
     def __init__(self):
-        super(Crawler, self).__init__()
+        super(CommoditiesCrawler, self).__init__()
 
     def create_loop_list(self):
         # self.based_url = 'https://www.investing.com/commodities/'
@@ -37,7 +32,7 @@ class Crawler(cbaseclass.Crawler):
                 "Connection": "keep-alive",
                 "Host": "www.investing.com",
                 "Upgrade-Insecure-Requests": "1",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36",
+                "User-Agent": USER_AGENT,
             }
             res = requests.get(index_url, verify=True, headers=headers)
 
@@ -93,7 +88,7 @@ class Crawler(cbaseclass.Crawler):
 
         # -------------------------------------------------------------------
         futures_id, data_name = loop
-        header = data_name + " Historical Data"
+        header = data_name + " Historical data"
         st_date, end_date = (
             self.get_st_date(futures_id, data_name),
             self.get_end_date(),
@@ -121,7 +116,7 @@ class Crawler(cbaseclass.Crawler):
             "Host": "www.investing.com",
             "Origin": "https://www.investing.com",
             "Referer": "https://www.investing.com/commodities/brent-oil-historical-data",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36",
+            "User-Agent": USER_AGENT,
             "X-Requested-With": "XMLHttpRequest",
         }
         print("requests post")
@@ -130,12 +125,12 @@ class Crawler(cbaseclass.Crawler):
         )
         print("data clean")
         page = etree.HTML(res.text)
-        colname = page.xpath("//tr//th")
+        col_name = page.xpath("//tr//th")
 
-        colname = [
-            c.text.replace(" %", "Percent").replace(".", "") for c in colname
+        col_name = [
+            c.text.replace(" %", "Percent").replace(".", "") for c in col_name
         ]
-        colname = ["date" if c == "Date" else c for c in colname]
+        col_name = ["date" if c == "Date" else c for c in col_name]
 
         data = pd.DataFrame()
         td_path = page.xpath("//tr//td")
@@ -145,7 +140,7 @@ class Crawler(cbaseclass.Crawler):
             data = data.append(value)
 
         if len(data) > 0:
-            data.columns = colname
+            data.columns = col_name
             data["name"] = data_name
             # data['data_id'] = futures_id
             data = data.sort_values("date")

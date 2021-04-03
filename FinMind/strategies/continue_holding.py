@@ -1,6 +1,6 @@
 import pandas as pd
 
-from FinMind.BackTestSystem.BaseClass import Strategy
+from FinMind.strategies.base import Strategy
 
 
 class ContinueHolding(Strategy):

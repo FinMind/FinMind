@@ -1,7 +1,7 @@
 import pandas as pd
 from ta.trend import SMAIndicator
 
-from FinMind.BackTestSystem.BaseClass import Strategy
+from FinMind.strategies.base import Strategy
 
 
 class MaCrossOver(Strategy):
@@ -30,11 +30,11 @@ class MaCrossOver(Strategy):
         stock_price[f"ma{self.ma_slow_days}"] = SMAIndicator(
             stock_price["close"], self.ma_slow_days
         ).sma_indicator()
-        stock_price["madiff"] = (
+        stock_price["ma_diff"] = (
                 stock_price[f"ma{self.ma_fast_days}"]
                 - stock_price[f"ma{self.ma_slow_days}"]
         )
-        stock_price["bool_signal"] = stock_price["madiff"].map(
+        stock_price["bool_signal"] = stock_price["ma_diff"].map(
             lambda x: 1 if x > 0 else -1
         )
         stock_price["bool_signal_shift1"] = (

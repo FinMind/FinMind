@@ -1,2 +1,2 @@
-from FinMind import BackTestSystem, Crawler, Data, Schema, config
-from ._version import __version__
+from FinMind import strategies, crawler, data, schema, config
+from FinMind._version import __version__

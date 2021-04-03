@@ -1,7 +1,7 @@
 import pandas as pd
 from ta.trend import SMAIndicator
 
-from FinMind.BackTestSystem.BaseClass import Strategy
+from FinMind.strategies.base import Strategy
 
 
 class MaxMinPeriodBias(Strategy):
@@ -18,8 +18,8 @@ class MaxMinPeriodBias(Strategy):
 
     ma_days = 24
     last_k_days = 5
-    bais_lower = -7
-    bais_upper = 8
+    bias_lower = -7
+    bias_upper = 8
 
     def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
@@ -39,7 +39,7 @@ class MaxMinPeriodBias(Strategy):
         stock_price["signal"] = 0
         stock_price.loc[
             (
-                    (stock_price["bias"] < self.bais_lower)
+                    (stock_price["bias"] < self.bias_lower)
                     & (
                             stock_price["close"]
                             > stock_price[f"max_last_k_days{self.last_k_days}"]
@@ -49,7 +49,7 @@ class MaxMinPeriodBias(Strategy):
         ] = 1
         stock_price.loc[
             (
-                    (stock_price["bias"] > self.bais_upper)
+                    (stock_price["bias"] > self.bias_upper)
                     & (
                             stock_price["close"]
                             < stock_price[f"min_last_k_days{self.last_k_days}"]

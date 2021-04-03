@@ -1,13 +1,13 @@
 import pandas as pd
 import pytest
 
-from FinMind.BackTestSystem.utils import (
+from FinMind.strategies.utils import (
     get_asset_underlying_type,
     get_underlying_trading_tax,
-    calculate_Datenbr,
+    calculate_datenbr,
     calculate_sharp_ratio,
-    convert_Return2Annual,
-    convert_period_days2years,
+    period_return2annual_return,
+    days2years,
 )
 
 testdata_get_asset_underlying_type = [
@@ -33,7 +33,7 @@ testdata_get_asset_underlying_type = [
     testdata_get_asset_underlying_type,
 )
 def test_get_asset_underlying_type(stock_id, return_value, mocker):
-    mock_load = mocker.patch("FinMind.Data.Load.FinData")
+    mock_load = mocker.patch("FinMind.data.Load.FinData")
     mock_load.return_value = return_value
     underlying_type = get_asset_underlying_type(stock_id)
     assert underlying_type == "半導體業"
@@ -62,7 +62,7 @@ testdata_calculate_Datenbr = [
     testdata_calculate_Datenbr,
 )
 def test_calculate_Datenbr(day1, day2, expected):
-    resp = calculate_Datenbr(day1, day2)
+    resp = calculate_datenbr(day1, day2)
     assert resp == expected
 
 
@@ -85,18 +85,18 @@ testdata_convert_Return2Annual = [(0.2, 2, 0.0954), (0.5, 5, 0.0845)]
     "period_return, period_years, expected",
     testdata_convert_Return2Annual,
 )
-def test_convert_Return2Annual(period_return, period_years, expected):
-    resp = convert_Return2Annual(period_return, period_years)
+def test_return2annual(period_return, period_years, expected):
+    resp = period_return2annual_return(period_return, period_years)
     assert resp == expected
 
 
-testdata_convert_period_days2years = [(180, 0.4931506849315068), (30, 0.0821917808219178)]
+testdata_period_days2years = [(180, 0.4931506849315068), (30, 0.0821917808219178)]
 
 
 @pytest.mark.parametrize(
     "days, expected",
-    testdata_convert_period_days2years,
+    testdata_period_days2years,
 )
-def test_convert_period_days2years(days, expected):
-    resp = convert_period_days2years(days)
+def test_period_days2years(days, expected):
+    resp = days2years(days)
     assert resp == expected

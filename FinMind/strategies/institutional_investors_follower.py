@@ -3,8 +3,8 @@ import typing
 import numpy as np
 import pandas as pd
 
-from FinMind.BackTestSystem.BaseClass import Strategy
-from FinMind.Data import Load
+from FinMind.data import load
+from FinMind.strategies.base import Strategy
 
 
 class InstitutionalInvestorsFollower(Strategy):
@@ -18,22 +18,22 @@ class InstitutionalInvestorsFollower(Strategy):
     def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
         stock_price.index = range(len(stock_price))
-        InstitutionalInvestorsBuySell = Load.FinData(
+        institutional_investors_buy_sell = load.FinData(
             dataset="InstitutionalInvestorsBuySell",
             select=self.stock_id,
             date=self.start_date,
             end_date=self.end_date,
         )
-        InstitutionalInvestorsBuySell = InstitutionalInvestorsBuySell.groupby(
+        institutional_investors_buy_sell = institutional_investors_buy_sell.groupby(
             ["date", "stock_id"], as_index=False
         ).agg({"buy": np.sum, "sell": np.sum})
-        InstitutionalInvestorsBuySell["diff"] = (
-                InstitutionalInvestorsBuySell["buy"]
-                - InstitutionalInvestorsBuySell["sell"]
+        institutional_investors_buy_sell["diff"] = (
+                institutional_investors_buy_sell["buy"]
+                - institutional_investors_buy_sell["sell"]
         )
         stock_price = pd.merge(
             stock_price,
-            InstitutionalInvestorsBuySell[["stock_id", "date", "diff"]],
+            institutional_investors_buy_sell[["stock_id", "date", "diff"]],
             on=["stock_id", "date"],
             how="left",
         ).fillna(0)
@@ -52,26 +52,26 @@ class InstitutionalInvestorsFollower(Strategy):
             self, y: np.array, lag: int, threshold: float, influence: float
     ) -> typing.List[float]:
         signals = np.zeros(len(y))
-        filteredY = np.array(y)
-        avgFilter = [0] * len(y)
-        stdFilter = [0] * len(y)
-        avgFilter[lag - 1] = np.mean(y[0:lag])
-        stdFilter[lag - 1] = np.std(y[0:lag])
+        filtered_y = np.array(y)
+        avg_filter = [0] * len(y)
+        std_filter = [0] * len(y)
+        avg_filter[lag - 1] = np.mean(y[0:lag])
+        std_filter[lag - 1] = np.std(y[0:lag])
         for i in range(lag, len(y)):
-            if abs(y[i] - avgFilter[i - 1]) > threshold * stdFilter[i - 1]:
-                if y[i] > avgFilter[i - 1]:
+            if abs(y[i] - avg_filter[i - 1]) > threshold * std_filter[i - 1]:
+                if y[i] > avg_filter[i - 1]:
                     signals[i] = 1
                 else:
                     signals[i] = -1
 
-                filteredY[i] = (
-                        influence * y[i] + (1 - influence) * filteredY[i - 1]
+                filtered_y[i] = (
+                        influence * y[i] + (1 - influence) * filtered_y[i - 1]
                 )
-                avgFilter[i] = np.mean(filteredY[(i - lag + 1): i + 1])
-                stdFilter[i] = np.std(filteredY[(i - lag + 1): i + 1])
+                avg_filter[i] = np.mean(filtered_y[(i - lag + 1): i + 1])
+                std_filter[i] = np.std(filtered_y[(i - lag + 1): i + 1])
             else:
                 signals[i] = 0
-                filteredY[i] = y[i]
-                avgFilter[i] = np.mean(filteredY[(i - lag + 1): i + 1])
-                stdFilter[i] = np.std(filteredY[(i - lag + 1): i + 1])
+                filtered_y[i] = y[i]
+                avg_filter[i] = np.mean(filtered_y[(i - lag + 1): i + 1])
+                std_filter[i] = np.std(filtered_y[(i - lag + 1): i + 1])
         return list(signals)

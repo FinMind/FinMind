@@ -1,7 +1,7 @@
 import pandas as pd
 from ta.trend import MACD
 
-from FinMind.BackTestSystem.BaseClass import Strategy
+from FinMind.strategies.base import Strategy
 
 
 class MacdCrossOver(Strategy):
