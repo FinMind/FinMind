@@ -3,7 +3,7 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from FinMind.data.load import FinData
+from FinMind.data import DataLoader
 from FinMind.schema import FinalStats, TradeDetail, CompareMarketDetail, CompareMarketStats
 from FinMind.strategies.utils import (
     get_asset_underlying_type,
@@ -130,12 +130,17 @@ class Trader:
 
 class Strategy:
     def __init__(
-            self, trader: Trader, stock_id: str, start_date: str, end_date: str
+            self, trader: Trader, stock_id: str, start_date: str, end_date: str, data_loader: DataLoader
     ):
         self.trader = trader
         self.stock_id = stock_id
         self.start_date = start_date
         self.end_date = end_date
+        self.data_loader = data_loader
+        self.load_strategy_data()
+
+    def load_strategy_data(self):
+        pass
 
     def trade(self, signal: float, trade_price: float):
         if signal > 0:
@@ -158,21 +163,21 @@ class Strategy:
 class BackTest:
     def __init__(
             self,
-            user_id: str = "",
-            password: str = "",
             stock_id: str = "",
             start_date: str = "",
             end_date: str = "",
             trader_fund: float = 0,
             fee: float = 0.001425,
             strategy: Strategy = None,
+            data_loader: DataLoader = None,
     ):
+        self.data_loader = data_loader
         self.stock_id = stock_id
         self.start_date = start_date
         self.end_date = end_date
         self.trader_fund = trader_fund
         self.fee = fee
-        underlying_type = get_asset_underlying_type(stock_id)
+        underlying_type = get_asset_underlying_type(stock_id, self.data_loader)
         self.tax = get_underlying_trading_tax(underlying_type)
         self.trader = Trader(
             stock_id=stock_id,
@@ -182,8 +187,7 @@ class BackTest:
             fee=self.fee,
             tax=self.tax,
         )
-        self.user_id = user_id
-        self.password = password
+
         self.strategy = strategy
         self.stock_price = pd.DataFrame()
         self._trade_detail = pd.DataFrame()
@@ -192,6 +196,7 @@ class BackTest:
         self._trade_period_years = days2years(
             calculate_datenbr(start_date, end_date) + 1
         )
+
         self._compare_market_detail = pd.DataFrame()
         self._compare_market_stats = pd.Series()
 
@@ -199,21 +204,17 @@ class BackTest:
         self.strategy = strategy
 
     def __init_base_data(self):
-        self.stock_price = FinData(
+        self.stock_price = self.data_loader.get_data(
             dataset="TaiwanStockPrice",
-            select=self.stock_id,
+            stock_id=self.stock_id,
             date=self.start_date,
-            end_date=self.end_date,
-            user_id=self.user_id,
-            password=self.password,
+            end_date=self.end_date
         )
-        stock_dividend = FinData(
+        stock_dividend = self.data_loader.get_data(
             dataset="StockDividend",
-            select=self.stock_id,
+            stock_id=self.stock_id,
             date=self.start_date,
             end_date=self.end_date,
-            user_id=self.user_id,
-            password=self.password,
         )
         if not stock_dividend.empty:
             cash_div = stock_dividend[
@@ -249,10 +250,10 @@ class BackTest:
             self.stock_price["CashEarningsDistribution"] = 0
 
     def simulate(self):
-        trader = self.trader
         strategy = self.strategy(
-            trader, self.stock_id, self.start_date, self.end_date
+            self.trader, self.stock_id, self.start_date, self.end_date, self.data_loader
         )
+        strategy.load_strategy_data()
         self.stock_price = strategy.create_trade_sign(
             stock_price=self.stock_price
         )
@@ -366,15 +367,13 @@ class BackTest:
         self._compare_market_detail["CumDailyReturn"] = round(
             self._compare_market_detail["CumDailyReturn"].cumsum(), 5
         )
-
-        tai_ex = FinData(
+        tai_ex = self.data_loader.get_data(
             dataset="TaiwanStockPrice",
-            select="TAIEX",
+            stock_id="TAIEX",
             date=self.start_date,
             end_date=self.end_date,
-            user_id=self.user_id,
-            password=self.password,
         )[["date", "close"]]
+
         tai_ex["CumTaiExDailyReturn"] = (
                 np.log(tai_ex["close"]) - np.log(tai_ex["close"].shift(1))
         ).fillna(0)

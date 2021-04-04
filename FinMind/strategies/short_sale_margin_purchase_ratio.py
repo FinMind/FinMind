@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from FinMind.data import load
+from FinMind.data import DataLoader
 from FinMind.strategies.base import Strategy, Trader
 
 
@@ -16,19 +16,21 @@ class ShortSaleMarginPurchaseRatio(Strategy):
 
     ShortSaleMarginPurchaseTodayRatioThreshold = 0.3
 
-    def __init__(
-            self, trader: Trader, stock_id: str, start_date: str, end_date: str
-    ):
-        super().__init__(trader, stock_id, start_date, end_date)
-        self.TaiwanStockMarginPurchaseShortSale = load.FinData(
+    def __init__(self, trader: Trader, stock_id: str, start_date: str, end_date: str, data_loader: DataLoader):
+        super().__init__(trader, stock_id, start_date, end_date, data_loader)
+        self.TaiwanStockMarginPurchaseShortSale = None
+        self.InstitutionalInvestorsBuySell = None
+
+    def load_strategy_data(self):
+        self.TaiwanStockMarginPurchaseShortSale = self.data_loader.get_data(
             dataset="TaiwanStockMarginPurchaseShortSale",
-            select=self.stock_id,
+            stock_id=self.stock_id,
             date=self.start_date,
             end_date=self.end_date,
         )
-        self.InstitutionalInvestorsBuySell = load.FinData(
+        self.InstitutionalInvestorsBuySell = self.data_loader.get_data(
             dataset="InstitutionalInvestorsBuySell",
-            select=self.stock_id,
+            stock_id=self.stock_id,
             date=self.start_date,
             end_date=self.end_date,
         )

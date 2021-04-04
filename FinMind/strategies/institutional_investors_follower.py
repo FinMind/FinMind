@@ -3,7 +3,6 @@ import typing
 import numpy as np
 import pandas as pd
 
-from FinMind.data import load
 from FinMind.strategies.base import Strategy
 
 
@@ -18,9 +17,9 @@ class InstitutionalInvestorsFollower(Strategy):
     def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
         stock_price.index = range(len(stock_price))
-        institutional_investors_buy_sell = load.FinData(
+        institutional_investors_buy_sell = self.data_loader.get_data(
             dataset="InstitutionalInvestorsBuySell",
-            select=self.stock_id,
+            stock_id=self.stock_id,
             date=self.start_date,
             end_date=self.end_date,
         )

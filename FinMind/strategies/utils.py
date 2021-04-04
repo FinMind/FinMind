@@ -2,11 +2,11 @@ from datetime import datetime
 
 import numpy as np
 
-from FinMind.data.load import FinData
+from FinMind.data import DataLoader
 
 
-def get_asset_underlying_type(stock_id: str) -> str:
-    taiwan_stock_info = FinData("TaiwanStockInfo", date="")
+def get_asset_underlying_type(stock_id: str, data_loader: DataLoader) -> str:
+    taiwan_stock_info = data_loader.get_data(dataset="TaiwanStockInfo", date="")
     underlying_type = taiwan_stock_info[taiwan_stock_info["stock_id"] == stock_id][
         "industry_category"
     ].values[0]

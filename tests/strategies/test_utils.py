@@ -1,6 +1,9 @@
+import os
+
 import pandas as pd
 import pytest
 
+from FinMind.data import DataLoader
 from FinMind.strategies.utils import (
     get_asset_underlying_type,
     get_underlying_trading_tax,
@@ -9,6 +12,12 @@ from FinMind.strategies.utils import (
     period_return2annual_return,
     days2years,
 )
+
+user_id = os.environ['FINMIND_USER']
+password = os.environ['FINMIND_PASSWORD']
+data_loader = DataLoader()
+data_loader.api_version = "v3"
+data_loader.login_by_account(user_id, password)
 
 testdata_get_asset_underlying_type = [
     (
@@ -33,9 +42,7 @@ testdata_get_asset_underlying_type = [
     testdata_get_asset_underlying_type,
 )
 def test_get_asset_underlying_type(stock_id, return_value, mocker):
-    mock_load = mocker.patch("FinMind.data.load.FinData")
-    mock_load.return_value = return_value
-    underlying_type = get_asset_underlying_type(stock_id)
+    underlying_type = get_asset_underlying_type(stock_id, data_loader)
     assert underlying_type == "半導體業"
 
 

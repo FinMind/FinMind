@@ -1,6 +1,15 @@
+import os
+
 import pandas as pd
 
+from FinMind.data import DataLoader
 from FinMind.strategies import *
+
+user_id = os.environ['FINMIND_USER']
+password = os.environ['FINMIND_PASSWORD']
+data_loader = DataLoader()
+data_loader.api_version = "v3"
+data_loader.login_by_account(user_id, password)
 
 
 def test_get_stock_price():
@@ -10,6 +19,7 @@ def test_get_stock_price():
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
+        data_loader=data_loader,
         # strategy=ContinueHolding,
     )
     assert isinstance(obj.stock_price, pd.DataFrame)
@@ -23,6 +33,7 @@ def test_continue_holding():
         trader_fund=500000.0,
         fee=0.001425,
         strategy=ContinueHolding,
+        data_loader=data_loader,
     )
     obj.simulate()
 
@@ -68,6 +79,7 @@ def test_continue_holding_add_strategy():
         trader_fund=500000.0,
         fee=0.001425,
         # strategy=ContinueHolding,
+        data_loader=data_loader,
     )
     obj.add_strategy(ContinueHolding)
     obj.simulate()
@@ -106,6 +118,7 @@ def test_bias():
         trader_fund=500000.0,
         fee=0.001425,
         strategy=Bias,
+        data_loader=data_loader,
     )
     obj.simulate()
 
@@ -152,6 +165,7 @@ def test_bias_add_strategy():
         trader_fund=500000.0,
         fee=0.001425,
         # strategy=Bias,
+        data_loader=data_loader,
     )
     obj.add_strategy(Bias)
     obj.simulate()
@@ -190,6 +204,7 @@ def test_naive_kd():
         trader_fund=500000.0,
         fee=0.001425,
         strategy=NaiveKd,
+        data_loader=data_loader,
     )
     obj.simulate()
 
@@ -210,6 +225,7 @@ def test_naive_kd_add_strategy():
         trader_fund=500000.0,
         fee=0.001425,
         # strategy=NaiveKd,
+        data_loader=data_loader,
     )
     obj.add_strategy(NaiveKd)
     obj.simulate()
@@ -231,6 +247,7 @@ def test_kd():
         trader_fund=500000.0,
         fee=0.001425,
         strategy=Kd,
+        data_loader=data_loader,
     )
     obj.simulate()
 
@@ -251,6 +268,7 @@ def test_kd_add_strategy():
         trader_fund=500000.0,
         fee=0.001425,
         # strategy=Kd,
+        data_loader=data_loader,
     )
     obj.add_strategy(Kd)
     obj.simulate()
@@ -272,6 +290,7 @@ def test_kd_crossover():
         trader_fund=500000.0,
         fee=0.001425,
         strategy=KdCrossOver,
+        data_loader=data_loader,
     )
     obj.simulate()
 
@@ -292,6 +311,7 @@ def test_kd_crossover_add_strategy():
         trader_fund=500000.0,
         fee=0.001425,
         # strategy=KdCrossOver,
+        data_loader=data_loader,
     )
     obj.add_strategy(KdCrossOver)
     obj.simulate()
@@ -313,6 +333,7 @@ def test_institutional_investors_follower():
         trader_fund=500000.0,
         fee=0.001425,
         strategy=InstitutionalInvestorsFollower,
+        data_loader=data_loader,
     )
     obj.simulate()
 
@@ -333,6 +354,7 @@ def test_institutional_investors_follower_add_strategy():
         trader_fund=500000.0,
         fee=0.001425,
         # strategy=InstitutionalInvestorsFollower,
+        data_loader=data_loader,
     )
     obj.add_strategy(InstitutionalInvestorsFollower)
     obj.simulate()
@@ -354,6 +376,7 @@ def test_short_sale_margin_purchase_ratio():
         trader_fund=500000.0,
         fee=0.001425,
         strategy=ShortSaleMarginPurchaseRatio,
+        data_loader=data_loader,
     )
     obj.simulate()
 
@@ -374,6 +397,7 @@ def test_short_sale_margin_purchase_ratio_add_strategy():
         trader_fund=500000.0,
         fee=0.001425,
         # strategy=ShortSaleMarginPurchaseRatio,
+        data_loader=data_loader,
     )
     obj.add_strategy(ShortSaleMarginPurchaseRatio)
     obj.simulate()
@@ -395,6 +419,7 @@ def test_macd_crossover():
         trader_fund=500000.0,
         fee=0.001425,
         strategy=MacdCrossOver,
+        data_loader=data_loader,
     )
     obj.simulate()
 
@@ -415,6 +440,7 @@ def test_macd_crossover_add_strategy():
         trader_fund=500000.0,
         fee=0.001425,
         # strategy=MacdCrossOver,
+        data_loader=data_loader,
     )
     obj.add_strategy(MacdCrossOver)
     obj.simulate()
@@ -436,6 +462,7 @@ def test_ma_crossover():
         trader_fund=500000.0,
         fee=0.001425,
         strategy=MaCrossOver,
+        data_loader=data_loader,
     )
     obj.simulate()
 
@@ -456,6 +483,7 @@ def test_ma_crossover_add_strategy():
         trader_fund=500000.0,
         fee=0.001425,
         # strategy=MaCrossOver,
+        data_loader=data_loader,
     )
     obj.add_strategy(MaCrossOver)
     obj.simulate()
@@ -477,6 +505,7 @@ def test_max_min_period_bias():
         trader_fund=500000.0,
         fee=0.001425,
         strategy=MaxMinPeriodBias,
+        data_loader=data_loader,
     )
     obj.simulate()
 
@@ -497,6 +526,7 @@ def test_max_min_period_bias_add_strategy():
         trader_fund=500000.0,
         fee=0.001425,
         # strategy=MaxMinPeriodBias,
+        data_loader=data_loader,
     )
     obj.add_strategy(MaxMinPeriodBias)
     obj.simulate()
