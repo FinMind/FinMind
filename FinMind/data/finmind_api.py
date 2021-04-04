@@ -59,7 +59,6 @@ class FinMindApi:
         @return:
         """
         url = self.api_url[self._api_version] + "/data"
-        print(url)
         if self._api_version == "v3" and self.user_id:
             params['user_id'] = self.user_id
             params['password'] = self.password

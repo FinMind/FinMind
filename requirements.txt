@@ -7,3 +7,5 @@ setuptools~=49.2.1
 pytest~=6.2.2
 lxml~=4.6.3
 
+pyecharts~=1.9.0
+ipython~=7.22.0
