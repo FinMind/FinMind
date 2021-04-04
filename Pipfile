@@ -21,6 +21,7 @@ importlib-metadata = "*"
 mock = "*"
 pytest-mock = "*"
 finmind = {editable = true, path = "."}
+typing-extensions = "*"
 
 [requires]
 python_version = "3.6"
