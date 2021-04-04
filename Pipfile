@@ -6,18 +6,20 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-numpy = "*"
-pandas = "==1.1.5"
-matplotlib = "==3.2.1"
-requests = "==2.23.0"
-pytest = "*"
+numpy = "~=1.20.2"
+pandas = "~=1.1.5"
+matplotlib = "*"
+requests = "~=2.23.0"
+pytest = "~=6.2.2"
+FinMind = {editable = true,version = "*"}
 mock = "*"
 pytest-mock = "*"
-ta = "==0.5.25"
-pydantic = "==1.6.1"
-importlib-metadata = "==1.6.1"
-pytest-cov = "*"
-finmind = {editable = true, path = "."}
+ta = "~=0.5.25"
+pydantic = "~=1.6.1"
+importlib-metadata = "*"
+lxml = "~=4.6.3"
+pyecharts = "~=1.9.0"
+ipython = "~=7.22.0"
 
 [requires]
 python_version = "3.6"
