@@ -10,14 +10,18 @@ here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
-requirements = [
-    "ta==0.5.25",
-    "requests==2.23.0",
-    "importlib_metadata==1.6.1",
-    "matplotlib==3.2.1",
-    "pandas==1.1.5",
-    "pydantic==1.6.1",
-]
+
+def _process_requirements():
+    packages = open('requirements.txt').read().strip().split('\n')
+    requires = []
+    for pkg in packages:
+        if pkg.startswith('git+ssh'):
+            return_code = os.system('pip install {}'.format(pkg))
+            assert return_code == 0, 'error, status_code is: {}, exit!'.format(return_code)
+        else:
+            requires.append(pkg)
+    return requires
+
 
 setup(
     name="FinMind",  # Required
@@ -37,7 +41,7 @@ setup(
     ],
     keywords="financial, python",  # Optional
     packages=find_packages(exclude=["importlib", "ta"]),
-    install_requires=requirements,
+    install_requires=_process_requirements(),
     project_urls={  # Optional
         "documentation": "https://linsamtw.github.io/FinMindDoc/",
         "Source": "https://github.com/linsamtw/FinMind",

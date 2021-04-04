@@ -4,23 +4,22 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pytest = "*"
 
 [packages]
-numpy = "~=1.20.2"
-pandas = "~=1.1.5"
+pandas = "*"
+numpy = "*"
+requests = "*"
+pydantic = "*"
+ta = "*"
+setuptools = "*"
+pytest = "*"
+lxml = "*"
+pyecharts = "*"
+ipython = "*"
 matplotlib = "*"
-requests = "~=2.23.0"
-pytest = "~=6.2.2"
-FinMind = {editable = true,version = "*"}
+importlib-metadata = "*"
 mock = "*"
 pytest-mock = "*"
-ta = "~=0.5.25"
-pydantic = "~=1.6.1"
-importlib-metadata = "*"
-lxml = "~=4.6.3"
-pyecharts = "~=1.9.0"
-ipython = "~=7.22.0"
 
 [requires]
 python_version = "3.6"
