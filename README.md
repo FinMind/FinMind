@@ -136,9 +136,9 @@ from FinMind import plotting
 plotting.kline(adj_price)
 ```
 
-<div style="text-align: center">
+<p align="center">
 <img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/680988a6-7c5b-4925-9f62-b40209bcd89f/kline_demo2.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210404%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210404T044414Z&X-Amz-Expires=86400&X-Amz-Signature=8785982a514dc95d93e3f7abc485a4b111710c803c3d6a64c8574b3964715943&X-Amz-SignedHeaders=host" alt="drawing" width="600"/>
-</div>
+</p>
 
 ## 這是什麼?
 
