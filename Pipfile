@@ -20,6 +20,7 @@ matplotlib = "*"
 importlib-metadata = "*"
 mock = "*"
 pytest-mock = "*"
+finmind = {editable = true, path = "."}
 
 [requires]
 python_version = "3.6"
