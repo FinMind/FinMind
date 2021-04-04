@@ -27,7 +27,7 @@ jobs:
     - name: Test with pytest
       run: |
         pipenv sync
-        pipenv run pytest
+        pipenv run pytest --cov-config=.coveragerc --cov=./FinMind/ tests/
     - name: test wheel
       run: |
         CI_COMMIT_TAG=1.1.1 pip wheel ./ --no-deps -w wheelhouse/
