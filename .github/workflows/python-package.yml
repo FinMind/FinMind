@@ -29,10 +29,7 @@ jobs:
           FINMIND_USER: ${{ secrets.FINMIND_USER }}
           FINMIND_PASSWORD: ${{ secrets.FINMIND_PASSWORD }}
         run: |
-          export FINMIND_USER=${FINMIND_USER}
-          export FINMIND_PASSWORD=${FINMIND_PASSWORD}
           python genenv.py
-          cat .env
           pipenv sync
           pipenv run pytest
       - name: test wheel
