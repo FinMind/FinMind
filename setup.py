@@ -40,7 +40,7 @@ setup(
         # "Programming Language :: Python :: 3.6",
     ],
     keywords="financial, python",  # Optional
-    packages=find_packages(exclude=["importlib", "ta", "lxml"]),
+    packages=find_packages(exclude=["importlib", "ta", "lxml", "loguru"]),
     install_requires=_process_requirements(),
     project_urls={  # Optional
         "documentation": "https://linsamtw.github.io/FinMindDoc/",

@@ -2,21 +2,21 @@ import warnings
 
 import numpy as np
 import pandas as pd
-
 from FinMind.data import DataLoader
 from FinMind.schema import (
-    FinalStats,
-    TradeDetail,
     CompareMarketDetail,
     CompareMarketStats,
+    FinalStats,
+    TradeDetail,
 )
+from FinMind.schema.data import Dataset
 from FinMind.strategies.utils import (
-    get_asset_underlying_type,
-    get_underlying_trading_tax,
     calculate_datenbr,
     calculate_sharp_ratio,
-    period_return2annual_return,
     days2years,
+    get_asset_underlying_type,
+    get_underlying_trading_tax,
+    period_return2annual_return,
 )
 
 
@@ -216,14 +216,14 @@ class BackTest:
 
     def __init_base_data(self):
         self.stock_price = self.data_loader.get_data(
-            dataset="TaiwanStockPrice",
-            stock_id=self.stock_id,
+            dataset=Dataset.TaiwanStockPrice,
+            data_id=self.stock_id,
             start_date=self.start_date,
             end_date=self.end_date,
         )
         stock_dividend = self.data_loader.get_data(
-            dataset="StockDividend",
-            stock_id=self.stock_id,
+            dataset=Dataset.TaiwanStockDividend,
+            data_id=self.stock_id,
             start_date=self.start_date,
             end_date=self.end_date,
         )
@@ -387,8 +387,8 @@ class BackTest:
         )
         tai_ex = self.data_loader.get_data(
             dataset="TaiwanStockPrice",
-            stock_id="TAIEX",
-            date=self.start_date,
+            data_id="TAIEX",
+            start_date=self.start_date,
             end_date=self.end_date,
         )[["date", "close"]]
 

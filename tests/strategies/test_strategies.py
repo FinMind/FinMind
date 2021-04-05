@@ -2,7 +2,6 @@ import os
 
 import pandas as pd
 import pytest
-from FinMind.schema.data import Version
 from FinMind.data import DataLoader
 from FinMind import strategies
 
@@ -15,7 +14,7 @@ password = os.environ.get("FINMIND_PASSWORD", "")
 def data_loader():
     data_loader = DataLoader()
     data_loader.login(user_id, password)
-    data_loader.set_api_version(Version.V3)
+    # data_loader.set_api_version(Version.V3)
     return data_loader
 
 

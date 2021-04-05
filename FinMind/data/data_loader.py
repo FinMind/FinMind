@@ -16,21 +16,18 @@ class DataLoader(FinMindApi):
         @param end_date: 結束日期("2021-03-06")
         @return: 還原股價
         """
-        self.set_api_version(version=Version.V3)
         stock_price = self.get_data(
             dataset="TaiwanStockPrice",
             data_id=stock_id,
             start_date=start_date,
             end_date=end_date,
         )
-        self.set_api_version(version=Version.V4)
         ex_dividend_price = self.get_data(
             dataset="TaiwanStockDividendResult",
             data_id=stock_id,
             start_date=start_date,
             end_date=end_date,
         )
-
         if len(ex_dividend_price) == 0:
             return stock_price
 

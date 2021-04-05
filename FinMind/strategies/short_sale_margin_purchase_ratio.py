@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
-
 from FinMind.data import DataLoader
+from FinMind.schema.data import Dataset
 from FinMind.strategies.base import Strategy, Trader
 
 
@@ -16,22 +16,29 @@ class ShortSaleMarginPurchaseRatio(Strategy):
 
     ShortSaleMarginPurchaseTodayRatioThreshold = 0.3
 
-    def __init__(self, trader: Trader, stock_id: str, start_date: str, end_date: str, data_loader: DataLoader):
+    def __init__(
+        self,
+        trader: Trader,
+        stock_id: str,
+        start_date: str,
+        end_date: str,
+        data_loader: DataLoader,
+    ):
         super().__init__(trader, stock_id, start_date, end_date, data_loader)
         self.TaiwanStockMarginPurchaseShortSale = None
         self.InstitutionalInvestorsBuySell = None
 
     def load_strategy_data(self):
         self.TaiwanStockMarginPurchaseShortSale = self.data_loader.get_data(
-            dataset="TaiwanStockMarginPurchaseShortSale",
-            stock_id=self.stock_id,
-            date=self.start_date,
+            dataset=Dataset.TaiwanStockMarginPurchaseShortSale,
+            data_id=self.stock_id,
+            start_date=self.start_date,
             end_date=self.end_date,
         )
         self.InstitutionalInvestorsBuySell = self.data_loader.get_data(
-            dataset="InstitutionalInvestorsBuySell",
-            stock_id=self.stock_id,
-            date=self.start_date,
+            dataset=Dataset.TaiwanStockInstitutionalInvestorsBuySell,
+            data_id=self.stock_id,
+            start_date=self.start_date,
             end_date=self.end_date,
         )
 
@@ -46,26 +53,26 @@ class ShortSaleMarginPurchaseRatio(Strategy):
         self.TaiwanStockMarginPurchaseShortSale[
             "ShortSaleMarginPurchaseTodayRatio"
         ] = (
-                self.TaiwanStockMarginPurchaseShortSale["ShortSaleTodayBalance"]
-                / self.TaiwanStockMarginPurchaseShortSale[
-                    "MarginPurchaseTodayBalance"
-                ]
+            self.TaiwanStockMarginPurchaseShortSale["ShortSaleTodayBalance"]
+            / self.TaiwanStockMarginPurchaseShortSale[
+                "MarginPurchaseTodayBalance"
+            ]
         )
 
     def load_institutional_investors_buy_sell(self):
         self.InstitutionalInvestorsBuySell[["sell", "buy"]] = (
             self.InstitutionalInvestorsBuySell[["sell", "buy"]]
-                .fillna(0)
-                .astype(int)
+            .fillna(0)
+            .astype(int)
         )
-        self.InstitutionalInvestorsBuySell = (
-            self.InstitutionalInvestorsBuySell.groupby(
-                ["date", "stock_id"], as_index=False
-            ).agg({"buy": np.sum, "sell": np.sum})
+        self.InstitutionalInvestorsBuySell = self.InstitutionalInvestorsBuySell.groupby(
+            ["date", "stock_id"], as_index=False
+        ).agg(
+            {"buy": np.sum, "sell": np.sum}
         )
         self.InstitutionalInvestorsBuySell["diff"] = (
-                self.InstitutionalInvestorsBuySell["buy"]
-                - self.InstitutionalInvestorsBuySell["sell"]
+            self.InstitutionalInvestorsBuySell["buy"]
+            - self.InstitutionalInvestorsBuySell["sell"]
         )
 
     def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
@@ -89,13 +96,13 @@ class ShortSaleMarginPurchaseRatio(Strategy):
         stock_price.index = range(len(stock_price))
         stock_price["signal"] = 0
         sell_mask = (
-                            stock_price["ShortSaleMarginPurchaseTodayRatio"]
-                            >= self.ShortSaleMarginPurchaseTodayRatioThreshold
-                    ) & (stock_price["diff"] > 0)
+            stock_price["ShortSaleMarginPurchaseTodayRatio"]
+            >= self.ShortSaleMarginPurchaseTodayRatioThreshold
+        ) & (stock_price["diff"] > 0)
         stock_price.loc[sell_mask, "signal"] = -1
         buy_mask = (
-                           stock_price["ShortSaleMarginPurchaseTodayRatio"]
-                           < self.ShortSaleMarginPurchaseTodayRatioThreshold
-                   ) & (stock_price["diff"] < 0)
+            stock_price["ShortSaleMarginPurchaseTodayRatio"]
+            < self.ShortSaleMarginPurchaseTodayRatioThreshold
+        ) & (stock_price["diff"] < 0)
         stock_price.loc[buy_mask, "signal"] = 1
         return stock_price

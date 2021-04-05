@@ -54,22 +54,16 @@ class FinMindApi:
         @param params: finmind api參數
         @return:
         """
-        data_id = params.get("stock_id", "") or params.get("data_id", "")
-        start_date = params.get("start_date", "") or params.get("date", "")
-        params = dict(
-            dataset=params.get("dataset", ""),
-            stock_id=data_id,
-            data_id=data_id,
-            date=start_date,
-            start_date=start_date,
-            end_date=params.get("end_date", ""),
-            user_id=self.__user_id,
-            password=self.__password,
-            token=self.__api_token,
-            device=self.__device,
+        params.update(
+            dict(
+                user_id=self.__user_id,
+                password=self.__password,
+                token=self.__api_token,
+                device=self.__device,
+            )
         )
         url = f"{self.__api_url}/{self.__api_version}/data"
-        # logger.info(params)
+        logger.info(params)
         response = requests.get(url, verify=True, params=params).json()
         if "msg" not in response or response["msg"] != "success":
             logger.error(params)

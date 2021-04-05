@@ -2,7 +2,7 @@ import typing
 
 import numpy as np
 import pandas as pd
-
+from FinMind.schema.data import Dataset
 from FinMind.strategies.base import Strategy
 
 
@@ -18,17 +18,19 @@ class InstitutionalInvestorsFollower(Strategy):
         stock_price = stock_price.sort_values("date")
         stock_price.index = range(len(stock_price))
         institutional_investors_buy_sell = self.data_loader.get_data(
-            dataset="InstitutionalInvestorsBuySell",
-            stock_id=self.stock_id,
-            date=self.start_date,
+            dataset=Dataset.TaiwanStockInstitutionalInvestorsBuySell,
+            data_id=self.stock_id,
+            start_date=self.start_date,
             end_date=self.end_date,
         )
         institutional_investors_buy_sell = institutional_investors_buy_sell.groupby(
             ["date", "stock_id"], as_index=False
-        ).agg({"buy": np.sum, "sell": np.sum})
+        ).agg(
+            {"buy": np.sum, "sell": np.sum}
+        )
         institutional_investors_buy_sell["diff"] = (
-                institutional_investors_buy_sell["buy"]
-                - institutional_investors_buy_sell["sell"]
+            institutional_investors_buy_sell["buy"]
+            - institutional_investors_buy_sell["sell"]
         )
         stock_price = pd.merge(
             stock_price,
@@ -37,10 +39,7 @@ class InstitutionalInvestorsFollower(Strategy):
             how="left",
         ).fillna(0)
         stock_price["signal_info"] = self.detect_Abnormal_Peak(
-            y=stock_price["diff"].values,
-            lag=10,
-            threshold=3,
-            influence=0.35,
+            y=stock_price["diff"].values, lag=10, threshold=3, influence=0.35,
         )
         stock_price["signal"] = 0
         stock_price.loc[stock_price["signal_info"] == -1, "signal"] = 1
@@ -48,7 +47,7 @@ class InstitutionalInvestorsFollower(Strategy):
         return stock_price
 
     def detect_Abnormal_Peak(
-            self, y: np.array, lag: int, threshold: float, influence: float
+        self, y: np.array, lag: int, threshold: float, influence: float
     ) -> typing.List[float]:
         signals = np.zeros(len(y))
         filtered_y = np.array(y)
@@ -64,13 +63,13 @@ class InstitutionalInvestorsFollower(Strategy):
                     signals[i] = -1
 
                 filtered_y[i] = (
-                        influence * y[i] + (1 - influence) * filtered_y[i - 1]
+                    influence * y[i] + (1 - influence) * filtered_y[i - 1]
                 )
-                avg_filter[i] = np.mean(filtered_y[(i - lag + 1): i + 1])
-                std_filter[i] = np.std(filtered_y[(i - lag + 1): i + 1])
+                avg_filter[i] = np.mean(filtered_y[(i - lag + 1) : i + 1])
+                std_filter[i] = np.std(filtered_y[(i - lag + 1) : i + 1])
             else:
                 signals[i] = 0
                 filtered_y[i] = y[i]
-                avg_filter[i] = np.mean(filtered_y[(i - lag + 1): i + 1])
-                std_filter[i] = np.std(filtered_y[(i - lag + 1): i + 1])
+                avg_filter[i] = np.mean(filtered_y[(i - lag + 1) : i + 1])
+                std_filter[i] = np.std(filtered_y[(i - lag + 1) : i + 1])
         return list(signals)
