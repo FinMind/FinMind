@@ -2,7 +2,7 @@ import os
 
 import pandas as pd
 import pytest
-
+from FinMind.schema.data import Version
 from FinMind.data import DataLoader
 from FinMind.strategies.utils import (
     get_asset_underlying_type,
@@ -13,11 +13,17 @@ from FinMind.strategies.utils import (
     days2years,
 )
 
-user_id = os.environ['FINMIND_USER']
-password = os.environ['FINMIND_PASSWORD']
-data_loader = DataLoader()
-data_loader.api_version = "v3"
-data_loader.login_by_account(user_id, password)
+user_id = os.environ.get("FINMIND_USER", "")
+password = os.environ.get("FINMIND_PASSWORD", "")
+
+
+@pytest.fixture(scope="module")
+def data_loader():
+    data_loader = DataLoader()
+    data_loader.login(user_id, password)
+    data_loader.set_api_version(Version.V3)
+    return data_loader
+
 
 testdata_get_asset_underlying_type = [
     (
@@ -38,10 +44,9 @@ testdata_get_asset_underlying_type = [
 
 
 @pytest.mark.parametrize(
-    "stock_id, return_value",
-    testdata_get_asset_underlying_type,
+    "stock_id, return_value", testdata_get_asset_underlying_type,
 )
-def test_get_asset_underlying_type(stock_id, return_value, mocker):
+def test_get_asset_underlying_type(stock_id, return_value, data_loader, mocker):
     underlying_type = get_asset_underlying_type(stock_id, data_loader)
     assert underlying_type == "半導體業"
 
@@ -50,8 +55,7 @@ testdata_get_underlying_trading_tax = [("半導體", 0.003), ("ETF", 0.001)]
 
 
 @pytest.mark.parametrize(
-    "underlying_type, expected",
-    testdata_get_underlying_trading_tax,
+    "underlying_type, expected", testdata_get_underlying_trading_tax,
 )
 def test_get_underlying_trading_tax(underlying_type, expected):
     resp = get_underlying_trading_tax(underlying_type)
@@ -65,8 +69,7 @@ testdata_calculate_Datenbr = [
 
 
 @pytest.mark.parametrize(
-    "day1, day2, expected",
-    testdata_calculate_Datenbr,
+    "day1, day2, expected", testdata_calculate_Datenbr,
 )
 def test_calculate_Datenbr(day1, day2, expected):
     resp = calculate_datenbr(day1, day2)
@@ -77,8 +80,7 @@ testdata_calculate_sharp_ratio = [(0.05, 0.01, 79.37), (0.1, 0.21, 7.56)]
 
 
 @pytest.mark.parametrize(
-    "retrun, std, expected",
-    testdata_calculate_sharp_ratio,
+    "retrun, std, expected", testdata_calculate_sharp_ratio,
 )
 def test_calculate_sharp_ratio(retrun, std, expected):
     resp = calculate_sharp_ratio(retrun, std)
@@ -89,20 +91,21 @@ testdata_convert_Return2Annual = [(0.2, 2, 0.0954), (0.5, 5, 0.0845)]
 
 
 @pytest.mark.parametrize(
-    "period_return, period_years, expected",
-    testdata_convert_Return2Annual,
+    "period_return, period_years, expected", testdata_convert_Return2Annual,
 )
 def test_return2annual(period_return, period_years, expected):
     resp = period_return2annual_return(period_return, period_years)
     assert resp == expected
 
 
-testdata_period_days2years = [(180, 0.4931506849315068), (30, 0.0821917808219178)]
+testdata_period_days2years = [
+    (180, 0.4931506849315068),
+    (30, 0.0821917808219178),
+]
 
 
 @pytest.mark.parametrize(
-    "days, expected",
-    testdata_period_days2years,
+    "days, expected", testdata_period_days2years,
 )
 def test_period_days2years(days, expected):
     resp = days2years(days)

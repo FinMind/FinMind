@@ -1,19 +1,26 @@
 import os
 
 import pandas as pd
-
+import pytest
+from FinMind.schema.data import Version
 from FinMind.data import DataLoader
-from FinMind.strategies import *
-
-user_id = os.environ['FINMIND_USER']
-password = os.environ['FINMIND_PASSWORD']
-data_loader = DataLoader()
-data_loader.api_version = "v3"
-data_loader.login_by_account(user_id, password)
+from FinMind import strategies
 
 
-def test_get_stock_price():
-    obj = BackTest(
+user_id = os.environ.get("FINMIND_USER", "")
+password = os.environ.get("FINMIND_PASSWORD", "")
+
+
+@pytest.fixture(scope="module")
+def data_loader():
+    data_loader = DataLoader()
+    data_loader.login(user_id, password)
+    data_loader.set_api_version(Version.V3)
+    return data_loader
+
+
+def test_get_stock_price(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
@@ -25,14 +32,14 @@ def test_get_stock_price():
     assert isinstance(obj.stock_price, pd.DataFrame)
 
 
-def test_continue_holding():
-    obj = BackTest(
+def test_continue_holding(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        strategy=ContinueHolding,
+        strategy=strategies.ContinueHolding,
         data_loader=data_loader,
     )
     obj.simulate()
@@ -71,8 +78,8 @@ def test_continue_holding():
     assert obj.compare_market_stats["AnnualReturnPer"] == 0.68
 
 
-def test_continue_holding_add_strategy():
-    obj = BackTest(
+def test_continue_holding_add_strategy(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
@@ -81,7 +88,7 @@ def test_continue_holding_add_strategy():
         # strategy=ContinueHolding,
         data_loader=data_loader,
     )
-    obj.add_strategy(ContinueHolding)
+    obj.add_strategy(strategies.ContinueHolding)
     obj.simulate()
 
     assert int(obj.final_stats.MeanProfit) == 2810
@@ -110,14 +117,14 @@ def test_continue_holding_add_strategy():
     }
 
 
-def test_bias():
-    obj = BackTest(
+def test_bias(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        strategy=Bias,
+        strategy=strategies.Bias,
         data_loader=data_loader,
     )
     obj.simulate()
@@ -157,8 +164,8 @@ def test_bias():
     assert obj.compare_market_stats["AnnualReturnPer"] == 0.57
 
 
-def test_bias_add_strategy():
-    obj = BackTest(
+def test_bias_add_strategy(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
@@ -167,7 +174,7 @@ def test_bias_add_strategy():
         # strategy=Bias,
         data_loader=data_loader,
     )
-    obj.add_strategy(Bias)
+    obj.add_strategy(strategies.Bias)
     obj.simulate()
 
     assert int(obj.final_stats.MeanProfit) == 984
@@ -196,14 +203,14 @@ def test_bias_add_strategy():
     }
 
 
-def test_naive_kd():
-    obj = BackTest(
+def test_naive_kd(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        strategy=NaiveKd,
+        strategy=strategies.NaiveKd,
         data_loader=data_loader,
     )
     obj.simulate()
@@ -217,17 +224,17 @@ def test_naive_kd():
     assert obj.final_stats["MaxLossPer"] == -0.42
 
 
-def test_naive_kd_add_strategy():
-    obj = BackTest(
+def test_naive_kd_add_strategy(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        # strategy=NaiveKd,
+        # strategy=strategies.NaiveKd,
         data_loader=data_loader,
     )
-    obj.add_strategy(NaiveKd)
+    obj.add_strategy(strategies.NaiveKd)
     obj.simulate()
 
     assert int(obj.final_stats.MeanProfit) == 5418
@@ -239,14 +246,14 @@ def test_naive_kd_add_strategy():
     assert obj.final_stats["MaxLossPer"] == -0.42
 
 
-def test_kd():
-    obj = BackTest(
+def test_kd(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        strategy=Kd,
+        strategy=strategies.Kd,
         data_loader=data_loader,
     )
     obj.simulate()
@@ -260,17 +267,17 @@ def test_kd():
     assert obj.final_stats["MaxLossPer"] == -0.29
 
 
-def test_kd_add_strategy():
-    obj = BackTest(
+def test_kd_add_strategy(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        # strategy=Kd,
+        # strategy=strategies.Kd,
         data_loader=data_loader,
     )
-    obj.add_strategy(Kd)
+    obj.add_strategy(strategies.Kd)
     obj.simulate()
 
     assert int(obj.final_stats.MeanProfit) == 2356
@@ -282,14 +289,14 @@ def test_kd_add_strategy():
     assert obj.final_stats["MaxLossPer"] == -0.29
 
 
-def test_kd_crossover():
-    obj = BackTest(
+def test_kd_crossover(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        strategy=KdCrossOver,
+        strategy=strategies.KdCrossOver,
         data_loader=data_loader,
     )
     obj.simulate()
@@ -303,17 +310,17 @@ def test_kd_crossover():
     assert obj.final_stats["MaxLossPer"] == -0.24
 
 
-def test_kd_crossover_add_strategy():
-    obj = BackTest(
+def test_kd_crossover_add_strategy(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        # strategy=KdCrossOver,
+        # strategy=strategies.KdCrossOver,
         data_loader=data_loader,
     )
-    obj.add_strategy(KdCrossOver)
+    obj.add_strategy(strategies.KdCrossOver)
     obj.simulate()
 
     assert int(obj.final_stats.MeanProfit) == 349
@@ -325,14 +332,14 @@ def test_kd_crossover_add_strategy():
     assert obj.final_stats["MaxLossPer"] == -0.24
 
 
-def test_institutional_investors_follower():
-    obj = BackTest(
+def test_institutional_investors_follower(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        strategy=InstitutionalInvestorsFollower,
+        strategy=strategies.InstitutionalInvestorsFollower,
         data_loader=data_loader,
     )
     obj.simulate()
@@ -346,17 +353,17 @@ def test_institutional_investors_follower():
     assert obj.final_stats["MaxLossPer"] == -3.08
 
 
-def test_institutional_investors_follower_add_strategy():
-    obj = BackTest(
+def test_institutional_investors_follower_add_strategy(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        # strategy=InstitutionalInvestorsFollower,
+        # strategy=strategies.InstitutionalInvestorsFollower,
         data_loader=data_loader,
     )
-    obj.add_strategy(InstitutionalInvestorsFollower)
+    obj.add_strategy(strategies.InstitutionalInvestorsFollower)
     obj.simulate()
 
     assert int(obj.final_stats.MeanProfit) == 6021
@@ -368,14 +375,14 @@ def test_institutional_investors_follower_add_strategy():
     assert obj.final_stats["MaxLossPer"] == -3.08
 
 
-def test_short_sale_margin_purchase_ratio():
-    obj = BackTest(
+def test_short_sale_margin_purchase_ratio(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        strategy=ShortSaleMarginPurchaseRatio,
+        strategy=strategies.ShortSaleMarginPurchaseRatio,
         data_loader=data_loader,
     )
     obj.simulate()
@@ -389,17 +396,17 @@ def test_short_sale_margin_purchase_ratio():
     assert obj.final_stats["MaxLossPer"] == -2.94
 
 
-def test_short_sale_margin_purchase_ratio_add_strategy():
-    obj = BackTest(
+def test_short_sale_margin_purchase_ratio_add_strategy(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        # strategy=ShortSaleMarginPurchaseRatio,
+        # strategy=strategies.ShortSaleMarginPurchaseRatio,
         data_loader=data_loader,
     )
-    obj.add_strategy(ShortSaleMarginPurchaseRatio)
+    obj.add_strategy(strategies.ShortSaleMarginPurchaseRatio)
     obj.simulate()
 
     assert int(obj.final_stats.MeanProfit) == 12946
@@ -411,14 +418,14 @@ def test_short_sale_margin_purchase_ratio_add_strategy():
     assert obj.final_stats["MaxLossPer"] == -2.94
 
 
-def test_macd_crossover():
-    obj = BackTest(
+def test_macd_crossover(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        strategy=MacdCrossOver,
+        strategy=strategies.MacdCrossOver,
         data_loader=data_loader,
     )
     obj.simulate()
@@ -432,17 +439,17 @@ def test_macd_crossover():
     assert obj.final_stats["MaxLossPer"] == -0.08
 
 
-def test_macd_crossover_add_strategy():
-    obj = BackTest(
+def test_macd_crossover_add_strategy(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        # strategy=MacdCrossOver,
+        # strategy=strategies.MacdCrossOver,
         data_loader=data_loader,
     )
-    obj.add_strategy(MacdCrossOver)
+    obj.add_strategy(strategies.MacdCrossOver)
     obj.simulate()
 
     assert int(obj.final_stats.MeanProfit) == 1347
@@ -454,14 +461,14 @@ def test_macd_crossover_add_strategy():
     assert obj.final_stats["MaxLossPer"] == -0.08
 
 
-def test_ma_crossover():
-    obj = BackTest(
+def test_ma_crossover(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        strategy=MaCrossOver,
+        strategy=strategies.MaCrossOver,
         data_loader=data_loader,
     )
     obj.simulate()
@@ -475,17 +482,17 @@ def test_ma_crossover():
     assert obj.final_stats["MaxLossPer"] == -0.25
 
 
-def test_ma_crossover_add_strategy():
-    obj = BackTest(
+def test_ma_crossover_add_strategy(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        # strategy=MaCrossOver,
+        # strategy=strategies.MaCrossOver,
         data_loader=data_loader,
     )
-    obj.add_strategy(MaCrossOver)
+    obj.add_strategy(strategies.MaCrossOver)
     obj.simulate()
 
     assert int(obj.final_stats.MeanProfit) == -381
@@ -497,14 +504,14 @@ def test_ma_crossover_add_strategy():
     assert obj.final_stats["MaxLossPer"] == -0.25
 
 
-def test_max_min_period_bias():
-    obj = BackTest(
+def test_max_min_period_bias(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        strategy=MaxMinPeriodBias,
+        strategy=strategies.MaxMinPeriodBias,
         data_loader=data_loader,
     )
     obj.simulate()
@@ -518,17 +525,17 @@ def test_max_min_period_bias():
     assert obj.final_stats["MaxLossPer"] == 0
 
 
-def test_max_min_period_bias_add_strategy():
-    obj = BackTest(
+def test_max_min_period_bias_add_strategy(data_loader):
+    obj = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        # strategy=MaxMinPeriodBias,
+        # strategy=strategies.MaxMinPeriodBias,
         data_loader=data_loader,
     )
-    obj.add_strategy(MaxMinPeriodBias)
+    obj.add_strategy(strategies.MaxMinPeriodBias)
     obj.simulate()
 
     assert int(obj.final_stats.MeanProfit) == 0

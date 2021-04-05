@@ -28,9 +28,9 @@ class Bias(Strategy):
             stock_price["close"], self.ma_days
         ).sma_indicator()
         stock_price["bias"] = (
-                                      (stock_price["close"] - stock_price[f"ma{self.ma_days}"])
-                                      / stock_price[f"ma{self.ma_days}"]
-                              ) * 100
+            (stock_price["close"] - stock_price[f"ma{self.ma_days}"])
+            / stock_price[f"ma{self.ma_days}"]
+        ) * 100
         stock_price = stock_price.dropna()
         stock_price.index = range(len(stock_price))
         stock_price["signal"] = stock_price["bias"].map(

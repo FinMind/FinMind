@@ -131,12 +131,17 @@ class GovernmentBondsCrawler(BaseCrawler):
             date = str(
                 datetime.date(1970, 1, 1) + datetime.timedelta(days=date)
             )
-            v = [float(template[template_index].text) for template_index in range(1, 5) if
-                 template[template_index].text is not None]
+            v = [
+                float(template[template_index].text)
+                for template_index in range(1, 5)
+                if template[template_index].text is not None
+            ]
             if len(v) == 0:
                 return pd.DataFrame()
             _price, _open, _high, _low = v
-            change = float(template[5].text.replace("%", "").replace(",", "")) / 100
+            change = (
+                float(template[5].text.replace("%", "").replace(",", "")) / 100
+            )
 
             return pd.DataFrame([date, _price, _open, _high, _low, change]).T
 
@@ -186,7 +191,7 @@ class GovernmentBondsCrawler(BaseCrawler):
         data = pd.DataFrame()
         td_path = page.xpath("//tr//td")
         for i in range(0, len(td_path) - 6, 6):
-            tem = td_path[i: i + 6]
+            tem = td_path[i : i + 6]
             value = get_value(tem)
             if len(value) > 0:
                 data = data.append(value)

@@ -1,44 +1,59 @@
 import os
 
 import pandas as pd
-
+import pytest
+from FinMind.schema.data import Version
 from FinMind.data import DataLoader
 from FinMind.data import FinMindApi
 
-user_id = os.environ['FINMIND_USER']
-password = os.environ['FINMIND_PASSWORD']
+user_id = os.environ.get("FINMIND_USER", "")
+password = os.environ.get("FINMIND_PASSWORD", "")
+
+
+@pytest.fixture(scope="module")
+def api():
+    api = FinMindApi()
+    api.login(user_id, password)
+    return api
+
+
+@pytest.fixture(scope="module")
+def data_loader():
+    data_loader = DataLoader()
+    data_loader.login(user_id, password)
+    return data_loader
 
 
 def test_api_login():
     api = FinMindApi()
-    api.login_by_account(user_id, password)
-    assert api._api_token is not None
+    assert api.login(user_id, password)
 
 
-def test_adj_price():
+def test_adj_price(data_loader):
     stock_id = "2330"
     start_date = "2019-04-01"
     end_date = "2021-03-06"
-    data_loader = DataLoader()
-    data_loader.login_by_account(user_id, password)
-    data = data_loader.stock_adj_price(stock_id=stock_id, start_date=start_date, end_date=end_date).iloc[0][
-        ['open', 'close', 'max', 'min']]
+    data = data_loader.stock_adj_price(
+        stock_id=stock_id, start_date=start_date, end_date=end_date
+    ).iloc[0][["open", "close", "max", "min"]]
 
-    assert all(data == pd.Series({"open": 231.35, "close": 228.11, "max": 231.35, "min": 228.11}))
+    assert all(
+        data
+        == pd.Series(
+            {"open": 231.35, "close": 228.11, "max": 231.35, "min": 228.11}
+        )
+    )
 
 
-def test_api_data():
+def test_api_data(api):
     dataset = "TaiwanStockPrice"
-    stock_id = "2330"
-    date = "2020-03-10"
+    data_id = "2330"
+    start_date = "2020-03-10"
     end_date = "2020-03-15"
-    api = FinMindApi()
-    api.login_by_account(user_id, password)
-    api.api_version = "v3"
     data = api.get_data(
         dataset=dataset,
-        stock_id=stock_id,
-        date=date,
+        data_id=data_id,
+        start_date=start_date,
         end_date=end_date,
     )
     assert all(
@@ -70,11 +85,9 @@ def test_api_data():
     )
 
 
-def test_get_datalist():
+def test_get_datalist(api):
     dataset = "TaiwanExchangeRate"
-    api = FinMindApi()
-    api.login_by_account(user_id, password)
-    api.api_version = "v3"
+    api.set_api_version(Version.V3)
     data = api.get_datalist(dataset)
     assert data == [
         "AUD",
@@ -99,11 +112,9 @@ def test_get_datalist():
     ]
 
 
-def test_translation():
+def test_translation(api):
     dataset = "Shareholding"
-    api = FinMindApi()
-    api.login_by_account(user_id, password)
-    api.api_version = "v3"
+    api.set_api_version(Version.V3)
     data = api.translation(dataset=dataset)
     assert all(
         data

@@ -26,24 +26,30 @@ def kline(stock_data: pd.DataFrame):
         return result
 
     def process_stock_data(data):
-        data = data[['date', 'open', 'close', 'min', 'max', 'Trading_Volume']]
-        data.columns = ['date', 'open', 'close', 'low', 'high', 'volume']
-        if is_datetime(data['date']):
-            data_times = data['date'].dt.strftime('%Y-%m-%d').to_list()
+        data = data[["date", "open", "close", "min", "max", "Trading_Volume"]]
+        data.columns = ["date", "open", "close", "low", "high", "volume"]
+        if is_datetime(data["date"]):
+            data_times = data["date"].dt.strftime("%Y-%m-%d").to_list()
         else:
-            data_times = data['date'].to_list()
+            data_times = data["date"].to_list()
         values = data.values.tolist()
         volumes = []
         for i, tick in enumerate(data.values.tolist()):
             volumes.append([i, tick[5], 1 if tick[1] > tick[2] else -1])
-        return {"categoryData": data_times, "values": values, "volumes": volumes}
+        return {
+            "categoryData": data_times,
+            "values": values,
+            "volumes": volumes,
+        }
 
     chart_data = process_stock_data(stock_data)
 
     kline_data = [data[1:-1] for data in chart_data["values"]]
-    kline = Kline(init_opts=opts.InitOpts(
-        animation_opts=opts.AnimationOpts(animation=False),
-    ))
+    kline = Kline(
+        init_opts=opts.InitOpts(
+            animation_opts=opts.AnimationOpts(animation=False),
+        )
+    )
     kline.add_xaxis(xaxis_data=chart_data["categoryData"])
     kline.add_yaxis(
         series_name="kline",
@@ -51,10 +57,7 @@ def kline(stock_data: pd.DataFrame):
         itemstyle_opts=opts.ItemStyleOpts(color="#ec0000", color0="#00da3c"),
     )
     kline.set_global_opts(
-        legend_opts=opts.LegendOpts(
-            is_show=True,
-            pos_left="center"
-        ),
+        legend_opts=opts.LegendOpts(is_show=True, pos_left="center"),
         datazoom_opts=[
             opts.DataZoomOpts(
                 is_show=False,
@@ -109,12 +112,14 @@ def kline(stock_data: pd.DataFrame):
         ),
     )
 
-    close = np.array(chart_data['values'])[:, 2]
+    close = np.array(chart_data["values"])[:, 2]
     ma_items = [5, 10, 20, 60]
 
-    line = Line(init_opts=opts.InitOpts(
-        animation_opts=opts.AnimationOpts(animation=False),
-    )).add_xaxis(xaxis_data=chart_data["categoryData"])
+    line = Line(
+        init_opts=opts.InitOpts(
+            animation_opts=opts.AnimationOpts(animation=False),
+        )
+    ).add_xaxis(xaxis_data=chart_data["categoryData"])
     for ma in ma_items:
         line.add_yaxis(
             series_name="MA" + str(ma),
@@ -187,5 +192,5 @@ def kline(stock_data: pd.DataFrame):
         ),
     )
     grid_chart.render("kline.html")
-    display(HTML(filename='kline.html'))
+    display(HTML(filename="kline.html"))
     return grid_chart

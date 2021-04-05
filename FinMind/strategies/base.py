@@ -4,7 +4,12 @@ import numpy as np
 import pandas as pd
 
 from FinMind.data import DataLoader
-from FinMind.schema import FinalStats, TradeDetail, CompareMarketDetail, CompareMarketStats
+from FinMind.schema import (
+    FinalStats,
+    TradeDetail,
+    CompareMarketDetail,
+    CompareMarketStats,
+)
 from FinMind.strategies.utils import (
     get_asset_underlying_type,
     get_underlying_trading_tax,
@@ -17,14 +22,14 @@ from FinMind.strategies.utils import (
 
 class Trader:
     def __init__(
-            self,
-            stock_id: str,
-            trader_fund: float,
-            hold_volume: float,
-            hold_cost: float,
-            fee: float,
-            tax: float,
-            board_lot: int = 1000,
+        self,
+        stock_id: str,
+        trader_fund: float,
+        hold_volume: float,
+        hold_cost: float,
+        fee: float,
+        tax: float,
+        board_lot: int = 1000,
     ):
         self.stock_id = stock_id
         self.trader_fund = trader_fund
@@ -41,8 +46,8 @@ class Trader:
     def buy(self, trade_price: float, trade_lots: float):
         self.trade_price = trade_price
         if (
-                self.__confirm_trade_lots(trade_lots, trade_price, self.trader_fund)
-                > 0
+            self.__confirm_trade_lots(trade_lots, trade_price, self.trader_fund)
+            > 0
         ):
             trade_volume = trade_lots * self.board_lot
             buy_fee = max(20.0, self.trade_price * trade_volume * self.fee)
@@ -52,16 +57,16 @@ class Trader:
             origin_hold_cost = self.hold_volume * self.hold_cost
             self.hold_volume = self.hold_volume + trade_volume
             self.hold_cost = (
-                                     origin_hold_cost + buy_total_price
-                             ) / self.hold_volume
+                origin_hold_cost + buy_total_price
+            ) / self.hold_volume
 
         self.__compute_realtime_status()
 
     def sell(self, trade_price: float, trade_lots: float):
         self.trade_price = trade_price
         if (
-                self.__confirm_trade_lots(trade_lots, trade_price, self.trader_fund)
-                < 0
+            self.__confirm_trade_lots(trade_lots, trade_price, self.trader_fund)
+            < 0
         ):
             trade_volume = abs(trade_lots) * self.board_lot
             sell_fee = max(20.0, trade_price * trade_volume * self.fee)
@@ -70,8 +75,7 @@ class Trader:
             sell_total_price = sell_price - sell_tax - sell_fee
             self.trader_fund = self.trader_fund + sell_total_price
             self.RealizedProfit = self.RealizedProfit + round(
-                sell_total_price - (self.hold_cost * trade_volume),
-                2,
+                sell_total_price - (self.hold_cost * trade_volume), 2,
             )
             self.hold_volume = self.hold_volume - trade_volume
 
@@ -91,7 +95,9 @@ class Trader:
         self.EverytimeProfit = self.UnrealizedProfit + self.RealizedProfit
 
     @staticmethod
-    def __have_enough_money(trader_fund: int, trade_price: float, trade_volume: float) -> bool:
+    def __have_enough_money(
+        trader_fund: int, trade_price: float, trade_volume: float
+    ) -> bool:
         return trader_fund >= (trade_price * trade_volume)
 
     @staticmethod
@@ -102,7 +108,7 @@ class Trader:
             return True
 
     def __confirm_trade_lots(
-            self, trade_lots: float, trade_price: float, trader_fund: int
+        self, trade_lots: float, trade_price: float, trader_fund: int
     ):
         """
         do not have enough money --> not buy
@@ -130,7 +136,12 @@ class Trader:
 
 class Strategy:
     def __init__(
-            self, trader: Trader, stock_id: str, start_date: str, end_date: str, data_loader: DataLoader
+        self,
+        trader: Trader,
+        stock_id: str,
+        start_date: str,
+        end_date: str,
+        data_loader: DataLoader,
     ):
         self.trader = trader
         self.stock_id = stock_id
@@ -162,14 +173,14 @@ class Strategy:
 
 class BackTest:
     def __init__(
-            self,
-            stock_id: str = "",
-            start_date: str = "",
-            end_date: str = "",
-            trader_fund: float = 0,
-            fee: float = 0.001425,
-            strategy: Strategy = None,
-            data_loader: DataLoader = None,
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        trader_fund: float = 0,
+        fee: float = 0.001425,
+        strategy: Strategy = None,
+        data_loader: DataLoader = None,
     ):
         self.data_loader = data_loader
         self.stock_id = stock_id
@@ -207,13 +218,13 @@ class BackTest:
         self.stock_price = self.data_loader.get_data(
             dataset="TaiwanStockPrice",
             stock_id=self.stock_id,
-            date=self.start_date,
-            end_date=self.end_date
+            start_date=self.start_date,
+            end_date=self.end_date,
         )
         stock_dividend = self.data_loader.get_data(
             dataset="StockDividend",
             stock_id=self.stock_id,
-            date=self.start_date,
+            start_date=self.start_date,
             end_date=self.end_date,
         )
         if not stock_dividend.empty:
@@ -251,14 +262,18 @@ class BackTest:
 
     def simulate(self):
         strategy = self.strategy(
-            self.trader, self.stock_id, self.start_date, self.end_date, self.data_loader
+            self.trader,
+            self.stock_id,
+            self.start_date,
+            self.end_date,
+            self.data_loader,
         )
         strategy.load_strategy_data()
         self.stock_price = strategy.create_trade_sign(
             stock_price=self.stock_price
         )
         assert (
-                "signal" in self.stock_price.columns
+            "signal" in self.stock_price.columns
         ), "Must be create signal columns in stock_price"
         if not self.stock_price.index.is_monotonic_increasing:
             warnings.warn(
@@ -290,8 +305,8 @@ class BackTest:
             )
 
         self._trade_detail["EverytimeTotalProfit"] = (
-                self._trade_detail["trader_fund"]
-                + self._trade_detail["EverytimeProfit"]
+            self._trade_detail["trader_fund"]
+            + self._trade_detail["EverytimeProfit"]
         )
         self.__compute_final_stats()
         self.__compute_compare_market()
@@ -308,8 +323,8 @@ class BackTest:
         )
         trader.UnrealizedProfit = round(
             (
-                    trader.trade_price * (1 - trader.tax - trader.fee)
-                    - trader.hold_cost
+                trader.trade_price * (1 - trader.tax - trader.fee)
+                - trader.hold_cost
             )
             * trader.hold_volume,
             2,
@@ -344,9 +359,10 @@ class BackTest:
             * 100,
             2,
         )
-        time_step_returns = (self._trade_detail["EverytimeProfit"]
-                             - self._trade_detail["EverytimeProfit"].shift(1)
-                             ) / (self._trade_detail["EverytimeProfit"].shift(1) + self.trader_fund)
+        time_step_returns = (
+            self._trade_detail["EverytimeProfit"]
+            - self._trade_detail["EverytimeProfit"].shift(1)
+        ) / (self._trade_detail["EverytimeProfit"].shift(1) + self.trader_fund)
         strategy_return = np.mean(time_step_returns)
         strategy_std = np.std(time_step_returns)
         self._final_stats["AnnualSharpRatio"] = calculate_sharp_ratio(
@@ -361,8 +377,10 @@ class BackTest:
             ["date", "EverytimeTotalProfit"]
         ].copy()
         self._compare_market_detail["CumDailyReturn"] = (
-                np.log(self._compare_market_detail["EverytimeTotalProfit"])
-                - np.log(self._compare_market_detail["EverytimeTotalProfit"].shift(1))
+            np.log(self._compare_market_detail["EverytimeTotalProfit"])
+            - np.log(
+                self._compare_market_detail["EverytimeTotalProfit"].shift(1)
+            )
         ).fillna(0)
         self._compare_market_detail["CumDailyReturn"] = round(
             self._compare_market_detail["CumDailyReturn"].cumsum(), 5
@@ -375,7 +393,7 @@ class BackTest:
         )[["date", "close"]]
 
         tai_ex["CumTaiExDailyReturn"] = (
-                np.log(tai_ex["close"]) - np.log(tai_ex["close"].shift(1))
+            np.log(tai_ex["close"]) - np.log(tai_ex["close"].shift(1))
         ).fillna(0)
         tai_ex["CumTaiExDailyReturn"] = round(
             tai_ex["CumTaiExDailyReturn"].cumsum(), 5
@@ -389,11 +407,11 @@ class BackTest:
         self._compare_market_detail = self._compare_market_detail.dropna()
         self._compare_market_stats = pd.Series()
         self._compare_market_stats["AnnualTaiexReturnPer"] = (
-                period_return2annual_return(
-                    self._compare_market_detail["CumTaiExDailyReturn"].values[-1],
-                    self._trade_period_years,
-                )
-                * 100
+            period_return2annual_return(
+                self._compare_market_detail["CumTaiExDailyReturn"].values[-1],
+                self._trade_period_years,
+            )
+            * 100
         )
         self._compare_market_stats["AnnualReturnPer"] = self._final_stats[
             "AnnualReturnPer"
@@ -429,18 +447,16 @@ class BackTest:
     @property
     def compare_market_stats(self) -> pd.Series():
         self._compare_market_stats = pd.Series(
-            CompareMarketStats(
-                **self._compare_market_stats.to_dict()
-            ).dict()
+            CompareMarketStats(**self._compare_market_stats.to_dict()).dict()
         )
         return self._compare_market_stats
 
     def plot(
-            self,
-            title: str = "Backtest Result",
-            x_label: str = "Time",
-            y_label: str = "Profit",
-            grid: bool = True,
+        self,
+        title: str = "Backtest Result",
+        x_label: str = "Time",
+        y_label: str = "Profit",
+        grid: bool = True,
     ):
         try:
             import matplotlib.pyplot as plt
