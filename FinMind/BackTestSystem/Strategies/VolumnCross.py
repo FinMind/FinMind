@@ -7,6 +7,13 @@ class Volumn(Strategy):
     kdays1 = 5
     kdays2 = 10
 
+    def add_indicator(self,
+        kdays1: int,
+        kdays2: int
+    ):
+        self.kdays1 = kdays1
+        self.kdays2 = kdays2
+    
     def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
         volumn10 = 0
