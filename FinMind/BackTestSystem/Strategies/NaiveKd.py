@@ -5,9 +5,8 @@ from FinMind.BackTestSystem.BaseClass import Strategy
 
 class NaiveKd(Strategy):
     """
-    url: "https://school.stockcharts.com/doku.php?id=technical_indicators:stochastic_oscillator_fast_slow_and_full"
+    url: "https://www.mirrormedia.mg/story/20180719fin012/"
     summary:
-        kd計算方式相較於網路上 kd 交易策略有些微差距，但概念是相同的
         日KD 80 20
         日K線 <= 20 進場
         日K線 >= 80 出場
@@ -17,6 +16,17 @@ class NaiveKd(Strategy):
     ddays = 3
     kd_upper = 80
     kd_lower = 20
+
+    def add_indicator(self,
+        kdays: int,
+        ddays: int,
+        kd_upper: int, 
+        kd_lower: int
+    ):
+        self.kdays = kdays
+        self.ddays = ddays
+        self.kd_upper = kd_upper
+        self.kd_lower = kd_lower
 
     def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")

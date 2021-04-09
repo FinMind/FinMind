@@ -15,6 +15,11 @@ class ShortSaleMarginPurchaseRatio(Strategy):
 
     ShortSaleMarginPurchaseTodayRatioThreshold = 0.3
 
+    def add_indicator(self,
+        ShortSaleMarginPurchaseTodayRatioThreshold: float
+    ):
+        self.ShortSaleMarginPurchaseTodayRatioThreshold = ShortSaleMarginPurchaseTodayRatioThreshold
+
     def load_taiwan_stock_margin_purchase_short_sale(self):
         self.TaiwanStockMarginPurchaseShortSale = Load.FinData(
             dataset="TaiwanStockMarginPurchaseShortSale",

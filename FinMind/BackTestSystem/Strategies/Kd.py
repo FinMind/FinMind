@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from FinMind.BackTestSystem.BaseClass import Strategy
+from FinMind.BackTestSystem import BackTest
 from ta.momentum import StochasticOscillator
 
 
@@ -8,15 +9,22 @@ class Kd(Strategy):
     """
     url: "https://www.mirrormedia.mg/story/20180719fin012/"
     summary:
-        網路上常見的 kd 交易策略
         日KD 80 20
         日K線 <= 20 進場
         日K線 >= 80 出場
     """
-
     kdays = 9
     kd_upper = 80
     kd_lower = 20
+    
+    def add_indicator(self,
+        kdays: int,
+        kd_upper: int, 
+        kd_lower: int
+    ):
+        self.kdays = kdays
+        self.kd_upper = kd_upper
+        self.kd_lower = kd_lower
 
     def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")

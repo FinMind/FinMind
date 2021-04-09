@@ -21,6 +21,15 @@ class Bias(Strategy):
     bias_lower = -7
     bias_upper = 8
 
+    def add_indicator(self,
+        ma_days: int,
+        bias_lower: int,
+        bias_upper: int
+    ):
+        self.ma_days = ma_days
+        self.bias_lower = bias_lower
+        self.bias_upper = bias_upper
+
     def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
         stock_price[f"ma{self.ma_days}"] = SMAIndicator(

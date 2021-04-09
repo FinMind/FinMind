@@ -20,6 +20,17 @@ class MaxMinPeriodBias(Strategy):
     bais_lower = -7
     bais_upper = 8
 
+    def add_indicator(self,
+        ma_days: int,
+        last_k_days: int,
+        bais_lower: int,
+        bais_upper: int
+    ):
+        self.ma_days = ma_days
+        self.last_k_days = last_k_days
+        self.bais_lower = bais_lower
+        self.bais_upper = bais_upper
+
     def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
         stock_price[f"ma{self.ma_days}"] = SMAIndicator(

@@ -21,6 +21,13 @@ class MaCrossOver(Strategy):
     ma_fast_days = 10
     ma_slow_days = 30
 
+    def add_indicator(self,
+        ma_fast_days: int,
+        ma_slow_days: int
+    ):
+        self.ma_fast_days = ma_fast_days
+        self.ma_slow_days = ma_slow_days
+
     def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
         stock_price[f"ma{self.ma_fast_days}"] = SMAIndicator(
