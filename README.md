@@ -87,5 +87,5 @@ Email: FinMind.TW@gmail.com
 + 未來預計新增更多功能，包含個人化回測分析、chatbot 監控策略，
 + API Request 上限：300 / 小時。
 + Limit amount of request, 300 / hour. 
-+ 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `user_id` 與 `password` 參數可以提高使用上限到 600/hr。
-+ `user_id` 與 `password` 參數的使用方法，可參考[線上 API](http://api.finmindtrade.com/docs)。
++ 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `token` 參數可以提高使用上限到 600/hr。
++ `token` 獲取方法，可在[官網](https://finmindtrade.com/analysis/#/account/login)登入後獲取。
