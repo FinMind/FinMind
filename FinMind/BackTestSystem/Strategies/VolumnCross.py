@@ -1,4 +1,8 @@
-class Volumn(Strategy):
+import numpy as np
+import pandas as pd
+from FinMind.BackTestSystem.BaseClass import Strategy
+
+class VolumnCross(Strategy):
     """
     summary:
         5日均量與10日均量黃金交叉且上漲 買入
@@ -16,8 +20,6 @@ class Volumn(Strategy):
     
     def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
-        volumn10 = 0
-        volumn5 = 0
         stock_price["ma5"] = np.round(stock_price["Trading_Volume"].rolling(window = 5, center = False).mean(), 2)
         stock_price["ma10"] = np.round(stock_price["Trading_Volume"].rolling(window = 10, center = False).mean(), 2)
         stock_price['ma5-10'] = stock_price['ma5'] - stock_price['ma10']
