@@ -13,9 +13,9 @@
 
 ## Donate
 
-* [贊助我們發展更多功能 (金額由你決定)](https://p.ecpay.com.tw/8196A98)
+* [贊助我們發展更多功能](https://finmindtrade.com/analysis/#/Sponsor/sponsor)
 
-<a href="https://p.ecpay.com.tw/8196A98"><img src="https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png" alt=""/></a>
+<a href="https://finmindtrade.com/analysis/#/Sponsor/sponsor"><img src="https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png" alt=""/></a>
 
 ## Quickstart
 
@@ -64,6 +64,7 @@ You can analyze financial data without having to collect the data by yourself.
   - [線上 API](http://api.finmindtrade.com/docs)
   - [Taiwan Stock Data](https://finmind.github.io/tutor/TaiwanMarket/DataList/)
   - [Document](https://finmind.github.io/)
+  - [壓力測試](https://finmind.github.io/StressTest/)
   <!--- [Crawler (爬蟲)](https://github.com/FinMind/FinMind/tree/master#Crawler-爬蟲)-->
 
 - Other
@@ -84,8 +85,8 @@ Email: FinMind.TW@gmail.com
 每週日早上零點至早上七點為維護時間，不提供服務。
 
 ## Note
-+ 未來預計新增更多功能，包含個人化回測分析、chatbot 監控策略，因此 4/11 之後會更改使用方案，並增加 backer、sponsor 兩種贊助方案，
-+ API Request 上限：600 / 小時。(4/11後，300/hr)
-+ Limit amount of request, 600 / hour. (After 4/11，300/hr)
-+ 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `user_id` 與 `password` 參數可以提高使用上限到 1500/hr。(4/11後，600/hr)
-+ `user_id` 與 `password` 參數的使用方法，可參考[線上 API](http://api.finmindtrade.com/docs)。
++ 未來預計新增更多功能，包含個人化回測分析、chatbot 監控策略，
++ API Request 上限：300 / 小時。
++ Limit amount of request, 300 / hour. 
++ 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `token` 參數可以提高使用上限到 600/hr。
++ `token` 獲取方法，可在[官網](https://finmindtrade.com/analysis/#/account/login)登入後獲取。
