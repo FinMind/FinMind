@@ -1,6 +1,11 @@
+import sys
+
 import pandas as pd
 import requests
 from loguru import logger
+
+logger.remove()
+logger.add(sys.stderr, level="INFO")
 
 
 class FinMindApi:
@@ -11,12 +16,18 @@ class FinMindApi:
         self.__api_url = "https://api.finmindtrade.com/api"
         self.__api_version = "v4"
         self.__device = "package"
+        self.__valid_versions = ["v3", "v4"]
 
     @property
     def api_version(self):
         return self.__api_version
 
-    def set_api_version(self, version: str):
+    @api_version.setter
+    def api_version(self, version: str):
+        if version not in self.__valid_versions:
+            logger.error(
+                f"Invalid version name:{version}, The supported version is set to{' '.join(self.__valid_versions)}")
+            return
         self.__api_version = version
 
     def login(self, user_id: str, password: str):
@@ -32,8 +43,8 @@ class FinMindApi:
         }
         url = f"{self.__api_url}/{self.__api_version}/login"
         login_info = requests.post(url, data=payload).json()
+        logger.debug(login_info)
         if login_info.get("status", 0) == 200:
-            logger.info(login_info)
             self.__api_token = login_info.get("token", "")
             self.__user_id = user_id
             self.__password = password
@@ -49,11 +60,25 @@ class FinMindApi:
         """
         self.__api_token = api_token
 
+    def _compatible_api_version(self, params):
+        if self.__api_version == "v3":
+            if "start_date" in params:
+                params["date"] = params.pop("start_date")
+            if "data_id" in params:
+                params["stock_id"] = params.pop("data_id")
+        else:
+            if "date" in params:
+                params["start_date"] = params.pop("date")
+            if "stock_id" in params:
+                params["data_id"] = params.pop("stock_id")
+        return params
+
     def get_data(self, **params) -> pd.DataFrame:
         """
         @param params: finmind api參數
         @return:
         """
+
         params.update(
             dict(
                 user_id=self.__user_id,
@@ -62,8 +87,9 @@ class FinMindApi:
                 device=self.__device,
             )
         )
+        params = self._compatible_api_version(params)
         url = f"{self.__api_url}/{self.__api_version}/data"
-        logger.info(params)
+        logger.debug(params)
         response = requests.get(url, verify=True, params=params).json()
         if "msg" not in response or response["msg"] != "success":
             logger.error(params)
@@ -79,9 +105,8 @@ class FinMindApi:
             "token": self.__api_token,
             "device": self.__device,
         }
-        self.url = f"{self.__api_url}/{self.__api_version}/datalist"
-        # logger.info(params)
-        res = requests.get(self.url, verify=True, params=params)
+        url = f"{self.__api_url}/{self.__api_version}/datalist"
+        res = requests.get(url, verify=True, params=params)
         data = res.json()
         if data.get("status", 200) == 200:
             data = data["data"]
@@ -95,7 +120,6 @@ class FinMindApi:
             "device": self.__device,
         }
         url = f"{self.__api_url}/{self.__api_version}/translation"
-        # logger.info(params)
         res = requests.get(url, verify=True, params=params)
         data = res.json()
         if data.get("status", 0) == 200:

@@ -27,7 +27,8 @@ class MaxMinPeriodBias(Strategy):
             stock_price["close"], self.ma_days
         ).sma_indicator()
         stock_price["bias"] = (
-                                      (stock_price["close"] - stock_price[f"ma{self.ma_days}"])
+                                      (stock_price["close"] - stock_price[
+                                          f"ma{self.ma_days}"])
                                       / stock_price[f"ma{self.ma_days}"]
                               ) * 100
         stock_price[f"max_last_k_days{self.last_k_days}"] = (

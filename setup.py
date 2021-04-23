@@ -17,7 +17,8 @@ def _process_requirements():
     for pkg in packages:
         if pkg.startswith('git+ssh'):
             return_code = os.system('pip install {}'.format(pkg))
-            assert return_code == 0, 'error, status_code is: {}, exit!'.format(return_code)
+            assert return_code == 0, 'error, status_code is: {}, exit!'.format(
+                return_code)
         else:
             requires.append(pkg)
     return requires

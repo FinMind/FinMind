@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 import numpy as np
 
@@ -9,7 +9,7 @@ def get_asset_underlying_type(stock_id: str, data_loader: DataLoader) -> str:
     taiwan_stock_info = data_loader.get_data(dataset="TaiwanStockInfo", date="")
     underlying_type = taiwan_stock_info[
         taiwan_stock_info["stock_id"] == stock_id
-    ]["industry_category"].values[0]
+        ]["industry_category"].values[0]
     return underlying_type
 
 
@@ -21,9 +21,9 @@ def get_underlying_trading_tax(underlying_type: str) -> float:
 def calculate_datenbr(day1: str, day2: str) -> int:
     assert day1 <= day2, "day2 必須大於等於 day1"
 
-    dis_day = datetime.strptime(day2, "%Y-%m-%d") - datetime.strptime(
-        day1, "%Y-%m-%d"
-    )
+    dis_day = datetime.datetime.strptime(day2,
+                                         "%Y-%m-%d") - datetime.datetime.strptime(
+        day1, "%Y-%m-%d")
     return int(dis_day.days)
 
 
@@ -37,9 +37,9 @@ def calculate_sharp_ratio(strategy_return: float, std: float) -> float:
 
 
 def period_return2annual_return(
-    period_return: float, period_years: float
+        period_return: float, period_years: float
 ) -> float:
-    annual_return = round(((period_return + 1) ** (1 / period_years) - 1), 4,)
+    annual_return = round(((period_return + 1) ** (1 / period_years) - 1), 4, )
     return annual_return
 
 

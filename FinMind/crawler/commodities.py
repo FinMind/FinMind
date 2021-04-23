@@ -73,14 +73,18 @@ class CommoditiesCrawler(BaseCrawler):
                 datetime.date(1970, 1, 1) + datetime.timedelta(days=date)
             )
             v = [
-                float(template[template_index].attrib["data-real-value"].replace(",", ""))
+                float(
+                    template[template_index].attrib["data-real-value"].replace(
+                        ",", ""))
                 for template_index in range(1, 6)
             ]
             _price, _open, _high, _low, _vol = v
 
-            change = float(template[6].text.replace("%", "").replace(",", "")) / 100
+            change = float(
+                template[6].text.replace("%", "").replace(",", "")) / 100
 
-            return pd.DataFrame([date, _price, _open, _high, _low, _vol, change]).T
+            return pd.DataFrame(
+                [date, _price, _open, _high, _low, _vol, change]).T
 
         # -------------------------------------------------------------------
         futures_id, data_name = loop

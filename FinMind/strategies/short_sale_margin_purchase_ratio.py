@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+
 from FinMind.data import DataLoader
 from FinMind.schema.data import Dataset
 from FinMind.strategies.base import Strategy, Trader
@@ -17,12 +18,12 @@ class ShortSaleMarginPurchaseRatio(Strategy):
     ShortSaleMarginPurchaseTodayRatioThreshold = 0.3
 
     def __init__(
-        self,
-        trader: Trader,
-        stock_id: str,
-        start_date: str,
-        end_date: str,
-        data_loader: DataLoader,
+            self,
+            trader: Trader,
+            stock_id: str,
+            start_date: str,
+            end_date: str,
+            data_loader: DataLoader,
     ):
         super().__init__(trader, stock_id, start_date, end_date, data_loader)
         self.TaiwanStockMarginPurchaseShortSale = None
@@ -53,17 +54,17 @@ class ShortSaleMarginPurchaseRatio(Strategy):
         self.TaiwanStockMarginPurchaseShortSale[
             "ShortSaleMarginPurchaseTodayRatio"
         ] = (
-            self.TaiwanStockMarginPurchaseShortSale["ShortSaleTodayBalance"]
-            / self.TaiwanStockMarginPurchaseShortSale[
-                "MarginPurchaseTodayBalance"
-            ]
+                self.TaiwanStockMarginPurchaseShortSale["ShortSaleTodayBalance"]
+                / self.TaiwanStockMarginPurchaseShortSale[
+                    "MarginPurchaseTodayBalance"
+                ]
         )
 
     def load_institutional_investors_buy_sell(self):
         self.InstitutionalInvestorsBuySell[["sell", "buy"]] = (
             self.InstitutionalInvestorsBuySell[["sell", "buy"]]
-            .fillna(0)
-            .astype(int)
+                .fillna(0)
+                .astype(int)
         )
         self.InstitutionalInvestorsBuySell = self.InstitutionalInvestorsBuySell.groupby(
             ["date", "stock_id"], as_index=False
@@ -71,8 +72,8 @@ class ShortSaleMarginPurchaseRatio(Strategy):
             {"buy": np.sum, "sell": np.sum}
         )
         self.InstitutionalInvestorsBuySell["diff"] = (
-            self.InstitutionalInvestorsBuySell["buy"]
-            - self.InstitutionalInvestorsBuySell["sell"]
+                self.InstitutionalInvestorsBuySell["buy"]
+                - self.InstitutionalInvestorsBuySell["sell"]
         )
 
     def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
@@ -96,13 +97,13 @@ class ShortSaleMarginPurchaseRatio(Strategy):
         stock_price.index = range(len(stock_price))
         stock_price["signal"] = 0
         sell_mask = (
-            stock_price["ShortSaleMarginPurchaseTodayRatio"]
-            >= self.ShortSaleMarginPurchaseTodayRatioThreshold
-        ) & (stock_price["diff"] > 0)
+                            stock_price["ShortSaleMarginPurchaseTodayRatio"]
+                            >= self.ShortSaleMarginPurchaseTodayRatioThreshold
+                    ) & (stock_price["diff"] > 0)
         stock_price.loc[sell_mask, "signal"] = -1
         buy_mask = (
-            stock_price["ShortSaleMarginPurchaseTodayRatio"]
-            < self.ShortSaleMarginPurchaseTodayRatioThreshold
-        ) & (stock_price["diff"] < 0)
+                           stock_price["ShortSaleMarginPurchaseTodayRatio"]
+                           < self.ShortSaleMarginPurchaseTodayRatioThreshold
+                   ) & (stock_price["diff"] < 0)
         stock_price.loc[buy_mask, "signal"] = 1
         return stock_price

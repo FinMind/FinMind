@@ -8,3 +8,6 @@ lxml~=4.6.3
 
 pyecharts~=1.9.0
 ipython~=7.16.1
+
+loguru~=0.5.3
+setuptools~=49.2.1

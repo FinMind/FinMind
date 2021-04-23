@@ -2,7 +2,7 @@ import os
 
 import pandas as pd
 import pytest
-from FinMind.schema.data import Version
+
 from FinMind.data import DataLoader
 from FinMind.data import FinMindApi
 
@@ -15,34 +15,6 @@ def api():
     api = FinMindApi()
     api.login(user_id, password)
     return api
-
-
-@pytest.fixture(scope="module")
-def data_loader():
-    data_loader = DataLoader()
-    data_loader.login(user_id, password)
-    return data_loader
-
-
-def test_api_login():
-    api = FinMindApi()
-    assert api.login(user_id, password)
-
-
-def test_adj_price(data_loader):
-    stock_id = "2330"
-    start_date = "2019-04-01"
-    end_date = "2021-03-06"
-    data = data_loader.stock_adj_price(
-        stock_id=stock_id, start_date=start_date, end_date=end_date
-    ).iloc[0][["open", "close", "max", "min"]]
-
-    assert all(
-        data
-        == pd.Series(
-            {"open": 231.35, "close": 228.11, "max": 231.35, "min": 228.11}
-        )
-    )
 
 
 def test_api_data(api):
@@ -87,7 +59,6 @@ def test_api_data(api):
 
 def test_get_datalist(api):
     dataset = "TaiwanExchangeRate"
-    api.set_api_version(Version.V3)
     data = api.get_datalist(dataset)
     assert data == [
         "AUD",
@@ -113,8 +84,7 @@ def test_get_datalist(api):
 
 
 def test_translation(api):
-    dataset = "Shareholding"
-    api.set_api_version(Version.V3)
+    dataset = "TaiwanStockShareholding"
     data = api.translation(dataset=dataset)
     assert all(
         data
@@ -145,3 +115,163 @@ def test_translation(api):
             }
         )
     )
+
+
+@pytest.fixture(scope="module")
+def data_loader():
+    data_loader = DataLoader()
+    data_loader.login(user_id, password)
+    return data_loader
+
+
+def test_api_login():
+    api = FinMindApi()
+    assert api.login(user_id, password)
+
+
+def assert_data(data: pd.DataFrame, correct_columns_name: list):
+    errors = []
+    if not all(data.columns == correct_columns_name):
+        errors.append("data columns mismatch")
+    if not len(data) > 0:
+        errors.append("data is empty")
+    assert not errors, "errors :\n    {}".format("\n".join(errors))
+
+
+def test_taiwan_stock_info(data_loader):
+    stock_info = data_loader.taiwan_stock_info()
+    assert_data(stock_info,
+                ['industry_category', 'stock_id', 'stock_name', 'type'])
+
+
+def test_taiwan_stock_daily(data_loader):
+    stock_price = data_loader.taiwan_stock_daily("2330", "2018-01-01",
+                                                 "2021-03-06")
+    assert_data(stock_price,
+                ['date', 'stock_id', 'Trading_Volume', 'Trading_money', 'open',
+                 'max',
+                 'min', 'close', 'spread', 'Trading_turnover'])
+
+
+def test_taiwan_stock_daily_adj(data_loader):
+    stock_id = "2330"
+    start_date = "2019-04-01"
+    end_date = "2021-03-06"
+    data = data_loader.taiwan_stock_daily_adj(
+        stock_id=stock_id, start_date=start_date, end_date=end_date
+    ).iloc[0][["open", "close", "max", "min"]]
+
+    assert all(
+        data
+        == pd.Series(
+            {"open": 231.35, "close": 228.11, "max": 231.35, "min": 228.11}
+        )
+    )
+
+
+def test_taiwan_stock_tick(data_loader):
+    data = data_loader.taiwan_stock_tick("2330", "2021-04-01")
+    assert_data(data, ['date', 'stock_id', 'deal_price', 'volume', 'Time',
+                       'TickType'])
+
+
+def test_taiwan_stock_tick_timely(data_loader):
+    data = data_loader.taiwan_stock_tick_timely("2330")
+    assert_data(data, ['date', 'stock_id', 'deal_price', 'volume', 'Time',
+                       'TickType'])
+
+
+def test_taiwan_stock_bid_ask(data_loader):
+    data = data_loader.taiwan_stock_bid_ask("2330", "2021-04-01")
+    assert_data(data,
+                ['stock_id', 'AskPrice', 'AskVolume', 'BidPrice', 'BidVolume',
+                 'Time',
+                 'date'])
+
+
+def test_taiwan_stock_bid_ask_timely(data_loader):
+    data = data_loader.taiwan_stock_bid_ask_timely("2330")
+    assert_data(data,
+                ['stock_id', 'AskPrice', 'AskVolume', 'BidPrice', 'BidVolume',
+                 'Time',
+                 'date'])
+
+
+def test_taiwan_stock_book_and_trade(data_loader):
+    data = data_loader.taiwan_stock_book_and_trade("2330", "2021-04-01")
+    assert_data(data,
+                ['stock_id', 'AskPrice', 'AskVolume', 'BidPrice', 'BidVolume',
+                 'Time',
+                 'date'])
+
+
+def test_taiwan_stock_day_trading(data_loader):
+    data = data_loader.taiwan_stock_day_trading("2330", "2020-04-02",
+                                                "2020-04-12")
+    assert_data(data,
+                ['stock_id', 'date', 'BuyAfterSale', 'Volume', 'BuyAmount',
+                 'SellAmount'])
+
+
+def test_taiwan_stock_per_pbr(data_loader):
+    data = data_loader.taiwan_stock_per_pbr("2330", "2020-04-02")
+    assert_data(data, ['date', 'stock_id', 'dividend_yield', 'PER', 'PBR'])
+
+
+def test_taiwan_stock_margin(data_loader):
+    data = data_loader.taiwan_stock_margin("2330", "2020-04-02")
+    assert_data(data, ['date', 'stock_id', 'MarginPurchaseBuy',
+                       'MarginPurchaseCashRepayment',
+                       'MarginPurchaseLimit', 'MarginPurchaseSell',
+                       'MarginPurchaseTodayBalance',
+                       'MarginPurchaseYesterdayBalance', 'Note',
+                       'OffsetLoanAndShort', 'ShortSaleBuy',
+                       'ShortSaleCashRepayment',
+                       'ShortSaleLimit', 'ShortSaleSell',
+                       'ShortSaleTodayBalance',
+                       'ShortSaleYesterdayBalance'])
+
+
+def test_taiwan_stock_margin_total(data_loader):
+    data = data_loader.taiwan_stock_margin_total("2020-04-02")
+    assert_data(data,
+                ['TodayBalance', 'YesBalance', 'buy', 'date', 'name', 'Return',
+                 'sell'])
+
+
+def test_taiwan_stock_institutional_investors(data_loader):
+    data = data_loader.taiwan_stock_institutional_investors("2330",
+                                                            "2020-04-02")
+    assert_data(data, ['date', 'stock_id', 'buy', 'name', 'sell'])
+
+
+def test_taiwan_stock_institutional_investors_total(data_loader):
+    data = data_loader.taiwan_stock_institutional_investors_total("2020-04-02")
+    assert_data(data, ['buy', 'date', 'name', 'sell'])
+
+
+def test_taiwan_stock_shareholding(data_loader):
+    data = data_loader.taiwan_stock_shareholding("2330", "2020-04-02")
+    assert_data(data, ['date', 'stock_id', 'stock_name', 'InternationalCode',
+                       'ForeignInvestmentRemainingShares',
+                       'ForeignInvestmentShares',
+                       'ForeignInvestmentRemainRatio',
+                       'ForeignInvestmentSharesRatio',
+                       'ForeignInvestmentUpperLimitRatio',
+                       'ChineseInvestmentUpperLimitRatio',
+                       'NumberOfSharesIssued', 'RecentlyDeclareDate', 'note'])
+
+
+def test_taiwan_stock_shareholding_class(data_loader):
+    data = data_loader.taiwan_stock_shareholding_class("2330", "2020-04-02")
+    assert_data(data,
+                ['date', 'stock_id', 'HoldingSharesLevel', 'people', 'percent',
+                 'unit'])
+
+
+def test_taiwan_stock_securities_lending(data_loader):
+    data = data_loader.taiwan_stock_securities_lending("2330", "2020-04-02")
+    assert_data(data,
+                ['date', 'stock_id', 'transaction_type', 'volume', 'fee_rate',
+                 'close',
+                 'original_return_date', 'original_lending_period'])

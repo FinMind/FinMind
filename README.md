@@ -128,7 +128,7 @@ Email: FinMind.TW@gmail.com
 from FinMind.data import DataLoader
 
 dl = DataLoader()
-adj_price = dl.stock_adj_price("2330", "2018-01-01", "2021-03-03")
+adj_price = dl.taiwan_stock_daily_adj("2330", "2018-01-01", "2021-03-03")
 
 # 繪製k線圖
 from FinMind import plotting
@@ -156,20 +156,23 @@ plotting.kline(adj_price)
 
 ## What is this?
 
-**FinMind** is open source of more than [50 datasets](https://finmind.github.io/), including
+**FinMind** is open source of more
+than [50 datasets](https://finmind.github.io/), including
 
-Taiwan stock trade data daily, Taiwan stock trade data (5 seconds) (2019-05-29 ~ now, more than 30 million data in
-total), Financial Statements, Balance Sheet, Cash Flows Statement, Month Revenue, Holding Shares Per, Institutional
-Investors Buy Sell. Taiwan Futures Trade Detail, Taiwan Option Trade Detail.
+Taiwan stock trade data daily, Taiwan stock trade data (5 seconds) (2019-05-29 ~
+now, more than 30 million data in total), Financial Statements, Balance Sheet,
+Cash Flows Statement, Month Revenue, Holding Shares Per, Institutional Investors
+Buy Sell. Taiwan Futures Trade Detail, Taiwan Option Trade Detail.
 
-US stock price daily, minute (2019-06-01 ~ now, more than 80 million data in total), oil price, gold
-price, [G7](https://zh.wikipedia.org/zh-tw/%E5%85%AB%E5%A4%A7%E5%B7%A5%E6%A5%AD%E5%9C%8B%E7%B5%84%E7%B9%94) exchange
-rate, interest rate.
+US stock price daily, minute (2019-06-01 ~ now, more than 80 million data in
+total), oil price, gold
+price, [G7](https://zh.wikipedia.org/zh-tw/%E5%85%AB%E5%A4%A7%E5%B7%A5%E6%A5%AD%E5%9C%8B%E7%B5%84%E7%B9%94)
+exchange rate, interest rate.
 
 US Government Bonds Yield.
 
-The datasets are automatically updated daily. You can analyze financial data without having to collect the data by
-yourself.
+The datasets are automatically updated daily. You can analyze financial data
+without having to collect the data by yourself.
 
 --------------
 
@@ -179,7 +182,8 @@ yourself.
 
 - 資料來源:
   [證交所](https://www.twse.com.tw/zh/), [櫃買中心](https://www.tpex.org.tw/web/)
-  , [公開資訊觀測站](https://mops.twse.com.tw/mops/web/index), [期交所](https://www.taifex.com.tw/cht/index)。
+  , [公開資訊觀測站](https://mops.twse.com.tw/mops/web/index)
+  , [期交所](https://www.taifex.com.tw/cht/index)。
 - 本專案提供的所有內容均用於教育、非商業用途。資料僅供參考，使用者依本資料交易發生交易損失需自行負責，本專案不對資料內容錯誤、更新延誤或傳輸中斷負任何責任。
 
 ## Project of Contents
@@ -210,6 +214,7 @@ Email: FinMind.TW@gmail.com
 + 未來預計新增更多功能，包含個人化回測分析、chatbot 監控策略，因此 4/11 之後會更改使用方案，並增加 backer、sponsor 兩種贊助方案，
 + API Request 上限：600 / 小時。(4/11後，300/hr)
 + Limit amount of request, 600 / hour. (After 4/11，300/hr)
-+ 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `user_id` 與 `password` 參數可以提高使用上限到 1500/hr。(
++ 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `user_id`
+  與 `password` 參數可以提高使用上限到 1500/hr。(
   4/11後，600/hr)
 + `user_id` 與 `password` 參數的使用方法，可參考[線上 API](http://api.finmindtrade.com/docs)。

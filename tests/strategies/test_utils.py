@@ -2,7 +2,7 @@ import os
 
 import pandas as pd
 import pytest
-from FinMind.schema.data import Version
+
 from FinMind.data import DataLoader
 from FinMind.strategies.utils import (
     get_asset_underlying_type,
@@ -21,7 +21,6 @@ password = os.environ.get("FINMIND_PASSWORD", "")
 def data_loader():
     data_loader = DataLoader()
     data_loader.login(user_id, password)
-    data_loader.set_api_version(Version.V3)
     return data_loader
 
 
@@ -46,7 +45,7 @@ testdata_get_asset_underlying_type = [
 @pytest.mark.parametrize(
     "stock_id, return_value", testdata_get_asset_underlying_type,
 )
-def test_get_asset_underlying_type(stock_id, return_value, data_loader, mocker):
+def test_get_asset_underlying_type(stock_id, return_value, data_loader):
     underlying_type = get_asset_underlying_type(stock_id, data_loader)
     assert underlying_type == "半導體業"
 
