@@ -74,17 +74,21 @@ class CommoditiesCrawler(BaseCrawler):
             )
             v = [
                 float(
-                    template[template_index].attrib["data-real-value"].replace(
-                        ",", ""))
+                    template[template_index]
+                    .attrib["data-real-value"]
+                    .replace(",", "")
+                )
                 for template_index in range(1, 6)
             ]
             _price, _open, _high, _low, _vol = v
 
-            change = float(
-                template[6].text.replace("%", "").replace(",", "")) / 100
+            change = (
+                float(template[6].text.replace("%", "").replace(",", "")) / 100
+            )
 
             return pd.DataFrame(
-                [date, _price, _open, _high, _low, _vol, change]).T
+                [date, _price, _open, _high, _low, _vol, change]
+            ).T
 
         # -------------------------------------------------------------------
         futures_id, data_name = loop
@@ -135,7 +139,7 @@ class CommoditiesCrawler(BaseCrawler):
         data = pd.DataFrame()
         td_path = page.xpath("//tr//td")
         for i in range(0, len(td_path) - 7, 7):
-            tem = td_path[i: i + 7]
+            tem = td_path[i : i + 7]
             value = get_value(tem)
             data = data.append(value)
 

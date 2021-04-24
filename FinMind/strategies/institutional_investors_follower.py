@@ -30,8 +30,8 @@ class InstitutionalInvestorsFollower(Strategy):
             {"buy": np.sum, "sell": np.sum}
         )
         institutional_investors_buy_sell["diff"] = (
-                institutional_investors_buy_sell["buy"]
-                - institutional_investors_buy_sell["sell"]
+            institutional_investors_buy_sell["buy"]
+            - institutional_investors_buy_sell["sell"]
         )
         stock_price = pd.merge(
             stock_price,
@@ -48,7 +48,7 @@ class InstitutionalInvestorsFollower(Strategy):
         return stock_price
 
     def detect_Abnormal_Peak(
-            self, y: np.array, lag: int, threshold: float, influence: float
+        self, y: np.array, lag: int, threshold: float, influence: float
     ) -> typing.List[float]:
         signals = np.zeros(len(y))
         filtered_y = np.array(y)
@@ -64,13 +64,13 @@ class InstitutionalInvestorsFollower(Strategy):
                     signals[i] = -1
 
                 filtered_y[i] = (
-                        influence * y[i] + (1 - influence) * filtered_y[i - 1]
+                    influence * y[i] + (1 - influence) * filtered_y[i - 1]
                 )
-                avg_filter[i] = np.mean(filtered_y[(i - lag + 1): i + 1])
-                std_filter[i] = np.std(filtered_y[(i - lag + 1): i + 1])
+                avg_filter[i] = np.mean(filtered_y[(i - lag + 1) : i + 1])
+                std_filter[i] = np.std(filtered_y[(i - lag + 1) : i + 1])
             else:
                 signals[i] = 0
                 filtered_y[i] = y[i]
-                avg_filter[i] = np.mean(filtered_y[(i - lag + 1): i + 1])
-                std_filter[i] = np.std(filtered_y[(i - lag + 1): i + 1])
+                avg_filter[i] = np.mean(filtered_y[(i - lag + 1) : i + 1])
+                std_filter[i] = np.std(filtered_y[(i - lag + 1) : i + 1])
         return list(signals)

@@ -30,15 +30,15 @@ class MacdCrossOver(Strategy):
         stock_price["signal"] = 0
         stock_price.loc[
             (
-                    (stock_price["OSC_signal"] > 0)
-                    & (stock_price["OSC_signal_yesterday"] < 0)
+                (stock_price["OSC_signal"] > 0)
+                & (stock_price["OSC_signal_yesterday"] < 0)
             ),
             "signal",
         ] = 1  # 下而上穿過
         stock_price.loc[
             (
-                    (stock_price["OSC_signal"] < 0)
-                    & (stock_price["OSC_signal_yesterday"] > 0)
+                (stock_price["OSC_signal"] < 0)
+                & (stock_price["OSC_signal_yesterday"] > 0)
             ),
             "signal",
         ] = -1  # 上而下穿過

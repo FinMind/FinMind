@@ -26,7 +26,8 @@ class FinMindApi:
     def api_version(self, version: str):
         if version not in self.__valid_versions:
             logger.error(
-                f"Invalid version name:{version}, The supported version is set to{' '.join(self.__valid_versions)}")
+                f"Invalid version name:{version}, The supported version is set to{' '.join(self.__valid_versions)}"
+            )
             return
         self.__api_version = version
 

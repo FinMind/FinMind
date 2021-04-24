@@ -31,8 +31,8 @@ class MaCrossOver(Strategy):
             stock_price["close"], self.ma_slow_days
         ).sma_indicator()
         stock_price["ma_diff"] = (
-                stock_price[f"ma{self.ma_fast_days}"]
-                - stock_price[f"ma{self.ma_slow_days}"]
+            stock_price[f"ma{self.ma_fast_days}"]
+            - stock_price[f"ma{self.ma_slow_days}"]
         )
         stock_price["bool_signal"] = stock_price["ma_diff"].map(
             lambda x: 1 if x > 0 else -1
@@ -46,15 +46,15 @@ class MaCrossOver(Strategy):
         stock_price["signal"] = 0
         stock_price.loc[
             (
-                    (stock_price["bool_signal"] > 0)
-                    & (stock_price["bool_signal_shift1"] < 0)
+                (stock_price["bool_signal"] > 0)
+                & (stock_price["bool_signal_shift1"] < 0)
             ),
             "signal",
         ] = 1
         stock_price.loc[
             (
-                    (stock_price["bool_signal"] < 0)
-                    & (stock_price["bool_signal_shift1"] > 0)
+                (stock_price["bool_signal"] < 0)
+                & (stock_price["bool_signal_shift1"] > 0)
             ),
             "signal",
         ] = -1

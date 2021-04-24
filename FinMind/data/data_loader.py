@@ -11,13 +11,12 @@ class DataLoader(FinMindApi):
         """
         @return: 台股總覽
         """
-        stock_info = self.get_data(
-            dataset="TaiwanStockInfo",
-        )
+        stock_info = self.get_data(dataset="TaiwanStockInfo",)
         return stock_info
 
-    def taiwan_stock_daily(self, stock_id: str, start_date: str,
-                           end_date: str) -> pd.DataFrame:
+    def taiwan_stock_daily(
+        self, stock_id: str, start_date: str, end_date: str
+    ) -> pd.DataFrame:
         """
         @param stock_id: 股票代號("2330")
         @param start_date: 開始日期("2018-01-01")
@@ -32,8 +31,9 @@ class DataLoader(FinMindApi):
         )
         return stock_price
 
-    def taiwan_stock_daily_adj(self, stock_id: str, start_date: str,
-                               end_date: str) -> pd.DataFrame:
+    def taiwan_stock_daily_adj(
+        self, stock_id: str, start_date: str, end_date: str
+    ) -> pd.DataFrame:
         """
         @param stock_id: 股票代號("2330")
         @param start_date: 開始日期("2018-01-01")
@@ -72,66 +72,51 @@ class DataLoader(FinMindApi):
             ex_dividend_date = data["date"]
             ex_dividend_date_y1 = stock_price[
                 stock_price["date"] <= ex_dividend_date
-                ].iloc[1][0]
+            ].iloc[1][0]
             calibration_price = (
-                    stock_price[stock_price["date"] == ex_dividend_date_y1][
-                        "retroactive_close"
-                    ].iloc[0]
-                    - data["stock_and_cache_dividend"]
+                stock_price[stock_price["date"] == ex_dividend_date_y1][
+                    "retroactive_close"
+                ].iloc[0]
+                - data["stock_and_cache_dividend"]
             )
             stock_price.loc[
                 stock_price["date"] == ex_dividend_date_y1,
                 ["retroactive_close"],
             ] = calibration_price
             calibration_change = (
-                                         stock_price[stock_price[
-                                                         "date"] == ex_dividend_date][
-                                             "retroactive_close"
-                                         ].iloc[0]
-                                         - calibration_price
-                                 ) / calibration_price
+                stock_price[stock_price["date"] == ex_dividend_date][
+                    "retroactive_close"
+                ].iloc[0]
+                - calibration_price
+            ) / calibration_price
             stock_price.loc[
                 stock_price["date"] == ex_dividend_date, ["retroactive_change"]
             ] = calibration_change
         for i in range(len(stock_price)):
             stock_price.loc[i + 1, "retroactive_close"] = stock_price.loc[
-                                                              i, "retroactive_close"
-                                                          ] / (1 +
-                                                               stock_price.loc[
-                                                                   i, "retroactive_change"])
+                i, "retroactive_close"
+            ] / (1 + stock_price.loc[i, "retroactive_change"])
             stock_price.loc[i, "retroactive_open"] = stock_price.loc[
-                                                         i, "retroactive_close"
-                                                     ] * (
-                                                             1
-                                                             + (stock_price.loc[
-                                                                    i, "open"] -
-                                                                stock_price.loc[
-                                                                    i, "close"])
-                                                             / stock_price.loc[
-                                                                 i, "close"]
-                                                     )
+                i, "retroactive_close"
+            ] * (
+                1
+                + (stock_price.loc[i, "open"] - stock_price.loc[i, "close"])
+                / stock_price.loc[i, "close"]
+            )
             stock_price.loc[i, "retroactive_max"] = stock_price.loc[
-                                                        i, "retroactive_close"
-                                                    ] * (
-                                                            1
-                                                            + (stock_price.loc[
-                                                                   i, "max"] -
-                                                               stock_price.loc[
-                                                                   i, "close"])
-                                                            / stock_price.loc[
-                                                                i, "close"]
-                                                    )
+                i, "retroactive_close"
+            ] * (
+                1
+                + (stock_price.loc[i, "max"] - stock_price.loc[i, "close"])
+                / stock_price.loc[i, "close"]
+            )
             stock_price.loc[i, "retroactive_min"] = stock_price.loc[
-                                                        i, "retroactive_close"
-                                                    ] * (
-                                                            1
-                                                            + (stock_price.loc[
-                                                                   i, "min"] -
-                                                               stock_price.loc[
-                                                                   i, "close"])
-                                                            / stock_price.loc[
-                                                                i, "close"]
-                                                    )
+                i, "retroactive_close"
+            ] * (
+                1
+                + (stock_price.loc[i, "min"] - stock_price.loc[i, "close"])
+                / stock_price.loc[i, "close"]
+            )
         stock_price["open"] = stock_price["retroactive_open"].round(2)
         del stock_price["retroactive_open"]
         stock_price["max"] = stock_price["retroactive_max"].round(2)
@@ -156,9 +141,7 @@ class DataLoader(FinMindApi):
         @return: 當日成交明細
         """
         stock_tick = self.get_data(
-            dataset="TaiwanStockPriceTick",
-            data_id=stock_id,
-            start_date=date,
+            dataset="TaiwanStockPriceTick", data_id=stock_id, start_date=date,
         )
         return stock_tick
 
@@ -181,9 +164,7 @@ class DataLoader(FinMindApi):
         @return: 當日五檔明細
         """
         bid_ask = self.get_data(
-            dataset="TaiwanStockPriceBidAsk",
-            data_id=stock_id,
-            start_date=date,
+            dataset="TaiwanStockPriceBidAsk", data_id=stock_id, start_date=date,
         )
         return bid_ask
 
@@ -193,22 +174,20 @@ class DataLoader(FinMindApi):
         @return: 當前最佳五檔
         """
         bid_ask = self.get_data(
-            dataset="TaiwanStockPriceBidAsk",
-            data_id=stock_id,
+            dataset="TaiwanStockPriceBidAsk", data_id=stock_id,
         )
         return bid_ask
 
-    def taiwan_stock_book_and_trade(self, stock_id: str,
-                                    date: str) -> pd.DataFrame:
+    def taiwan_stock_book_and_trade(
+        self, stock_id: str, date: str
+    ) -> pd.DataFrame:
         """
         @param stock_id: 股票代號("2330")
         @param date: 資料日期 ("2021-03-06")
         @return: 當日每五秒委託與成交資料
         """
         stock_book_and_trade = self.get_data(
-            dataset="TaiwanStockPriceBidAsk",
-            start_date=date,
-            data_id=stock_id,
+            dataset="TaiwanStockPriceBidAsk", start_date=date, data_id=stock_id,
         )
         return stock_book_and_trade
 
@@ -225,8 +204,9 @@ class DataLoader(FinMindApi):
         )
         return tse
 
-    def taiwan_stock_day_trading(self, stock_id: str, start_date: str,
-                                 end_date: str):
+    def taiwan_stock_day_trading(
+        self, stock_id: str, start_date: str, end_date: str
+    ):
         """
         @param stock_id: 股票代號("2330")
         @param start_date: 開始日期("2018-01-01")
@@ -248,9 +228,7 @@ class DataLoader(FinMindApi):
         @return: 股票市盈率PER 市淨率PBR
         """
         stock_per_pbr = self.get_data(
-            dataset="TaiwanStockPER",
-            stock_id=stock_id,
-            start_date=start_date,
+            dataset="TaiwanStockPER", stock_id=stock_id, start_date=start_date,
         )
         return stock_per_pbr
 
@@ -278,8 +256,9 @@ class DataLoader(FinMindApi):
         )
         return stock_margin_total
 
-    def taiwan_stock_institutional_investors(self, stock_id: str,
-                                             start_date: str):
+    def taiwan_stock_institutional_investors(
+        self, stock_id: str, start_date: str
+    ):
         """
         @param stock_id: 股票代號("2330")
         @param start_date: 資料起始日期("2018-01-01")
