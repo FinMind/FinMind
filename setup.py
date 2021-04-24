@@ -1,6 +1,7 @@
-from setuptools import setup, find_packages
-from io import open
 import os
+from io import open
+
+from setuptools import setup, find_packages
 
 print(os.environ.get("CI_COMMIT_TAG", "0.0.0"))
 _version = os.environ.get("CI_COMMIT_TAG", "0.0.1.dev2")
@@ -10,14 +11,18 @@ with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 
-requirements = [
-    "ta==0.5.25",
-    "requests==2.23.0",
-    "importlib_metadata==1.6.1",
-    "matplotlib==3.2.1",
-    "pandas==1.1.5",
-    "pydantic==1.6.1",
-]
+def _process_requirements():
+    packages = open('requirements.txt').read().strip().split('\n')
+    requires = []
+    for pkg in packages:
+        if pkg.startswith('git+ssh'):
+            return_code = os.system('pip install {}'.format(pkg))
+            assert return_code == 0, 'error, status_code is: {}, exit!'.format(
+                return_code)
+        else:
+            requires.append(pkg)
+    return requires
+
 
 setup(
     name="FinMind",  # Required
@@ -36,8 +41,8 @@ setup(
         # "Programming Language :: Python :: 3.6",
     ],
     keywords="financial, python",  # Optional
-    packages=find_packages(exclude=["importlib", "ta"]),
-    install_requires=requirements,
+    packages=find_packages(exclude=["importlib", "ta", "lxml", "loguru"]),
+    install_requires=_process_requirements(),
     project_urls={  # Optional
         "documentation": "https://linsamtw.github.io/FinMindDoc/",
         "Source": "https://github.com/linsamtw/FinMind",

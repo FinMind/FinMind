@@ -21,6 +21,25 @@
 
 + Refer to our [Official Documentation](https://finmind.github.io/quickstart/).
 
+## Example
+
+```python
+# 取得還原股價
+from FinMind.data import DataLoader
+
+dl = DataLoader()
+adj_price = dl.taiwan_stock_daily_adj("2330", "2018-01-01", "2021-03-03")
+
+# 繪製k線圖
+from FinMind import plotting
+
+plotting.kline(adj_price)
+```
+
+<p align="center">
+<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/680988a6-7c5b-4925-9f62-b40209bcd89f/kline_demo2.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210404%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210404T044414Z&X-Amz-Expires=86400&X-Amz-Signature=8785982a514dc95d93e3f7abc485a4b111710c803c3d6a64c8574b3964715943&X-Amz-SignedHeaders=host" alt="drawing" width="600"/>
+</p>
+
 ## 這是什麼?
 
 **FinMind** 是超過 50 種金融開源數據 [50 datasets](https://finmind.github.io/)。
@@ -37,16 +56,23 @@
 
 ## What is this?
 
-**FinMind** is open source of more than [50 datasets](https://finmind.github.io/), including
+**FinMind** is open source of more
+than [50 datasets](https://finmind.github.io/), including
 
-Taiwan stock trade data daily, Taiwan stock trade data (5 seconds) (2019-05-29 ~ now, more than 30 million data in total), Financial Statements, Balance Sheet, Cash Flows Statement, Month Revenue, Holding Shares Per, Institutional Investors Buy Sell. Taiwan Futures Trade Detail, Taiwan Option Trade Detail.
+Taiwan stock trade data daily, Taiwan stock trade data (5 seconds) (2019-05-29 ~
+now, more than 30 million data in total), Financial Statements, Balance Sheet,
+Cash Flows Statement, Month Revenue, Holding Shares Per, Institutional Investors
+Buy Sell. Taiwan Futures Trade Detail, Taiwan Option Trade Detail.
 
-US stock price daily, minute (2019-06-01 ~ now, more than 80 million data in total), oil price, gold price, [G7](https://zh.wikipedia.org/zh-tw/%E5%85%AB%E5%A4%A7%E5%B7%A5%E6%A5%AD%E5%9C%8B%E7%B5%84%E7%B9%94) exchange rate, interest rate.
+US stock price daily, minute (2019-06-01 ~ now, more than 80 million data in
+total), oil price, gold
+price, [G7](https://zh.wikipedia.org/zh-tw/%E5%85%AB%E5%A4%A7%E5%B7%A5%E6%A5%AD%E5%9C%8B%E7%B5%84%E7%B9%94)
+exchange rate, interest rate.
 
 US Government Bonds Yield.
 
-The datasets are automatically updated daily.
-You can analyze financial data without having to collect the data by yourself.
+The datasets are automatically updated daily. You can analyze financial data
+without having to collect the data by yourself.
 
 --------------
 
@@ -55,22 +81,24 @@ You can analyze financial data without having to collect the data by yourself.
 - [License Detail](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
 
 - 資料來源:
-    [證交所](https://www.twse.com.tw/zh/), [櫃買中心](https://www.tpex.org.tw/web/), [公開資訊觀測站](https://mops.twse.com.tw/mops/web/index), [期交所](https://www.taifex.com.tw/cht/index)。
+  [證交所](https://www.twse.com.tw/zh/), [櫃買中心](https://www.tpex.org.tw/web/)
+  , [公開資訊觀測站](https://mops.twse.com.tw/mops/web/index)
+  , [期交所](https://www.taifex.com.tw/cht/index)。
 - 本專案提供的所有內容均用於教育、非商業用途。資料僅供參考，使用者依本資料交易發生交易損失需自行負責，本專案不對資料內容錯誤、更新延誤或傳輸中斷負任何責任。
 
 ## Project of Contents
 
 - Dataset
-  - [線上 API](http://api.finmindtrade.com/docs)
-  - [Taiwan Stock Data](https://finmind.github.io/tutor/TaiwanMarket/DataList/)
-  - [Document](https://finmind.github.io/)
-  - [壓力測試](https://finmind.github.io/StressTest/)
+    - [線上 API](http://api.finmindtrade.com/docs)
+    - [Taiwan Stock Data](https://finmind.github.io/tutor/TaiwanMarket/DataList/)
+    - [Document](https://finmind.github.io/)
+    - [壓力測試](https://finmind.github.io/StressTest/)
   <!--- [Crawler (爬蟲)](https://github.com/FinMind/FinMind/tree/master#Crawler-爬蟲)-->
 
 - Other
-  - [Open UP Summit Slide (PPT)](https://www.slideshare.net/ssusera12be6/finmind-project-demo-199815617)
-  - [Median Sharing](https://medium.com/@yanweiliu/finmind-%E4%BD%BF%E7%94%A8python%E6%9F%A5%E5%85%A8%E7%90%83%E8%82%A1%E5%83%B9-%E5%82%B5%E5%88%B8-%E5%8E%9F%E6%B2%B9%E5%83%B9%E6%A0%BC-f39d13ad6a68)
-  - [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
+    - [Open UP Summit Slide (PPT)](https://www.slideshare.net/ssusera12be6/finmind-project-demo-199815617)
+    - [Median Sharing](https://medium.com/@yanweiliu/finmind-%E4%BD%BF%E7%94%A8python%E6%9F%A5%E5%85%A8%E7%90%83%E8%82%A1%E5%83%B9-%E5%82%B5%E5%88%B8-%E5%8E%9F%E6%B2%B9%E5%83%B9%E6%A0%BC-f39d13ad6a68)
+    - [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
 
 -------------------------------------------
 
@@ -85,8 +113,10 @@ Email: FinMind.TW@gmail.com
 每週日早上零點至早上七點為維護時間，不提供服務。
 
 ## Note
+
 + 未來預計新增更多功能，包含個人化回測分析、chatbot 監控策略，
 + API Request 上限：300 / 小時。
-+ Limit amount of request, 300 / hour. 
-+ 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `token` 參數可以提高使用上限到 600/hr。
++ Limit amount of request, 300 / hour.
++ 至[FinMind官網](https://finmindtrade.com/)註冊並驗證信箱後，API 的 Request 加上 `token`
+  參數可以提高使用上限到 600/hr。
 + `token` 獲取方法，可在[官網](https://finmindtrade.com/analysis/#/account/login)登入後獲取。
