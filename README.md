@@ -19,9 +19,15 @@
 
 ## Quickstart
 
+```python
+pip install FinMind
+```
+
 + Refer to our [Official Documentation](https://finmind.github.io/quickstart/).
 
 ## Example
+
+#### [kbar_plotting.ipynb](https://colab.research.google.com/drive/1u1cJGFNCLOeBIR0PdeKlsqgKBJSvJg_y?usp=sharing)
 
 ```python
 # 取得還原股價
