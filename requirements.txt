@@ -11,3 +11,4 @@ ipython~=7.16.1
 
 loguru~=0.5.3
 setuptools~=49.2.1
+aiohttp~=3.7.4.post0
