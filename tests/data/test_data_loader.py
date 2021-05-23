@@ -222,16 +222,18 @@ def test_taiwan_stock_bid_ask(data_loader):
 
 
 def test_taiwan_stock_book_and_trade(data_loader):
-    data = data_loader.taiwan_stock_book_and_trade("2330", "2021-04-01")
+    data = data_loader.taiwan_stock_book_and_trade("2021-04-01")
     assert_data(
         data,
         [
-            "stock_id",
-            "AskPrice",
-            "AskVolume",
-            "BidPrice",
-            "BidVolume",
             "Time",
+            "TotalBuyOrder",
+            "TotalBuyVolume",
+            "TotalSellOrder",
+            "TotalSellVolume",
+            "TotalDealOrder",
+            "TotalDealVolume",
+            "TotalDealMoney",
             "date",
         ],
     )
@@ -323,14 +325,6 @@ def test_taiwan_stock_shareholding(data_loader):
             "RecentlyDeclareDate",
             "note",
         ],
-    )
-
-
-def test_taiwan_stock_shareholding_class(data_loader):
-    data = data_loader.taiwan_stock_shareholding_class("2330", "2020-04-02")
-    assert_data(
-        data,
-        ["date", "stock_id", "HoldingSharesLevel", "people", "percent", "unit"],
     )
 
 
