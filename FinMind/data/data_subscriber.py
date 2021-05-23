@@ -22,8 +22,12 @@ class FutureAndOption(str, Enum):
 
 
 class DataSubscriber:
-    def __init__(self):
-        self._ws_main_url = "wss://api.finmindtrade.com:80/api/v4/websocket/"
+    def __init__(self, testing: bool = False):
+        '''
+        :param: testing (bool) If true, test for websocket
+        '''
+        wss_url = "wss://api.finmindtrade.com/api/v4/websocket/"
+        self._ws_main_url = f"{wss_url}test/" if testing else wss_url
         self._loop = asyncio.new_event_loop()
         self._event_thread = Thread(
             target=self._start_background_loop, args=(self._loop,)
@@ -60,9 +64,9 @@ class DataSubscriber:
         cb=lambda message: print(message),
     ):
         """
-        @param product_id: 商品代號("2330")
-        @param product_type: 商品訂閱種類(Stock.Tick)
-        @param cb: 回調函數
+        :param product_id: 商品代號("2330")
+        :param product_type: 商品訂閱種類(Stock.Tick)
+        :param cb: 回調函數
         """
         if product_id in self._subscripting_product:
             logger.warning(
@@ -82,8 +86,8 @@ class DataSubscriber:
 
     def unsubscribe(self, product_id, product_type: Enum):
         """
-        @param product_id: 商品代號("2330")
-        @param product_type: 商品訂閱種類(Stock.Tick)
+        :param product_id: 商品代號("2330")
+        :param product_type: 商品訂閱種類(Stock.Tick)
         """
         subscripting_id = product_id + product_type.value
         task = self._subscripting_product.get(subscripting_id)

@@ -33,9 +33,9 @@ class FinMindApi:
 
     def login(self, user_id: str, password: str):
         """
-        @param user_id: finmind 使用者賬號
-        @param password: finmind 使用者密碼
-        @return:
+        :param user_id: finmind 使用者賬號
+        :param password: finmind 使用者密碼
+        :return: True if success login.
         """
         payload = {
             "user_id": user_id,
@@ -56,8 +56,7 @@ class FinMindApi:
 
     def login_by_token(self, api_token: str):
         """
-        @param api_token: finmind api token
-        @return:
+        :param api_token: finmind api token
         """
         self.__api_token = api_token
 
@@ -76,10 +75,9 @@ class FinMindApi:
 
     def get_data(self, **params) -> pd.DataFrame:
         """
-        @param params: finmind api參數
-        @return:
+        :param params: finmind api參數
+        :return:
         """
-
         params.update(
             dict(
                 user_id=self.__user_id,
