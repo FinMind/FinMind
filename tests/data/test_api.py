@@ -140,17 +140,31 @@ def assert_data(data: pd.DataFrame, correct_columns_name: list):
 
 def test_taiwan_stock_info(data_loader):
     stock_info = data_loader.taiwan_stock_info()
-    assert_data(stock_info,
-                ['industry_category', 'stock_id', 'stock_name', 'type', "date"])
+    assert_data(
+        stock_info,
+        ["industry_category", "stock_id", "stock_name", "type", "date"],
+    )
 
 
 def test_taiwan_stock_daily(data_loader):
-    stock_price = data_loader.taiwan_stock_daily("2330", "2018-01-01",
-                                                 "2021-03-06")
-    assert_data(stock_price,
-                ['date', 'stock_id', 'Trading_Volume', 'Trading_money', 'open',
-                 'max',
-                 'min', 'close', 'spread', 'Trading_turnover'])
+    stock_price = data_loader.taiwan_stock_daily(
+        "2330", "2018-01-01", "2021-03-06"
+    )
+    assert_data(
+        stock_price,
+        [
+            "date",
+            "stock_id",
+            "Trading_Volume",
+            "Trading_money",
+            "open",
+            "max",
+            "min",
+            "close",
+            "spread",
+            "Trading_turnover",
+        ],
+    )
 
 
 def test_taiwan_stock_daily_adj(data_loader):
@@ -171,22 +185,32 @@ def test_taiwan_stock_daily_adj(data_loader):
 
 def test_taiwan_stock_tick(data_loader):
     data = data_loader.taiwan_stock_tick("2330", "2021-04-01")
-    assert_data(data, ['date', 'stock_id', 'deal_price', 'volume', 'Time',
-                       'TickType'])
+    assert_data(
+        data, ["date", "stock_id", "deal_price", "volume", "Time", "TickType"]
+    )
 
 
 def test_taiwan_stock_tick_timely(data_loader):
     data = data_loader.taiwan_stock_tick_timely("2330")
-    assert_data(data, ['date', 'stock_id', 'deal_price', 'volume', 'Time',
-                       'TickType'])
+    assert_data(
+        data, ["date", "stock_id", "deal_price", "volume", "Time", "TickType"]
+    )
 
 
 def test_taiwan_stock_bid_ask(data_loader):
     data = data_loader.taiwan_stock_bid_ask("2330", "2021-04-01")
-    assert_data(data,
-                ['stock_id', 'AskPrice', 'AskVolume', 'BidPrice', 'BidVolume',
-                 'Time',
-                 'date'])
+    assert_data(
+        data,
+        [
+            "stock_id",
+            "AskPrice",
+            "AskVolume",
+            "BidPrice",
+            "BidVolume",
+            "Time",
+            "date",
+        ],
+    )
 
 
 # def test_taiwan_stock_bid_ask_timely(data_loader):
@@ -199,79 +223,129 @@ def test_taiwan_stock_bid_ask(data_loader):
 
 def test_taiwan_stock_book_and_trade(data_loader):
     data = data_loader.taiwan_stock_book_and_trade("2330", "2021-04-01")
-    assert_data(data,
-                ['stock_id', 'AskPrice', 'AskVolume', 'BidPrice', 'BidVolume',
-                 'Time',
-                 'date'])
+    assert_data(
+        data,
+        [
+            "stock_id",
+            "AskPrice",
+            "AskVolume",
+            "BidPrice",
+            "BidVolume",
+            "Time",
+            "date",
+        ],
+    )
 
 
 def test_taiwan_stock_day_trading(data_loader):
-    data = data_loader.taiwan_stock_day_trading("2330", "2020-04-02",
-                                                "2020-04-12")
-    assert_data(data,
-                ['stock_id', 'date', 'BuyAfterSale', 'Volume', 'BuyAmount',
-                 'SellAmount'])
+    data = data_loader.taiwan_stock_day_trading(
+        "2330", "2020-04-02", "2020-04-12"
+    )
+    assert_data(
+        data,
+        [
+            "stock_id",
+            "date",
+            "BuyAfterSale",
+            "Volume",
+            "BuyAmount",
+            "SellAmount",
+        ],
+    )
 
 
 def test_taiwan_stock_per_pbr(data_loader):
     data = data_loader.taiwan_stock_per_pbr("2330", "2020-04-02")
-    assert_data(data, ['date', 'stock_id', 'dividend_yield', 'PER', 'PBR'])
+    assert_data(data, ["date", "stock_id", "dividend_yield", "PER", "PBR"])
 
 
 def test_taiwan_stock_margin(data_loader):
     data = data_loader.taiwan_stock_margin("2330", "2020-04-02")
-    assert_data(data, ['date', 'stock_id', 'MarginPurchaseBuy',
-                       'MarginPurchaseCashRepayment',
-                       'MarginPurchaseLimit', 'MarginPurchaseSell',
-                       'MarginPurchaseTodayBalance',
-                       'MarginPurchaseYesterdayBalance', 'Note',
-                       'OffsetLoanAndShort', 'ShortSaleBuy',
-                       'ShortSaleCashRepayment',
-                       'ShortSaleLimit', 'ShortSaleSell',
-                       'ShortSaleTodayBalance',
-                       'ShortSaleYesterdayBalance'])
+    assert_data(
+        data,
+        [
+            "date",
+            "stock_id",
+            "MarginPurchaseBuy",
+            "MarginPurchaseCashRepayment",
+            "MarginPurchaseLimit",
+            "MarginPurchaseSell",
+            "MarginPurchaseTodayBalance",
+            "MarginPurchaseYesterdayBalance",
+            "Note",
+            "OffsetLoanAndShort",
+            "ShortSaleBuy",
+            "ShortSaleCashRepayment",
+            "ShortSaleLimit",
+            "ShortSaleSell",
+            "ShortSaleTodayBalance",
+            "ShortSaleYesterdayBalance",
+        ],
+    )
 
 
 def test_taiwan_stock_margin_total(data_loader):
     data = data_loader.taiwan_stock_margin_total("2020-04-02")
-    assert_data(data,
-                ['TodayBalance', 'YesBalance', 'buy', 'date', 'name', 'Return',
-                 'sell'])
+    assert_data(
+        data,
+        ["TodayBalance", "YesBalance", "buy", "date", "name", "Return", "sell"],
+    )
 
 
 def test_taiwan_stock_institutional_investors(data_loader):
-    data = data_loader.taiwan_stock_institutional_investors("2330",
-                                                            "2020-04-02")
-    assert_data(data, ['date', 'stock_id', 'buy', 'name', 'sell'])
+    data = data_loader.taiwan_stock_institutional_investors(
+        "2330", "2020-04-02"
+    )
+    assert_data(data, ["date", "stock_id", "buy", "name", "sell"])
 
 
 def test_taiwan_stock_institutional_investors_total(data_loader):
     data = data_loader.taiwan_stock_institutional_investors_total("2020-04-02")
-    assert_data(data, ['buy', 'date', 'name', 'sell'])
+    assert_data(data, ["buy", "date", "name", "sell"])
 
 
 def test_taiwan_stock_shareholding(data_loader):
     data = data_loader.taiwan_stock_shareholding("2330", "2020-04-02")
-    assert_data(data, ['date', 'stock_id', 'stock_name', 'InternationalCode',
-                       'ForeignInvestmentRemainingShares',
-                       'ForeignInvestmentShares',
-                       'ForeignInvestmentRemainRatio',
-                       'ForeignInvestmentSharesRatio',
-                       'ForeignInvestmentUpperLimitRatio',
-                       'ChineseInvestmentUpperLimitRatio',
-                       'NumberOfSharesIssued', 'RecentlyDeclareDate', 'note'])
+    assert_data(
+        data,
+        [
+            "date",
+            "stock_id",
+            "stock_name",
+            "InternationalCode",
+            "ForeignInvestmentRemainingShares",
+            "ForeignInvestmentShares",
+            "ForeignInvestmentRemainRatio",
+            "ForeignInvestmentSharesRatio",
+            "ForeignInvestmentUpperLimitRatio",
+            "ChineseInvestmentUpperLimitRatio",
+            "NumberOfSharesIssued",
+            "RecentlyDeclareDate",
+            "note",
+        ],
+    )
 
 
 def test_taiwan_stock_shareholding_class(data_loader):
     data = data_loader.taiwan_stock_shareholding_class("2330", "2020-04-02")
-    assert_data(data,
-                ['date', 'stock_id', 'HoldingSharesLevel', 'people', 'percent',
-                 'unit'])
+    assert_data(
+        data,
+        ["date", "stock_id", "HoldingSharesLevel", "people", "percent", "unit"],
+    )
 
 
 def test_taiwan_stock_securities_lending(data_loader):
     data = data_loader.taiwan_stock_securities_lending("2330", "2020-04-02")
-    assert_data(data,
-                ['date', 'stock_id', 'transaction_type', 'volume', 'fee_rate',
-                 'close',
-                 'original_return_date', 'original_lending_period'])
+    assert_data(
+        data,
+        [
+            "date",
+            "stock_id",
+            "transaction_type",
+            "volume",
+            "fee_rate",
+            "close",
+            "original_return_date",
+            "original_lending_period",
+        ],
+    )

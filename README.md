@@ -25,25 +25,6 @@ pip install FinMind
 
 + Refer to our [Official Documentation](https://finmind.github.io/quickstart/).
 
-## Example
-
-#### [kbar_plotting.ipynb](https://colab.research.google.com/drive/1u1cJGFNCLOeBIR0PdeKlsqgKBJSvJg_y?usp=sharing)
-
-```python
-# 取得還原股價
-from FinMind.data import DataLoader
-
-dl = DataLoader()
-adj_price = dl.taiwan_stock_daily_adj("2330", "2018-01-01", "2021-03-03")
-
-# 繪製k線圖
-from FinMind import plotting
-
-plotting.kline(adj_price)
-```
-
-![gif](figure/kbar_plotting.gif)
-
 
 ## 這是什麼?
 
@@ -104,6 +85,26 @@ without having to collect the data by yourself.
     - [Open UP Summit Slide (PPT)](https://www.slideshare.net/ssusera12be6/finmind-project-demo-199815617)
     - [Median Sharing](https://medium.com/@yanweiliu/finmind-%E4%BD%BF%E7%94%A8python%E6%9F%A5%E5%85%A8%E7%90%83%E8%82%A1%E5%83%B9-%E5%82%B5%E5%88%B8-%E5%8E%9F%E6%B2%B9%E5%83%B9%E6%A0%BC-f39d13ad6a68)
     - [HistoryUpdate](https://github.com/linsamtw/FinMind/blob/master/HistoryUpdate.md)
+
+
+## Plotting
+
+#### [kbar_plotting.ipynb](https://colab.research.google.com/drive/1u1cJGFNCLOeBIR0PdeKlsqgKBJSvJg_y?usp=sharing)
+
+```python
+# 取得還原股價
+from FinMind.data import DataLoader
+
+dl = DataLoader()
+adj_price = dl.taiwan_stock_daily_adj("2330", "2018-01-01", "2021-03-03")
+
+# 繪製k線圖
+from FinMind import plotting
+
+plotting.kline(adj_price)
+```
+
+![gif](figure/kbar_plotting.gif)
 
 -------------------------------------------
 
