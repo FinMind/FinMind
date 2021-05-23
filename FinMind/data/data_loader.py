@@ -79,14 +79,15 @@ class DataLoader(FinMindApi):
                 ].iloc[0]
                 - data["stock_and_cache_dividend"]
             )
+
             stock_price.loc[
                 stock_price["date"] == ex_dividend_date_y1,
                 ["retroactive_close"],
             ] = calibration_price
             calibration_change = (
-                stock_price[stock_price["date"] == ex_dividend_date][
+                stock_price[stock_price["date"] >= ex_dividend_date][
                     "retroactive_close"
-                ].iloc[0]
+                ].iloc[-1]
                 - calibration_price
             ) / calibration_price
             stock_price.loc[
