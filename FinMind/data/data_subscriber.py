@@ -25,8 +25,9 @@ class DataSubscriber:
     def __init__(self):
         self._ws_main_url = "wss://api.finmindtrade.com:80/api/v4/websocket/"
         self._loop = asyncio.new_event_loop()
-        self._event_thread = Thread(target=self._start_background_loop,
-                                    args=(self._loop,))
+        self._event_thread = Thread(
+            target=self._start_background_loop, args=(self._loop,)
+        )
         self._event_thread.start()
         self._subscripting_product = {}
 
@@ -52,8 +53,12 @@ class DataSubscriber:
         finally:
             await session.close()
 
-    def subscribe(self, product_id: str, product_type: Enum,
-                  cb=lambda message: print(message)):
+    def subscribe(
+        self,
+        product_id: str,
+        product_type: Enum,
+        cb=lambda message: print(message),
+    ):
         """
         @param product_id: 商品代號("2330")
         @param product_type: 商品訂閱種類(Stock.Tick)
@@ -61,15 +66,19 @@ class DataSubscriber:
         """
         if product_id in self._subscripting_product:
             logger.warning(
-                f"product:{product_id} {product_type.name} already subscribe")
+                f"product:{product_id} {product_type.name} already subscribe"
+            )
             return
 
         url = self._ws_main_url + product_type.value + "?data_id=" + product_id
         self._subscripting_product[
-            product_id + product_type.value] = asyncio.run_coroutine_threadsafe(
-            self._connect_ws(url, cb), self._loop)
+            product_id + product_type.value
+        ] = asyncio.run_coroutine_threadsafe(
+            self._connect_ws(url, cb), self._loop
+        )
         logger.info(
-            f"product:{product_id} {product_type.name} subscribe success")
+            f"product:{product_id} {product_type.name} subscribe success"
+        )
 
     def unsubscribe(self, product_id, product_type: Enum):
         """
@@ -82,10 +91,12 @@ class DataSubscriber:
             task.cancel()
             self._subscripting_product.pop(subscripting_id)
             logger.info(
-                f"product:{product_id} {product_type.name} unsubscribe success")
+                f"product:{product_id} {product_type.name} unsubscribe success"
+            )
         else:
             logger.warning(
-                f"product:{product_id} {product_type.name} are not subscribe")
+                f"product:{product_id} {product_type.name} are not subscribe"
+            )
 
     def close(self):
         for task in self._subscripting_product.values():
