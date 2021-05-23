@@ -141,7 +141,7 @@ def assert_data(data: pd.DataFrame, correct_columns_name: list):
 def test_taiwan_stock_info(data_loader):
     stock_info = data_loader.taiwan_stock_info()
     assert_data(stock_info,
-                ['industry_category', 'stock_id', 'stock_name', 'type'])
+                ['industry_category', 'stock_id', 'stock_name', 'type', "date"])
 
 
 def test_taiwan_stock_daily(data_loader):
@@ -189,12 +189,12 @@ def test_taiwan_stock_bid_ask(data_loader):
                  'date'])
 
 
-def test_taiwan_stock_bid_ask_timely(data_loader):
-    data = data_loader.taiwan_stock_bid_ask_timely("2330")
-    assert_data(data,
-                ['stock_id', 'AskPrice', 'AskVolume', 'BidPrice', 'BidVolume',
-                 'Time',
-                 'date'])
+# def test_taiwan_stock_bid_ask_timely(data_loader):
+#     data = data_loader.taiwan_stock_bid_ask_timely("2330")
+#     assert_data(data,
+#                 ['stock_id', 'AskPrice', 'AskVolume', 'BidPrice', 'BidVolume',
+#                  'Time',
+#                  'date'])
 
 
 def test_taiwan_stock_book_and_trade(data_loader):
