@@ -10,7 +10,7 @@ from pyecharts.charts import Kline, Line, Bar, Grid
 
 def kline(stock_data: pd.DataFrame):
     """
-    @input: column name ('date', 'open', 'close', 'min', 'max', 'Trading_Volume')
+    :input: column name ('date', 'open', 'close', 'min', 'max', 'Trading_Volume')
     """
 
     def calculate_ma(day_count: int, price: list):

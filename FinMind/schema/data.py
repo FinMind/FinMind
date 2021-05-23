@@ -16,6 +16,7 @@ class Dataset(str, Enum):
     TaiwanStockCashFlowsStatement = "TaiwanStockCashFlowsStatement"
     TaiwanStockMonthRevenue = "TaiwanStockMonthRevenue"
     TaiwanStockMarginPurchaseShortSale = "TaiwanStockMarginPurchaseShortSale"
+    TaiwanDailyShortSaleBalances = "TaiwanDailyShortSaleBalances"
     CrudeOilPrices = "CrudeOilPrices"
     CnnFearGreedIndex = "CnnFearGreedIndex"
     TaiwanExchangeRate = "TaiwanExchangeRate"
