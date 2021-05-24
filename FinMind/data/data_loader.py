@@ -177,9 +177,12 @@ class DataLoader(FinMindApi):
         )
         return stock_tick
 
-    def taiwan_stock_tick_timely(self, stock_id: str) -> pd.DataFrame:
+    def taiwan_stock_tick_timely(
+        self, stock_id: str, streaming_all_data: bool = False
+    ) -> pd.DataFrame:
         """ get 台灣股價即時資料表 top 100
         :param stock_id (str): 股票代號("2330")
+        :param streaming_all_data (bool): 是否拿取當天所有即時資料
 
         :return: 台灣股價即時資料表 top 100 TaiwanStockPriceTick
         :rtype pd.DataFrame
@@ -191,7 +194,7 @@ class DataLoader(FinMindApi):
         stock_tick = self.get_data(
             dataset=Dataset.TaiwanStockPriceTick,
             data_id=stock_id,
-            streaming_all_data=True,
+            streaming_all_data=streaming_all_data,
         )
         return stock_tick
 
