@@ -1,11 +1,11 @@
 import asyncio
 import json
 import sys
+import typing
 from enum import Enum
 from threading import Thread
 
 import aiohttp
-from aiohttp import WSMsgType
 from loguru import logger
 
 logger.remove()
@@ -23,18 +23,17 @@ class FutureAndOption(str, Enum):
 
 class DataSubscriber:
     def __init__(self, testing: bool = False):
-        '''
+        """
         :param: testing (bool) If true, test for websocket
-        '''
+        """
         wss_url = "wss://api.finmindtrade.com/api/v4/websocket/"
         self._ws_main_url = f"{wss_url}test/" if testing else wss_url
         self._loop = asyncio.new_event_loop()
         self._event_thread = Thread(
-            target=self._start_background_loop, args=(self._loop,),
-            daemon=True,
+            target=self._start_background_loop, args=(self._loop,), daemon=True,
         )
         self._event_thread.start()
-        self._subscripting_product = {}
+        self._subscripting_contract = {}
 
     @staticmethod
     def _start_background_loop(loop: asyncio.AbstractEventLoop):
@@ -46,65 +45,68 @@ class DataSubscriber:
         try:
             async with session.ws_connect(url) as ws:
                 async for msg in ws:
-                    if msg.type == WSMsgType.TEXT:
+                    if msg.type == aiohttp.WSMsgType.TEXT:
                         data = json.loads(msg.data)
                         cb(data)
-                    elif msg.type == WSMsgType.ERROR:
+                    elif msg.type == aiohttp.WSMsgType.ERROR:
                         break
-                    elif msg.type == WSMsgType.CLOSE:
+                    elif msg.type == aiohttp.WSMsgType.CLOSE:
                         break
         except Exception as e:
-            logger.error(e)
+            pass
+            # logger.error(e)
         finally:
             await session.close()
 
     def subscribe(
         self,
-        product_id: str,
-        product_type: Enum,
+        contract_id: str,
+        contract_type: typing.Union[Stock, FutureAndOption],
         cb=lambda message: print(message),
     ):
         """
-        :param product_id: 商品代號("2330")
-        :param product_type: 商品訂閱種類(Stock.Tick)
-        :param cb: 回調函數
+        :param contract_id: 商品代號("2330")
+        :param contract_type: 商品訂閱種類(Stock.Tick)
+        :param cb: callback 回調函數
         """
-        if product_id in self._subscripting_product:
+        if contract_id in self._subscripting_contract:
             logger.warning(
-                f"product:{product_id} {product_type.name} already subscribe"
+                f"contract:{contract_id} {contract_type.name} already subscribe"
             )
             return
 
-        url = self._ws_main_url + product_type.value + "?data_id=" + product_id
-        self._subscripting_product[
-            product_id + product_type.value
+        url = f"{self._ws_main_url}{contract_type.value}?data_id={contract_id}"
+        self._subscripting_contract[
+            contract_id + contract_type.value
         ] = asyncio.run_coroutine_threadsafe(
             self._connect_ws(url, cb), self._loop
         )
         logger.info(
-            f"product:{product_id} {product_type.name} subscribe success"
+            f"contract:{contract_id} {contract_type.name} subscribe success"
         )
 
-    def unsubscribe(self, product_id, product_type: Enum):
+    def unsubscribe(
+        self, contract_id: str, contract_type: typing.Union[Stock, FutureAndOption]
+    ):
         """
-        :param product_id: 商品代號("2330")
-        :param product_type: 商品訂閱種類(Stock.Tick)
+        :param contract_id: 商品代號("2330")
+        :param contract_type: 商品訂閱種類(Stock.Tick)
         """
-        subscripting_id = product_id + product_type.value
-        task = self._subscripting_product.get(subscripting_id)
+        subscripting_id = contract_id + contract_type.value
+        task = self._subscripting_contract.get(subscripting_id)
         if task:
             task.cancel()
-            self._subscripting_product.pop(subscripting_id)
+            self._subscripting_contract.pop(subscripting_id)
             logger.info(
-                f"product:{product_id} {product_type.name} unsubscribe success"
+                f"contract:{contract_id} {contract_type.name} unsubscribe success"
             )
         else:
             logger.warning(
-                f"product:{product_id} {product_type.name} are not subscribe"
+                f"contract:{contract_id} {contract_type.name} are not subscribe"
             )
 
     def close(self):
-        for task in self._subscripting_product.values():
+        for task in self._subscripting_contract.values():
             task.cancel()
-        self._subscripting_product = {}
+        self._subscripting_contract = {}
         logger.info("DataSubscriber close")
