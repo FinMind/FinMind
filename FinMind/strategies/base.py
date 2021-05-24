@@ -215,6 +215,10 @@ class BackTest:
     def add_strategy(self, strategy: Strategy):
         self.strategy = strategy
 
+    def set_strategy_attrs(self, attrs:dict):
+        for k in attrs:
+            setattr(self.strategy, k, attrs.get(k))
+
     def __init_base_data(self):
         self.stock_price = self.data_loader.get_data(
             dataset=Dataset.TaiwanStockPrice,
