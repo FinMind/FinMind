@@ -2,6 +2,13 @@
 
 如下程式說明如何在**盤中**獲得即時報價，主要透過 **DataSubscriber** 來進行訂閱和退訂。
 
+DataSubscriber 主要有分測試模式跟正式模式，透過 testing 變數來做切換。
+
+    - testing=True: 測試模式
+    - testing=False: 正式模式
+
+正式模式中，只有在開盤的情況下才有辦法提供資料。
+
 在範例程式中，前部分主要說明訂閱，後部分主要說明退訂的方式。
 
 ## Demo code
@@ -14,7 +21,7 @@ from FinMind.data import Stock
 from FinMind.data import FutureAndOption
 
 
-ds = DataSubscriber()
+ds = DataSubscriber(testing=True)
 
 # 訂閱 2330 股票 Tick 資料
 ds.subscribe("2330", Stock.Tick)
@@ -57,6 +64,3 @@ ds.unsubscribe("2330",Stock.Tick)
 ```
 
 ## Note
-
-- **只有在開盤的時間才有資料**
-    - 早上九點到下午兩點半
