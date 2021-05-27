@@ -21,7 +21,7 @@
 
 ## Demo code
 
-透過 FinMind 的 [ContinueHolding 策略](https://github.com/FinMind/FinMind/blob/master/FinMind/strategies/continue_holding.py)針對 0056 進行一年期的回測
+透過 FinMind 的 [KdCrossOver 策略](https://github.com/FinMind/FinMind/blob/master/FinMind/strategies/kd_crossover.py)針對 0056 進行一年期的回測
 
 ```python
 from FinMind import strategies
