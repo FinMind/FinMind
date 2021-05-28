@@ -58,9 +58,12 @@ ds.subscribe("TXFF1", FutureAndOption.Tick, cb)
 
 
 #### 退訂範例
-```
-# 取消訂閱
+```python
+# 取消 2330 股票 Tick 資料訂閱
 ds.unsubscribe("2330",Stock.Tick)
+
+# 關閉所有訂閱
+ds.close()
 ```
 
 ## Note

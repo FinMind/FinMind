@@ -28,7 +28,7 @@ from FinMind import strategies
 from FinMind.data import DataLoader
 
 data_loader = DataLoader()
-obj = strategies.BackTest(
+bt = strategies.BackTest(
     stock_id="0056",
     start_date="2018-01-01",
     end_date="2019-01-01",
@@ -38,22 +38,22 @@ obj = strategies.BackTest(
 )
 
 # 設定策略
-obj.add_strategy(strategies.KdCrossOver)
+bt.add_strategy(strategies.KdCrossOver)
 
 # 回測
-obj.simulate()
+bt.simulate()
 
 # 回測詳細資料
-trade_detail = obj.trade_detail
+trade_detail = bt.trade_detail
 
 # 大盤累積報酬和回測累積報酬走勢
-compare_market_detail = obj.compare_market_detail
+compare_market_detail = bt.compare_market_detail
 
 # 回測結果，包含總報酬(FinalProfitPer)、年化報酬(AnnualReturnPer)、最大損失(MaxLoss)、最大損失比例(MaxLossPer)...等
-final_stats = obj.final_stats
+final_stats = bt.final_stats
 
 # 大盤年化報酬率和策略年化報酬率
-compare_market_stats = obj.compare_market_stats
+compare_market_stats = bt.compare_market_stats
 ```
 
 客製化自己的策略對 0056 進行一年期的回測，客製化策略必須依照如下 **customer_strategy** class 的寫法，主要是設計 create_trade_sign 函數中的邏輯，在 stock_price dataframe 必須建立 signal 欄位，透過 signal 來決定 action (包含進場、維持還是出場)。
@@ -82,7 +82,7 @@ class customer_strategy(Strategy):
 
 
 data_loader = DataLoader()
-obj = strategies.BackTest(
+bt = strategies.BackTest(
     stock_id="0056",
     start_date="2018-01-01",
     end_date="2019-01-01",
@@ -93,22 +93,22 @@ obj = strategies.BackTest(
 
 
 # 設定策略
-obj.add_strategy(customer_strategy)
+bt.add_strategy(customer_strategy)
 
 # 回測
-obj.simulate()
+bt.simulate()
 
 # 回測詳細資料
-trade_detail = obj.trade_detail
+trade_detail = bt.trade_detail
 
 # 大盤累積報酬和回測累積報酬走勢
-compare_market_detail = obj.compare_market_detail
+compare_market_detail = bt.compare_market_detail
 
 # 回測結果，包含總報酬(FinalProfitPer)、年化報酬(AnnualReturnPer)、最大損失(MaxLoss)、最大損失比例(MaxLossPer)...等
-final_stats = obj.final_stats
+final_stats = bt.final_stats
 
 # 大盤年化報酬率和策略年化報酬率
-compare_market_stats = obj.compare_market_stats
+compare_market_stats = bt.compare_market_stats
 ```
 
 ## Note
