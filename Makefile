@@ -28,5 +28,6 @@ req:
 linux-wheel:
 	pip wheel ./ -w wheelhouse/
 
-
+format:
+	black -l 80 FinMind tests
 

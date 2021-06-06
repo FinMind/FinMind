@@ -43,7 +43,8 @@ testdata_get_asset_underlying_type = [
 
 
 @pytest.mark.parametrize(
-    "stock_id, return_value", testdata_get_asset_underlying_type,
+    "stock_id, return_value",
+    testdata_get_asset_underlying_type,
 )
 def test_get_asset_underlying_type(stock_id, return_value, data_loader):
     underlying_type = get_asset_underlying_type(stock_id, data_loader)
@@ -54,7 +55,8 @@ testdata_get_underlying_trading_tax = [("半導體", 0.003), ("ETF", 0.001)]
 
 
 @pytest.mark.parametrize(
-    "underlying_type, expected", testdata_get_underlying_trading_tax,
+    "underlying_type, expected",
+    testdata_get_underlying_trading_tax,
 )
 def test_get_underlying_trading_tax(underlying_type, expected):
     resp = get_underlying_trading_tax(underlying_type)
@@ -68,7 +70,8 @@ testdata_calculate_Datenbr = [
 
 
 @pytest.mark.parametrize(
-    "day1, day2, expected", testdata_calculate_Datenbr,
+    "day1, day2, expected",
+    testdata_calculate_Datenbr,
 )
 def test_calculate_Datenbr(day1, day2, expected):
     resp = calculate_datenbr(day1, day2)
@@ -79,7 +82,8 @@ testdata_calculate_sharp_ratio = [(0.05, 0.01, 79.37), (0.1, 0.21, 7.56)]
 
 
 @pytest.mark.parametrize(
-    "retrun, std, expected", testdata_calculate_sharp_ratio,
+    "retrun, std, expected",
+    testdata_calculate_sharp_ratio,
 )
 def test_calculate_sharp_ratio(retrun, std, expected):
     resp = calculate_sharp_ratio(retrun, std)
@@ -90,7 +94,8 @@ testdata_convert_Return2Annual = [(0.2, 2, 0.0954), (0.5, 5, 0.0845)]
 
 
 @pytest.mark.parametrize(
-    "period_return, period_years, expected", testdata_convert_Return2Annual,
+    "period_return, period_years, expected",
+    testdata_convert_Return2Annual,
 )
 def test_return2annual(period_return, period_years, expected):
     resp = period_return2annual_return(period_return, period_years)
@@ -104,7 +109,8 @@ testdata_period_days2years = [
 
 
 @pytest.mark.parametrize(
-    "days, expected", testdata_period_days2years,
+    "days, expected",
+    testdata_period_days2years,
 )
 def test_period_days2years(days, expected):
     resp = days2years(days)

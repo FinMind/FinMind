@@ -66,10 +66,10 @@ class ShortSaleMarginPurchaseRatio(Strategy):
             .fillna(0)
             .astype(int)
         )
-        self.InstitutionalInvestorsBuySell = self.InstitutionalInvestorsBuySell.groupby(
-            ["date", "stock_id"], as_index=False
-        ).agg(
-            {"buy": np.sum, "sell": np.sum}
+        self.InstitutionalInvestorsBuySell = (
+            self.InstitutionalInvestorsBuySell.groupby(
+                ["date", "stock_id"], as_index=False
+            ).agg({"buy": np.sum, "sell": np.sum})
         )
         self.InstitutionalInvestorsBuySell["diff"] = (
             self.InstitutionalInvestorsBuySell["buy"]
