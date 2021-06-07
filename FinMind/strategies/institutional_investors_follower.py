@@ -24,10 +24,10 @@ class InstitutionalInvestorsFollower(Strategy):
             start_date=self.start_date,
             end_date=self.end_date,
         )
-        institutional_investors_buy_sell = institutional_investors_buy_sell.groupby(
-            ["date", "stock_id"], as_index=False
-        ).agg(
-            {"buy": np.sum, "sell": np.sum}
+        institutional_investors_buy_sell = (
+            institutional_investors_buy_sell.groupby(
+                ["date", "stock_id"], as_index=False
+            ).agg({"buy": np.sum, "sell": np.sum})
         )
         institutional_investors_buy_sell["diff"] = (
             institutional_investors_buy_sell["buy"]
@@ -40,7 +40,10 @@ class InstitutionalInvestorsFollower(Strategy):
             how="left",
         ).fillna(0)
         stock_price["signal_info"] = self.detect_Abnormal_Peak(
-            y=stock_price["diff"].values, lag=10, threshold=3, influence=0.35,
+            y=stock_price["diff"].values,
+            lag=10,
+            threshold=3,
+            influence=0.35,
         )
         stock_price["signal"] = 0
         stock_price.loc[stock_price["signal_info"] == -1, "signal"] = 1

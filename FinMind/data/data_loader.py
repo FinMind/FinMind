@@ -9,7 +9,7 @@ class DataLoader(FinMindApi):
         super(DataLoader, self).__init__()
 
     def taiwan_stock_info(self) -> pd.DataFrame:
-        """ get 台股總覽
+        """get 台股總覽
         :return: 台股總覽 TaiwanStockInfo
         :rtype pd.DataFrame
         :rtype column industry_category (str)
@@ -23,7 +23,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_daily(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 台灣股價資料表
+        """get 台灣股價資料表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 開始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -52,7 +52,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_daily_adj(
         self, stock_id: str, start_date: str, end_date: str
     ) -> pd.DataFrame:
-        """ get 還原股價
+        """get 還原股價
         :param stock_id (str):stock_id: 股票代號("2330")
         :param start_date (str): 開始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -70,10 +70,14 @@ class DataLoader(FinMindApi):
         :rtype Trading_turnover (float)
         """
         stock_price = self.taiwan_stock_daily(
-            stock_id=stock_id, start_date=start_date, end_date=end_date,
+            stock_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
         )
         ex_dividend_price = self.taiwan_stock_dividend_result(
-            stock_id=stock_id, start_date=start_date, end_date=end_date,
+            stock_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
         )
         if len(ex_dividend_price) == 0:
             return stock_price
@@ -159,7 +163,7 @@ class DataLoader(FinMindApi):
         return stock_price
 
     def taiwan_stock_tick(self, stock_id: str, date: str) -> pd.DataFrame:
-        """ get 台灣股價歷史逐筆資料表 TaiwanStockPriceTick
+        """get 台灣股價歷史逐筆資料表 TaiwanStockPriceTick
         :param stock_id (str): 股票代號("2330")
         :param date (str): 資料日期 ("2021-03-06")
 
@@ -180,7 +184,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_tick_timely(
         self, stock_id: str, streaming_all_data: bool = False
     ) -> pd.DataFrame:
-        """ get 台灣股價即時資料表 top 100
+        """get 台灣股價即時資料表 top 100
         :param stock_id (str): 股票代號("2330")
         :param streaming_all_data (bool): 是否拿取當天所有即時資料
 
@@ -199,7 +203,7 @@ class DataLoader(FinMindApi):
         return stock_tick
 
     def taiwan_stock_bid_ask(self, stock_id: str, date: str) -> pd.DataFrame:
-        """ get 歷史台股最佳五檔
+        """get 歷史台股最佳五檔
         :param stock_id (str): 股票代號("2330")
         :param date (str): 資料日期 ("2021-03-06")
 
@@ -220,7 +224,7 @@ class DataLoader(FinMindApi):
         return bid_ask
 
     def taiwan_stock_bid_ask_timely(self, stock_id: str) -> pd.DataFrame:
-        """ get 台股即時最佳五檔 top 100
+        """get 台股即時最佳五檔 top 100
         :param stock_id (str): 股票代號("2330")
 
         :return: 台股即時最佳五檔 top 100 TaiwanStockPriceBidAsk
@@ -234,14 +238,15 @@ class DataLoader(FinMindApi):
         :rtype column date (str)
         """
         bid_ask = self.get_data(
-            dataset=Dataset.TaiwanStockPriceBidAsk, data_id=stock_id,
+            dataset=Dataset.TaiwanStockPriceBidAsk,
+            data_id=stock_id,
         )
         return bid_ask
 
     def taiwan_stock_per_pbr(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 個股 PER、PBR 資料
+        """get 個股 PER、PBR 資料
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -263,7 +268,7 @@ class DataLoader(FinMindApi):
         return stock_per_pbr
 
     def taiwan_stock_book_and_trade(self, date: str) -> pd.DataFrame:
-        """ get 每 5 秒委託成交統計
+        """get 每 5 秒委託成交統計
         :param date (str): 資料日期 ("2021-03-06")
 
         :return: 每 5 秒委託成交統計 TaiwanStockStatisticsOfOrderBookAndTrade
@@ -285,7 +290,7 @@ class DataLoader(FinMindApi):
         return stock_book_and_trade
 
     def tse(self, date: str) -> pd.DataFrame:
-        """ get 加權指數
+        """get 加權指數
         :param start_date (str): 日期("2018-01-01")
 
         :return: 加權指數 TaiwanVariousIndicators5Seconds
@@ -294,14 +299,15 @@ class DataLoader(FinMindApi):
         :rtype column TAIEX (float)
         """
         tse = self.get_data(
-            dataset=Dataset.TaiwanVariousIndicators5Seconds, start_date=date,
+            dataset=Dataset.TaiwanVariousIndicators5Seconds,
+            start_date=date,
         )
         return tse
 
     def taiwan_stock_day_trading(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 當日沖銷交易標的及成交量值
+        """get 當日沖銷交易標的及成交量值
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 開始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -326,7 +332,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_margin(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 個股融資融劵表
+        """get 個股融資融劵表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -361,7 +367,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_margin_total(
         self, start_date: str, end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 整體市場融資融劵表
+        """get 整體市場融資融劵表
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
 
@@ -385,7 +391,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_institutional_investors(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 個股三大法人買賣表
+        """get 個股三大法人買賣表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -409,7 +415,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_institutional_investors_total(
         self, start_date: str, end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 整體三大市場法人買賣表
+        """get 整體三大市場法人買賣表
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
 
@@ -430,7 +436,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_shareholding(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 外資持股表
+        """get 外資持股表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -462,7 +468,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_holding_shares_per(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 股權持股分級表
+        """get 股權持股分級表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -487,7 +493,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_securities_lending(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 借券成交明細
+        """get 借券成交明細
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -514,7 +520,7 @@ class DataLoader(FinMindApi):
     def taiwan_daily_short_sale_balances(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 借券成交明細
+        """get 借券成交明細
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -548,7 +554,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_cash_flows_statement(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 現金流量表
+        """get 現金流量表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -572,7 +578,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_financial_statement(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 綜合損益表
+        """get 綜合損益表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -596,7 +602,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_balance_sheet(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 資產負債表
+        """get 資產負債表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -620,7 +626,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_dividend(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ 股利政策表
+        """股利政策表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -661,7 +667,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_dividend_result(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 除權除息結果表
+        """get 除權除息結果表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -690,7 +696,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_month_revenue(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 月營收表
+        """get 月營收表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -713,7 +719,7 @@ class DataLoader(FinMindApi):
         return stock_month_revenue
 
     def taiwan_futopt_tick_info(self) -> pd.DataFrame:
-        """ get 期貨, 選擇權即時報價總覽
+        """get 期貨, 選擇權即時報價總覽
         :return: 期貨, 選擇權即時報價總覽 TaiwanFutOptTickInfo
         :rtype pd.DataFrame
         :rtype column code (str)
@@ -724,11 +730,13 @@ class DataLoader(FinMindApi):
         :rtype column update_date (str)
         :rtype column expire_price (float)
         """
-        futopt_tick_info = self.get_data(dataset=Dataset.TaiwanFutOptTickInfo,)
+        futopt_tick_info = self.get_data(
+            dataset=Dataset.TaiwanFutOptTickInfo,
+        )
         return futopt_tick_info
 
     def taiwan_futopt_tick_realtime(self, data_id: str) -> pd.DataFrame:
-        """ get 期貨, 選擇權即時報價
+        """get 期貨, 選擇權即時報價
         :param data_id: 期貨、選擇權代碼("TXFL1")
 
         :return: 期貨, 選擇權即時報價 TaiwanFutOptTick
@@ -741,12 +749,13 @@ class DataLoader(FinMindApi):
         :rtype column TickType (int)
         """
         futopt_tick = self.get_data(
-            dataset=Dataset.TaiwanFutOptTick, data_id=data_id,
+            dataset=Dataset.TaiwanFutOptTick,
+            data_id=data_id,
         )
         return futopt_tick
 
     def taiwan_futopt_daily_info(self) -> pd.DataFrame:
-        """ get 期貨, 選擇權日成交資訊總覽
+        """get 期貨, 選擇權日成交資訊總覽
 
         :return: 期貨, 選擇權日成交資訊總覽 TaiwanOptionFutureInfo
         :rtype pd.DataFrame
@@ -761,7 +770,7 @@ class DataLoader(FinMindApi):
     def taiwan_futures_daily(
         self, futures_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 期貨日成交資訊
+        """get 期貨日成交資訊
         :param futures_id: 期貨代號("TX")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -793,7 +802,7 @@ class DataLoader(FinMindApi):
     def taiwan_option_daily(
         self, option_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 選擇權日成交資訊
+        """get 選擇權日成交資訊
         :param option_id: 選擇權代號("TXO")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -823,7 +832,7 @@ class DataLoader(FinMindApi):
         return option_daily
 
     def taiwan_futures_tick(self, futures_id: str, date: str) -> pd.DataFrame:
-        """ get 期貨交易明細表, 資料量超過10萬筆, 需等一段時間
+        """get 期貨交易明細表, 資料量超過10萬筆, 需等一段時間
         :param futures_id: 期貨代號("TX")
         :param date (str): 日期("2018-01-01")
 
@@ -843,7 +852,7 @@ class DataLoader(FinMindApi):
         return futures_tick
 
     def taiwan_option_tick(self, option_id: str, date: str) -> pd.DataFrame:
-        """ get 選擇權交易明細表, 資料量超過10萬筆, 需等一段時間
+        """get 選擇權交易明細表, 資料量超過10萬筆, 需等一段時間
         :param option_id: 選擇權代號("TXO")
         :param date (str): 日期("2018-01-01")
 
@@ -867,7 +876,7 @@ class DataLoader(FinMindApi):
     def taiwan_futopt_institutional_investors(
         self, data_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 選擇權, 期貨三大法人買賣
+        """get 選擇權, 期貨三大法人買賣
         :param data_id: 期貨, 選擇權代號("TXO")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -897,7 +906,7 @@ class DataLoader(FinMindApi):
     def taiwan_futures_dealer_trading_volume_daily(
         self, futures_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 期貨各卷商每日交易
+        """get 期貨各卷商每日交易
         :param option_id: 期貨代號("TX")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -922,7 +931,7 @@ class DataLoader(FinMindApi):
     def taiwan_option_dealer_trading_volume_daily(
         self, option_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 選擇權各卷商每日交易
+        """get 選擇權各卷商每日交易
         :param option_id: 選擇權代號("TXO")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -947,7 +956,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_news(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
-        """ get 相關新聞
+        """get 相關新聞
         :param option_id: 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")

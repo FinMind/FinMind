@@ -76,7 +76,8 @@ class Trader:
             sell_total_price = sell_price - sell_tax - sell_fee
             self.trader_fund = self.trader_fund + sell_total_price
             self.RealizedProfit = self.RealizedProfit + round(
-                sell_total_price - (self.hold_cost * trade_volume), 2,
+                sell_total_price - (self.hold_cost * trade_volume),
+                2,
             )
             self.hold_volume = self.hold_volume - trade_volume
 

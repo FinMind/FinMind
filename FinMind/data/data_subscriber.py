@@ -30,7 +30,9 @@ class DataSubscriber:
         self._ws_main_url = f"{wss_url}test/" if testing else wss_url
         self._loop = asyncio.new_event_loop()
         self._event_thread = Thread(
-            target=self._start_background_loop, args=(self._loop,), daemon=True,
+            target=self._start_background_loop,
+            args=(self._loop,),
+            daemon=True,
         )
         self._event_thread.start()
         self._subscripting_contract = {}
@@ -86,7 +88,9 @@ class DataSubscriber:
         )
 
     def unsubscribe(
-        self, contract_id: str, contract_type: typing.Union[Stock, FutureAndOption]
+        self,
+        contract_id: str,
+        contract_type: typing.Union[Stock, FutureAndOption],
     ):
         """
         :param contract_id: 商品代號("2330")
