@@ -2,6 +2,7 @@ import pandas as pd
 
 from FinMind.data.finmind_api import FinMindApi
 from FinMind.schema.data import Dataset
+from FinMind.utility import common
 
 
 class DataLoader(FinMindApi):
@@ -557,8 +558,8 @@ class DataLoader(FinMindApi):
     ) -> pd.DataFrame:
         """get 現金流量表
         :param stock_id (str): 股票代號("2330")
-        :param start_date (str): 起始日期("2018-01-01")
-        :param end_date (str): 結束日期("2021-03-06")
+        :param start_date (str): 起始日期: "2018-03-31" or "2021-Q1"
+        :param end_date (str): 結束日期 "2021-06-30" or "2021-Q2"
 
         :return: 現金流量表 TaiwanStockCashFlowsStatement
         :rtype pd.DataFrame
@@ -568,6 +569,16 @@ class DataLoader(FinMindApi):
         :rtype column value (float)
         :rtype column origin_name (str)
         """
+        start_date = (
+            common.quarter2date(start_date)
+            if common.is_quarter(start_date)
+            else start_date
+        )
+        end_date = (
+            common.quarter2date(end_date)
+            if common.is_quarter(end_date)
+            else end_date
+        )
         stock_cash_flows_statement = self.get_data(
             dataset=Dataset.TaiwanStockCashFlowsStatement,
             data_id=stock_id,
@@ -581,8 +592,8 @@ class DataLoader(FinMindApi):
     ) -> pd.DataFrame:
         """get 綜合損益表
         :param stock_id (str): 股票代號("2330")
-        :param start_date (str): 起始日期("2018-01-01")
-        :param end_date (str): 結束日期("2021-03-06")
+        :param start_date (str): 起始日期: "2018-03-31" or "2021-Q1"
+        :param end_date (str): 結束日期 "2021-06-30" or "2021-Q2"
 
         :return: 綜合損益表 TaiwanStockFinancialStatements
         :rtype pd.DataFrame
@@ -592,6 +603,16 @@ class DataLoader(FinMindApi):
         :rtype column value (float)
         :rtype column origin_name (str)
         """
+        start_date = (
+            common.quarter2date(start_date)
+            if common.is_quarter(start_date)
+            else start_date
+        )
+        end_date = (
+            common.quarter2date(end_date)
+            if common.is_quarter(end_date)
+            else end_date
+        )
         stock_financial_statement = self.get_data(
             dataset=Dataset.TaiwanStockFinancialStatements,
             data_id=stock_id,
@@ -605,8 +626,8 @@ class DataLoader(FinMindApi):
     ) -> pd.DataFrame:
         """get 資產負債表
         :param stock_id (str): 股票代號("2330")
-        :param start_date (str): 起始日期("2018-01-01")
-        :param end_date (str): 結束日期("2021-03-06")
+        :param start_date (str): 起始日期: "2018-03-31" or "2021-Q1"
+        :param end_date (str): 結束日期 "2021-06-30" or "2021-Q2"
 
         :return: 資產負債表 TaiwanStockBalanceSheet
         :rtype pd.DataFrame
@@ -616,6 +637,16 @@ class DataLoader(FinMindApi):
         :rtype column value (float)
         :rtype column origin_name (str)
         """
+        start_date = (
+            common.quarter2date(start_date)
+            if common.is_quarter(start_date)
+            else start_date
+        )
+        end_date = (
+            common.quarter2date(end_date)
+            if common.is_quarter(end_date)
+            else end_date
+        )
         stock_balance_sheet = self.get_data(
             dataset=Dataset.TaiwanStockBalanceSheet,
             data_id=stock_id,
@@ -699,8 +730,8 @@ class DataLoader(FinMindApi):
     ) -> pd.DataFrame:
         """get 月營收表
         :param stock_id (str): 股票代號("2330")
-        :param start_date (str): 起始日期("2018-01-01")
-        :param end_date (str): 結束日期("2021-03-06")
+        :param start_date (str): 起始日期: "2018-02-01" or "2021-M1"
+        :param end_date (str): 結束日期 "2021-03-01" or "2021-M2"
 
         :return: 月營收表 TaiwanStockMonthRevenue
         :rtype pd.DataFrame
@@ -711,6 +742,16 @@ class DataLoader(FinMindApi):
         :rtype column revenue_month (int)
         :rtype column revenue_year (int)
         """
+        start_date = (
+            common.month2date(start_date)
+            if common.is_month(start_date)
+            else start_date
+        )
+        end_date = (
+            common.month2date(end_date)
+            if common.is_month(end_date)
+            else end_date
+        )
         stock_month_revenue = self.get_data(
             dataset=Dataset.TaiwanStockMonthRevenue,
             data_id=stock_id,

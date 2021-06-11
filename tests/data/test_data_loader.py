@@ -354,3 +354,50 @@ def test_taiwan_stock_securities_lending(data_loader):
             "original_lending_period",
         ],
     )
+
+
+def test_taiwan_stock_financial_statement(data_loader):
+    data = data_loader.taiwan_stock_financial_statement(
+        stock_id="2330", start_date="2020-Q1", end_date="2021-Q1"
+    )
+    assert_data(
+        data,
+        ["date", "stock_id", "type", "value", "origin_name"],
+    )
+
+
+def test_taiwan_stock_balance_sheet(data_loader):
+    data = data_loader.taiwan_stock_balance_sheet(
+        stock_id="2330", start_date="2020-Q1", end_date="2021-Q1"
+    )
+    assert_data(
+        data,
+        ["date", "stock_id", "type", "value", "origin_name"],
+    )
+
+
+def test_taiwan_stock_cash_flows_statement(data_loader):
+    data = data_loader.taiwan_stock_cash_flows_statement(
+        stock_id="2330", start_date="2020-Q1", end_date="2021-Q1"
+    )
+    assert_data(
+        data,
+        ["date", "stock_id", "type", "value", "origin_name"],
+    )
+
+
+def test_taiwan_stock_month_revenue(data_loader):
+    data = data_loader.taiwan_stock_month_revenue(
+        stock_id="2330", start_date="2020-M1", end_date="2021-M1"
+    )
+    assert_data(
+        data,
+        [
+            "date",
+            "stock_id",
+            "country",
+            "revenue",
+            "revenue_month",
+            "revenue_year",
+        ],
+    )
