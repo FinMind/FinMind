@@ -569,21 +569,11 @@ class DataLoader(FinMindApi):
         :rtype column value (float)
         :rtype column origin_name (str)
         """
-        start_date = (
-            common.quarter2date(start_date)
-            if common.is_quarter(start_date)
-            else start_date
-        )
-        end_date = (
-            common.quarter2date(end_date)
-            if common.is_quarter(end_date)
-            else end_date
-        )
         stock_cash_flows_statement = self.get_data(
             dataset=Dataset.TaiwanStockCashFlowsStatement,
             data_id=stock_id,
-            start_date=start_date,
-            end_date=end_date,
+            start_date=str(pd.Period(start_date).asfreq("D","end")),
+            end_date=str(pd.Period(end_date).asfreq("D","end")),
         )
         return stock_cash_flows_statement
 
@@ -603,21 +593,11 @@ class DataLoader(FinMindApi):
         :rtype column value (float)
         :rtype column origin_name (str)
         """
-        start_date = (
-            common.quarter2date(start_date)
-            if common.is_quarter(start_date)
-            else start_date
-        )
-        end_date = (
-            common.quarter2date(end_date)
-            if common.is_quarter(end_date)
-            else end_date
-        )
         stock_financial_statement = self.get_data(
             dataset=Dataset.TaiwanStockFinancialStatements,
             data_id=stock_id,
-            start_date=start_date,
-            end_date=end_date,
+            start_date=str(pd.Period(start_date).asfreq("D","end")),
+            end_date=str(pd.Period(end_date).asfreq("D","end")),
         )
         return stock_financial_statement
 
@@ -637,21 +617,11 @@ class DataLoader(FinMindApi):
         :rtype column value (float)
         :rtype column origin_name (str)
         """
-        start_date = (
-            common.quarter2date(start_date)
-            if common.is_quarter(start_date)
-            else start_date
-        )
-        end_date = (
-            common.quarter2date(end_date)
-            if common.is_quarter(end_date)
-            else end_date
-        )
         stock_balance_sheet = self.get_data(
             dataset=Dataset.TaiwanStockBalanceSheet,
             data_id=stock_id,
-            start_date=start_date,
-            end_date=end_date,
+            start_date=str(pd.Period(start_date).asfreq("D","end")),
+            end_date=str(pd.Period(end_date).asfreq("D","end")),
         )
         return stock_balance_sheet
 
