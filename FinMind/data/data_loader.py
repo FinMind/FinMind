@@ -700,8 +700,8 @@ class DataLoader(FinMindApi):
     ) -> pd.DataFrame:
         """get 月營收表
         :param stock_id (str): 股票代號("2330")
-        :param start_date (str): 起始日期: "2018-02-01" or "2021-M1"
-        :param end_date (str): 結束日期 "2021-03-01" or "2021-M2"
+        :param start_date (str): 起始日期: "2018-02-01" or "2021-1M"
+        :param end_date (str): 結束日期 "2021-03-01" or "2021-2M"
 
         :return: 月營收表 TaiwanStockMonthRevenue
         :rtype pd.DataFrame
