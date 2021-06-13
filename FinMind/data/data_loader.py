@@ -712,21 +712,19 @@ class DataLoader(FinMindApi):
         :rtype column revenue_month (int)
         :rtype column revenue_year (int)
         """
-        start_date = (
-            common.month2date(start_date)
-            if common.is_month(start_date)
-            else start_date
-        )
-        end_date = (
-            common.month2date(end_date)
-            if common.is_month(end_date)
-            else end_date
-        )
         stock_month_revenue = self.get_data(
             dataset=Dataset.TaiwanStockMonthRevenue,
             data_id=stock_id,
-            start_date=start_date,
-            end_date=end_date,
+            start_date=str(
+                (pd.Period(start_date) + pd.offsets.MonthEnd(1)).asfreq(
+                    "D", "start"
+                )
+            ),
+            end_date=str(
+                (pd.Period(end_date) + pd.offsets.MonthEnd(1)).asfreq(
+                    "D", "start"
+                )
+            ),
         )
         return stock_month_revenue
 
