@@ -2,6 +2,7 @@ import pandas as pd
 
 from FinMind.data.finmind_api import FinMindApi
 from FinMind.schema.data import Dataset
+from FinMind.utility import common
 
 
 class DataLoader(FinMindApi):
@@ -557,8 +558,8 @@ class DataLoader(FinMindApi):
     ) -> pd.DataFrame:
         """get 現金流量表
         :param stock_id (str): 股票代號("2330")
-        :param start_date (str): 起始日期("2018-01-01")
-        :param end_date (str): 結束日期("2021-03-06")
+        :param start_date (str): 起始日期: "2018-03-31" or "2021-Q1"
+        :param end_date (str): 結束日期 "2021-06-30" or "2021-Q2"
 
         :return: 現金流量表 TaiwanStockCashFlowsStatement
         :rtype pd.DataFrame
@@ -571,8 +572,8 @@ class DataLoader(FinMindApi):
         stock_cash_flows_statement = self.get_data(
             dataset=Dataset.TaiwanStockCashFlowsStatement,
             data_id=stock_id,
-            start_date=start_date,
-            end_date=end_date,
+            start_date=str(pd.Period(start_date).asfreq("D", "end")),
+            end_date=str(pd.Period(end_date).asfreq("D", "end")),
         )
         return stock_cash_flows_statement
 
@@ -581,8 +582,8 @@ class DataLoader(FinMindApi):
     ) -> pd.DataFrame:
         """get 綜合損益表
         :param stock_id (str): 股票代號("2330")
-        :param start_date (str): 起始日期("2018-01-01")
-        :param end_date (str): 結束日期("2021-03-06")
+        :param start_date (str): 起始日期: "2018-03-31" or "2021-Q1"
+        :param end_date (str): 結束日期 "2021-06-30" or "2021-Q2"
 
         :return: 綜合損益表 TaiwanStockFinancialStatements
         :rtype pd.DataFrame
@@ -595,8 +596,8 @@ class DataLoader(FinMindApi):
         stock_financial_statement = self.get_data(
             dataset=Dataset.TaiwanStockFinancialStatements,
             data_id=stock_id,
-            start_date=start_date,
-            end_date=end_date,
+            start_date=str(pd.Period(start_date).asfreq("D", "end")),
+            end_date=str(pd.Period(end_date).asfreq("D", "end")),
         )
         return stock_financial_statement
 
@@ -605,8 +606,8 @@ class DataLoader(FinMindApi):
     ) -> pd.DataFrame:
         """get 資產負債表
         :param stock_id (str): 股票代號("2330")
-        :param start_date (str): 起始日期("2018-01-01")
-        :param end_date (str): 結束日期("2021-03-06")
+        :param start_date (str): 起始日期: "2018-03-31" or "2021-Q1"
+        :param end_date (str): 結束日期 "2021-06-30" or "2021-Q2"
 
         :return: 資產負債表 TaiwanStockBalanceSheet
         :rtype pd.DataFrame
@@ -619,8 +620,8 @@ class DataLoader(FinMindApi):
         stock_balance_sheet = self.get_data(
             dataset=Dataset.TaiwanStockBalanceSheet,
             data_id=stock_id,
-            start_date=start_date,
-            end_date=end_date,
+            start_date=str(pd.Period(start_date).asfreq("D", "end")),
+            end_date=str(pd.Period(end_date).asfreq("D", "end")),
         )
         return stock_balance_sheet
 
@@ -698,9 +699,12 @@ class DataLoader(FinMindApi):
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
         """get 月營收表
+        Since the revenue in January, 
+        the public time is usually only announced in February, 
+        so the date plus one month
         :param stock_id (str): 股票代號("2330")
-        :param start_date (str): 起始日期("2018-01-01")
-        :param end_date (str): 結束日期("2021-03-06")
+        :param start_date (str): 起始日期: "2018-02-01" or "2021-1M"
+        :param end_date (str): 結束日期 "2021-03-01" or "2021-2M"
 
         :return: 月營收表 TaiwanStockMonthRevenue
         :rtype pd.DataFrame
@@ -714,8 +718,16 @@ class DataLoader(FinMindApi):
         stock_month_revenue = self.get_data(
             dataset=Dataset.TaiwanStockMonthRevenue,
             data_id=stock_id,
-            start_date=start_date,
-            end_date=end_date,
+            start_date=str(
+                (pd.Period(start_date) + pd.offsets.MonthEnd(1)).asfreq(
+                    "D", "start"
+                )
+            ),
+            end_date=str(
+                (pd.Period(end_date) + pd.offsets.MonthEnd(1)).asfreq(
+                    "D", "start"
+                )
+            ),
         )
         return stock_month_revenue
 
