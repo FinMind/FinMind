@@ -699,6 +699,9 @@ class DataLoader(FinMindApi):
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
         """get 月營收表
+        Since the revenue in January, 
+        the public time is usually only announced in February, 
+        so the date plus one month
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期: "2018-02-01" or "2021-1M"
         :param end_date (str): 結束日期 "2021-03-01" or "2021-2M"
