@@ -388,7 +388,7 @@ def test_taiwan_stock_cash_flows_statement(data_loader):
 
 def test_taiwan_stock_month_revenue(data_loader):
     data = data_loader.taiwan_stock_month_revenue(
-        stock_id="2330", start_date="2020-M1", end_date="2021-M1"
+        stock_id="2330", start_date="2020-1M", end_date="2021-1M"
     )
     assert_data(
         data,
