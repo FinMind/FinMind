@@ -572,8 +572,8 @@ class DataLoader(FinMindApi):
         stock_cash_flows_statement = self.get_data(
             dataset=Dataset.TaiwanStockCashFlowsStatement,
             data_id=stock_id,
-            start_date=str(pd.Period(start_date).asfreq("D","end")),
-            end_date=str(pd.Period(end_date).asfreq("D","end")),
+            start_date=str(pd.Period(start_date).asfreq("D", "end")),
+            end_date=str(pd.Period(end_date).asfreq("D", "end")),
         )
         return stock_cash_flows_statement
 
@@ -596,8 +596,8 @@ class DataLoader(FinMindApi):
         stock_financial_statement = self.get_data(
             dataset=Dataset.TaiwanStockFinancialStatements,
             data_id=stock_id,
-            start_date=str(pd.Period(start_date).asfreq("D","end")),
-            end_date=str(pd.Period(end_date).asfreq("D","end")),
+            start_date=str(pd.Period(start_date).asfreq("D", "end")),
+            end_date=str(pd.Period(end_date).asfreq("D", "end")),
         )
         return stock_financial_statement
 
@@ -620,8 +620,8 @@ class DataLoader(FinMindApi):
         stock_balance_sheet = self.get_data(
             dataset=Dataset.TaiwanStockBalanceSheet,
             data_id=stock_id,
-            start_date=str(pd.Period(start_date).asfreq("D","end")),
-            end_date=str(pd.Period(end_date).asfreq("D","end")),
+            start_date=str(pd.Period(start_date).asfreq("D", "end")),
+            end_date=str(pd.Period(end_date).asfreq("D", "end")),
         )
         return stock_balance_sheet
 
