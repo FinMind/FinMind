@@ -993,3 +993,34 @@ class DataLoader(FinMindApi):
             end_date=end_date,
         )
         return stock_news
+
+    def add_kline_institutional_investors(
+        self, stock_data: pd.DataFrame
+    ) -> pd.DataFrame:
+        stock_data["date"] = stock_data["date"].astype(str)
+        stock_id = stock_data["stock_id"].values[0]
+        start_date = min(stock_data["date"])
+        end_date = max(stock_data["date"])
+        institutional_investors_df = self.taiwan_stock_institutional_investors(
+            stock_id=stock_id, start_date=start_date, end_date=end_date
+        )
+        foreign_investor_df = institutional_investors_df.loc[
+            institutional_investors_df["name"] == "Foreign_Investor",
+            ["date", "buy", "sell"],
+        ]
+        foreign_investor_df["Foreign_Investor_diff"] = (
+            foreign_investor_df["buy"] - foreign_investor_df["sell"]
+        )
+        investment_trust_df = institutional_investors_df.loc[
+            institutional_investors_df["name"] == "Investment_Trust",
+            ["date", "buy", "sell"],
+        ]
+        investment_trust_df["Investment_Trust_diff"] = (
+            investment_trust_df["buy"] - investment_trust_df["sell"]
+        )
+        foreign_investor_df = foreign_investor_df.drop(["buy", "sell"], axis=1)
+        investment_trust_df = investment_trust_df.drop(["buy", "sell"], axis=1)
+        stock_data = stock_data.merge(foreign_investor_df, on="date").merge(
+            investment_trust_df, on="date"
+        )
+        return stock_data
