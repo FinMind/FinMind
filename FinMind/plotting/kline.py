@@ -297,7 +297,7 @@ def gen_grid_chart(
     return grid_chart
 
 
-def get_subgraph_indices_and_data_types(
+def get_subgraph_indices(
     chart_data: typing.Dict[
         str, typing.List[typing.List[typing.Union[float, int]]]
     ]
@@ -315,7 +315,7 @@ def gen_kline_plot(
         str, typing.List[typing.List[typing.Union[float, int]]]
     ]
 ) -> Kline:
-    xaxis_index, series_index = get_subgraph_indices_and_data_types(chart_data)
+    xaxis_index, series_index = get_subgraph_indices(chart_data)
     kline_data = [data[1:-1] for data in chart_data["values"]]
     kline = Kline(
         init_opts=opts.InitOpts(

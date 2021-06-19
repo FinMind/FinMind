@@ -2,7 +2,6 @@ import pandas as pd
 
 from FinMind.data.finmind_api import FinMindApi
 from FinMind.schema.data import Dataset
-from FinMind.utility import common
 
 
 class DataLoader(FinMindApi):
