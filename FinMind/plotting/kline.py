@@ -155,7 +155,7 @@ def gen_bar_plot(
     index: int,
     column: str,
     label: str,
-) -> Bar:
+) -> typing.Tuple[Bar, int]:
     if column in chart_data.keys():
         bar = Bar(
             init_opts=opts.InitOpts(
@@ -297,16 +297,16 @@ def gen_grid_chart(
     return grid_chart
 
 
-def get_kline_xaxis_index_series_index(
+def get_subgraph_indices_and_data_types(
     chart_data: typing.Dict[
         str, typing.List[typing.List[typing.Union[float, int]]]
     ]
 ) -> typing.Tuple[typing.List[int], typing.List[int]]:
-    xaxis_list = [
+    x_axis_data_type = [
         key for key in list(chart_data.keys()) if key not in ["categoryData"]
     ]
-    xaxis_index = [i for i in range(len(xaxis_list))]
-    series_index = [5 + i for i in range(len(xaxis_list))]
+    xaxis_index = [i for i in range(len(x_axis_data_type))]
+    series_index = [5 + i for i in range(len(x_axis_data_type))]
     return xaxis_index, series_index
 
 
@@ -315,7 +315,7 @@ def gen_kline_plot(
         str, typing.List[typing.List[typing.Union[float, int]]]
     ]
 ) -> Kline:
-    xaxis_index, series_index = get_kline_xaxis_index_series_index(chart_data)
+    xaxis_index, series_index = get_subgraph_indices_and_data_types(chart_data)
     kline_data = [data[1:-1] for data in chart_data["values"]]
     kline = Kline(
         init_opts=opts.InitOpts(
