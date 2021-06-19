@@ -1,7 +1,3 @@
 [run]
 omit =
     */__init__.py
-    */migrations/*
-    */Schema/*
-    */Crawler/*
-    */_version.py

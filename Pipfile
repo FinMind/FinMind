@@ -25,6 +25,7 @@ finmind = {editable = true,path = "."}
 typing-extensions = "*"
 loguru = "*"
 aiohttp = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.6"
