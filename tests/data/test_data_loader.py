@@ -194,6 +194,17 @@ def test_taiwan_stock_daily_adj_2(data_loader):
     assert df_size == 36990
 
 
+def test_taiwan_stock_daily_adj_empty_dataframe(data_loader):
+    stock_id = "1230"
+    start_date = "2015-01-01"
+    end_date = "2021-06-19"
+    df_size = data_loader.taiwan_stock_daily_adj(
+        stock_id=stock_id, start_date=start_date, end_date=end_date
+    ).size
+
+    assert df_size == 0
+
+
 def test_taiwan_stock_tick(data_loader):
     data = data_loader.taiwan_stock_tick("2330", "2021-04-01")
     assert_data(

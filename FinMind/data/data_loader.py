@@ -75,6 +75,9 @@ class DataLoader(FinMindApi):
             start_date=start_date,
             end_date=end_date,
         )
+        if stock_price.empty:
+            return stock_price
+
         stock_price = stock_price[stock_price.close != 0]
         ex_dividend_price = self.taiwan_stock_dividend_result(
             stock_id=stock_id,
@@ -699,8 +702,8 @@ class DataLoader(FinMindApi):
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
         """get 月營收表
-        Since the revenue in January, 
-        the public time is usually only announced in February, 
+        Since the revenue in January,
+        the public time is usually only announced in February,
         so the date plus one month
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期: "2018-02-01" or "2021-1M"
