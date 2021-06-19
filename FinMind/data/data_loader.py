@@ -7,6 +7,7 @@ from FinMind.schema.data import Dataset
 class DataLoader(FinMindApi):
     def __init__(self):
         super(DataLoader, self).__init__()
+        self.feature = Feature(self)
 
     def taiwan_stock_info(self) -> pd.DataFrame:
         """get 台股總覽
@@ -993,6 +994,11 @@ class DataLoader(FinMindApi):
         )
         return stock_news
 
+
+class Feature:
+    def __init__(self, data_loader: DataLoader):
+        self.data_loader = data_loader
+
     def add_kline_institutional_investors(
         self, stock_data: pd.DataFrame
     ) -> pd.DataFrame:
@@ -1000,8 +1006,10 @@ class DataLoader(FinMindApi):
         stock_id = stock_data["stock_id"].values[0]
         start_date = min(stock_data["date"])
         end_date = max(stock_data["date"])
-        institutional_investors_df = self.taiwan_stock_institutional_investors(
-            stock_id=stock_id, start_date=start_date, end_date=end_date
+        institutional_investors_df = (
+            self.data_loader.taiwan_stock_institutional_investors(
+                stock_id=stock_id, start_date=start_date, end_date=end_date
+            )
         )
         foreign_investor_df = institutional_investors_df.loc[
             institutional_investors_df["name"] == "Foreign_Investor",
