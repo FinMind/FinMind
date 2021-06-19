@@ -153,20 +153,20 @@ def gen_bar_plot(
         str, typing.List[typing.List[typing.Union[float, int]]]
     ],
     index: int,
-    colume: str,
+    column: str,
     label: str,
 ) -> Bar:
-    if colume in chart_data.keys():
+    if column in chart_data.keys():
         bar = Bar(
             init_opts=opts.InitOpts(
                 animation_opts=opts.AnimationOpts(animation=False),
             )
         )
-        xaxis_data = [label for i in range(len(chart_data[colume]))]
+        xaxis_data = [label for i in range(len(chart_data[column]))]
         bar.add_xaxis(xaxis_data=xaxis_data)
         bar.add_yaxis(
             series_name="Value",
-            y_axis=chart_data[colume],
+            y_axis=chart_data[column],
             xaxis_index=index,
             yaxis_index=index,
             label_opts=opts.LabelOpts(is_show=False),
@@ -213,13 +213,18 @@ def gen_bar_plot(
 def gen_pos_top_height(plot_list: typing.List[typing.Any]):
     plot_list = [plot for plot in plot_list if plot]
     plot_index = [i + 1 for i in range(len(plot_list))]
-    count = len(plot_index)
-    if count == 1:
+    sub_graph_count = len(plot_index)
+    border = 5
+    if sub_graph_count == 1:
         pos_top_list = [5, 65]
         height_list = [50, 20]
-    elif count > 1 and count <= 3:
-        pos_top_list = [5, 45, 60, 75]
-        height_list = [30, 10, 10, 10]
+    else:
+        pos_top_list = [5]
+        height_list = [30]
+        split_count = int(40 / sub_graph_count) - border
+        for i in range(sub_graph_count):
+            pos_top_list.append(pos_top_list[-1] + height_list[-1] + border)
+            height_list.append(split_count)
     return pos_top_list, height_list
 
 
@@ -397,13 +402,13 @@ def kline(
     line_plot = gen_line_plot(chart_data)
     index = 1
     volume_bar_plot, index = gen_bar_plot(
-        chart_data, index=index, colume="volumes", label="成交量(股)"
+        chart_data, index=index, column="volumes", label="成交量(股)"
     )
     foreign_investor_bar_plot, index = gen_bar_plot(
-        chart_data, index=index, colume="foreign_investor_diff", label="外資買賣(股)"
+        chart_data, index=index, column="foreign_investor_diff", label="外資買賣(股)"
     )
     investment_trust_bar_plot, index = gen_bar_plot(
-        chart_data, index=index, colume="investment_trust_diff", label="投信買賣(股)"
+        chart_data, index=index, column="investment_trust_diff", label="投信買賣(股)"
     )
     overlap_kline_line = kline_plot.overlap(line_plot)
     grid_chart = gen_grid_chart(
