@@ -334,7 +334,7 @@ class DataLoader(FinMindApi):
         )
         return stock_day_trading
 
-    def taiwan_stock_margin(
+    def taiwan_stock_margin_purchase_short_sale(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
         """get 個股融資融劵表
@@ -369,7 +369,7 @@ class DataLoader(FinMindApi):
         )
         return stock_margin
 
-    def taiwan_stock_margin_total(
+    def taiwan_stock_margin_purchase_short_sale_total(
         self, start_date: str, end_date: str = ""
     ) -> pd.DataFrame:
         """get 整體市場融資融劵表
