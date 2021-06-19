@@ -397,13 +397,13 @@ def kline(
     line_plot = gen_line_plot(chart_data)
     index = 1
     volume_bar_plot, index = gen_bar_plot(
-        chart_data, index=index, colume="volumes", label="成交量"
+        chart_data, index=index, colume="volumes", label="成交量(股)"
     )
     foreign_investor_bar_plot, index = gen_bar_plot(
-        chart_data, index=index, colume="foreign_investor_diff", label="外資買賣"
+        chart_data, index=index, colume="foreign_investor_diff", label="外資買賣(股)"
     )
     investment_trust_bar_plot, index = gen_bar_plot(
-        chart_data, index=index, colume="investment_trust_diff", label="投信買賣"
+        chart_data, index=index, colume="investment_trust_diff", label="投信買賣(股)"
     )
     overlap_kline_line = kline_plot.overlap(line_plot)
     grid_chart = gen_grid_chart(

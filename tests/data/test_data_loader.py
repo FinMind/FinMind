@@ -284,7 +284,9 @@ def test_taiwan_stock_per_pbr(data_loader):
 
 
 def test_taiwan_stock_margin_purchase_short_sale(data_loader):
-    data = data_loader.taiwan_stock_margin_purchase_short_sale("2330", "2020-04-02")
+    data = data_loader.taiwan_stock_margin_purchase_short_sale(
+        "2330", "2020-04-02"
+    )
     assert_data(
         data,
         [
@@ -309,7 +311,9 @@ def test_taiwan_stock_margin_purchase_short_sale(data_loader):
 
 
 def test_taiwan_stock_margin_purchase_short_sale_total(data_loader):
-    data = data_loader.taiwan_stock_margin_purchase_short_sale_total("2020-04-02")
+    data = data_loader.taiwan_stock_margin_purchase_short_sale_total(
+        "2020-04-02"
+    )
     assert_data(
         data,
         ["TodayBalance", "YesBalance", "buy", "date", "name", "Return", "sell"],
