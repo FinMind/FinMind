@@ -2,23 +2,11 @@ import typing
 
 import numpy as np
 import pandas as pd
-from IPython.display import display, HTML
+import ta
+from IPython.display import HTML, display
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from pyecharts import options as opts
-from pyecharts.charts import Kline, Line, Bar, Grid
-
-
-def calculate_ma(day_count: int, price: list):
-    result: typing.List[typing.Union[float, str]] = []
-    for i in range(len(price)):
-        if i < day_count:
-            result.append("-")
-            continue
-        sum_total = 0.0
-        for j in range(day_count):
-            sum_total += float(price[i - j])
-        result.append(abs(float("%.3f" % (sum_total / day_count))))
-    return result
+from pyecharts.charts import Bar, Grid, Kline, Line
 
 
 def filter_stock_data(stock_data: pd.DataFrame) -> pd.DataFrame:
@@ -56,28 +44,14 @@ def column_mapping(stock_data: pd.DataFrame) -> pd.DataFrame:
     return stock_data
 
 
-def add_foreign_investor(
-    stock_data: pd.DataFrame,
-) -> typing.Dict[str, typing.List[typing.List[typing.Union[float, int]]]]:
-    values = stock_data["Foreign_Investor_diff"].values.tolist()
-    foreign_investor_diff = [
+def create_diff_data(
+    stock_data: pd.DataFrame, column: str
+) -> typing.Dict[str, typing.List[typing.List[int]]]:
+    values = stock_data[column].values.tolist()
+    _diff = [
         [i, value, 1 if value > 0 else -1] for i, value in enumerate(values)
     ]
-    return dict(
-        foreign_investor_diff=foreign_investor_diff,
-    )
-
-
-def add_investment_trust(
-    stock_data: pd.DataFrame,
-) -> typing.Dict[str, typing.List[typing.List[typing.Union[float, int]]]]:
-    values = stock_data["Investment_Trust_diff"].values.tolist()
-    investment_trust_diff = [
-        [i, value, 1 if value > 0 else -1] for i, value in enumerate(values)
-    ]
-    return dict(
-        investment_trust_diff=investment_trust_diff,
-    )
+    return {column: _diff}
 
 
 def add_category_data(
@@ -114,20 +88,18 @@ def process_stock_data(
     stock_data = column_mapping(stock_data)
     result.update(add_category_data(stock_data))
     result.update(add_kline_volume(stock_data))
-    if "Foreign_Investor_diff" in stock_data.columns:
-        result.update(add_foreign_investor(stock_data))
-    if "Investment_Trust_diff" in stock_data.columns:
-        result.update(add_investment_trust(stock_data))
-
+    for column in ["Foreign_Investor_diff", "Investment_Trust_diff"]:
+        if column in stock_data.columns:
+            result.update(create_diff_data(stock_data, column=column))
     return result
 
 
 def gen_line_plot(
+    stock_data: pd.DataFrame,
     chart_data: typing.Dict[
         str, typing.List[typing.List[typing.Union[float, int]]]
-    ]
+    ],
 ) -> Line:
-    close = np.array(chart_data["values"])[:, 2]
     ma_items = [5, 10, 20, 60]
     line = Line(
         init_opts=opts.InitOpts(
@@ -137,7 +109,7 @@ def gen_line_plot(
     for ma in ma_items:
         line.add_yaxis(
             series_name=f"MA{ma}",
-            y_axis=calculate_ma(day_count=ma, price=close),
+            y_axis=ta.trend.sma_indicator(stock_data["close"], ma),
             is_smooth=True,
             is_symbol_show=False,
             is_hover_animation=False,
@@ -311,12 +283,18 @@ def get_subgraph_indices(
 
 
 def gen_kline_plot(
+    stock_data: pd.DataFrame,
     chart_data: typing.Dict[
         str, typing.List[typing.List[typing.Union[float, int]]]
-    ]
+    ],
 ) -> Kline:
     xaxis_index, series_index = get_subgraph_indices(chart_data)
-    kline_data = [data[1:-1] for data in chart_data["values"]]
+    column_list = ["open", "close", "min", "max"]
+    kline_data = stock_data[column_list]
+    kline_data = [
+        list(kline_dict.values())
+        for kline_dict in kline_data.to_dict("records")
+    ]
     kline = Kline(
         init_opts=opts.InitOpts(
             animation_opts=opts.AnimationOpts(animation=False),
@@ -398,17 +376,17 @@ def kline(
     :rtype Grid
     """
     chart_data = process_stock_data(stock_data.copy())
-    kline_plot = gen_kline_plot(chart_data)
-    line_plot = gen_line_plot(chart_data)
+    kline_plot = gen_kline_plot(stock_data, chart_data)
+    line_plot = gen_line_plot(stock_data, chart_data)
     index = 1
     volume_bar_plot, index = gen_bar_plot(
         chart_data, index=index, column="volumes", label="成交量(股)"
     )
     foreign_investor_bar_plot, index = gen_bar_plot(
-        chart_data, index=index, column="foreign_investor_diff", label="外資買賣(股)"
+        chart_data, index=index, column="Foreign_Investor_diff", label="外資買賣(股)"
     )
     investment_trust_bar_plot, index = gen_bar_plot(
-        chart_data, index=index, column="investment_trust_diff", label="投信買賣(股)"
+        chart_data, index=index, column="Investment_Trust_diff", label="投信買賣(股)"
     )
     overlap_kline_line = kline_plot.overlap(line_plot)
     grid_chart = gen_grid_chart(
