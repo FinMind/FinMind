@@ -1,50 +1,300 @@
-from typing import List, Union
+import typing
 
 import numpy as np
 import pandas as pd
-from IPython.display import display, HTML
+import ta
+from IPython.display import HTML, display
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from pyecharts import options as opts
-from pyecharts.charts import Kline, Line, Bar, Grid
+from pyecharts.charts import Bar, Grid, Kline, Line
 
 
-def kline(stock_data: pd.DataFrame):
-    """
-    :input: column name ('date', 'open', 'close', 'min', 'max', 'Trading_Volume')
-    """
+def filter_stock_data(stock_data: pd.DataFrame) -> pd.DataFrame:
+    colname = [
+        col
+        for col in [
+            "date",
+            "open",
+            "close",
+            "min",
+            "max",
+            "Trading_Volume",
+            "Foreign_Investor_diff",
+            "Investment_Trust_diff",
+        ]
+        if col in stock_data.columns
+    ]
+    stock_data = stock_data[colname]
+    return stock_data
 
-    def calculate_ma(day_count: int, price: list):
-        result: List[Union[float, str]] = []
-        for i in range(len(price)):
-            if i < day_count:
-                result.append("-")
-                continue
-            sum_total = 0.0
-            for j in range(day_count):
-                sum_total += float(price[i - j])
-            result.append(abs(float("%.3f" % (sum_total / day_count))))
-        return result
 
-    def process_stock_data(data):
-        data = data[["date", "open", "close", "min", "max", "Trading_Volume"]]
-        data.columns = ["date", "open", "close", "low", "high", "volume"]
-        if is_datetime(data["date"]):
-            data_times = data["date"].dt.strftime("%Y-%m-%d").to_list()
-        else:
-            data_times = data["date"].to_list()
-        values = data.values.tolist()
-        volumes = []
-        for i, tick in enumerate(data.values.tolist()):
-            volumes.append([i, tick[5], 1 if tick[1] > tick[2] else -1])
-        return {
-            "categoryData": data_times,
-            "values": values,
-            "volumes": volumes,
+def column_mapping(stock_data: pd.DataFrame) -> pd.DataFrame:
+    stock_data.columns = stock_data.columns.map(
+        {
+            "date": "date",
+            "open": "open",
+            "close": "close",
+            "min": "low",
+            "max": "high",
+            "Trading_Volume": "volume",
+            "Foreign_Investor_diff": "Foreign_Investor_diff",
+            "Investment_Trust_diff": "Investment_Trust_diff",
         }
+    )
+    return stock_data
 
-    chart_data = process_stock_data(stock_data)
 
-    kline_data = [data[1:-1] for data in chart_data["values"]]
+def create_diff_data(
+    stock_data: pd.DataFrame, column: str
+) -> typing.Dict[str, typing.List[typing.List[int]]]:
+    values = stock_data[column].values.tolist()
+    _diff = [
+        [i, value, 1 if value > 0 else -1] for i, value in enumerate(values)
+    ]
+    return {column: _diff}
+
+
+def add_category_data(
+    stock_data: pd.DataFrame,
+) -> typing.Dict[str, typing.List[typing.List[typing.Union[float, int]]]]:
+    if is_datetime(stock_data["date"]):
+        data_times = stock_data["date"].dt.strftime("%Y-%m-%d").to_list()
+    else:
+        data_times = stock_data["date"].to_list()
+    return dict(
+        categoryData=data_times,
+    )
+
+
+def add_kline_volume(
+    stock_data: pd.DataFrame,
+) -> typing.Dict[str, typing.List[typing.List[typing.Union[float, int]]]]:
+    values = stock_data.values.tolist()
+    volumes = [
+        [i, tick[5], 1 if tick[1] < tick[2] else -1]
+        for i, tick in enumerate(values)
+    ]
+    return dict(
+        values=values,
+        volumes=volumes,
+    )
+
+
+def process_stock_data(
+    stock_data: pd.DataFrame,
+) -> typing.Dict[str, typing.List[typing.List[typing.Union[float, int]]]]:
+    result = dict()
+    stock_data = filter_stock_data(stock_data)
+    stock_data = column_mapping(stock_data)
+    result.update(add_category_data(stock_data))
+    result.update(add_kline_volume(stock_data))
+    for column in ["Foreign_Investor_diff", "Investment_Trust_diff"]:
+        if column in stock_data.columns:
+            result.update(create_diff_data(stock_data, column=column))
+    return result
+
+
+def gen_line_plot(
+    stock_data: pd.DataFrame,
+    chart_data: typing.Dict[
+        str, typing.List[typing.List[typing.Union[float, int]]]
+    ],
+) -> Line:
+    ma_items = [5, 10, 20, 60]
+    line = Line(
+        init_opts=opts.InitOpts(
+            animation_opts=opts.AnimationOpts(animation=False),
+        )
+    ).add_xaxis(xaxis_data=chart_data["categoryData"])
+    for ma in ma_items:
+        line.add_yaxis(
+            series_name=f"MA{ma}",
+            y_axis=ta.trend.sma_indicator(stock_data["close"], ma),
+            is_smooth=True,
+            is_symbol_show=False,
+            is_hover_animation=False,
+            linestyle_opts=opts.LineStyleOpts(width=3, opacity=0.5),
+            label_opts=opts.LabelOpts(is_show=False),
+        )
+    line.set_global_opts(xaxis_opts=opts.AxisOpts(type_="category"))
+    return line
+
+
+def gen_bar_plot(
+    chart_data: typing.Dict[
+        str, typing.List[typing.List[typing.Union[float, int]]]
+    ],
+    index: int,
+    column: str,
+    label: str,
+) -> typing.Tuple[Bar, int]:
+    if column in chart_data.keys():
+        bar = Bar(
+            init_opts=opts.InitOpts(
+                animation_opts=opts.AnimationOpts(animation=False),
+            )
+        )
+        xaxis_data = [label for i in range(len(chart_data[column]))]
+        bar.add_xaxis(xaxis_data=xaxis_data)
+        bar.add_yaxis(
+            series_name="Value",
+            y_axis=chart_data[column],
+            xaxis_index=index,
+            yaxis_index=index,
+            label_opts=opts.LabelOpts(is_show=False),
+        )
+        bar.set_global_opts(
+            xaxis_opts=opts.AxisOpts(
+                type_="category",
+                is_scale=True,
+                grid_index=1,
+                boundary_gap=False,
+                axisline_opts=opts.AxisLineOpts(is_on_zero=False),
+                axistick_opts=opts.AxisTickOpts(is_show=False),
+                splitline_opts=opts.SplitLineOpts(is_show=False),
+                axislabel_opts=opts.LabelOpts(is_show=False),
+                split_number=20,
+                min_="dataMin",
+                max_="dataMax",
+            ),
+            yaxis_opts=opts.AxisOpts(
+                name=label,
+                name_textstyle_opts=opts.TextStyleOpts(
+                    color="red",
+                    font_style="normal",
+                    font_weight="normal",
+                    font_family="Arial",
+                    font_size=12,
+                ),
+                grid_index=1,
+                is_scale=True,
+                split_number=2,
+                name_gap=-10,
+                axislabel_opts=opts.LabelOpts(is_show=False),
+                axisline_opts=opts.AxisLineOpts(is_show=False),
+                axistick_opts=opts.AxisTickOpts(is_show=False),
+                splitline_opts=opts.SplitLineOpts(is_show=False),
+            ),
+            legend_opts=opts.LegendOpts(is_show=False),
+        )
+        return bar, index + 1
+    else:
+        return None, index
+
+
+def gen_pos_top_height(plot_list: typing.List[typing.Any]):
+    plot_list = [plot for plot in plot_list if plot]
+    plot_index = [i + 1 for i in range(len(plot_list))]
+    sub_graph_count = len(plot_index)
+    border = 5
+    if sub_graph_count == 1:
+        pos_top_list = [5, 65]
+        height_list = [50, 20]
+    else:
+        pos_top_list = [5]
+        height_list = [30]
+        split_count = int(40 / sub_graph_count) - border
+        for i in range(sub_graph_count):
+            pos_top_list.append(pos_top_list[-1] + height_list[-1] + border)
+            height_list.append(split_count)
+    return pos_top_list, height_list
+
+
+def gen_grid_chart(
+    overlap_kline_line: Kline,
+    volume_bar_plot: Bar,
+    width: str,
+    height: str,
+    foreign_investor_bar_plot: Bar = None,
+    investment_trust_bar_plot: Bar = None,
+) -> Grid:
+    index = 0
+    grid_chart = Grid(
+        init_opts=opts.InitOpts(
+            width=width,
+            height=height,
+            animation_opts=opts.AnimationOpts(animation=False),
+        )
+    )
+    pos_top_list, height_list = gen_pos_top_height(
+        plot_list=[
+            volume_bar_plot,
+            foreign_investor_bar_plot,
+            investment_trust_bar_plot,
+        ]
+    )
+    grid_chart.add(
+        overlap_kline_line,
+        grid_opts=opts.GridOpts(
+            pos_left="10%",
+            pos_right="8%",
+            pos_top=f"{pos_top_list[index]}%",
+            height=f"{height_list[index]}%",
+        ),
+    )
+    index += 1
+    grid_chart.add(
+        volume_bar_plot,
+        grid_opts=opts.GridOpts(
+            pos_left="10%",
+            pos_right="8%",
+            pos_top=f"{pos_top_list[index]}%",
+            height=f"{height_list[index]}%",
+        ),
+    )
+    index += 1
+    if foreign_investor_bar_plot:
+        grid_chart.add(
+            foreign_investor_bar_plot,
+            grid_opts=opts.GridOpts(
+                pos_left="10%",
+                pos_right="8%",
+                pos_top=f"{pos_top_list[index]}%",
+                height=f"{height_list[index]}%",
+            ),
+        )
+        index += 1
+    if investment_trust_bar_plot:
+        grid_chart.add(
+            investment_trust_bar_plot,
+            grid_opts=opts.GridOpts(
+                pos_left="10%",
+                pos_right="8%",
+                pos_top=f"{pos_top_list[index]}%",
+                height=f"{height_list[index]}%",
+            ),
+        )
+        index += 1
+    grid_chart.render("kline.html")
+    return grid_chart
+
+
+def get_subgraph_indices(
+    chart_data: typing.Dict[
+        str, typing.List[typing.List[typing.Union[float, int]]]
+    ]
+) -> typing.Tuple[typing.List[int], typing.List[int]]:
+    x_axis_data_type = [
+        key for key in list(chart_data.keys()) if key not in ["categoryData"]
+    ]
+    xaxis_index = [i for i in range(len(x_axis_data_type))]
+    series_index = [5 + i for i in range(len(x_axis_data_type))]
+    return xaxis_index, series_index
+
+
+def gen_kline_plot(
+    stock_data: pd.DataFrame,
+    chart_data: typing.Dict[
+        str, typing.List[typing.List[typing.Union[float, int]]]
+    ],
+) -> Kline:
+    xaxis_index, series_index = get_subgraph_indices(chart_data)
+    column_list = ["open", "close", "min", "max"]
+    kline_data = stock_data[column_list]
+    kline_data = [
+        list(kline_dict.values())
+        for kline_dict in kline_data.to_dict("records")
+    ]
     kline = Kline(
         init_opts=opts.InitOpts(
             animation_opts=opts.AnimationOpts(animation=False),
@@ -62,13 +312,13 @@ def kline(stock_data: pd.DataFrame):
             opts.DataZoomOpts(
                 is_show=False,
                 type_="inside",
-                xaxis_index=[0, 1],
+                xaxis_index=xaxis_index,
                 range_start=85,
                 range_end=100,
             ),
             opts.DataZoomOpts(
                 is_show=True,
-                xaxis_index=[0, 1],
+                xaxis_index=xaxis_index,
                 type_="slider",
                 pos_top="85%",
                 range_start=85,
@@ -92,11 +342,11 @@ def kline(stock_data: pd.DataFrame):
         visualmap_opts=opts.VisualMapOpts(
             is_show=False,
             dimension=2,
-            series_index=5,
+            series_index=series_index,
             is_piecewise=True,
             pieces=[
-                {"value": 1, "color": "#00da3c"},
-                {"value": -1, "color": "#ec0000"},
+                {"value": 1, "color": "#ec0000"},
+                {"value": -1, "color": "#00da3c"},
             ],
         ),
         axispointer_opts=opts.AxisPointerOpts(
@@ -111,86 +361,41 @@ def kline(stock_data: pd.DataFrame):
             brush_type="lineX",
         ),
     )
+    return kline
 
-    close = np.array(chart_data["values"])[:, 2]
-    ma_items = [5, 10, 20, 60]
 
-    line = Line(
-        init_opts=opts.InitOpts(
-            animation_opts=opts.AnimationOpts(animation=False),
-        )
-    ).add_xaxis(xaxis_data=chart_data["categoryData"])
-    for ma in ma_items:
-        line.add_yaxis(
-            series_name="MA" + str(ma),
-            y_axis=calculate_ma(day_count=ma, price=close),
-            is_smooth=True,
-            is_symbol_show=False,
-            is_hover_animation=False,
-            linestyle_opts=opts.LineStyleOpts(width=3, opacity=0.5),
-            label_opts=opts.LabelOpts(is_show=False),
-        )
-    line.set_global_opts(xaxis_opts=opts.AxisOpts(type_="category"))
+def kline(
+    stock_data: pd.DataFrame, width: str = "1000px", height: str = "800px"
+) -> Grid:
+    """plot kline
+    :param: stock_data (pd.DataFrame) column name ('date', 'open', 'close', 'min', 'max', 'Trading_Volume')
+    :param: width (str) default '1000px'
+    :param: height (str) default '800px'
 
-    bar = Bar(
-        init_opts=opts.InitOpts(
-            animation_opts=opts.AnimationOpts(animation=False),
-        )
+    :return: display kline
+    :rtype Grid
+    """
+    chart_data = process_stock_data(stock_data.copy())
+    kline_plot = gen_kline_plot(stock_data, chart_data)
+    line_plot = gen_line_plot(stock_data, chart_data)
+    index = 1
+    volume_bar_plot, index = gen_bar_plot(
+        chart_data, index=index, column="volumes", label="成交量(股)"
     )
-    bar.add_xaxis(xaxis_data=chart_data["categoryData"])
-    bar.add_yaxis(
-        series_name="Volume",
-        y_axis=chart_data["volumes"],
-        xaxis_index=1,
-        yaxis_index=1,
-        label_opts=opts.LabelOpts(is_show=False),
+    foreign_investor_bar_plot, index = gen_bar_plot(
+        chart_data, index=index, column="Foreign_Investor_diff", label="外資買賣(股)"
     )
-
-    bar.set_global_opts(
-        xaxis_opts=opts.AxisOpts(
-            type_="category",
-            is_scale=True,
-            grid_index=1,
-            boundary_gap=False,
-            axisline_opts=opts.AxisLineOpts(is_on_zero=False),
-            axistick_opts=opts.AxisTickOpts(is_show=False),
-            splitline_opts=opts.SplitLineOpts(is_show=False),
-            axislabel_opts=opts.LabelOpts(is_show=False),
-            split_number=20,
-            min_="dataMin",
-            max_="dataMax",
-        ),
-        yaxis_opts=opts.AxisOpts(
-            grid_index=1,
-            is_scale=True,
-            split_number=2,
-            axislabel_opts=opts.LabelOpts(is_show=False),
-            axisline_opts=opts.AxisLineOpts(is_show=False),
-            axistick_opts=opts.AxisTickOpts(is_show=False),
-            splitline_opts=opts.SplitLineOpts(is_show=False),
-        ),
-        legend_opts=opts.LegendOpts(is_show=False),
+    investment_trust_bar_plot, index = gen_bar_plot(
+        chart_data, index=index, column="Investment_Trust_diff", label="投信買賣(股)"
     )
-
-    overlap_kline_line = kline.overlap(line)
-
-    grid_chart = Grid(
-        init_opts=opts.InitOpts(
-            width="1000px",
-            height="800px",
-            animation_opts=opts.AnimationOpts(animation=False),
-        )
-    )
-    grid_chart.add(
+    overlap_kline_line = kline_plot.overlap(line_plot)
+    grid_chart = gen_grid_chart(
         overlap_kline_line,
-        grid_opts=opts.GridOpts(pos_left="10%", pos_right="8%", height="50%"),
+        volume_bar_plot,
+        width,
+        height,
+        foreign_investor_bar_plot=foreign_investor_bar_plot,
+        investment_trust_bar_plot=investment_trust_bar_plot,
     )
-    grid_chart.add(
-        bar,
-        grid_opts=opts.GridOpts(
-            pos_left="10%", pos_right="8%", pos_top="63%", height="16%"
-        ),
-    )
-    grid_chart.render("kline.html")
     display(HTML(filename="kline.html"))
     return grid_chart
