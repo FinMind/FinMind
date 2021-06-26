@@ -177,7 +177,7 @@ def gen_bar_plot(
                 grid_index=1,
                 is_scale=True,
                 split_number=2,
-                name_gap=-10,
+                name_gap=0,
                 axislabel_opts=opts.LabelOpts(is_show=False),
                 axisline_opts=opts.AxisLineOpts(is_show=False),
                 axistick_opts=opts.AxisTickOpts(is_show=False),
@@ -201,7 +201,7 @@ def gen_pos_top_height(plot_list: typing.List[typing.Any]):
     else:
         pos_top_list = [5]
         height_list = [30]
-        split_count = int(40 / sub_graph_count) - border
+        split_count = int(50 / sub_graph_count) - border
         for i in range(sub_graph_count):
             pos_top_list.append(pos_top_list[-1] + height_list[-1] + border)
             height_list.append(split_count)
