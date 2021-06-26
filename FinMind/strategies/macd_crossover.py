@@ -26,7 +26,9 @@ class MacdCrossOver(Strategy):
         stock_price["OSC_signal"] = stock_price["OSC"].map(
             lambda x: 1 if x > 0 else -1
         )
-        stock_price["OSC_signal_yesterday"] = stock_price["OSC_signal"].shift(1)
+        stock_price["OSC_signal_yesterday"] = stock_price["OSC_signal"].shift(
+            1
+        )
         stock_price["signal"] = 0
         stock_price.loc[
             (

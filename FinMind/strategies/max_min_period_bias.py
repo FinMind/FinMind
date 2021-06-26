@@ -31,10 +31,16 @@ class MaxMinPeriodBias(Strategy):
             / stock_price[f"ma{self.ma_days}"]
         ) * 100
         stock_price[f"max_last_k_days{self.last_k_days}"] = (
-            stock_price["close"].shift(1).rolling(window=self.last_k_days).max()
+            stock_price["close"]
+            .shift(1)
+            .rolling(window=self.last_k_days)
+            .max()
         )
         stock_price[f"min_last_k_days{self.last_k_days}"] = (
-            stock_price["close"].shift(1).rolling(window=self.last_k_days).min()
+            stock_price["close"]
+            .shift(1)
+            .rolling(window=self.last_k_days)
+            .min()
         )
         stock_price["signal"] = 0
         stock_price.loc[

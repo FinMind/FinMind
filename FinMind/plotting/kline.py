@@ -1,6 +1,5 @@
 import typing
 
-import numpy as np
 import pandas as pd
 import ta
 from IPython.display import HTML, display
@@ -383,10 +382,16 @@ def kline(
         chart_data, index=index, column="volumes", label="成交量(股)"
     )
     foreign_investor_bar_plot, index = gen_bar_plot(
-        chart_data, index=index, column="Foreign_Investor_diff", label="外資買賣(股)"
+        chart_data,
+        index=index,
+        column="Foreign_Investor_diff",
+        label="外資買賣(股)",
     )
     investment_trust_bar_plot, index = gen_bar_plot(
-        chart_data, index=index, column="Investment_Trust_diff", label="投信買賣(股)"
+        chart_data,
+        index=index,
+        column="Investment_Trust_diff",
+        label="投信買賣(股)",
     )
     overlap_kline_line = kline_plot.overlap(line_plot)
     grid_chart = gen_grid_chart(

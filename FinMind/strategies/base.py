@@ -47,7 +47,9 @@ class Trader:
     def buy(self, trade_price: float, trade_lots: float):
         self.trade_price = trade_price
         if (
-            self.__confirm_trade_lots(trade_lots, trade_price, self.trader_fund)
+            self.__confirm_trade_lots(
+                trade_lots, trade_price, self.trader_fund
+            )
             > 0
         ):
             trade_volume = trade_lots * self.board_lot
@@ -66,7 +68,9 @@ class Trader:
     def sell(self, trade_price: float, trade_lots: float):
         self.trade_price = trade_price
         if (
-            self.__confirm_trade_lots(trade_lots, trade_price, self.trader_fund)
+            self.__confirm_trade_lots(
+                trade_lots, trade_price, self.trader_fund
+            )
             < 0
         ):
             trade_volume = abs(trade_lots) * self.board_lot
@@ -123,7 +127,9 @@ class Trader:
         final_trade_lots = 0
         trade_volume = abs(trade_lots) * self.board_lot
         if trade_lots > 0:
-            if self.__have_enough_money(trader_fund, trade_price, trade_volume):
+            if self.__have_enough_money(
+                trader_fund, trade_price, trade_volume
+            ):
                 final_trade_lots = trade_lots
             else:
                 final_trade_lots = 0
@@ -287,7 +293,9 @@ class BackTest:
             # use last date to decide buy or sell or nothing
             last_date_index = i - 1
             signal = (
-                self.stock_price.loc[last_date_index, "signal"] if i != 0 else 0
+                self.stock_price.loc[last_date_index, "signal"]
+                if i != 0
+                else 0
             )
             trade_price = self.stock_price.loc[i, "open"]
             strategy.trade(signal, trade_price)
@@ -332,7 +340,9 @@ class BackTest:
             2,
         )
         trader.RealizedProfit += gain_cash
-        trader.EverytimeProfit = trader.RealizedProfit + trader.UnrealizedProfit
+        trader.EverytimeProfit = (
+            trader.RealizedProfit + trader.UnrealizedProfit
+        )
 
     def __compute_final_stats(self):
         self._final_stats["MeanProfit"] = np.mean(
@@ -473,7 +483,9 @@ class BackTest:
         ax.plot(
             "UnrealizedProfit", data=self._trade_detail, marker="", alpha=0.8
         )
-        ax.plot("RealizedProfit", data=self._trade_detail, marker="", alpha=0.8)
+        ax.plot(
+            "RealizedProfit", data=self._trade_detail, marker="", alpha=0.8
+        )
         ax.plot(
             "EverytimeProfit", data=self._trade_detail, marker="", alpha=0.8
         )

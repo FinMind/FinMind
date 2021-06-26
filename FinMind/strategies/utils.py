@@ -6,7 +6,9 @@ from FinMind.data import DataLoader
 
 
 def get_asset_underlying_type(stock_id: str, data_loader: DataLoader) -> str:
-    taiwan_stock_info = data_loader.get_data(dataset="TaiwanStockInfo", date="")
+    taiwan_stock_info = data_loader.get_data(
+        dataset="TaiwanStockInfo", date=""
+    )
     underlying_type = taiwan_stock_info[
         taiwan_stock_info["stock_id"] == stock_id
     ]["industry_category"].values[0]
@@ -32,7 +34,9 @@ def calculate_sharp_ratio(strategy_return: float, std: float) -> float:
     return (
         0
         if std == 0
-        else round(((strategy_return - risk_free_rate) / std) * np.sqrt(252), 2)
+        else round(
+            ((strategy_return - risk_free_rate) / std) * np.sqrt(252), 2
+        )
     )
 
 

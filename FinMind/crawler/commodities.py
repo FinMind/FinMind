@@ -42,7 +42,8 @@ class CommoditiesCrawler(BaseCrawler):
             )
             futures_id_list = [re.findall("[0-9]+", te)[0] for te in tem]
             data_name_list = [
-                re.findall('"[A-Za-z ]+"', te)[0].replace('"', "") for te in tem
+                re.findall('"[A-Za-z ]+"', te)[0].replace('"', "")
+                for te in tem
             ]
             [
                 loop_list.append([futures_id_list[i], data_name_list[i]])
