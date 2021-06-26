@@ -1,3 +1,5 @@
+import typing
+
 import pandas as pd
 
 from FinMind.data.finmind_api import FinMindApi
@@ -999,18 +1001,26 @@ class Feature:
     def __init__(self, data_loader: DataLoader):
         self.data_loader = data_loader
 
-    def add_kline_institutional_investors(
-        self, stock_data: pd.DataFrame
-    ) -> pd.DataFrame:
+    def get_stock_params(
+        self,
+        stock_data: pd.DataFrame,
+    ) -> typing.Tuple[str, str, str]:
         stock_data["date"] = stock_data["date"].astype(str)
         stock_id = stock_data["stock_id"].values[0]
         start_date = min(stock_data["date"])
         end_date = max(stock_data["date"])
+        return stock_id, start_date, end_date
+
+    def add_kline_institutional_investors(
+        self, stock_data: pd.DataFrame
+    ) -> pd.DataFrame:
+        stock_id, start_date, end_date = self.get_stock_params(stock_data)
         institutional_investors_df = (
             self.data_loader.taiwan_stock_institutional_investors(
                 stock_id=stock_id, start_date=start_date, end_date=end_date
             )
         )
+        # 外資
         foreign_investor_df = institutional_investors_df.loc[
             institutional_investors_df["name"] == "Foreign_Investor",
             ["date", "buy", "sell"],
@@ -1018,6 +1028,7 @@ class Feature:
         foreign_investor_df["Foreign_Investor_diff"] = (
             foreign_investor_df["buy"] - foreign_investor_df["sell"]
         )
+        # 投信
         investment_trust_df = institutional_investors_df.loc[
             institutional_investors_df["name"] == "Investment_Trust",
             ["date", "buy", "sell"],
@@ -1029,5 +1040,40 @@ class Feature:
         investment_trust_df = investment_trust_df.drop(["buy", "sell"], axis=1)
         stock_data = stock_data.merge(foreign_investor_df, on="date").merge(
             investment_trust_df, on="date"
+        )
+        return stock_data
+
+    def add_kline_margin_purchase_short_sale(
+        self, stock_data: pd.DataFrame
+    ) -> pd.DataFrame:
+        stock_id, start_date, end_date = self.get_stock_params(stock_data)
+        margin_purchase_short_sale_df = (
+            self.data_loader.taiwan_stock_margin_purchase_short_sale(
+                stock_id=stock_id, start_date=start_date, end_date=end_date
+            )
+        )
+        # 融資
+        margin_purchase_df = margin_purchase_short_sale_df[
+            ["date", "MarginPurchaseBuy", "MarginPurchaseSell"]
+        ].copy()
+        margin_purchase_df["Margin_Purchase_diff"] = (
+            margin_purchase_df["MarginPurchaseBuy"]
+            - margin_purchase_df["MarginPurchaseSell"]
+        )
+        # 融券
+        short_sale_df = margin_purchase_short_sale_df[
+            ["date", "ShortSaleBuy", "ShortSaleSell"]
+        ].copy()
+        short_sale_df["Short_Sale_diff"] = (
+            short_sale_df["ShortSaleBuy"] - short_sale_df["ShortSaleSell"]
+        )
+        margin_purchase_df = margin_purchase_df.drop(
+            ["MarginPurchaseBuy", "MarginPurchaseSell"], axis=1
+        )
+        short_sale_df = short_sale_df.drop(
+            ["ShortSaleBuy", "ShortSaleSell"], axis=1
+        )
+        stock_data = stock_data.merge(margin_purchase_df, on="date").merge(
+            short_sale_df, on="date"
         )
         return stock_data

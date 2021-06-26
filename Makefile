@@ -29,5 +29,7 @@ linux-wheel:
 	pip wheel ./ -w wheelhouse/
 
 format:
-	black -l 80 FinMind tests
+	black -l 79 FinMind tests
 
+jupyterlab:
+	jupyter lab
