@@ -21,6 +21,35 @@ class DataLoader(FinMindApi):
         stock_info = self.get_data(dataset=Dataset.TaiwanStockInfo)
         return stock_info
 
+    def taiwan_stock_price(
+        self, stock_id: str = "", start_date: str = "", end_date: str = ""
+    ) -> pd.DataFrame:
+        """get 台灣股價資料表
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 開始日期("2018-01-01")
+        :param end_date (str): 結束日期("2021-03-06")
+
+        :return: 台灣股價資料表 TaiwanStockPrice
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column stock_id (str)
+        :rtype column Trading_Volume (int)
+        :rtype column Trading_money (int)
+        :rtype column open (float)
+        :rtype column max (float)
+        :rtype column min (float)
+        :rtype column close (float)
+        :rtype column spread (float)
+        :rtype column Trading_turnover (float)
+        """
+        stock_price = self.get_data(
+            dataset=Dataset.TaiwanStockPrice,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+        )
+        return stock_price
+
     def taiwan_stock_daily(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
