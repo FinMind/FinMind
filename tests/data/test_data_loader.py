@@ -316,15 +316,7 @@ def test_taiwan_stock_margin_purchase_short_sale_total(data_loader):
     )
     assert_data(
         data,
-        [
-            "TodayBalance",
-            "YesBalance",
-            "buy",
-            "date",
-            "name",
-            "Return",
-            "sell",
-        ],
+        ["TodayBalance", "YesBalance", "buy", "date", "name", "Return", "sell"],
     )
 
 
