@@ -165,6 +165,7 @@ class DataLoader(FinMindApi):
         ].shift(-1)
         stock_price = stock_price.dropna()
         stock_price = stock_price.iloc[::-1].reset_index(drop=True)
+        stock_price["date"] = stock_price["date"].astype(str)
         return stock_price
 
     def taiwan_stock_tick(self, stock_id: str, date: str) -> pd.DataFrame:
