@@ -104,11 +104,7 @@ class DataLoader(FinMindApi):
             ex_dividend_date = data["date"]
             ex_dividend_date_y1 = stock_price[
                 stock_price["date"] <= ex_dividend_date
-            ].reset_index(drop=True)
-            if len(ex_dividend_date_y1) > 1:
-                ex_dividend_date_y1 = ex_dividend_date_y1.loc[1, "date"]
-            else:
-                break
+            ].iloc[1][0]
             calibration_price = (
                 stock_price[stock_price["date"] == ex_dividend_date_y1][
                     "retroactive_close"
