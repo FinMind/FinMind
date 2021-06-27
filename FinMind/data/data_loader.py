@@ -90,24 +90,16 @@ class DataLoader(FinMindApi):
         ex_dividend_price = ex_dividend_price[
             ["date", "stock_and_cache_dividend"]
         ]
-        ex_dividend_price["date"] = pd.to_datetime(ex_dividend_price["date"])
-        ex_dividend_price = ex_dividend_price.sort_values(
-            "date", ascending=False
-        ).reset_index(drop=True)
         stock_price["date"] = pd.to_datetime(stock_price["date"])
+        ex_dividend_price["date"] = pd.to_datetime(ex_dividend_price["date"])
         stock_price["change"] = stock_price["close"].pct_change(periods=1)
-        stock_price = stock_price.sort_values(
-            "date", ascending=False
-        ).reset_index(drop=True)
-        columns_map = dict(
-            retroactive_open="open",
-            retroactive_max="max",
-            retroactive_min="min",
-            retroactive_close="close",
-            retroactive_change="change",
-        )
-        for key, value in columns_map.items():
-            stock_price[key] = stock_price[value]
+        ex_dividend_price = ex_dividend_price.iloc[::-1].reset_index(drop=True)
+        stock_price = stock_price.iloc[::-1].reset_index(drop=True)
+        stock_price["retroactive_open"] = stock_price["open"]
+        stock_price["retroactive_max"] = stock_price["max"]
+        stock_price["retroactive_min"] = stock_price["min"]
+        stock_price["retroactive_close"] = stock_price["close"]
+        stock_price["retroactive_change"] = stock_price["change"]
         for index, data in ex_dividend_price.iterrows():
             ex_dividend_date = data["date"]
             ex_dividend_date_y1 = stock_price[
@@ -123,6 +115,7 @@ class DataLoader(FinMindApi):
                 ].iloc[0]
                 - data["stock_and_cache_dividend"]
             )
+
             stock_price.loc[
                 stock_price["date"] == ex_dividend_date_y1,
                 ["retroactive_close"],
@@ -161,19 +154,16 @@ class DataLoader(FinMindApi):
                 + (stock_price.loc[i, "min"] - stock_price.loc[i, "close"])
                 / stock_price.loc[i, "close"]
             )
-        for key, value in columns_map.items():
-            stock_price[value] = stock_price[key].round(2)
-        stock_price = stock_price.drop(
-            [
-                "retroactive_max",
-                "retroactive_min",
-                "retroactive_open",
-                "retroactive_close",
-                "change",
-                "retroactive_change",
-            ],
-            axis=1,
-        )
+        stock_price["open"] = stock_price["retroactive_open"].round(2)
+        del stock_price["retroactive_open"]
+        stock_price["max"] = stock_price["retroactive_max"].round(2)
+        del stock_price["retroactive_max"]
+        stock_price["min"] = stock_price["retroactive_min"].round(2)
+        del stock_price["retroactive_min"]
+        stock_price["close"] = stock_price["retroactive_close"].round(2)
+        del stock_price["retroactive_close"]
+        del stock_price["change"]
+        del stock_price["retroactive_change"]
         stock_price["spread"] = stock_price["close"] - stock_price[
             "close"
         ].shift(-1)
