@@ -1,6 +1,5 @@
 import typing
 
-import numpy as np
 import pandas as pd
 import ta
 from IPython.display import HTML, display
@@ -21,6 +20,8 @@ def filter_stock_data(stock_data: pd.DataFrame) -> pd.DataFrame:
             "Trading_Volume",
             "Foreign_Investor_diff",
             "Investment_Trust_diff",
+            "Margin_Purchase_diff",
+            "Short_Sale_diff",
         ]
         if col in stock_data.columns
     ]
@@ -39,6 +40,8 @@ def column_mapping(stock_data: pd.DataFrame) -> pd.DataFrame:
             "Trading_Volume": "volume",
             "Foreign_Investor_diff": "Foreign_Investor_diff",
             "Investment_Trust_diff": "Investment_Trust_diff",
+            "Margin_Purchase_diff": "Margin_Purchase_diff",
+            "Short_Sale_diff": "Short_Sale_diff",
         }
     )
     return stock_data
@@ -88,7 +91,12 @@ def process_stock_data(
     stock_data = column_mapping(stock_data)
     result.update(add_category_data(stock_data))
     result.update(add_kline_volume(stock_data))
-    for column in ["Foreign_Investor_diff", "Investment_Trust_diff"]:
+    for column in [
+        "Foreign_Investor_diff",
+        "Investment_Trust_diff",
+        "Margin_Purchase_diff",
+        "Short_Sale_diff",
+    ]:
         if column in stock_data.columns:
             result.update(create_diff_data(stock_data, column=column))
     return result
@@ -109,7 +117,7 @@ def gen_line_plot(
     for ma in ma_items:
         line.add_yaxis(
             series_name=f"MA{ma}",
-            y_axis=ta.trend.sma_indicator(stock_data["close"], ma),
+            y_axis=ta.trend.sma_indicator(stock_data["close"], ma).round(2),
             is_smooth=True,
             is_symbol_show=False,
             is_hover_animation=False,
@@ -169,7 +177,7 @@ def gen_bar_plot(
                 grid_index=1,
                 is_scale=True,
                 split_number=2,
-                name_gap=-10,
+                name_gap=0,
                 axislabel_opts=opts.LabelOpts(is_show=False),
                 axisline_opts=opts.AxisLineOpts(is_show=False),
                 axistick_opts=opts.AxisTickOpts(is_show=False),
@@ -193,20 +201,22 @@ def gen_pos_top_height(plot_list: typing.List[typing.Any]):
     else:
         pos_top_list = [5]
         height_list = [30]
-        split_count = int(40 / sub_graph_count) - border
+        split_count = int(50 / sub_graph_count) - border
         for i in range(sub_graph_count):
             pos_top_list.append(pos_top_list[-1] + height_list[-1] + border)
             height_list.append(split_count)
     return pos_top_list, height_list
 
 
+def filter_bar_plot(bar_plot_list: typing.List[Bar]) -> typing.List[Bar]:
+    return [bar_plot for bar_plot in bar_plot_list if bar_plot]
+
+
 def gen_grid_chart(
     overlap_kline_line: Kline,
-    volume_bar_plot: Bar,
     width: str,
     height: str,
-    foreign_investor_bar_plot: Bar = None,
-    investment_trust_bar_plot: Bar = None,
+    bar_plot_list: typing.List[Bar],
 ) -> Grid:
     index = 0
     grid_chart = Grid(
@@ -216,13 +226,7 @@ def gen_grid_chart(
             animation_opts=opts.AnimationOpts(animation=False),
         )
     )
-    pos_top_list, height_list = gen_pos_top_height(
-        plot_list=[
-            volume_bar_plot,
-            foreign_investor_bar_plot,
-            investment_trust_bar_plot,
-        ]
-    )
+    pos_top_list, height_list = gen_pos_top_height(plot_list=bar_plot_list)
     grid_chart.add(
         overlap_kline_line,
         grid_opts=opts.GridOpts(
@@ -233,30 +237,10 @@ def gen_grid_chart(
         ),
     )
     index += 1
-    grid_chart.add(
-        volume_bar_plot,
-        grid_opts=opts.GridOpts(
-            pos_left="10%",
-            pos_right="8%",
-            pos_top=f"{pos_top_list[index]}%",
-            height=f"{height_list[index]}%",
-        ),
-    )
-    index += 1
-    if foreign_investor_bar_plot:
+    bar_plot_list = filter_bar_plot(bar_plot_list)
+    for bar_plot in bar_plot_list:
         grid_chart.add(
-            foreign_investor_bar_plot,
-            grid_opts=opts.GridOpts(
-                pos_left="10%",
-                pos_right="8%",
-                pos_top=f"{pos_top_list[index]}%",
-                height=f"{height_list[index]}%",
-            ),
-        )
-        index += 1
-    if investment_trust_bar_plot:
-        grid_chart.add(
-            investment_trust_bar_plot,
+            bar_plot,
             grid_opts=opts.GridOpts(
                 pos_left="10%",
                 pos_right="8%",
@@ -289,11 +273,11 @@ def gen_kline_plot(
     ],
 ) -> Kline:
     xaxis_index, series_index = get_subgraph_indices(chart_data)
-    column_list = ["open", "close", "min", "max"]
-    kline_data = stock_data[column_list]
     kline_data = [
         list(kline_dict.values())
-        for kline_dict in kline_data.to_dict("records")
+        for kline_dict in stock_data[["open", "close", "min", "max"]].to_dict(
+            "records"
+        )
     ]
     kline = Kline(
         init_opts=opts.InitOpts(
@@ -364,11 +348,37 @@ def gen_kline_plot(
     return kline
 
 
+def gen_bar_plot_list(
+    chart_data: typing.Dict[
+        str, typing.List[typing.List[typing.Union[float, int]]]
+    ]
+) -> typing.List[Bar]:
+    index = 1
+    params_dict_list = [
+        dict(column="volumes", label="成交量(股)"),
+        dict(column="Foreign_Investor_diff", label="外資買賣(股)"),
+        dict(column="Investment_Trust_diff", label="投信買賣(股)"),
+        dict(column="Margin_Purchase_diff", label="融資買賣(股)"),
+        dict(column="Short_Sale_diff", label="融券買賣(股)"),
+    ]
+    bar_plot_list = []
+    for params_dict in params_dict_list:
+        bar_plot, index = gen_bar_plot(
+            chart_data,
+            index=index,
+            column=params_dict["column"],
+            label=params_dict["label"],
+        )
+        bar_plot_list.append(bar_plot)
+    return bar_plot_list
+
+
 def kline(
     stock_data: pd.DataFrame, width: str = "1000px", height: str = "800px"
 ) -> Grid:
     """plot kline
-    :param: stock_data (pd.DataFrame) column name ('date', 'open', 'close', 'min', 'max', 'Trading_Volume')
+    :param: stock_data (pd.DataFrame) column name
+    ('date', 'open', 'close', 'min', 'max', 'Trading_Volume')
     :param: width (str) default '1000px'
     :param: height (str) default '800px'
 
@@ -378,24 +388,10 @@ def kline(
     chart_data = process_stock_data(stock_data.copy())
     kline_plot = gen_kline_plot(stock_data, chart_data)
     line_plot = gen_line_plot(stock_data, chart_data)
-    index = 1
-    volume_bar_plot, index = gen_bar_plot(
-        chart_data, index=index, column="volumes", label="成交量(股)"
-    )
-    foreign_investor_bar_plot, index = gen_bar_plot(
-        chart_data, index=index, column="Foreign_Investor_diff", label="外資買賣(股)"
-    )
-    investment_trust_bar_plot, index = gen_bar_plot(
-        chart_data, index=index, column="Investment_Trust_diff", label="投信買賣(股)"
-    )
+    bar_plot_list = gen_bar_plot_list(chart_data)
     overlap_kline_line = kline_plot.overlap(line_plot)
     grid_chart = gen_grid_chart(
-        overlap_kline_line,
-        volume_bar_plot,
-        width,
-        height,
-        foreign_investor_bar_plot=foreign_investor_bar_plot,
-        investment_trust_bar_plot=investment_trust_bar_plot,
+        overlap_kline_line, width, height, bar_plot_list
     )
     display(HTML(filename="kline.html"))
     return grid_chart
