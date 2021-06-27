@@ -20,6 +20,8 @@ def test_kline(stock_id, start_date, end_date):
     assert plotting.kline(stock_data)
     stock_data = dl.feature.add_kline_institutional_investors(stock_data)
     assert plotting.kline(stock_data)
+    stock_data = dl.feature.add_kline_margin_purchase_short_sale(stock_data)
+    assert plotting.kline(stock_data)
 
 
 @pytest.fixture(scope="module")
@@ -347,4 +349,4 @@ def chart_data():
 def test_process_stock_data(stock_data, chart_data):
     result = process_stock_data(stock_data)
     excepted = chart_data
-    assert result == chart_data
+    assert result == excepted
