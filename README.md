@@ -96,13 +96,15 @@ without having to collect the data by yourself.
 from FinMind.data import DataLoader
 
 dl = DataLoader()
-# dl.login(user_id, password)
+# 下載台股股價資料
 stock_data = dl.taiwan_stock_daily(
     stock_id='2609', start_date='2018-01-01', end_date='2021-06-26'
 )
+# 下載三大法人資料
 stock_data = dl.feature.add_kline_institutional_investors(
     stock_data
-)
+) 
+# 下載融資券資料
 stock_data = dl.feature.add_kline_margin_purchase_short_sale(
     stock_data
 )
