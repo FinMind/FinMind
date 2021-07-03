@@ -725,14 +725,14 @@ class DataLoader(FinMindApi):
             dataset=Dataset.TaiwanStockMonthRevenue,
             data_id=stock_id,
             start_date=str(
-                (pd.Period(start_date) + pd.offsets.MonthEnd(1)).asfreq(
-                    "D", "start"
-                )
+                (
+                    pd.Period(start_date).asfreq("M") + pd.offsets.MonthEnd(1)
+                ).asfreq("D", "start")
             ),
             end_date=str(
-                (pd.Period(end_date) + pd.offsets.MonthEnd(1)).asfreq(
-                    "D", "start"
-                )
+                (
+                    pd.Period(end_date).asfreq("M") + pd.offsets.MonthEnd(1)
+                ).asfreq("D", "start")
             ),
         )
         return stock_month_revenue
