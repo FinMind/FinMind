@@ -217,6 +217,7 @@ def gen_grid_chart(
     width: str,
     height: str,
     bar_plot_list: typing.List[Bar],
+    filename: str,
 ) -> Grid:
     index = 0
     grid_chart = Grid(
@@ -249,7 +250,7 @@ def gen_grid_chart(
             ),
         )
         index += 1
-    grid_chart.render("kline.html")
+    grid_chart.render(filename)
     return grid_chart
 
 
@@ -374,13 +375,17 @@ def gen_bar_plot_list(
 
 
 def kline(
-    stock_data: pd.DataFrame, width: str = "1000px", height: str = "800px"
+    stock_data: pd.DataFrame,
+    width: str = "1000px",
+    height: str = "800px",
+    filename: str = "kline.html",
 ) -> Grid:
     """plot kline
     :param: stock_data (pd.DataFrame) column name
     ('date', 'open', 'close', 'min', 'max', 'Trading_Volume')
     :param: width (str) default '1000px'
     :param: height (str) default '800px'
+    :filename: output filename (str) default 'kline.html'
 
     :return: display kline
     :rtype Grid
@@ -391,7 +396,7 @@ def kline(
     bar_plot_list = gen_bar_plot_list(chart_data)
     overlap_kline_line = kline_plot.overlap(line_plot)
     grid_chart = gen_grid_chart(
-        overlap_kline_line, width, height, bar_plot_list
+        overlap_kline_line, width, height, bar_plot_list, filename
     )
-    display(HTML(filename="kline.html"))
+    display(HTML(filename=filename))
     return grid_chart

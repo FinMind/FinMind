@@ -4,3 +4,5 @@ from FinMind.schema.info import (
     CompareMarketDetail,
     CompareMarketStats,
 )
+from FinMind.schema.plot import BarPlotSchema
+
