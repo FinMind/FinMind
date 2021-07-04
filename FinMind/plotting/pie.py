@@ -1,3 +1,5 @@
+import typing
+
 from IPython.display import HTML, display
 from pyecharts import options as opts
 from pyecharts.charts import Pie
