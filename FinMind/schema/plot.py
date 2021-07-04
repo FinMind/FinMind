@@ -14,9 +14,7 @@ class Labels(BaseModel):
         elif isinstance(value, int):
             pass
         else:
-            raise Exception(
-                "the type of labels must be list[int] for list[str]."
-            )
+            raise Exception("the type of labels must be list[int] for list[str].")
         return value
 
 
@@ -30,9 +28,7 @@ class Series(BaseModel):
         elif isinstance(value, float):
             pass
         else:
-            raise Exception(
-                "the type of series must be list[int] for list[str]."
-            )
+            raise Exception("the type of series must be list[int] for list[str].")
         return value
 
 
