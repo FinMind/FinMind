@@ -19,11 +19,11 @@ def bar(
     :param: bar_plot_data (:obj:FinMind.BarPlotSchema)
     BarPlotSchema(labels=labels, series=series)
     :param: y_series_name (str) default ''
-    :param: y_axis_name (str) default "億",
-    :param: yaxis_color (str) default "#dca540",
-    :param: title (str) default "title",
-    :param: width (str) default "800px",
-    :param: height (str) default "600px",
+    :param: y_axis_name (str) default "億"
+    :param: yaxis_color (str) default "#dca540"
+    :param: title (str) default "title"
+    :param: width (str) default "800px"
+    :param: height (str) default "600px"
     :param: filename (str) default "bar.html", output filename
 
     :return: display bar
