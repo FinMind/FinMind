@@ -20,6 +20,8 @@ def test_pie(stock_id, start_date, end_date):
     df = data_loader.taiwan_stock_holding_shares_per(
         stock_id=stock_id, start_date=start_date, end_date=end_date
     )
+    df = df[df["date"] == max(df["date"])]
+    df = df[df["HoldingSharesLevel"] != "total"]
     df["labels"] = df["HoldingSharesLevel"]
     df["series"] = df["percent"]
     pie_plot_data = PiePlotSchema.df_convert(df)
