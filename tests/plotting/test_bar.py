@@ -5,14 +5,14 @@ from FinMind import plotting
 from FinMind.data import DataLoader
 from FinMind.schema import BarPlotSchema
 
-testdata_kline = [
+testdata_bar = [
     ("1220", "2015-1M", "2020-1M"),
     ("2330", "2018-01-01", "2021-03-03"),
 ]
 
 
-@pytest.mark.parametrize("stock_id, start_date, end_date", testdata_kline)
-def test_kline(stock_id, start_date, end_date):
+@pytest.mark.parametrize("stock_id, start_date, end_date", testdata_bar)
+def test_bar(stock_id, start_date, end_date):
     user_id = os.environ.get("FINMIND_USER", "")
     password = os.environ.get("FINMIND_PASSWORD", "")
     data_loader = DataLoader()
@@ -27,5 +27,4 @@ def test_kline(stock_id, start_date, end_date):
     )
     df["series"] = df["revenue"].agg(lambda value: round(value / 1e8, 2))
     bar_plot_data = BarPlotSchema.df_convert(df)
-
     assert plotting.bar(bar_plot_data)
