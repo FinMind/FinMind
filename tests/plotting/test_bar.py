@@ -23,7 +23,7 @@ def test_bar(stock_id, start_date, end_date):
     df["labels"] = (
         df[["revenue_year", "revenue_month"]]
         .astype(str)
-        .agg(lambda date: f"{date[0]}-{date[1]}M", axis=1)
+        .apply(lambda date: f"{date[0]}-{date[1]}M", axis=1)
     )
     df["series"] = df["revenue"].map(lambda value: round(value / 1e8, 2))
     bar_plot_data = BarPlotSchema.df_convert(df)
