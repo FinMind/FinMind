@@ -23,8 +23,8 @@ def test_line(stock_id, start_date, end_date):
     df["labels"] = (
         df[["revenue_year", "revenue_month"]]
         .astype(str)
-        .agg(lambda date: f"{date[0]}-{date[1]}M", axis=1)
+        .apply(lambda date: f"{date[0]}-{date[1]}M", axis=1)
     )
-    df["series"] = df["revenue"].agg(lambda value: round(value / 1e8, 2))
+    df["series"] = df["revenue"].apply(lambda value: round(value / 1e8, 2))
     line_plot_data = LinePlotSchema.df_convert(df)
     assert plotting.line(line_plot_data)
