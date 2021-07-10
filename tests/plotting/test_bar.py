@@ -25,6 +25,6 @@ def test_bar(stock_id, start_date, end_date):
         .astype(str)
         .apply(lambda date: f"{date[0]}-{date[1]}M", axis=1)
     )
-    df["series"] = df["revenue"].map(lambda value: round(value / 1e8, 2))
+    df["series"] = df["revenue"].map(lambda value: round(value * 1e-8, 2))
     bar_plot_data = BarPlotSchema.df_convert(df)
     assert plotting.bar(bar_plot_data)
