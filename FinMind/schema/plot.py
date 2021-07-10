@@ -10,9 +10,9 @@ class Labels(BaseModel):
     @validator("labels", allow_reuse=True, each_item=True)
     def valid(cls, value):
         if isinstance(value, str):
-            print("str pass")
+            pass
         elif isinstance(value, int):
-            print("int pass")
+            pass
         else:
             raise Exception(
                 "the type of labels must be list[int] for list[str]."
