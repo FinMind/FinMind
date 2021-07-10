@@ -1,12 +1,15 @@
+import typing
+
 from IPython.display import HTML, display
 from pyecharts import options as opts
 from pyecharts.charts import Line
 
-from FinMind import LinePlotSchema
+from FinMind.schema.plot import Labels, Series, check_labels_series_schema
 
 
 def line(
-    line_plot_data: LinePlotSchema,
+    labels: typing.Union[typing.List[typing.Union[str, int]], Labels],
+    series: typing.Union[typing.List[typing.Union[int, float]], Series],
     y_series_name: str = "",
     y_axis_name: str = "億",
     yaxis_color: str = "#dca540",
@@ -28,12 +31,13 @@ def line(
     :return: display line
     :rtype pyecharts.charts.Line
     """
+    labels, series = check_labels_series_schema(labels, series)
     plot_plot = (
         Line(opts.InitOpts(width=width, height=height))
-        .add_xaxis(line_plot_data.labels)
+        .add_xaxis(labels.labels)
         .add_yaxis(
             series_name=y_series_name,
-            y_axis=line_plot_data.series,
+            y_axis=series.series,
             itemstyle_opts=opts.ItemStyleOpts(color=yaxis_color),
         )
         .set_global_opts(

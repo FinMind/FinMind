@@ -3,7 +3,7 @@ import os
 import pytest
 
 from FinMind.data import DataLoader
-from FinMind.schema import LinePlotSchema
+from FinMind.schema.plot import Labels, Series, check_labels_series_schema
 
 
 @pytest.fixture(scope="module")
@@ -24,11 +24,19 @@ def df():
     return df
 
 
-def test_LinePlotSchema(df):
-    line_plot_data = LinePlotSchema(**df.to_dict("list"))
-    assert isinstance(line_plot_data, LinePlotSchema)
+def test_Labels(df):
+    labels = df.to_dict("list")["labels"]
+    assert Labels(labels=labels)
 
 
-def test_LinePlotSchema_df_convert(df):
-    line_plot_data = LinePlotSchema.df_convert(df)
-    assert isinstance(line_plot_data, LinePlotSchema)
+def test_Series(df):
+    series = df.to_dict("list")["series"]
+    assert Series(series=series)
+
+
+def test_check_labels_series_schema(df):
+    labels = df.to_dict("list")["labels"]
+    series = df.to_dict("list")["series"]
+    labels, series = check_labels_series_schema(labels=labels, series=series)
+    assert isinstance(labels, Labels)
+    assert isinstance(series, Series)
