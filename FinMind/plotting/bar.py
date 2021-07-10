@@ -18,7 +18,6 @@ def bar(
     height: str = "600px",
     filename: str = "bar.html",
 ):
-    labels, series = check_labels_series_schema(labels, series)
     """plot bar
     :param: bar_plot_data (:obj:FinMind.BarPlotSchema)
     BarPlotSchema(labels=labels, series=series)
@@ -33,6 +32,7 @@ def bar(
     :return: display bar
     :rtype pyecharts.charts.Bar
     """
+    labels, series = check_labels_series_schema(labels, series)
     bar_plot = (
         Bar(opts.InitOpts(width=width, height=height))
         .add_xaxis(labels.labels)
