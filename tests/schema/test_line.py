@@ -20,7 +20,7 @@ def df():
         .astype(str)
         .apply(lambda date: f"{date[0]}-{date[1]}M", axis=1)
     )
-    df["series"] = df["revenue"].apply(lambda value: round(value / 1e8, 2))
+    df["series"] = df["revenue"].apply(lambda value: round(value * 1e-8, 2))
     return df
 
 
