@@ -4,11 +4,12 @@ from IPython.display import HTML, display
 from pyecharts import options as opts
 from pyecharts.charts import Pie
 
-from FinMind.schema import PiePlotSchema
+from FinMind.schema.plot import Labels, Series, check_labels_series_schema
 
 
 def pie(
-    pie_plot_data: PiePlotSchema,
+    labels: typing.Union[typing.List[typing.Union[str, int]], Labels],
+    series: typing.Union[typing.List[typing.Union[int, float]], Series],
     title: str = "title",
     series_name: str = "",
     width: str = "800px",
@@ -32,12 +33,13 @@ def pie(
     :return: display pie
     :rtype pyecharts.charts.Pie
     """
+    labels, series = check_labels_series_schema(labels, series)
     pie_plot = (
         Pie()
         .add(
             series_name=series_name,
             data_pair=[
-                list(z) for z in zip(pie_plot_data.labels, pie_plot_data.series)
+                list(z) for z in zip(labels.labels, series.series)
             ],
             radius=radius,
         )

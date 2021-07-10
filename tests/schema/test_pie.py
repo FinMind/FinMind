@@ -3,7 +3,7 @@ import os
 import pytest
 
 from FinMind.data import DataLoader
-from FinMind.schema import PiePlotSchema
+from FinMind.schema.plot import Labels, Series, check_labels_series_schema
 
 
 @pytest.fixture(scope="module")
@@ -20,11 +20,19 @@ def df():
     return df
 
 
-def test_PiePlotSchema(df):
-    pie_plot_data = PiePlotSchema(**df.to_dict("list"))
-    assert isinstance(pie_plot_data, PiePlotSchema)
+def test_Labels(df):
+    labels = df.to_dict("list")["labels"]
+    assert Labels(labels=labels)
 
 
-def test_PiePlotSchema_df_convert(df):
-    pie_plot_data = PiePlotSchema.df_convert(df)
-    assert isinstance(pie_plot_data, PiePlotSchema)
+def test_Series(df):
+    series = df.to_dict("list")["series"]
+    assert Series(series=series)
+
+
+def test_check_labels_series_schema(df):
+    labels = df.to_dict("list")["labels"]
+    series = df.to_dict("list")["series"]
+    labels, series = check_labels_series_schema(labels=labels, series=series)
+    assert isinstance(labels, Labels)
+    assert isinstance(series, Series)
