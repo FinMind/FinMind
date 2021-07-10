@@ -14,13 +14,9 @@ class BarPlotSchema(BaseModel):
         **kwargs
     ):
         super(BarPlotSchema, self).__init__(
-            **{
-                **dict(
-                    labels=labels,
-                    series=series,
-                ),
-                **kwargs,
-            }
+            labels=labels,
+            series=series,
+            **kwargs,
         )
 
     @staticmethod
