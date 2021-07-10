@@ -1,12 +1,15 @@
+import typing
+
 from IPython.display import HTML, display
 from pyecharts import options as opts
 from pyecharts.charts import Bar
 
-from FinMind import BarPlotSchema
+from FinMind.schema.plot import Labels, Series, check_labels_series_schema
 
 
 def bar(
-    bar_plot_data: BarPlotSchema,
+    labels: typing.Union[typing.List[typing.Union[str, int]], Labels],
+    series: typing.Union[typing.List[typing.Union[int, float]], Series],
     y_series_name: str = "",
     y_axis_name: str = "億",
     yaxis_color: str = "#dca540",
@@ -15,6 +18,7 @@ def bar(
     height: str = "600px",
     filename: str = "bar.html",
 ):
+    labels, series = check_labels_series_schema(labels, series)
     """plot bar
     :param: bar_plot_data (:obj:FinMind.BarPlotSchema)
     BarPlotSchema(labels=labels, series=series)
@@ -31,10 +35,10 @@ def bar(
     """
     bar_plot = (
         Bar(opts.InitOpts(width=width, height=height))
-        .add_xaxis(bar_plot_data.labels)
+        .add_xaxis(labels.labels)
         .add_yaxis(
             series_name=y_series_name,
-            y_axis=bar_plot_data.series,
+            y_axis=series.series,
             itemstyle_opts=opts.ItemStyleOpts(color=yaxis_color),
         )
         .set_global_opts(

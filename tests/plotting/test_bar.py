@@ -3,7 +3,6 @@ import os
 
 from FinMind import plotting
 from FinMind.data import DataLoader
-from FinMind.schema import BarPlotSchema
 
 testdata_bar = [
     ("1220", "2015-1M", "2020-1M"),
@@ -12,7 +11,7 @@ testdata_bar = [
 
 
 @pytest.mark.parametrize("stock_id, start_date, end_date", testdata_bar)
-def test_bar(stock_id, start_date, end_date):
+def test_bar_success(stock_id, start_date, end_date):
     user_id = os.environ.get("FINMIND_USER", "")
     password = os.environ.get("FINMIND_PASSWORD", "")
     data_loader = DataLoader()
@@ -26,5 +25,22 @@ def test_bar(stock_id, start_date, end_date):
         .apply(lambda date: f"{date[0]}-{date[1]}M", axis=1)
     )
     df["series"] = df["revenue"].map(lambda value: round(value * 1e-8, 2))
-    bar_plot_data = BarPlotSchema.df_convert(df)
-    assert plotting.bar(bar_plot_data)
+    assert plotting.bar(labels=df["labels"], series=df["series"])
+
+
+def test_bar_failed():
+    user_id = os.environ.get("FINMIND_USER", "")
+    password = os.environ.get("FINMIND_PASSWORD", "")
+    data_loader = DataLoader()
+    data_loader.login(user_id, password)
+    df = data_loader.taiwan_stock_month_revenue(
+        stock_id="2330", start_date="2018-01-01", end_date="2021-03-03"
+    )
+    df["series"] = (
+        df[["revenue_year", "revenue_month"]]
+        .astype(str)
+        .apply(lambda date: f"{date[0]}-{date[1]}M", axis=1)
+    )
+    df["labels"] = df["revenue"].map(lambda value: round(value * 1e-8, 2))
+    with (pytest.raises(Exception)):
+        plotting.bar(labels=df["labels"], series=df["series"])
