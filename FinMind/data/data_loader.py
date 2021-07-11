@@ -1013,13 +1013,20 @@ class DataLoader(FinMindApi):
         :rtype column stock_id (str)
         :rtype column date (str)
         """
-        stock_news = self.get_data(
+        stock_total_return_index = self.get_data(
             dataset=Dataset.TaiwanStockTotalReturnIndex,
-            data_id=stock_id,
+            data_id=index_id,
             start_date=start_date,
             end_date=end_date,
         )
-        return stock_news
+        stock_total_return_index.columns = stock_total_return_index.columns.map(
+            dict(
+                price="price",
+                stock_id="index_id",
+                date="date",
+            )
+        )
+        return stock_total_return_index
 
 
 class Feature:
