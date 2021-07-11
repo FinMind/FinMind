@@ -3,7 +3,7 @@ import os
 import pytest
 
 from FinMind.data import DataLoader
-from FinMind.schema.plot import Labels, Series, check_labels_series_schema
+from FinMind.schema.plot import Labels, Series, convert_labels_series_schema
 
 
 @pytest.fixture(scope="module")
@@ -30,9 +30,9 @@ def test_Series(df):
     assert Series(series=series)
 
 
-def test_check_labels_series_schema(df):
+def test_convert_labels_series_schema(df):
     labels = df.to_dict("list")["labels"]
     series = df.to_dict("list")["series"]
-    labels, series = check_labels_series_schema(labels=labels, series=series)
+    labels, series = convert_labels_series_schema(labels=labels, series=series)
     assert isinstance(labels, Labels)
     assert isinstance(series, Series)

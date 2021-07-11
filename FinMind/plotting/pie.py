@@ -4,7 +4,7 @@ from IPython.display import HTML, display
 from pyecharts import options as opts
 from pyecharts.charts import Pie
 
-from FinMind.schema.plot import Labels, Series, check_labels_series_schema
+from FinMind.schema.plot import Labels, Series, convert_labels_series_schema
 
 
 def pie(
@@ -33,14 +33,12 @@ def pie(
     :return: display pie
     :rtype pyecharts.charts.Pie
     """
-    labels, series = check_labels_series_schema(labels, series)
+    labels, series = convert_labels_series_schema(labels, series)
     pie_plot = (
         Pie()
         .add(
             series_name=series_name,
-            data_pair=[
-                list(z) for z in zip(labels.labels, series.series)
-            ],
+            data_pair=[list(z) for z in zip(labels.labels, series.series)],
             radius=radius,
         )
         .set_global_opts(
