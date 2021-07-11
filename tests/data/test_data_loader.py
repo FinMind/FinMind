@@ -471,3 +471,17 @@ def test_taiwan_stock_month_revenue_month(data_loader):
             "revenue_year",
         ],
     )
+
+
+def test_taiwan_stock_total_return_index(data_loader):
+    data = data_loader.taiwan_stock_total_return_index(
+        stock_id="TAIEX", start_date="2020-01-01", end_date="2021-01-01"
+    )
+    assert_data(
+        data,
+        [
+            "price",
+            "stock_id",
+            "date",
+        ],
+    )
