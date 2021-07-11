@@ -28,6 +28,7 @@ class Dataset(str, Enum):
     TaiwanFuturesDaily = "TaiwanFuturesDaily"
     TaiwanOptionDaily = "TaiwanOptionDaily"
     TaiwanStockNews = "TaiwanStockNews"
+    TaiwanStockTotalReturnIndex = "TaiwanStockTotalReturnIndex"
     USStockPrice = "USStockPrice"
     TaiwanStockDividendResult = "TaiwanStockDividendResult"
     TaiwanStockInfo = "TaiwanStockInfo"

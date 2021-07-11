@@ -926,7 +926,7 @@ class DataLoader(FinMindApi):
         self, futures_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
         """get 期貨各卷商每日交易
-        :param option_id: 期貨代號("TX")
+        :param futures_id: 期貨代號("TX")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
 
@@ -976,7 +976,7 @@ class DataLoader(FinMindApi):
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
         """get 相關新聞
-        :param option_id: 股票代號("2330")
+        :param stock_id: 股票代號("2330")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
 
@@ -996,6 +996,37 @@ class DataLoader(FinMindApi):
             end_date=end_date,
         )
         return stock_news
+
+    def taiwan_stock_total_return_index(
+        self, index_id: str = "", start_date: str = "", end_date: str = ""
+    ) -> pd.DataFrame:
+        """get 加權, 櫃買報酬指數
+        :param index_id: index 代號,
+            "TAIEX" (發行量加權股價報酬指數),
+            "TPEx" (櫃買指數與報酬指數)
+        :param start_date (str): 起始日期("2018-01-01")
+        :param end_date (str): 結束日期("2021-03-06")
+
+        :return: 加權, 櫃買報酬指數 TaiwanStockTotalReturnIndex
+        :rtype pd.DataFrame
+        :rtype column price (float)
+        :rtype column stock_id (str)
+        :rtype column date (str)
+        """
+        stock_total_return_index = self.get_data(
+            dataset=Dataset.TaiwanStockTotalReturnIndex,
+            data_id=index_id,
+            start_date=start_date,
+            end_date=end_date,
+        )
+        stock_total_return_index.columns = stock_total_return_index.columns.map(
+            dict(
+                price="price",
+                stock_id="index_id",
+                date="date",
+            )
+        )
+        return stock_total_return_index
 
 
 class Feature:
