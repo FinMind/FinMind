@@ -348,5 +348,5 @@ def chart_data():
 
 def test_process_stock_data(stock_data, chart_data):
     result = process_stock_data(stock_data)
-    excepted = chart_data
-    assert result == excepted
+    expected = chart_data
+    assert result == expected
