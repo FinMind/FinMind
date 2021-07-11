@@ -998,10 +998,10 @@ class DataLoader(FinMindApi):
         return stock_news
 
     def taiwan_stock_total_return_index(
-        self, stock_id: str = "", start_date: str = "", end_date: str = ""
+        self, index_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
         """get 加權, 櫃買報酬指數
-        :param stock_id: 股票代號,
+        :param index_id: index 代號,
             "TAIEX" (發行量加權股價報酬指數),
             "TPEx" (櫃買指數與報酬指數)
         :param start_date (str): 起始日期("2018-01-01")
