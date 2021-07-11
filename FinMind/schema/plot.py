@@ -36,23 +36,21 @@ class Series(BaseModel):
         return value
 
 
-def check_labels_series_schema(
+def convert_labels_series_schema(
     labels: typing.Union[typing.List[typing.Union[str, int]], Labels],
     series: typing.Union[typing.List[typing.Union[int, float]], Series],
 ):
     if isinstance(labels, Labels):
         pass
-    elif isinstance(labels, pd.core.series.Series):
-        labels = list(labels)
-        labels = Labels(labels=labels)
+    elif isinstance(labels, pd.Series):
+        labels = Labels(labels=labels.tolist())
     elif isinstance(labels, list):
         labels = Labels(labels=labels)
 
     if isinstance(series, Series):
         pass
-    elif isinstance(series, pd.core.series.Series):
-        series = list(series)
-        series = Series(series=series)
+    elif isinstance(series, pd.Series):
+        series = Series(series=series.tolist())
     elif isinstance(series, list):
         series = Series(series=series)
     return labels, series

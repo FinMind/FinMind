@@ -4,7 +4,7 @@ from IPython.display import HTML, display
 from pyecharts import options as opts
 from pyecharts.charts import Bar
 
-from FinMind.schema.plot import Labels, Series, check_labels_series_schema
+from FinMind.schema.plot import Labels, Series, convert_labels_series_schema
 
 
 def bar(
@@ -32,7 +32,7 @@ def bar(
     :return: display bar
     :rtype pyecharts.charts.Bar
     """
-    labels, series = check_labels_series_schema(labels, series)
+    labels, series = convert_labels_series_schema(labels, series)
     bar_plot = (
         Bar(opts.InitOpts(width=width, height=height))
         .add_xaxis(labels.labels)
