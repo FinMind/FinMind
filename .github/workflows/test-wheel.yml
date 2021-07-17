@@ -5,7 +5,7 @@ name: test build python package
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ abc ]
 
 jobs:
   build:
