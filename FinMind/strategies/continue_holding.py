@@ -15,9 +15,6 @@ class ContinueHolding(Strategy):
         '''
         create indicator
         '''
-        # stock_price["signal"] = (
-        #     stock_price.index % self.buy_freq_day == 0
-        # ).astype(int)
         return stock_price
 
     def next(self):
