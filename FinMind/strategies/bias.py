@@ -31,7 +31,7 @@ class Bias(Strategy):
             (stock_price["close"] - stock_price[f"ma{self.ma_days}"])
             / stock_price[f"ma{self.ma_days}"]
         ) * 100
-        stock_price = stock_price.dropna()
+        # stock_price = stock_price.dropna()
         stock_price.index = range(len(stock_price))
         stock_price["signal"] = stock_price["bias"].map(
             lambda x: 1
@@ -41,3 +41,16 @@ class Bias(Strategy):
 
         stock_price["signal"] = stock_price["signal"].fillna(0)
         return stock_price
+
+    def next(self):
+        signal = 0 if  len(self.indicator) == 0 else self.indicator["signal"].values[-1]
+
+        trade_price = self.stock_price["open"].values[-1]
+        trade_lots = signal
+
+        if signal > 0:
+            self.buy(trade_price=trade_price, trade_lots=trade_lots)
+        elif signal < 0:
+            self.sell(trade_price=trade_price, trade_lots=trade_lots)
+        else:
+            self.no_action(trade_price=trade_price)

@@ -43,6 +43,9 @@ class Trader:
         self.UnrealizedProfit = 0
         self.RealizedProfit = 0
         self.EverytimeProfit = 0
+        self.orderlists = []
+        self.positionlists = [{"hold_volume":0, "trader_fund":self.trader_fund}]
+        self.EverytimeProfits = []
 
     def buy(self, trade_price: float, trade_lots: float):
         self.trade_price = trade_price
@@ -60,6 +63,15 @@ class Trader:
             self.hold_cost = (
                 origin_hold_cost + buy_total_price
             ) / self.hold_volume
+
+            order = {"trade_volume":trade_volume, "trade_price":trade_price, "fee":buy_fee}
+            last_postion = self.positionlists[-1]
+            position = {
+                "hold_volume":last_postion["hold_volume"]+trade_volume,
+                "trader_fund":last_postion["trader_fund"]-buy_total_price
+            }
+            self.orderlists.append(order)
+            self.positionlists.append(position)
 
         self.__compute_realtime_status()
 
@@ -81,11 +93,24 @@ class Trader:
             )
             self.hold_volume = self.hold_volume - trade_volume
 
+            order = {"trade_volume":trade_volume, "trade_price":trade_price, "fee":sell_fee}
+            last_postion = self.positionlists[-1]
+            position = {
+                "hold_volume":last_postion["hold_volume"]-trade_volume,
+                "trader_fund":last_postion["trader_fund"]-sell_total_price
+            }
+            self.orderlists.append(order)
+            self.positionlists.append(position)
+
         self.__compute_realtime_status()
 
     def no_action(self, trade_price: float):
         self.trade_price = trade_price
         self.__compute_realtime_status()
+        order = {"trade_volume":0, "trade_price":trade_price, "fee":0}
+        position = self.positionlists[-1]
+        self.orderlists.append(order)
+        self.positionlists.append(position)
 
     def __compute_realtime_status(self):
         sell_fee = max(20, self.trade_price * self.hold_volume * self.fee)
@@ -95,6 +120,7 @@ class Trader:
         capital_gains = sell_price - self.hold_cost * self.hold_volume
         self.UnrealizedProfit = capital_gains - sell_fee - sell_tax
         self.EverytimeProfit = self.UnrealizedProfit + self.RealizedProfit
+        self.EverytimeProfits.append(self.EverytimeProfit)
 
     @staticmethod
     def __have_enough_money(
@@ -135,6 +161,14 @@ class Trader:
                 final_trade_lots = 0
         return final_trade_lots
 
+    # @property
+    # def positions(self):
+    #     return pd.DataFrame(self.position)
+
+    # @property
+    # def orders(self):
+    #     return pd.concat([self.indicator[["date", "stock_id"]], pd.DataFrame(self.orders)], axis=1)
+
 
 class Strategy:
     def __init__(
@@ -155,22 +189,34 @@ class Strategy:
     def load_strategy_data(self):
         pass
 
-    def trade(self, signal: float, trade_price: float):
-        if signal > 0:
-            self.buy(trade_price=trade_price, trade_lots=signal)
-        elif signal < 0:
-            self.sell(trade_price=trade_price, trade_lots=signal)
-        else:
-            self.no_action(trade_price=trade_price)
+    # def trade(self, signal: float, trade_price: float):
+    #     if signal > 0:
+    #         self.buy(trade_price=trade_price, trade_lots=signal)
+    #     elif signal < 0:
+    #         self.sell(trade_price=trade_price, trade_lots=signal)
+    #     else:
+    #         self.no_action(trade_price=trade_price)
 
     def buy(self, trade_price: float, trade_lots: float):
         self.trader.buy(trade_price, trade_lots)
+        #TODO: add trade order
 
     def sell(self, trade_price: float, trade_lots: float):
         self.trader.sell(trade_price, trade_lots)
 
     def no_action(self, trade_price: float):
         self.trader.no_action(trade_price)
+
+    def next(self):
+        pass
+
+    @property
+    def position(self):
+        return pd.concat([self.indicator[["date", "stock_id"]], pd.DataFrame(self.trader.positionlists[1:])], axis=1)
+
+    @property
+    def orders(self):
+        return pd.concat([self.indicator[["date", "stock_id"]], pd.DataFrame(self.trader.orderlists)], axis=1)
 
 
 class BackTest:
@@ -229,6 +275,7 @@ class BackTest:
             start_date=self.start_date,
             end_date=self.end_date,
         )
+        self.div = self.stock_price[["date", "stock_id"]].copy()
         if not stock_dividend.empty:
             cash_div = stock_dividend[
                 [
@@ -244,23 +291,24 @@ class BackTest:
                     "StockEarningsDistribution",
                 ]
             ].rename(columns={"StockExDividendTradingDate": "date"})
-            self.stock_price = pd.merge(
-                self.stock_price,
+
+            self.div = pd.merge(
+                self.div,
                 cash_div,
                 left_on=["stock_id", "date"],
                 right_on=["stock_id", "date"],
                 how="left",
             ).fillna(0)
-            self.stock_price = pd.merge(
-                self.stock_price,
+            self.div = pd.merge(
+                self.div,
                 stock_div,
                 left_on=["stock_id", "date"],
                 right_on=["stock_id", "date"],
                 how="left",
             ).fillna(0)
         else:
-            self.stock_price["StockEarningsDistribution"] = 0
-            self.stock_price["CashEarningsDistribution"] = 0
+            self.div["StockEarningsDistribution"] = 0
+            self.div["CashEarningsDistribution"] = 0
 
     def simulate(self):
         strategy = self.strategy(
@@ -271,12 +319,12 @@ class BackTest:
             self.data_loader,
         )
         strategy.load_strategy_data()
-        self.stock_price = strategy.create_trade_sign(
-            stock_price=self.stock_price
+        self.indicator = strategy.create_trade_sign(
+            stock_price=self.stock_price.copy()
         )
-        assert (
-            "signal" in self.stock_price.columns
-        ), "Must be create signal columns in stock_price"
+        # assert (
+        #     "signal" in self.stock_price.columns
+        # ), "Must be create signal columns in stock_price"
         if not self.stock_price.index.is_monotonic_increasing:
             warnings.warn(
                 "data index is not sorted in ascending order. Sorting.",
@@ -284,22 +332,28 @@ class BackTest:
             )
             self.stock_price = self.stock_price.sort_index()
         for i in range(0, len(self.stock_price)):
+            setattr(strategy, "stock_price", self.stock_price[i:i+1][["date", "stock_id", "open", "max", "min", "close"]])
+            setattr(strategy, "indicator", self.indicator[:i]) # only have information before i day
+
+            strategy.next()
             # use last date to decide buy or sell or nothing
-            last_date_index = i - 1
-            signal = (
-                self.stock_price.loc[last_date_index, "signal"] if i != 0 else 0
-            )
-            trade_price = self.stock_price.loc[i, "open"]
-            strategy.trade(signal, trade_price)
-            cash_div = self.stock_price.loc[i, "CashEarningsDistribution"]
-            stock_div = self.stock_price.loc[i, "StockEarningsDistribution"]
+            # last_date_index = i - 1
+            # signal = (
+            #     self.stock_price.loc[last_date_index, "signal"] if i != 0 else 0
+            # )
+            # trade_price = self.stock_price.loc[i, "open"]
+            # strategy.trade(signal, trade_price)
+
+            # TODO: functionlize below part
+            cash_div = self.div.loc[i, "CashEarningsDistribution"]
+            stock_div = self.div.loc[i, "StockEarningsDistribution"]
             self.__compute_div_income(strategy.trader, cash_div, stock_div)
             dic_value = strategy.trader.__dict__
             dic_value = {
                 k: v for k, v in dic_value.items() if k not in ["tax", "fee"]
             }
             dic_value["date"] = self.stock_price.loc[i, "date"]
-            dic_value["signal"] = signal
+            # dic_value["signal"] = signal
             dic_value["CashEarningsDistribution"] = cash_div
             dic_value["StockEarningsDistribution"] = stock_div
             self._trade_detail = self._trade_detail.append(

@@ -21,7 +21,7 @@ class TradeDetail(BaseModel):
     board_lot: int
     hold_cost: float
     hold_volume: int
-    signal: int
+    # signal: int
     trade_price: float
     trader_fund: float
     EverytimeTotalProfit: float
