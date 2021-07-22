@@ -120,13 +120,14 @@ plotting.kline(stock_data)
 -------------------------------------------
 
 #### [dashboard.ipynb](https://colab.research.google.com/drive/15lE2rtYuE-qoEUNNSE-cDbZiDnUFL85h?usp=sharing)
-![png](figure/dashboard.png)
+
 
 -------------------------------------------
-
+#### dashboard example and start website/dashboard server
 ```python
 python example/dashboard.py
 ```
+
 ![png](figure/dashboard_flask.png)
 
 -------------------------------------------
