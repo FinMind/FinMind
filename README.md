@@ -80,6 +80,12 @@ without having to collect the data by yourself.
     - [Document](https://finmind.github.io/)
     - [壓力測試](https://finmind.github.io/StressTest/)
   <!--- [Crawler (爬蟲)](https://github.com/FinMind/FinMind/tree/master#Crawler-爬蟲)-->
+- Example
+    - [backtest](/example/backtest.md)
+    - [real_time_data_subscription](example/real_time_data_subscription.md)
+    - [customer_dashboard_web_server](example/customer_dashboard_web_server.md)
+    - [kbar_plotting.ipynb](https://colab.research.google.com/drive/1u1cJGFNCLOeBIR0PdeKlsqgKBJSvJg_y?usp=sharing)
+    - [dashboard.ipynb](https://colab.research.google.com/drive/15lE2rtYuE-qoEUNNSE-cDbZiDnUFL85h?usp=sharing)
 
 - Other
     - [Open UP Summit Slide (PPT)](https://www.slideshare.net/ssusera12be6/finmind-project-demo-199815617)
@@ -117,6 +123,9 @@ plotting.kline(stock_data)
 
 ![gif](figure/kbar_plotting.gif)
 
+#### dashboard
+
+![png](figure/dashboard.png)
 -------------------------------------------
 
 ## Contact
