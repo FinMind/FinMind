@@ -1,3 +1,8 @@
+## dashboard example and start website/dashboard server
+
+設計 dashboard 並使用 flask 在 local 架 server
+
+```python
 from pathlib import Path
 
 from flask import Flask, render_template, request
@@ -122,3 +127,7 @@ def submit():
 
 
 app.run(host="0.0.0.0", debug=True)
+
+```
+
+![png](../figure/dashboard_flask.png)
