@@ -125,7 +125,7 @@ plotting.kline(stock_data)
 
 #### dashboard
 
-![gif](figure/dashboard.png)
+![png](figure/dashboard.png)
 -------------------------------------------
 
 ## Contact
