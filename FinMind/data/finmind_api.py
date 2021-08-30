@@ -13,18 +13,22 @@ def request_get(
     url: str, params: typing.Dict[str, typing.Union[int, str, float]]
 ):
     response = None
+    error = None
     for i in range(10):
         try:
             response = requests.get(
-                url, verify=True, params=params, timeout=5
-            ).json()
+                url, verify=True, params=params, timeout=10
+            )
             break
-        except:
+        except Exception as e:
+            error = e
             continue
-    if response:
-        return response
-    else:
+    if response is None:
+        logger.error(params)
+        logger.error(error)
         raise Exception("Timeout")
+    else:
+        return response
 
 
 class FinMindApi:
@@ -108,7 +112,7 @@ class FinMindApi:
         params = self._compatible_api_version(params)
         url = f"{self.__api_url}/{self.__api_version}/data"
         logger.debug(params)
-        response = request_get(url, params)
+        response = request_get(url, params).json()
         if response:
             if "msg" not in response or response["msg"] != "success":
                 logger.error(params)
@@ -127,8 +131,7 @@ class FinMindApi:
             "device": self.__device,
         }
         url = f"{self.__api_url}/{self.__api_version}/datalist"
-        response = request_get(url, params)
-        data = response.json()
+        data = request_get(url, params).json()
         if data.get("status", 200) == 200:
             data = data["data"]
         return data
@@ -141,8 +144,7 @@ class FinMindApi:
             "device": self.__device,
         }
         url = f"{self.__api_url}/{self.__api_version}/translation"
-        response = request_get(url, params)
-        data = response.json()
+        data = request_get(url, params).json()
         if data.get("status", 0) == 200:
             data = pd.DataFrame(data["data"])
         return data
