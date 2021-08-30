@@ -1,4 +1,5 @@
 import sys
+import typing
 
 import pandas as pd
 import requests
@@ -6,6 +7,24 @@ from loguru import logger
 
 logger.remove()
 logger.add(sys.stderr, level="INFO")
+
+
+def request_get(
+    url: str, params: typing.Dict[str, typing.Union[int, str, float]]
+):
+    response = None
+    for i in range(10):
+        try:
+            response = requests.get(
+                url, verify=True, params=params, timeout=5
+            ).json()
+            break
+        except:
+            continue
+    if response:
+        return response
+    else:
+        raise Exception("Timeout")
 
 
 class FinMindApi:
@@ -89,11 +108,14 @@ class FinMindApi:
         params = self._compatible_api_version(params)
         url = f"{self.__api_url}/{self.__api_version}/data"
         logger.debug(params)
-        response = requests.get(url, verify=True, params=params).json()
-        if "msg" not in response or response["msg"] != "success":
-            logger.error(params)
-            raise Exception(response)
-        return pd.DataFrame(response["data"])
+        response = request_get(url, params)
+        if response:
+            if "msg" not in response or response["msg"] != "success":
+                logger.error(params)
+                raise Exception(response)
+            return pd.DataFrame(response["data"])
+        else:
+            return pd.DataFrame()
 
     def get_datalist(self, dataset: str) -> pd.DataFrame:
         # 測試不支援以token方式獲取
@@ -105,8 +127,8 @@ class FinMindApi:
             "device": self.__device,
         }
         url = f"{self.__api_url}/{self.__api_version}/datalist"
-        res = requests.get(url, verify=True, params=params)
-        data = res.json()
+        response = request_get(url, params)
+        data = response.json()
         if data.get("status", 200) == 200:
             data = data["data"]
         return data
@@ -119,8 +141,8 @@ class FinMindApi:
             "device": self.__device,
         }
         url = f"{self.__api_url}/{self.__api_version}/translation"
-        res = requests.get(url, verify=True, params=params)
-        data = res.json()
+        response = request_get(url, params)
+        data = response.json()
         if data.get("status", 0) == 200:
             data = pd.DataFrame(data["data"])
         return data
