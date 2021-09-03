@@ -16,19 +16,22 @@ def request_get(
     error = None
     for i in range(10):
         try:
-            response = requests.get(
-                url, verify=True, params=params, timeout=10
-            )
+            response = requests.get(url, verify=True, params=params, timeout=10)
             break
         except Exception as e:
             error = e
             continue
     if response is None:
         logger.error(params)
-        logger.error(error)
-        raise Exception("Timeout")
-    else:
-        return response
+        raise Exception(error)
+    elif (
+        "msg" not in response.json()
+        or response.json()["msg"] != "success"
+        or response.status_code != 200
+    ):
+        logger.error(params)
+        raise Exception(response.text)
+    return response
 
 
 class FinMindApi:
@@ -113,13 +116,7 @@ class FinMindApi:
         url = f"{self.__api_url}/{self.__api_version}/data"
         logger.debug(params)
         response = request_get(url, params).json()
-        if response:
-            if "msg" not in response or response["msg"] != "success":
-                logger.error(params)
-                raise Exception(response)
-            return pd.DataFrame(response["data"])
-        else:
-            return pd.DataFrame()
+        return pd.DataFrame(response["data"])
 
     def get_datalist(self, dataset: str) -> pd.DataFrame:
         # 測試不支援以token方式獲取
@@ -132,8 +129,7 @@ class FinMindApi:
         }
         url = f"{self.__api_url}/{self.__api_version}/datalist"
         data = request_get(url, params).json()
-        if data.get("status", 200) == 200:
-            data = data["data"]
+        data = data["data"]
         return data
 
     def translation(self, dataset: str) -> pd.DataFrame:
@@ -145,6 +141,5 @@ class FinMindApi:
         }
         url = f"{self.__api_url}/{self.__api_version}/translation"
         data = request_get(url, params).json()
-        if data.get("status", 0) == 200:
-            data = pd.DataFrame(data["data"])
+        data = pd.DataFrame(data["data"])
         return data
