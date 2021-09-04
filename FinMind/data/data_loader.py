@@ -189,68 +189,6 @@ class DataLoader(FinMindApi):
         )
         return stock_tick
 
-    def taiwan_stock_tick_timely(
-        self, stock_id: str, streaming_all_data: bool = False
-    ) -> pd.DataFrame:
-        """get 台灣股價即時資料表 top 100
-        :param stock_id (str): 股票代號("2330")
-        :param streaming_all_data (bool): 是否拿取當天所有即時資料
-
-        :return: 台灣股價即時資料表 top 100 TaiwanStockPriceTick
-        :rtype pd.DataFrame
-        :rtype column date (str)
-        :rtype column stock_id (str)
-        :rtype column deal_price (float)
-        :rtype column volume (int)
-        """
-        stock_tick = self.get_data(
-            dataset=Dataset.TaiwanStockPriceTick,
-            data_id=stock_id,
-            streaming_all_data=streaming_all_data,
-        )
-        return stock_tick
-
-    def taiwan_stock_bid_ask(self, stock_id: str, date: str) -> pd.DataFrame:
-        """get 歷史台股最佳五檔
-        :param stock_id (str): 股票代號("2330")
-        :param date (str): 資料日期 ("2021-03-06")
-
-        :return: 歷史台股最佳五檔 TaiwanStockPriceBidAsk
-        :rtype pd.DataFrame
-        :rtype column stock_id (str)
-        :rtype column AskPrice (List[float])
-        :rtype column AskVolume (List[int])
-        :rtype column BidPrice (List[float])
-        :rtype column BidVolume (List[int])
-        :rtype column Time (str)
-        """
-        bid_ask = self.get_data(
-            dataset=Dataset.TaiwanStockPriceBidAsk,
-            data_id=stock_id,
-            start_date=date,
-        )
-        return bid_ask
-
-    def taiwan_stock_bid_ask_timely(self, stock_id: str) -> pd.DataFrame:
-        """get 台股即時最佳五檔 top 100
-        :param stock_id (str): 股票代號("2330")
-
-        :return: 台股即時最佳五檔 top 100 TaiwanStockPriceBidAsk
-        :rtype pd.DataFrame
-        :rtype column stock_id (str)
-        :rtype column AskPrice (List[float])
-        :rtype column AskVolume (List[int])
-        :rtype column BidPrice (List[float])
-        :rtype column BidVolume (List[int])
-        :rtype column Time (str)
-        :rtype column date (str)
-        """
-        bid_ask = self.get_data(
-            dataset=Dataset.TaiwanStockPriceBidAsk,
-            data_id=stock_id,
-        )
-        return bid_ask
-
     def taiwan_stock_per_pbr(
         self, stock_id: str = "", start_date: str = "", end_date: str = ""
     ) -> pd.DataFrame:
