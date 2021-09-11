@@ -4,19 +4,39 @@ import typing
 import pandas as pd
 import requests
 from loguru import logger
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
+
+from FinMind.schema.data import Dataset
 
 logger.remove()
 logger.add(sys.stderr, level="INFO")
 
 
+def create_session(retry_times: int = 5) -> requests.Session:
+    session = requests.Session()
+    retry = Retry(
+        total=retry_times,
+        backoff_factor=0.1,
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("https://", adapter)
+    return session
+
+
 def request_get(
-    url: str, params: typing.Dict[str, typing.Union[int, str, float]]
+    url: str,
+    params: typing.Dict[str, typing.Union[int, str, float]],
+    timeout: int = 30,
 ):
     response = None
     error = None
+    session = create_session()
     for i in range(10):
         try:
-            response = requests.get(url, verify=True, params=params, timeout=10)
+            response = session.get(
+                url, verify=True, params=params, timeout=timeout
+            )
             break
         except Exception as e:
             error = e
@@ -25,10 +45,12 @@ def request_get(
         logger.error(params)
         raise Exception(error)
     elif (
-        "msg" not in response.json()
-        or response.json()["msg"] != "success"
-        or response.status_code != 200
+        response.json()["msg"] == "success"
+        or response.status_code == 200
+        or "msg" in response.json()
     ):
+        pass
+    else:
         logger.error(params)
         raise Exception(response.text)
     return response
@@ -92,33 +114,42 @@ class FinMindApi:
                 params["date"] = params.pop("start_date")
             if "data_id" in params:
                 params["stock_id"] = params.pop("data_id")
-        else:
+        elif self.__api_version == "v4":
             if "date" in params:
                 params["start_date"] = params.pop("date")
-            if "stock_id" in params:
-                params["data_id"] = params.pop("stock_id")
         return params
 
-    def get_data(self, **params) -> pd.DataFrame:
+    def get_data(
+        self,
+        dataset: Dataset,
+        data_id: str = "",
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = 30,
+    ) -> pd.DataFrame:
         """
         :param params: finmind api參數
         :return:
         """
-        params.update(
-            dict(
-                user_id=self.__user_id,
-                password=self.__password,
-                token=self.__api_token,
-                device=self.__device,
-            )
+        params = dict(
+            dataset=dataset,
+            data_id=data_id,
+            stock_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            user_id=self.__user_id,
+            password=self.__password,
+            token=self.__api_token,
+            device=self.__device,
         )
         params = self._compatible_api_version(params)
         url = f"{self.__api_url}/{self.__api_version}/data"
         logger.debug(params)
-        response = request_get(url, params).json()
+        response = request_get(url, params, timeout).json()
         return pd.DataFrame(response["data"])
 
-    def get_datalist(self, dataset: str) -> pd.DataFrame:
+    def get_datalist(self, dataset: str, timeout: int = 30) -> pd.DataFrame:
         # 測試不支援以token方式獲取
         if not self.__user_id:
             raise Exception("please login by account")
@@ -128,11 +159,11 @@ class FinMindApi:
             "device": self.__device,
         }
         url = f"{self.__api_url}/{self.__api_version}/datalist"
-        data = request_get(url, params).json()
+        data = request_get(url, params, timeout).json()
         data = data["data"]
         return data
 
-    def translation(self, dataset: str) -> pd.DataFrame:
+    def translation(self, dataset: str, timeout: int = 30) -> pd.DataFrame:
         # 測試v4不支援
         params = {
             "dataset": dataset,
@@ -140,6 +171,6 @@ class FinMindApi:
             "device": self.__device,
         }
         url = f"{self.__api_url}/{self.__api_version}/translation"
-        data = request_get(url, params).json()
+        data = request_get(url, params, timeout).json()
         data = pd.DataFrame(data["data"])
         return data
