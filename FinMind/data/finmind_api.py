@@ -29,22 +29,9 @@ def request_get(
     params: typing.Dict[str, typing.Union[int, str, float]],
     timeout: int = 30,
 ):
-    response = None
-    error = None
     session = create_session()
-    for i in range(10):
-        try:
-            response = session.get(
-                url, verify=True, params=params, timeout=timeout
-            )
-            break
-        except Exception as e:
-            error = e
-            continue
-    if response is None:
-        logger.error(params)
-        raise Exception(error)
-    elif (
+    response = session.get(url, verify=True, params=params, timeout=timeout)
+    if (
         response.json()["msg"] == "success"
         or response.status_code == 200
         or "msg" in response.json()
