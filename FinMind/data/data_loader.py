@@ -838,13 +838,13 @@ class DataLoader(FinMindApi):
         """get 期貨, 選擇權日成交資訊總覽
         :param timeout (int): timeout seconds, default 30
 
-        :return: 期貨, 選擇權日成交資訊總覽 TaiwanOptionFutureInfo
+        :return: 期貨, 選擇權日成交資訊總覽 TaiwanFutOptDailyInfo
         :rtype pd.DataFrame
         :rtype column code (str)
         :rtype column type (str)
         """
         futopt_daily_info = self.get_data(
-            dataset=Dataset.TaiwanOptionFutureInfo, timeout=timeout
+            dataset=Dataset.TaiwanFutOptDailyInfo, timeout=timeout
         )
         return futopt_daily_info
 
