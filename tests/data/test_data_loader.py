@@ -358,6 +358,16 @@ def test_taiwan_stock_financial_statement_date(data_loader):
     )
 
 
+def test_taiwan_stock_financial_statement_date_no_end_date(data_loader):
+    data = data_loader.taiwan_stock_financial_statement(
+        stock_id="2330", start_date="2020-01-01"
+    )
+    assert_data(
+        data,
+        ["date", "stock_id", "type", "value", "origin_name"],
+    )
+
+
 def test_taiwan_stock_financial_statement_quarter(data_loader):
     data = data_loader.taiwan_stock_financial_statement(
         stock_id="2330", start_date="2020-Q1", end_date="2021-Q1"
@@ -371,6 +381,16 @@ def test_taiwan_stock_financial_statement_quarter(data_loader):
 def test_taiwan_stock_balance_sheet_date(data_loader):
     data = data_loader.taiwan_stock_balance_sheet(
         stock_id="2330", start_date="2020-01-01", end_date="2021-04-01"
+    )
+    assert_data(
+        data,
+        ["date", "stock_id", "type", "value", "origin_name"],
+    )
+
+
+def test_taiwan_stock_balance_sheet_date_no_end_date(data_loader):
+    data = data_loader.taiwan_stock_balance_sheet(
+        stock_id="2330", start_date="2020-01-01"
     )
     assert_data(
         data,
@@ -398,6 +418,16 @@ def test_taiwan_stock_cash_flows_statement_date(data_loader):
     )
 
 
+def test_taiwan_stock_cash_flows_statement_date_no_date(data_loader):
+    data = data_loader.taiwan_stock_cash_flows_statement(
+        stock_id="2330", start_date="2020-01-01"
+    )
+    assert_data(
+        data,
+        ["date", "stock_id", "type", "value", "origin_name"],
+    )
+
+
 def test_taiwan_stock_cash_flows_statement_quarter(data_loader):
     data = data_loader.taiwan_stock_cash_flows_statement(
         stock_id="2330", start_date="2020-Q1", end_date="2021-Q1"
@@ -411,6 +441,23 @@ def test_taiwan_stock_cash_flows_statement_quarter(data_loader):
 def test_taiwan_stock_month_revenue_date(data_loader):
     data = data_loader.taiwan_stock_month_revenue(
         stock_id="2330", start_date="2020-01-01", end_date="2021-06-01"
+    )
+    assert_data(
+        data,
+        [
+            "date",
+            "stock_id",
+            "country",
+            "revenue",
+            "revenue_month",
+            "revenue_year",
+        ],
+    )
+
+
+def test_taiwan_stock_month_revenue_date_no_date(data_loader):
+    data = data_loader.taiwan_stock_month_revenue(
+        stock_id="2330", start_date="2020-01-01"
     )
     assert_data(
         data,
