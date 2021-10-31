@@ -47,11 +47,7 @@ def request_get(
             urllib3.exceptions.ProtocolError,
         ) as exc:
             time.sleep(i * 0.1)
-    if (
-        response.json()["msg"] == "success"
-        or response.status_code == 200
-        or "msg" in response.json()
-    ):
+    if response.json()["msg"] == "success" and response.status_code == 200:
         pass
     else:
         logger.error(params)
