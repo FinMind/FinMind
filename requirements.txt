@@ -1,15 +1,16 @@
-pandas~=1.1.5
-numpy~=1.19.5
-requests~=2.23.0
-pydantic~=1.6.1
+pandas>=1.1.5
+numpy>=1.19.5
+requests>=2.23.0
+pydantic>=1.6.1
 ta~=0.5.25
-pytest~=6.2.2
-lxml~=4.6.3
+pytest>=6.2.2
+lxml>=4.6.3
 
-pyecharts~=1.9.0
-ipython~=7.16.1
+pyecharts>=1.9.0
+ipython>=7.16.1
 
-loguru~=0.5.3
-setuptools~=49.2.1
-aiohttp~=3.7.4.post0
-flask~=2.0.1
+loguru>=0.5.3
+setuptools>=49.2.1
+aiohttp>=3.7.4.post0
+flask>=2.0.1
+importlib-metadata>=4.8.1

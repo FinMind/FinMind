@@ -1,32 +1,24 @@
 [[source]]
-name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-
-[dev-packages]
-flake8 = "*"
+name = "pypi"
 
 [packages]
 pandas = "*"
 numpy = "*"
 requests = "*"
 pydantic = "*"
-ta = "*"
-setuptools = "*"
+ta = "~=0.5.25"
 pytest = "*"
 lxml = "*"
 pyecharts = "*"
 ipython = "*"
-matplotlib = "*"
-importlib-metadata = "*"
-mock = "*"
-pytest-mock = "*"
-finmind = {editable = true, path = "."}
-typing-extensions = "*"
 loguru = "*"
 aiohttp = "*"
-pytest-cov = "*"
-flask = "==2.0.1"
+importlib-metadata = "*"
+Flask = "*"
+
+[dev-packages]
 
 [requires]
-python_version = "3.6"
+python_version = "3.8"
