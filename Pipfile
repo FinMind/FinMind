@@ -16,10 +16,10 @@ loguru = "*"
 aiohttp = "*"
 importlib-metadata = "*"
 Flask = "*"
-
 pytest = "*"
 pytest-mock = "*"
 pytest-cov = "*"
+finmind = {editable = true, path = "."}
 
 [dev-packages]
 
