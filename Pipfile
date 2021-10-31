@@ -21,7 +21,7 @@ matplotlib = "*"
 importlib-metadata = "*"
 mock = "*"
 pytest-mock = "*"
-finmind = {editable = true,path = "."}
+finmind = {editable = true, path = "."}
 typing-extensions = "*"
 loguru = "*"
 aiohttp = "*"
