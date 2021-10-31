@@ -3,7 +3,7 @@ from FinMind.plotting.kline import process_stock_data
 from FinMind.data import DataLoader
 import pytest
 import pandas as pd
-
+import os
 
 testdata_kline = [
     ("1220", "2015-01-01", "2020-05-19"),
@@ -13,14 +13,17 @@ testdata_kline = [
 
 @pytest.mark.parametrize("stock_id, start_date, end_date", testdata_kline)
 def test_kline(stock_id, start_date, end_date):
-    dl = DataLoader()
-    stock_data = dl.taiwan_stock_daily_adj(
+    user_id = os.environ.get("FINMIND_USER", "")
+    password = os.environ.get("FINMIND_PASSWORD", "")
+    data_loader = DataLoader()
+    data_loader.login(user_id, password)
+    stock_data = data_loader.taiwan_stock_daily_adj(
         stock_id=stock_id, start_date=start_date, end_date=end_date
     )
     assert plotting.kline(stock_data)
-    stock_data = dl.feature.add_kline_institutional_investors(stock_data)
+    stock_data = data_loader.feature.add_kline_institutional_investors(stock_data)
     assert plotting.kline(stock_data)
-    stock_data = dl.feature.add_kline_margin_purchase_short_sale(stock_data)
+    stock_data = data_loader.feature.add_kline_margin_purchase_short_sale(stock_data)
     assert plotting.kline(stock_data)
 
 
