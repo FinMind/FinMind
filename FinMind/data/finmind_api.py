@@ -50,7 +50,6 @@ def request_get(
     if (
         response.json()["msg"] == "success"
         or response.status_code == 200
-        or "msg" in response.json()
     ):
         pass
     else:
