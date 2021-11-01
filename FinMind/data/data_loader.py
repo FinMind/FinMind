@@ -184,7 +184,7 @@ class DataLoader(FinMindApi):
         return stock_price
 
     def taiwan_stock_tick(
-        self, stock_id: str, date: str, timeout: int = 30
+        self, stock_id: str, date: str, timeout: int = 600
     ) -> pd.DataFrame:
         """get 台灣股價歷史逐筆資料表 TaiwanStockPriceTick
         :param stock_id (str): 股票代號("2330")
@@ -853,7 +853,7 @@ class DataLoader(FinMindApi):
         futures_id: str = "",
         start_date: str = "",
         end_date: str = "",
-        timeout: int = 30,
+        timeout: int = 600,
     ) -> pd.DataFrame:
         """get 期貨日成交資訊
         :param futures_id: 期貨代號("TX")
@@ -891,7 +891,7 @@ class DataLoader(FinMindApi):
         option_id: str = "",
         start_date: str = "",
         end_date: str = "",
-        timeout: int = 30,
+        timeout: int = 600,
     ) -> pd.DataFrame:
         """get 選擇權日成交資訊
         :param option_id: 選擇權代號("TXO")
@@ -925,7 +925,7 @@ class DataLoader(FinMindApi):
         return option_daily
 
     def taiwan_futures_tick(
-        self, futures_id: str, date: str, timeout: int = 30
+        self, futures_id: str, date: str, timeout: int = 600
     ) -> pd.DataFrame:
         """get 期貨交易明細表, 資料量超過10萬筆, 需等一段時間
         :param futures_id: 期貨代號("TX")
@@ -949,7 +949,7 @@ class DataLoader(FinMindApi):
         return futures_tick
 
     def taiwan_option_tick(
-        self, option_id: str, date: str, timeout: int = 30
+        self, option_id: str, date: str, timeout: int = 600
     ) -> pd.DataFrame:
         """get 選擇權交易明細表, 資料量超過10萬筆, 需等一段時間
         :param option_id: 選擇權代號("TXO")

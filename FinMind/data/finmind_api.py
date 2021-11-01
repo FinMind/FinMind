@@ -33,15 +33,16 @@ def request_get(
     params: typing.Dict[str, typing.Union[int, str, float]],
     timeout: int = 30,
 ):
-    for i in range(100):
+    for i in range(10):
         try:
             response = session.get(
                 url, verify=True, params=params, timeout=timeout
             )
             break
+        except (requests.Timeout,) as exc:
+            logger.info(f"Timeout, retry {i} and sleep {i * 0.1} seonds")
         except (
             requests.ConnectionError,
-            requests.Timeout,
             ssl.SSLError,
             urllib3.exceptions.ReadTimeoutError,
             urllib3.exceptions.ProtocolError,
