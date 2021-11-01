@@ -17,7 +17,7 @@ logger.add(sys.stderr, level="INFO")
 def request_get(
     url: str,
     params: typing.Dict[str, typing.Union[int, str, float]],
-    timeout: int = 30,
+    timeout: int = None,
 ):
     for i in range(10):
         try:
@@ -26,7 +26,7 @@ def request_get(
             )
             break
         except requests.Timeout as exc:
-            logger.warning(f"Timeout, retry {i} and sleep {i * 0.1} seonds")
+            raise Exception("Timeout")
         except (
             requests.ConnectionError,
             ssl.SSLError,
@@ -113,7 +113,7 @@ class FinMindApi:
         stock_id: str = "",
         start_date: str = "",
         end_date: str = "",
-        timeout: int = 30,
+        timeout: int = None,
     ) -> pd.DataFrame:
         """
         :param params: finmind api參數
@@ -136,7 +136,7 @@ class FinMindApi:
         response = request_get(url, params, timeout).json()
         return pd.DataFrame(response["data"])
 
-    def get_datalist(self, dataset: str, timeout: int = 30) -> pd.DataFrame:
+    def get_datalist(self, dataset: str, timeout: int = None) -> pd.DataFrame:
         # 測試不支援以token方式獲取
         if not self.__user_id:
             raise Exception("please login by account")
@@ -150,7 +150,7 @@ class FinMindApi:
         data = data["data"]
         return data
 
-    def translation(self, dataset: str, timeout: int = 30) -> pd.DataFrame:
+    def translation(self, dataset: str, timeout: int = None) -> pd.DataFrame:
         # 測試v4不支援
         params = {
             "dataset": dataset,
