@@ -7,8 +7,6 @@ import pandas as pd
 import requests
 import urllib3
 from loguru import logger
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
 
 from FinMind.schema.data import Dataset
 
@@ -16,37 +14,26 @@ logger.remove()
 logger.add(sys.stderr, level="INFO")
 
 
-def create_session(retry_times: int = 5) -> requests.Session:
-    session = requests.Session()
-    retry = Retry(
-        total=retry_times,
-        backoff_factor=0.1,
-    )
-    adapter = HTTPAdapter(max_retries=retry)
-    session.mount("https://", adapter)
-    return session
-
-
 def request_get(
-    session: requests.Session,
     url: str,
     params: typing.Dict[str, typing.Union[int, str, float]],
     timeout: int = 30,
 ):
     for i in range(10):
         try:
-            response = session.get(
+            response = requests.get(
                 url, verify=True, params=params, timeout=timeout
             )
             break
-        except (requests.Timeout,) as exc:
-            logger.info(f"Timeout, retry {i} and sleep {i * 0.1} seonds")
+        except requests.Timeout as exc:
+            logger.warning(f"Timeout, retry {i} and sleep {i * 0.1} seonds")
         except (
             requests.ConnectionError,
             ssl.SSLError,
             urllib3.exceptions.ReadTimeoutError,
             urllib3.exceptions.ProtocolError,
         ) as exc:
+            logger.warning(f"{exc}, retry {i} and sleep {i * 0.1} seonds")
             time.sleep(i * 0.1)
     if response.json()["msg"] == "success" and response.status_code == 200:
         pass
@@ -65,7 +52,6 @@ class FinMindApi:
         self.__api_version = "v4"
         self.__device = "package"
         self.__valid_versions = ["v3", "v4"]
-        self.session = create_session()
 
     @property
     def api_version(self):
@@ -147,7 +133,7 @@ class FinMindApi:
         params = self._compatible_api_version(params)
         url = f"{self.__api_url}/{self.__api_version}/data"
         logger.debug(params)
-        response = request_get(self.session, url, params, timeout).json()
+        response = request_get(url, params, timeout).json()
         return pd.DataFrame(response["data"])
 
     def get_datalist(self, dataset: str, timeout: int = 30) -> pd.DataFrame:
@@ -160,7 +146,7 @@ class FinMindApi:
             "device": self.__device,
         }
         url = f"{self.__api_url}/{self.__api_version}/datalist"
-        data = request_get(self.session, url, params, timeout).json()
+        data = request_get(url, params, timeout).json()
         data = data["data"]
         return data
 
@@ -172,6 +158,6 @@ class FinMindApi:
             "device": self.__device,
         }
         url = f"{self.__api_url}/{self.__api_version}/translation"
-        data = request_get(self.session, url, params, timeout).json()
+        data = request_get(url, params, timeout).json()
         data = pd.DataFrame(data["data"])
         return data
