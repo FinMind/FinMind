@@ -7,8 +7,6 @@ import pandas as pd
 import requests
 import urllib3
 from loguru import logger
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
 
 from FinMind.schema.data import Dataset
 
@@ -16,36 +14,26 @@ logger.remove()
 logger.add(sys.stderr, level="INFO")
 
 
-def create_session(retry_times: int = 5) -> requests.Session:
-    session = requests.Session()
-    retry = Retry(
-        total=retry_times,
-        backoff_factor=0.1,
-    )
-    adapter = HTTPAdapter(max_retries=retry)
-    session.mount("https://", adapter)
-    return session
-
-
 def request_get(
-    session: requests.Session,
     url: str,
     params: typing.Dict[str, typing.Union[int, str, float]],
-    timeout: int = 30,
+    timeout: int = None,
 ):
-    for i in range(100):
+    for i in range(10):
         try:
-            response = session.get(
+            response = requests.get(
                 url, verify=True, params=params, timeout=timeout
             )
             break
+        except requests.Timeout as exc:
+            raise Exception("Timeout")
         except (
             requests.ConnectionError,
-            requests.Timeout,
             ssl.SSLError,
             urllib3.exceptions.ReadTimeoutError,
             urllib3.exceptions.ProtocolError,
         ) as exc:
+            logger.warning(f"{exc}, retry {i} and sleep {i * 0.1} seonds")
             time.sleep(i * 0.1)
     if response.json()["msg"] == "success" and response.status_code == 200:
         pass
@@ -64,7 +52,6 @@ class FinMindApi:
         self.__api_version = "v4"
         self.__device = "package"
         self.__valid_versions = ["v3", "v4"]
-        self.session = create_session()
 
     @property
     def api_version(self):
@@ -126,7 +113,7 @@ class FinMindApi:
         stock_id: str = "",
         start_date: str = "",
         end_date: str = "",
-        timeout: int = 30,
+        timeout: int = None,
     ) -> pd.DataFrame:
         """
         :param params: finmind api參數
@@ -146,10 +133,10 @@ class FinMindApi:
         params = self._compatible_api_version(params)
         url = f"{self.__api_url}/{self.__api_version}/data"
         logger.debug(params)
-        response = request_get(self.session, url, params, timeout).json()
+        response = request_get(url, params, timeout).json()
         return pd.DataFrame(response["data"])
 
-    def get_datalist(self, dataset: str, timeout: int = 30) -> pd.DataFrame:
+    def get_datalist(self, dataset: str, timeout: int = None) -> pd.DataFrame:
         # 測試不支援以token方式獲取
         if not self.__user_id:
             raise Exception("please login by account")
@@ -159,11 +146,11 @@ class FinMindApi:
             "device": self.__device,
         }
         url = f"{self.__api_url}/{self.__api_version}/datalist"
-        data = request_get(self.session, url, params, timeout).json()
+        data = request_get(url, params, timeout).json()
         data = data["data"]
         return data
 
-    def translation(self, dataset: str, timeout: int = 30) -> pd.DataFrame:
+    def translation(self, dataset: str, timeout: int = None) -> pd.DataFrame:
         # 測試v4不支援
         params = {
             "dataset": dataset,
@@ -171,6 +158,6 @@ class FinMindApi:
             "device": self.__device,
         }
         url = f"{self.__api_url}/{self.__api_version}/translation"
-        data = request_get(self.session, url, params, timeout).json()
+        data = request_get(url, params, timeout).json()
         data = pd.DataFrame(data["data"])
         return data
