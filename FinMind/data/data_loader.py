@@ -582,7 +582,7 @@ class DataLoader(FinMindApi):
         """get 現金流量表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期: "2018-03-31" or "2021-Q1"
-        :param end_date (str): 結束日期 "2021-06-None" or "2021-Q2"
+        :param end_date (str): 結束日期 "2021-06-30" or "2021-Q2"
         :param timeout (int): timeout seconds, default None
 
         :return: 現金流量表 TaiwanStockCashFlowsStatement
@@ -614,7 +614,7 @@ class DataLoader(FinMindApi):
         """get 綜合損益表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期: "2018-03-31" or "2021-Q1"
-        :param end_date (str): 結束日期 "2021-06-None" or "2021-Q2"
+        :param end_date (str): 結束日期 "2021-06-30" or "2021-Q2"
         :param timeout (int): timeout seconds, default None
 
         :return: 綜合損益表 TaiwanStockFinancialStatements
@@ -646,7 +646,7 @@ class DataLoader(FinMindApi):
         """get 資產負債表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期: "2018-03-31" or "2021-Q1"
-        :param end_date (str): 結束日期 "2021-06-None" or "2021-Q2"
+        :param end_date (str): 結束日期 "2021-06-30" or "2021-Q2"
         :param timeout (int): timeout seconds, default None
 
         :return: 資產負債表 TaiwanStockBalanceSheet
