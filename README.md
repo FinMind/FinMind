@@ -17,6 +17,9 @@
 
 <a href="https://finmindtrade.com/analysis/#/Sponsor/sponsor"><img src="https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png" alt=""/></a>
 
+* [FinMind 獨家架構解析書籍推薦]
+<a href="https://www.tenlong.com.tw/products/9789860776522?list_name=b-r7-zh_tw"><img src="https://github.com/FinMind/FinMind/blob/master/figure/FinMindBook.png" alt=""/></a>
+
 ## Quickstart
 
 ```python
