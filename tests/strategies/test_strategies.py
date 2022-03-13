@@ -42,12 +42,12 @@ def test_continue_holding(data_loader):
     )
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 2810
-    assert int(obj.final_stats.MaxLoss) == -9663
-    assert int(obj.final_stats.FinalProfit) == 3407
+    assert int(obj.final_stats.MeanProfit) == 3003
+    assert int(obj.final_stats.MaxLoss) == -9633
+    assert int(obj.final_stats.FinalProfit) == 3277
 
-    assert obj.final_stats["MeanProfitPer"] == 0.56
-    assert obj.final_stats["FinalProfitPer"] == 0.68
+    assert obj.final_stats["MeanProfitPer"] == 0.6
+    assert obj.final_stats["FinalProfitPer"] == 0.66
     assert obj.final_stats["MaxLossPer"] == -1.93
 
     assert obj.trade_detail.to_dict("r")[1] == {
@@ -59,7 +59,7 @@ def test_continue_holding(data_loader):
         "board_lot": 1000,
         "hold_cost": 25.18583875,
         "hold_volume": 1000,
-        "signal": 1,
+        # "signal": 1,
         "trade_price": 25.15,
         "trader_fund": 474814.16125,
         "EverytimeTotalProfit": 474717.33125,
@@ -102,10 +102,11 @@ def test_continue_holding_add_strategy(data_loader):
         "RealizedProfit": 0.0,
         "UnrealizedProfit": -96.83,
         "board_lot": 1000.0,
+
         "date": "2018-01-03",
         "hold_cost": 25.18583875,
         "hold_volume": 1000.0,
-        "signal": 1,
+        # "signal": 1,
         "stock_id": "0056",
         "trade_price": 25.15,
         "trader_fund": 474814.16125,
@@ -127,11 +128,11 @@ def test_bias(data_loader):
     )
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 984
+    assert int(obj.final_stats.MeanProfit) == 893
     assert int(obj.final_stats.MaxLoss) == -863
     assert int(obj.final_stats.FinalProfit) == 2845
 
-    assert obj.final_stats["MeanProfitPer"] == 0.20
+    assert obj.final_stats["MeanProfitPer"] == 0.18
     assert obj.final_stats["FinalProfitPer"] == 0.57
     assert obj.final_stats["MaxLossPer"] == -0.17
 
@@ -140,12 +141,12 @@ def test_bias(data_loader):
         "RealizedProfit": 0.0,
         "UnrealizedProfit": 0.0,
         "board_lot": 1000.0,
-        "date": "2018-02-05",
+        "date": "2018-01-03",
         "hold_cost": 0.0,
         "hold_volume": 0.0,
-        "signal": 0.0,
+        # "signal": 0.0,
         "stock_id": "0056",
-        "trade_price": 26.1,
+        "trade_price": 25.15,
         "trader_fund": 500000.0,
         "EverytimeTotalProfit": 500000.0,
         "CashEarningsDistribution": 0.0,
@@ -175,11 +176,11 @@ def test_bias_add_strategy(data_loader):
     obj.add_strategy(strategies.Bias)
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 984
+    assert int(obj.final_stats.MeanProfit) == 893
     assert int(obj.final_stats.MaxLoss) == -863
     assert int(obj.final_stats.FinalProfit) == 2845
 
-    assert obj.final_stats["MeanProfitPer"] == 0.20
+    assert obj.final_stats["MeanProfitPer"] == 0.18
     assert obj.final_stats["FinalProfitPer"] == 0.57
     assert obj.final_stats["MaxLossPer"] == -0.17
 
@@ -188,12 +189,12 @@ def test_bias_add_strategy(data_loader):
         "RealizedProfit": 0.0,
         "UnrealizedProfit": 0.0,
         "board_lot": 1000.0,
-        "date": "2018-02-05",
+        "date": "2018-01-03",
         "hold_cost": 0.0,
         "hold_volume": 0.0,
-        "signal": 0.0,
+        # "signal": 0.0,
         "stock_id": "0056",
-        "trade_price": 26.1,
+        "trade_price": 25.15,
         "trader_fund": 500000.0,
         "EverytimeTotalProfit": 500000.0,
         "CashEarningsDistribution": 0.0,
