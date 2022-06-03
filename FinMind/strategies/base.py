@@ -420,14 +420,14 @@ class BackTest:
         ]
 
     @property
-    def final_stats(self) -> pd.Series():
+    def final_stats(self) -> pd.Series:
         self._final_stats = pd.Series(
             FinalStats(**self._final_stats.to_dict()).dict()
         )
         return self._final_stats
 
     @property
-    def trade_detail(self) -> pd.DataFrame():
+    def trade_detail(self) -> pd.DataFrame:
         self._trade_detail = pd.DataFrame(
             [
                 TradeDetail(**row_dict).dict()
@@ -437,7 +437,7 @@ class BackTest:
         return self._trade_detail
 
     @property
-    def compare_market_detail(self) -> pd.DataFrame():
+    def compare_market_detail(self) -> pd.DataFrame:
         self._compare_market_detail = pd.DataFrame(
             [
                 CompareMarketDetail(**row_dict).dict()
@@ -447,7 +447,7 @@ class BackTest:
         return self._compare_market_detail
 
     @property
-    def compare_market_stats(self) -> pd.Series():
+    def compare_market_stats(self) -> pd.Series:
         self._compare_market_stats = pd.Series(
             CompareMarketStats(**self._compare_market_stats.to_dict()).dict()
         )
