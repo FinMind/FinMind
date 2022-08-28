@@ -11,12 +11,13 @@ pydantic = "==1.6.1"
 ta = "~=0.5.25"
 lxml = "==4.6.3"
 pyecharts = "==1.9.0"
-ipython = "==7.29.0"
+ipython = "==7.16.1"
 loguru = "==0.5.3"
 aiohttp = "==3.7.4.post0"
 importlib-metadata = "==4.8.1"
 Flask = "==2.0.2"
 finmind = {editable = true, path = "."}
+typing-extensions = "==4.0.0"
 
 [dev-packages]
 pytest = "==6.2.5"
