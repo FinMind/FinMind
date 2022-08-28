@@ -31,4 +31,5 @@ jobs:
         run: |
           python genenv.py
           pipenv sync
+          pipenv sync -d
           pipenv run pytest --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/

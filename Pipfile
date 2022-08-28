@@ -4,24 +4,24 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pandas = "*"
-numpy = "*"
-requests = "*"
-pydantic = "*"
+pandas = "==1.1.5"
+numpy = "==1.19.5"
+requests = "==2.23.0"
+pydantic = "==1.6.1"
 ta = "~=0.5.25"
-lxml = "*"
-pyecharts = "*"
-ipython = "*"
-loguru = "*"
-aiohttp = "*"
-importlib-metadata = "*"
-Flask = "*"
-pytest = "*"
-pytest-mock = "*"
-pytest-cov = "*"
+lxml = "==4.6.3"
+pyecharts = "==1.9.0"
+ipython = "==7.29.0"
+loguru = "==0.5.3"
+aiohttp = "==3.7.4.post0"
+importlib-metadata = "==4.8.1"
+Flask = "==2.0.2"
 finmind = {editable = true, path = "."}
 
 [dev-packages]
+pytest = "==6.2.5"
+pytest-mock = "==3.6.1"
+pytest-cov = "==3.0.0"
 
 [requires]
 python_version = "3.8"
