@@ -31,9 +31,9 @@ setup(
     description="financial mining",  # Optional
     long_description=long_description,  # Optional
     long_description_content_type="text/markdown",  # Optional (see note above)
-    url="https://github.com/linsamtw",  # Optional
+    url="https://github.com/FinMind",  # Optional
     author="linsam",  # Optional
-    author_email="samlin266118@gmail.com",  # Optional
+    author_email="finmind.tw@gmail.com",  # Optional
     classifiers=[  # Optional
         "Development Status :: 3 - Alpha",
         # "Intended Audience :: Developers",
@@ -46,7 +46,7 @@ setup(
     include_package_data=True,
     install_requires=_process_requirements(),
     project_urls={  # Optional
-        "documentation": "https://linsamtw.github.io/FinMindDoc/",
-        "Source": "https://github.com/linsamtw/FinMind",
+        "documentation": "https://finmind.github.io/",
+        "Source": "https://github.com/FinMind/FinMind",
     },
 )
