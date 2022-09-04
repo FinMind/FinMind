@@ -974,20 +974,20 @@ class DataLoader(FinMindApi):
         )
         return option_tick
 
-    def taiwan_futopt_institutional_investors(
+    def taiwan_futures_institutional_investors(
         self,
         data_id: str = "",
         start_date: str = "",
         end_date: str = "",
         timeout: int = None,
     ) -> pd.DataFrame:
-        """get 選擇權, 期貨三大法人買賣
-        :param data_id: 期貨, 選擇權代號("TXO")
+        """get 期貨三大法人買賣
+        :param data_id: 期貨代號("TX")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
         :param timeout (int): timeout seconds, default None
 
-        :return: 選擇權, 期貨三大法人買賣 TaiwanFutOptInstitutionalInvestors
+        :return: 期貨三大法人買賣 TaiwanFuturesInstitutionalInvestors
         :rtype pd.DataFrame
         :rtype column name (str)
         :rtype column date (str)
@@ -1001,14 +1001,50 @@ class DataLoader(FinMindApi):
         :rtype column short_open_interest_balance_volume (int)
         :rtype column short_open_interest_balance_amount (int)
         """
-        futopt_institutional_investors = self.get_data(
-            dataset=Dataset.TaiwanFutOptInstitutionalInvestors,
+        futures_institutional_investors = self.get_data(
+            dataset=Dataset.TaiwanFuturesInstitutionalInvestors,
             data_id=data_id,
             start_date=start_date,
             end_date=end_date,
             timeout=timeout,
         )
-        return futopt_institutional_investors
+        return futures_institutional_investors
+
+    def taiwan_option_institutional_investors(
+        self,
+        data_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 選擇權三大法人買賣
+        :param data_id: 選擇權代號("TXO")
+        :param start_date (str): 起始日期("2018-01-01")
+        :param end_date (str): 結束日期("2021-03-06")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 選擇權三大法人買賣 TaiwanOptionInstitutionalInvestors
+        :rtype pd.DataFrame
+        :rtype column name (str)
+        :rtype column date (str)
+        :rtype column institutional_investors (str)
+        :rtype column long_deal_volume (int)
+        :rtype column long_deal_amount (int)
+        :rtype column short_deal_volume (int)
+        :rtype column short_deal_amount (int)
+        :rtype column long_open_interest_balance_volume (int)
+        :rtype column long_open_interest_balance_amount (int)
+        :rtype column short_open_interest_balance_volume (int)
+        :rtype column short_open_interest_balance_amount (int)
+        """
+        option_institutional_investors = self.get_data(
+            dataset=Dataset.TaiwanOptionInstitutionalInvestors,
+            data_id=data_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return option_institutional_investors
 
     def taiwan_futures_dealer_trading_volume_daily(
         self,
