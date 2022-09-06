@@ -501,3 +501,48 @@ def test_taiwan_stock_total_return_index(data_loader):
             "date",
         ],
     )
+
+
+def test_taiwan_option_institutional_investors(data_loader):
+    data = data_loader.taiwan_option_institutional_investors(
+        data_id="TXO", start_date="2019-04-03", end_date="2019-04-04"
+    )
+    assert_data(
+        data,
+        [
+            "option_id",
+            "date",
+            "call_put",
+            "institutional_investors",
+            "long_deal_volume",
+            "long_deal_amount",
+            "short_deal_volume",
+            "short_deal_amount",
+            "long_open_interest_balance_volume",
+            "long_open_interest_balance_amount",
+            "short_open_interest_balance_volume",
+            "short_open_interest_balance_amount"
+        ],
+    )
+
+
+def test_taiwan_futures_institutional_investors(data_loader):
+    data = data_loader.taiwan_futures_institutional_investors(
+        data_id="TX", start_date="2019-04-03", end_date="2019-04-04"
+    )
+    assert_data(
+        data,
+        [
+            "futures_id",
+            "date",
+            "institutional_investors",
+            "long_deal_volume",
+            "long_deal_amount",
+            "short_deal_volume",
+            "short_deal_amount",
+            "long_open_interest_balance_volume",
+            "long_open_interest_balance_amount",
+            "short_open_interest_balance_volume",
+            "short_open_interest_balance_amount"
+        ],
+    )
