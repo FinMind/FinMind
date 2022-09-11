@@ -521,7 +521,7 @@ def test_taiwan_option_institutional_investors(data_loader):
             "long_open_interest_balance_volume",
             "long_open_interest_balance_amount",
             "short_open_interest_balance_volume",
-            "short_open_interest_balance_amount"
+            "short_open_interest_balance_amount",
         ],
     )
 
@@ -543,6 +543,26 @@ def test_taiwan_futures_institutional_investors(data_loader):
             "long_open_interest_balance_volume",
             "long_open_interest_balance_amount",
             "short_open_interest_balance_volume",
-            "short_open_interest_balance_amount"
+            "short_open_interest_balance_amount",
+        ],
+    )
+
+
+def test_taiwan_stock_capital_reduction_reference_price(data_loader):
+    data = data_loader.taiwan_stock_capital_reduction_reference_price(
+        stock_id="2327", start_date="2000-01-01", end_date="2021-04-01"
+    )
+    assert_data(
+        data,
+        [
+            "date",
+            "stock_id",
+            "ClosingPriceonTheLastTradingDay",
+            "PostReductionReferencePrice",
+            "LimitUp",
+            "LimitDown",
+            "OpeningReferencePrice",
+            "ExrightReferencePrice",
+            "ReasonforCapitalReduction",
         ],
     )
