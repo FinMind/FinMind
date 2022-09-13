@@ -1189,7 +1189,7 @@ class DataLoader(FinMindApi):
         :param end_date (str): 結束日期 "2021-06-30" or "2021-Q2"
         :param timeout (int): timeout seconds, default None
 
-        :return: 綜合損益表 TaiwanStockCapitalReductionReferencePrice
+        :return: 減資恢復買賣參考價格 TaiwanStockCapitalReductionReferencePrice
         :rtype pd.DataFrame
         :rtype column date (str)
         :rtype column stock_id (str)
