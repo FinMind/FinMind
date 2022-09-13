@@ -1176,6 +1176,42 @@ class DataLoader(FinMindApi):
         )
         return stock_total_return_index
 
+    def taiwan_stock_capital_reduction_reference_price(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 減資恢復買賣參考價格
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 起始日期: "2018-03-31" or "2021-Q1"
+        :param end_date (str): 結束日期 "2021-06-30" or "2021-Q2"
+        :param timeout (int): timeout seconds, default None
+
+        :return: 減資恢復買賣參考價格 TaiwanStockCapitalReductionReferencePrice
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column stock_id (str)
+        :rtype column ClosingPriceonTheLastTradingDay (float)
+        :rtype column PostReductionReferencePrice (float)
+        :rtype column LimitUp (float)
+        :rtype column LimitDown (float)
+        :rtype column OpeningReferencePrice (float)
+        :rtype column ExrightReferencePrice (float)
+        :rtype column ReasonforCapitalReduction (str)
+        """
+        taiwan_stock_capital_reduction_reference_price = self.get_data(
+            dataset=Dataset.TaiwanStockCapitalReductionReferencePrice,
+            data_id=stock_id,
+            start_date=str(pd.Period(start_date).asfreq("D", "end")),
+            end_date=str(pd.Period(end_date).asfreq("D", "end"))
+            if end_date
+            else "",
+            timeout=timeout,
+        )
+        return taiwan_stock_capital_reduction_reference_price
+
 
 class Feature:
     def __init__(self, data_loader: DataLoader):

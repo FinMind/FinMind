@@ -63,6 +63,9 @@ class Dataset(str, Enum):
     USStockPriceMinute = "USStockPriceMinute"
     TaiwanStockDayTrading = "TaiwanStockDayTrading"
     TaiwanStockEvery5SecondsIndex = "TaiwanStockEvery5SecondsIndex"
+    TaiwanStockCapitalReductionReferencePrice = (
+        "TaiwanStockCapitalReductionReferencePrice"
+    )
 
 
 class Version(str, Enum):
