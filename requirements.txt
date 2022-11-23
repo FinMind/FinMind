@@ -13,4 +13,4 @@ loguru>=0.5.3
 setuptools>=49.2.1
 aiohttp>=3.7.4.post0
 flask>=2.0.1
-importlib-metadata>=4.8.1
+importlib-metadata>=1.6.0
