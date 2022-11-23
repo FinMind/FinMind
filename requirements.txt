@@ -9,7 +9,7 @@ lxml>=4.6.3
 pyecharts>=1.9.0
 ipython>=7.16.1
 
-loguru>=0.5.3
+loguru>=0.4.1
 setuptools>=49.2.1
 aiohttp>=3.7.4.post0
 flask>=2.0.1
