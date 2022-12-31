@@ -93,6 +93,110 @@ class DataLoader(FinMindApi):
         if stock_price.empty:
             return stock_price
 
+        stock_capital_reduction_reference_price = (
+            self.taiwan_stock_capital_reduction_reference_price(
+                stock_id=stock_id,
+                start_date=start_date,
+                end_date=end_date,
+                timeout=timeout,
+            )
+        )
+        if not stock_capital_reduction_reference_price.empty:
+            # 減資當天透過減資比例回推當天股價
+            # 依據波動不變的原則推算減資過後每一天股價
+            # 調整 open, max, min, spread 價格
+            stock_capital_reduction_reference_price["ReductionCapitalRatio"] = (
+                stock_capital_reduction_reference_price[
+                    "PostReductionReferencePrice"
+                ]
+                - stock_capital_reduction_reference_price[
+                    "ClosingPriceonTheLastTradingDay"
+                ]
+            ) / (
+                stock_capital_reduction_reference_price[
+                    "PostReductionReferencePrice"
+                ]
+                - 10
+            )
+            stock_price = pd.merge(
+                stock_price,
+                stock_capital_reduction_reference_price[
+                    ["date", "ReductionCapitalRatio"]
+                ],
+                on="date",
+                how="left",
+            )
+            stock_price["ReductionCapitalRatio"] = stock_price[
+                "ReductionCapitalRatio"
+            ].fillna(0)
+            stock_price["change"] = stock_price["close"].pct_change(periods=1)
+            stock_price["tmp_close"] = (
+                stock_price["close"]
+                - (stock_price["close"] - 10)
+                * stock_price["ReductionCapitalRatio"]
+            )
+            stock_price["tmp_close_y1"] = stock_price["tmp_close"].shift(1)
+            change_mask = stock_price["ReductionCapitalRatio"] != 0
+            stock_price.loc[change_mask, "change"] = (
+                stock_price.loc[change_mask, "tmp_close"]
+                - stock_price.loc[change_mask, "tmp_close_y1"]
+            ) / stock_price.loc[change_mask, "tmp_close_y1"]
+
+            for index in range(len(stock_price)):
+                if index:
+                    stock_price.loc[index, "reduction_capital_close"] = (
+                        stock_price.loc[index - 1, "reduction_capital_close"]
+                        * stock_price.loc[index, "change"]
+                        + stock_price.loc[index - 1, "reduction_capital_close"]
+                    )
+                else:
+                    stock_price.loc[
+                        index, "reduction_capital_close"
+                    ] = stock_price.loc[index, "tmp_close"]
+
+            del stock_price["ReductionCapitalRatio"]
+            del stock_price["change"]
+            del stock_price["tmp_close"]
+            del stock_price["tmp_close_y1"]
+            stock_price["reduction_capital_open"] = stock_price[
+                "reduction_capital_close"
+            ] * (
+                1
+                + (stock_price["open"] - stock_price["close"])
+                / stock_price["close"]
+            )
+            stock_price["reduction_capital_max"] = stock_price[
+                "reduction_capital_close"
+            ] * (
+                1
+                + (stock_price["max"] - stock_price["close"])
+                / stock_price["close"]
+            )
+            stock_price["reduction_capital_min"] = stock_price[
+                "reduction_capital_close"
+            ] * (
+                1
+                + (stock_price["min"] - stock_price["close"])
+                / stock_price["close"]
+            )
+
+            stock_price["close"] = stock_price["reduction_capital_close"].round(
+                2
+            )
+            stock_price["open"] = stock_price["reduction_capital_open"].round(2)
+            stock_price["max"] = stock_price["reduction_capital_max"].round(2)
+            stock_price["min"] = stock_price["reduction_capital_min"].round(2)
+            first_spread = stock_price["spread"].values[0]
+            stock_price["spread"] = stock_price["close"] - stock_price[
+                "close"
+            ].shift(1)
+            stock_price["spread"] = stock_price["spread"].fillna(first_spread)
+
+            del stock_price["reduction_capital_close"]
+            del stock_price["reduction_capital_open"]
+            del stock_price["reduction_capital_max"]
+            del stock_price["reduction_capital_min"]
+
         stock_price = stock_price[stock_price.close != 0]
         ex_dividend_price = self.taiwan_stock_dividend_result(
             stock_id=stock_id,

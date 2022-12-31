@@ -147,9 +147,7 @@ def test_taiwan_stock_info(data_loader):
 
 
 def test_taiwan_stock_daily(data_loader):
-    stock_price = data_loader.taiwan_stock_daily(
-        "2330", "2018-01-01", "2021-03-06"
-    )
+    stock_price = data_loader.taiwan_stock_daily("2330", "2018-01-01", "2021-03-06")
     assert_data(
         stock_price,
         [
@@ -167,20 +165,65 @@ def test_taiwan_stock_daily(data_loader):
     )
 
 
-def test_taiwan_stock_daily_adj(data_loader):
-    stock_id = "2330"
-    start_date = "2019-04-01"
-    end_date = "2021-03-06"
+test_taiwan_stock_daily_adj_data = [
+    (
+        {
+            "stock_id": "2330",
+            "start_date": "2019-04-01",
+            "end_date": "2021-03-06",
+            "expect_result": {
+                "open": 231.35,
+                "close": 228.11,
+                "max": 231.35,
+                "min": 228.11,
+            },
+        }
+    ),
+    (
+        {
+            "stock_id": "2603",
+            "start_date": "2022-09-19",
+            "end_date": "2022-10-06",
+            "expect_result": {
+                "open": 80.7,
+                "close": 73.60,
+                "max": 81.00,
+                "min": 73.60,
+            },
+        }
+    )
+]
+
+
+@pytest.mark.parametrize(
+    "parameters",
+    test_taiwan_stock_daily_adj_data,
+)
+def test_taiwan_stock_daily_adj(data_loader, parameters):
+    stock_id = parameters.get("stock_id")
+    start_date = parameters.get("start_date")
+    end_date = parameters.get("end_date")
+    expect_result = parameters.get("expect_result")
+
     data = data_loader.taiwan_stock_daily_adj(
         stock_id=stock_id, start_date=start_date, end_date=end_date
     ).iloc[0][["open", "close", "max", "min"]]
 
-    assert all(
-        data
-        == pd.Series(
-            {"open": 231.35, "close": 228.11, "max": 231.35, "min": 228.11}
-        )
-    )
+    assert all(data == pd.Series(expect_result))
+
+    # stock_id = "2330"
+    # start_date = "2019-04-01"
+    # end_date = "2021-03-06"
+    # data = data_loader.taiwan_stock_daily_adj(
+    #     stock_id=stock_id, start_date=start_date, end_date=end_date
+    # ).iloc[0][["open", "close", "max", "min"]]
+
+    # assert all(
+    #     data
+    #     == pd.Series(
+    #         {"open": 231.35, "close": 228.11, "max": 231.35, "min": 228.11}
+    #     )
+    # )
 
 
 def test_taiwan_stock_daily_adj_2(data_loader):
@@ -207,9 +250,7 @@ def test_taiwan_stock_daily_adj_empty_dataframe(data_loader):
 
 def test_taiwan_stock_tick(data_loader):
     data = data_loader.taiwan_stock_tick("2330", "2021-04-01")
-    assert_data(
-        data, ["date", "stock_id", "deal_price", "volume", "Time", "TickType"]
-    )
+    assert_data(data, ["date", "stock_id", "deal_price", "volume", "Time", "TickType"])
 
 
 def test_taiwan_stock_book_and_trade(data_loader):
@@ -231,9 +272,7 @@ def test_taiwan_stock_book_and_trade(data_loader):
 
 
 def test_taiwan_stock_day_trading(data_loader):
-    data = data_loader.taiwan_stock_day_trading(
-        "2330", "2020-04-02", "2020-04-12"
-    )
+    data = data_loader.taiwan_stock_day_trading("2330", "2020-04-02", "2020-04-12")
     assert_data(
         data,
         [
@@ -253,9 +292,7 @@ def test_taiwan_stock_per_pbr(data_loader):
 
 
 def test_taiwan_stock_margin_purchase_short_sale(data_loader):
-    data = data_loader.taiwan_stock_margin_purchase_short_sale(
-        "2330", "2020-04-02"
-    )
+    data = data_loader.taiwan_stock_margin_purchase_short_sale("2330", "2020-04-02")
     assert_data(
         data,
         [
@@ -280,9 +317,7 @@ def test_taiwan_stock_margin_purchase_short_sale(data_loader):
 
 
 def test_taiwan_stock_margin_purchase_short_sale_total(data_loader):
-    data = data_loader.taiwan_stock_margin_purchase_short_sale_total(
-        "2020-04-02"
-    )
+    data = data_loader.taiwan_stock_margin_purchase_short_sale_total("2020-04-02")
     assert_data(
         data,
         [
@@ -298,9 +333,7 @@ def test_taiwan_stock_margin_purchase_short_sale_total(data_loader):
 
 
 def test_taiwan_stock_institutional_investors(data_loader):
-    data = data_loader.taiwan_stock_institutional_investors(
-        "2330", "2020-04-02"
-    )
+    data = data_loader.taiwan_stock_institutional_investors("2330", "2020-04-02")
     assert_data(data, ["date", "stock_id", "buy", "name", "sell"])
 
 
