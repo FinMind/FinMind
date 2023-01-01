@@ -90,6 +90,7 @@ class DataLoader(FinMindApi):
             end_date=end_date,
             timeout=timeout,
         )
+        stock_price = stock_price[stock_price.close != 0]
         if stock_price.empty:
             return stock_price
 
@@ -102,9 +103,11 @@ class DataLoader(FinMindApi):
             )
         )
         if not stock_capital_reduction_reference_price.empty:
-            # 減資當天透過減資比例回推當天股價
+            # 減資當天計算減資比例
+            # 透過減資比例回推當天股價
+            # 根據調整過後股價重新計算減資當日股價波動(change)
             # 依據波動不變的原則推算減資過後每一天股價
-            # 調整 open, max, min, spread 價格
+            # 調整 open, max, min, spread 數值
             stock_capital_reduction_reference_price["ReductionCapitalRatio"] = (
                 stock_capital_reduction_reference_price[
                     "PostReductionReferencePrice"
@@ -197,7 +200,6 @@ class DataLoader(FinMindApi):
             del stock_price["reduction_capital_max"]
             del stock_price["reduction_capital_min"]
 
-        stock_price = stock_price[stock_price.close != 0]
         ex_dividend_price = self.taiwan_stock_dividend_result(
             stock_id=stock_id,
             start_date=start_date,

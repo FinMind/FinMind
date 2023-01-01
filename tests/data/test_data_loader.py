@@ -187,10 +187,10 @@ test_taiwan_stock_daily_adj_data = [
             "start_date": "2022-09-19",
             "end_date": "2022-10-06",
             "expect_result": {
-                "open": 80.7,
-                "close": 73.60,
-                "max": 81.00,
-                "min": 73.60,
+                "open": 80.79,
+                "close": 73.6,
+                "max": 81,
+                "min": 73.6,
             },
         }
     ),
