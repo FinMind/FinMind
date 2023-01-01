@@ -10,7 +10,8 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    # https://github.com/actions/setup-python/issues/544
     strategy:
       matrix:
         python-version: [ 3.6 ]
