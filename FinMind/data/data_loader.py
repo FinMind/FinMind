@@ -90,10 +90,10 @@ class DataLoader(FinMindApi):
             end_date=end_date,
             timeout=timeout,
         )
-        stock_price = stock_price[stock_price.close != 0]
         if stock_price.empty:
             return stock_price
 
+        stock_price = stock_price[stock_price.close != 0]
         stock_capital_reduction_reference_price = (
             self.taiwan_stock_capital_reduction_reference_price(
                 stock_id=stock_id,
