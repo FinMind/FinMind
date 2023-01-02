@@ -157,10 +157,15 @@ class DataLoader(FinMindApi):
                         index, "reduction_capital_close"
                     ] = stock_price.loc[index, "tmp_close"]
 
-            del stock_price["ReductionCapitalRatio"]
-            del stock_price["change"]
-            del stock_price["tmp_close"]
-            del stock_price["tmp_close_y1"]
+            stock_price = stock_price.drop(
+                [
+                    "ReductionCapitalRatio",
+                    "change",
+                    "tmp_close",
+                    "tmp_close_y1",
+                ],
+                axis=1,
+            )
             stock_price["reduction_capital_open"] = stock_price[
                 "reduction_capital_close"
             ] * (
@@ -195,10 +200,15 @@ class DataLoader(FinMindApi):
             ].shift(1)
             stock_price["spread"] = stock_price["spread"].fillna(first_spread)
 
-            del stock_price["reduction_capital_close"]
-            del stock_price["reduction_capital_open"]
-            del stock_price["reduction_capital_max"]
-            del stock_price["reduction_capital_min"]
+            stock_price = stock_price.drop(
+                [
+                    "reduction_capital_close",
+                    "reduction_capital_open",
+                    "reduction_capital_max",
+                    "reduction_capital_min",
+                ],
+                axis=1,
+            )
 
         ex_dividend_price = self.taiwan_stock_dividend_result(
             stock_id=stock_id,
