@@ -170,7 +170,7 @@ def test_taiwan_stock_daily(data_loader):
 test_taiwan_stock_daily_adj_data = [
     (
         {
-            "stock_id": "2330",
+            "stock_id": "2330", # 沒有減資
             "start_date": "2019-04-01",
             "end_date": "2021-03-06",
             "expect_result": {
@@ -183,14 +183,14 @@ test_taiwan_stock_daily_adj_data = [
     ),
     (
         {
-            "stock_id": "2603",
+            "stock_id": "2603", # 有減資
             "start_date": "2022-09-19",
             "end_date": "2022-10-06",
             "expect_result": {
-                "open": 80.79,
-                "close": 73.6,
-                "max": 81,
-                "min": 73.6,
+                "open": 185.5,
+                "close": 169,
+                "max": 186,
+                "min": 169,
             },
         }
     ),

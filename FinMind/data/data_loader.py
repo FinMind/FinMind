@@ -65,7 +65,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_daily_adj(
         self, stock_id: str, start_date: str, end_date: str, timeout: int = None
     ) -> pd.DataFrame:
-        """get 還原股價
+        """get 還原股價, 主要採用向前還原
         :param stock_id (str):stock_id: 股票代號("2330")
         :param start_date (str): 開始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
@@ -103,10 +103,10 @@ class DataLoader(FinMindApi):
             )
         )
         if not stock_capital_reduction_reference_price.empty:
-            # 減資當天計算減資比例
+            # 減資當天計算減資比例, 減資比例 = (減資後價格 - 前一天收盤價)/(減資後價格 - 10)
             # 透過減資比例回推當天股價
             # 根據調整過後股價重新計算減資當日股價波動(change)
-            # 依據波動不變的原則推算減資過後每一天股價
+            # 依據波動不變的原則推算減資前每一天股價
             # 調整 open, max, min, spread 數值
             stock_capital_reduction_reference_price["ReductionCapitalRatio"] = (
                 stock_capital_reduction_reference_price[
@@ -121,25 +121,22 @@ class DataLoader(FinMindApi):
                 ]
                 - 10
             )
+            stock_capital_reduction_reference_price["ReductionCapitalRatioFlag"] = True
             stock_price = pd.merge(
                 stock_price,
                 stock_capital_reduction_reference_price[
-                    ["date", "ReductionCapitalRatio"]
+                    ["date", "ReductionCapitalRatio", "ReductionCapitalRatioFlag"]
                 ],
                 on="date",
                 how="left",
             )
-            stock_price["ReductionCapitalRatio"] = stock_price[
-                "ReductionCapitalRatio"
-            ].fillna(0)
             stock_price["change"] = stock_price["close"].pct_change(periods=1)
-            stock_price["tmp_close"] = (
-                stock_price["close"]
-                - (stock_price["close"] - 10)
-                * stock_price["ReductionCapitalRatio"]
-            )
-            stock_price["tmp_close_y1"] = stock_price["tmp_close"].shift(1)
-            change_mask = stock_price["ReductionCapitalRatio"] != 0
+            stock_price = stock_price.iloc[::-1].reset_index(drop=True)
+            stock_price["ReductionCapitalRatio"] = stock_price["ReductionCapitalRatio"].shift(1).fillna(0)
+            stock_price["tmp_close"] = (stock_price["close"] - stock_price["ReductionCapitalRatio"] * 10) / (1 - stock_price["ReductionCapitalRatio"])
+
+            stock_price["tmp_close_y1"] = stock_price["tmp_close"].shift(-1)
+            change_mask = stock_price["ReductionCapitalRatioFlag"] == True
             stock_price.loc[change_mask, "change"] = (
                 stock_price.loc[change_mask, "tmp_close"]
                 - stock_price.loc[change_mask, "tmp_close_y1"]
@@ -147,11 +144,7 @@ class DataLoader(FinMindApi):
 
             for index in range(len(stock_price)):
                 if index:
-                    stock_price.loc[index, "reduction_capital_close"] = (
-                        stock_price.loc[index - 1, "reduction_capital_close"]
-                        * stock_price.loc[index, "change"]
-                        + stock_price.loc[index - 1, "reduction_capital_close"]
-                    )
+                    stock_price.loc[index, "reduction_capital_close"] = stock_price.loc[index-1, "reduction_capital_close"] / (1 + stock_price.loc[index-1, "change"])
                 else:
                     stock_price.loc[
                         index, "reduction_capital_close"
@@ -160,6 +153,7 @@ class DataLoader(FinMindApi):
             stock_price = stock_price.drop(
                 [
                     "ReductionCapitalRatio",
+                    "ReductionCapitalRatioFlag",
                     "change",
                     "tmp_close",
                     "tmp_close_y1",
@@ -209,7 +203,7 @@ class DataLoader(FinMindApi):
                 ],
                 axis=1,
             )
-
+            stock_price = stock_price.iloc[::-1].reset_index(drop=True)
         ex_dividend_price = self.taiwan_stock_dividend_result(
             stock_id=stock_id,
             start_date=start_date,
