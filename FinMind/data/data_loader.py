@@ -121,19 +121,29 @@ class DataLoader(FinMindApi):
                 ]
                 - 10
             )
-            stock_capital_reduction_reference_price["ReductionCapitalRatioFlag"] = True
+            stock_capital_reduction_reference_price[
+                "ReductionCapitalRatioFlag"
+            ] = True
             stock_price = pd.merge(
                 stock_price,
                 stock_capital_reduction_reference_price[
-                    ["date", "ReductionCapitalRatio", "ReductionCapitalRatioFlag"]
+                    [
+                        "date",
+                        "ReductionCapitalRatio",
+                        "ReductionCapitalRatioFlag",
+                    ]
                 ],
                 on="date",
                 how="left",
             )
             stock_price["change"] = stock_price["close"].pct_change(periods=1)
             stock_price = stock_price.iloc[::-1].reset_index(drop=True)
-            stock_price["ReductionCapitalRatio"] = stock_price["ReductionCapitalRatio"].shift(1).fillna(0)
-            stock_price["tmp_close"] = (stock_price["close"] - stock_price["ReductionCapitalRatio"] * 10) / (1 - stock_price["ReductionCapitalRatio"])
+            stock_price["ReductionCapitalRatio"] = (
+                stock_price["ReductionCapitalRatio"].shift(1).fillna(0)
+            )
+            stock_price["tmp_close"] = (
+                stock_price["close"] - stock_price["ReductionCapitalRatio"] * 10
+            ) / (1 - stock_price["ReductionCapitalRatio"])
 
             stock_price["tmp_close_y1"] = stock_price["tmp_close"].shift(-1)
             change_mask = stock_price["ReductionCapitalRatioFlag"] == True
@@ -144,7 +154,13 @@ class DataLoader(FinMindApi):
 
             for index in range(len(stock_price)):
                 if index:
-                    stock_price.loc[index, "reduction_capital_close"] = stock_price.loc[index-1, "reduction_capital_close"] / (1 + stock_price.loc[index-1, "change"])
+                    stock_price.loc[
+                        index, "reduction_capital_close"
+                    ] = stock_price.loc[
+                        index - 1, "reduction_capital_close"
+                    ] / (
+                        1 + stock_price.loc[index - 1, "change"]
+                    )
                 else:
                     stock_price.loc[
                         index, "reduction_capital_close"
