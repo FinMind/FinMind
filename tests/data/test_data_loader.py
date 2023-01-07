@@ -167,20 +167,51 @@ def test_taiwan_stock_daily(data_loader):
     )
 
 
-def test_taiwan_stock_daily_adj(data_loader):
-    stock_id = "2330"
-    start_date = "2019-04-01"
-    end_date = "2021-03-06"
+test_taiwan_stock_daily_adj_data = [
+    (
+        {
+            "stock_id": "2330", # 沒有減資
+            "start_date": "2019-04-01",
+            "end_date": "2021-03-06",
+            "expect_result": {
+                "open": 231.35,
+                "close": 228.11,
+                "max": 231.35,
+                "min": 228.11,
+            },
+        }
+    ),
+    (
+        {
+            "stock_id": "2603", # 有減資
+            "start_date": "2022-09-19",
+            "end_date": "2022-10-06",
+            "expect_result": {
+                "open": 185.5,
+                "close": 169,
+                "max": 186,
+                "min": 169,
+            },
+        }
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "parameters",
+    test_taiwan_stock_daily_adj_data,
+)
+def test_taiwan_stock_daily_adj(data_loader, parameters):
+    stock_id = parameters.get("stock_id")
+    start_date = parameters.get("start_date")
+    end_date = parameters.get("end_date")
+    expect_result = parameters.get("expect_result")
+
     data = data_loader.taiwan_stock_daily_adj(
         stock_id=stock_id, start_date=start_date, end_date=end_date
     ).iloc[0][["open", "close", "max", "min"]]
 
-    assert all(
-        data
-        == pd.Series(
-            {"open": 231.35, "close": 228.11, "max": 231.35, "min": 228.11}
-        )
-    )
+    assert all(data == pd.Series(expect_result))
 
 
 def test_taiwan_stock_daily_adj_2(data_loader):
