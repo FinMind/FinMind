@@ -278,6 +278,24 @@ def test_taiwan_stock_day_trading(data_loader):
     )
 
 
+def test_taiwan_stock_government_bank_buy_sell(data_loader):
+    data = data_loader.taiwan_stock_government_bank_buy_sell(
+        "2023-01-10"
+    )
+    assert_data(
+        data,
+        [
+            "date",
+            "stock_id",
+            "buy_amount",
+            "sell_amount",
+            "buy",
+            "sell",
+            "bank_name"
+        ],
+    )
+
+
 def test_taiwan_stock_per_pbr(data_loader):
     data = data_loader.taiwan_stock_per_pbr("2330", "2020-04-02")
     assert_data(data, ["date", "stock_id", "dividend_yield", "PER", "PBR"])

@@ -436,6 +436,34 @@ class DataLoader(FinMindApi):
         )
         return stock_day_trading
 
+    def taiwan_stock_government_bank_buy_sell(
+        self,
+        start_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 當日八大行庫對各股買賣股數和金額
+        :param start_date (str): 開始日期("2023-01-10")
+        :param end_date (str): 結束日期("2023-01-10")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 當日八大行庫對各股買賣股數和金 TaiwanStockGovernmentBankBuySell
+        :rtype pd.DataFrame
+        :rtype column stock_id (str)
+        :rtype column date (str)
+        :rtype column buy_amount (int)
+        :rtype column sell_amount (int)
+        :rtype column buy (int)
+        :rtype column sell (int)
+        :rtype column bank_name (str)
+        """
+        stock_government_bank_buy_sell = self.get_data(
+            dataset=Dataset.TaiwanStockGovernmentBankBuySell,
+            start_date=start_date,
+            end_date="",
+            timeout=timeout,
+        )
+        return stock_government_bank_buy_sell
+
     def taiwan_stock_margin_purchase_short_sale(
         self,
         stock_id: str = "",
