@@ -1366,6 +1366,58 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_capital_reduction_reference_price
 
+    def us_stock_info(self, timeout: int = None) -> pd.DataFrame:
+        """get 美國股票代碼總覽
+        :param timeout (int): timeout seconds, default None
+
+        :return: 美國股票代碼總覽 USStockInfo
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column stock_id (str)
+        :rtype column Country (str)
+        :rtype column IPOYear (str)
+        :rtype column MarketCap (str)
+        :rtype column Subsector (str)
+        :rtype column stock_name (str)
+        """
+        stock_info = self.get_data(
+            dataset=Dataset.USStockInfo,
+            timeout=timeout,
+        )
+        return stock_info
+
+    def us_stock_price(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 美國股價資料表
+        :param stock_id (str): 股票代號("VOO")
+        :param start_date (str): 開始日期("2023-01-01")
+        :param end_date (str): 結束日期("2023-01-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 美國股價資料表 USStockPrice
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column stock_id (str)
+        :rtype column Adj_Close (float)
+        :rtype column Close (float)
+        :rtype column High (float)
+        :rtype column Low (float)
+        :rtype column Open (float)
+        :rtype column Volume (int)
+        """
+        stock_price = self.get_data(
+            dataset=Dataset.USStockPrice,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return stock_price
 
 class Feature:
     def __init__(self, data_loader: DataLoader):

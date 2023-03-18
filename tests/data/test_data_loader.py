@@ -615,3 +615,38 @@ def test_taiwan_stock_capital_reduction_reference_price(data_loader):
             "ReasonforCapitalReduction",
         ],
     )
+
+
+def test_us_stock_info(data_loader):
+    data = data_loader.us_stock_info()
+    assert_data(
+        data,
+        [
+            "date",
+            "stock_id",
+            "Country",
+            "IPOYear",
+            "MarketCap",
+            "Subsector",
+            "stock_name",
+        ],
+    )
+
+
+def test_us_stock_price(data_loader):
+    data = data_loader.us_stock_price(
+        stock_id="VOO", start_date="2023-01-01", end_date="2023-01-31"
+    )
+    assert_data(
+        data,
+        [
+            "date",
+            "stock_id",
+            "Adj_Close",
+            "Close",
+            "High",
+            "Low",
+            "Open",
+            "Volume",
+        ],
+    )
