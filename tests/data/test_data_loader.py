@@ -170,7 +170,7 @@ def test_taiwan_stock_daily(data_loader):
 test_taiwan_stock_daily_adj_data = [
     (
         {
-            "stock_id": "2330", # 沒有減資
+            "stock_id": "2330",  # 沒有減資
             "start_date": "2019-04-01",
             "end_date": "2021-03-06",
             "expect_result": {
@@ -183,7 +183,7 @@ test_taiwan_stock_daily_adj_data = [
     ),
     (
         {
-            "stock_id": "2603", # 有減資
+            "stock_id": "2603",  # 有減資
             "start_date": "2022-09-19",
             "end_date": "2022-10-06",
             "expect_result": {
@@ -191,6 +191,19 @@ test_taiwan_stock_daily_adj_data = [
                 "close": 169,
                 "max": 186,
                 "min": 169,
+            },
+        }
+    ),
+    (
+        {
+            "stock_id": "6012",  # 股利資料時間早於股價資料時間
+            "start_date": "1900-01-01",
+            "end_date": "2005-01-01",
+            "expect_result": {
+                "open": 10.82,
+                "close": 9.85,
+                "max": 10.87,
+                "min": 9.85,
             },
         }
     ),
@@ -279,9 +292,7 @@ def test_taiwan_stock_day_trading(data_loader):
 
 
 def test_taiwan_stock_government_bank_buy_sell(data_loader):
-    data = data_loader.taiwan_stock_government_bank_buy_sell(
-        "2023-01-10"
-    )
+    data = data_loader.taiwan_stock_government_bank_buy_sell("2023-01-10")
     assert_data(
         data,
         [
@@ -291,7 +302,7 @@ def test_taiwan_stock_government_bank_buy_sell(data_loader):
             "sell_amount",
             "buy",
             "sell",
-            "bank_name"
+            "bank_name",
         ],
     )
 
