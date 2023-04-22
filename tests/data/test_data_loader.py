@@ -207,6 +207,19 @@ test_taiwan_stock_daily_adj_data = [
             },
         }
     ),
+    (
+        {
+            "stock_id": "00774C", # 股利資料時間晚於股價資料時間
+            "start_date": "1900-01-01",
+            "end_date": "2023-04-22",
+            "expect_result": {
+                "open": 8.98,
+                "close": 8.98,
+                "max": 8.98,
+                "min": 8.98,
+            },
+        }
+    ),
 ]
 
 
