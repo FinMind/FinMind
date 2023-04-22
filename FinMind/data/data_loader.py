@@ -223,7 +223,7 @@ class DataLoader(FinMindApi):
         ex_dividend_price = self.taiwan_stock_dividend_result(
             stock_id=stock_id,
             start_date=stock_price["date"].min(),
-            end_date=end_date,
+            end_date=stock_price["date"].max(),
         )
         if len(ex_dividend_price) == 0:
             return stock_price
