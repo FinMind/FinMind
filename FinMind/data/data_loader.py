@@ -27,6 +27,23 @@ class DataLoader(FinMindApi):
         )
         return stock_info
 
+    def taiwan_securities_trader_info(self, timeout: int = None) -> pd.DataFrame:
+        """get 證券商資訊表
+        :param timeout (int): timeout seconds, default None
+
+        :return: 證券商資訊表 TaiwanSecuritiesTraderInfo
+        :rtype pd.DataFrame
+        :rtype column securities_trader_id (str)
+        :rtype column securities_trader (str)
+        :rtype column date (str)
+        :rtype column address (str)
+        :rtype column phone (str)
+        """
+        securities_trader_info = self.get_data(
+            dataset=Dataset.TaiwanSecuritiesTraderInfo, timeout=timeout
+        )
+        return securities_trader_info
+
     def taiwan_stock_daily(
         self,
         stock_id: str = "",

@@ -67,6 +67,7 @@ class Dataset(str, Enum):
         "TaiwanStockCapitalReductionReferencePrice"
     )
     TaiwanStockGovernmentBankBuySell = "TaiwanStockGovernmentBankBuySell"
+    TaiwanSecuritiesTraderInfo ="TaiwanSecuritiesTraderInfo"
 
 
 class Version(str, Enum):

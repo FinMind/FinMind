@@ -145,6 +145,13 @@ def test_taiwan_stock_info(data_loader):
         ["industry_category", "stock_id", "stock_name", "type", "date"],
     )
 
+def test_taiwan_securities_trader_info(data_loader):
+    securities_trader_info = data_loader.taiwan_securities_trader_info()
+    assert_data(
+        securities_trader_info,
+        ["securities_trader_id", "securities_trader", "date", "address", "phone"],
+    )
+
 
 def test_taiwan_stock_daily(data_loader):
     stock_price = data_loader.taiwan_stock_daily(
