@@ -35,7 +35,7 @@ pip install FinMind
 **FinMind** 是超過 50 種金融開源數據 [50 datasets](https://finmind.github.io/)。
 包含
 
-* 技術面 : 台股股價 daily、即時報價、歷史 tick、即時最佳五檔、PER、PBR、每5秒委託成交統計、加權指數、當日沖銷交易標的及成交量值。
+* 技術面 : 台股股價 daily、即時報價、歷史 tick、PER、PBR、每5秒委託成交統計、加權指數、當日沖銷交易標的及成交量值。
 * 基本面 : 綜合損益表、現金流量表、資產負債表、股利政策表、除權除息結果表、月營收。
 * 籌碼面 : 外資持股、股權分散表、融資融券、三大法人買賣、借券成交明細。
 * 消息面 : 台股相關新聞。
@@ -82,7 +82,6 @@ without having to collect the data by yourself.
   <!--- [Crawler (爬蟲)](https://github.com/FinMind/FinMind/tree/master#Crawler-爬蟲)-->
 - Example
     - [backtest](/example/backtest.md)
-    - [real_time_data_subscription](example/real_time_data_subscription.md)
     - [customer_dashboard_web_server](example/customer_dashboard_web_server.md)
     - [kbar_plotting.ipynb](https://colab.research.google.com/drive/1u1cJGFNCLOeBIR0PdeKlsqgKBJSvJg_y?usp=sharing)
     - [dashboard.ipynb](https://colab.research.google.com/drive/15lE2rtYuE-qoEUNNSE-cDbZiDnUFL85h?usp=sharing)
