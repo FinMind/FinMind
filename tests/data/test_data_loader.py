@@ -648,6 +648,19 @@ def test_taiwan_stock_capital_reduction_reference_price(data_loader):
     )
 
 
+def test_taiwan_stock_market_value(data_loader):
+    data = data_loader.taiwan_stock_capital_reduction_reference_price(
+        stock_id="2330", start_date="2000-01-01", end_date="2023-06-01"
+    )
+    assert_data(
+        data,
+        [
+            "date",
+            "stock_id",
+            "market_value",
+        ],
+    )
+
 def test_us_stock_info(data_loader):
     data = data_loader.us_stock_info()
     assert_data(
