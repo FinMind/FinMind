@@ -1513,12 +1513,92 @@ class DataLoader(FinMindApi):
         :rtype column stock_id (str)
         :rtype column TickType (int)
         """
-        stock_price = self.get_taiwan_stock_tick_snapshot(
+        taiwan_stock_tick_snapshot = self.get_taiwan_stock_tick_snapshot(
             dataset=Dataset.TaiwanStockTickSnapshot,
             data_id=stock_id,
             timeout=timeout,
         )
-        return stock_price
+        return taiwan_stock_tick_snapshot
+
+    def taiwan_futures_snapshot(
+        self,
+        futures_id: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台股期貨即時資訊 taiwan_futures_snapshot (只限 sponsor 會員使用)
+        (目前支援台指期、約 10 秒更新一次)
+        :param futures_id (str): 股票代號("TXF")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股期貨即時資訊 taiwan_futures_snapshot
+        :rtype pd.DataFrame
+        :rtype column open (float)
+        :rtype column high (float)
+        :rtype column low (float)
+        :rtype column close (float)
+        :rtype column change_price (float)
+        :rtype column change_rate (float)
+        :rtype column average_price (float)
+        :rtype column volume (int)
+        :rtype column total_volume (int)
+        :rtype column amount (int)
+        :rtype column total_amount (int)
+        :rtype column yesterday_volume (int)
+        :rtype column buy_price (float)
+        :rtype column buy_volume (int)
+        :rtype column sell_price (float)
+        :rtype column sell_volume (int)
+        :rtype column volume_ratio (float)
+        :rtype column date (str)
+        :rtype column futures_id (str)
+        :rtype column TickType (int)
+        """
+        futures_snapshot = self.get_taiwan_futures_snapshot(
+            dataset=Dataset.TaiwanFuturesSnapshot,
+            data_id=futures_id,
+            timeout=timeout,
+        )
+        return futures_snapshot
+
+    def taiwan_options_snapshot(
+        self,
+        options_id: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台股選擇權即時資訊 taiwan_options_snapshot (只限 sponsor 會員使用)
+        (目前支援台指選擇權、約 10 秒更新一次)
+        :param options_id (str): 股票代號("TXO")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股選擇權即時資訊 taiwan_options_snapshot
+        :rtype pd.DataFrame
+        :rtype column open (float)
+        :rtype column high (float)
+        :rtype column low (float)
+        :rtype column close (float)
+        :rtype column change_price (float)
+        :rtype column change_rate (float)
+        :rtype column average_price (float)
+        :rtype column volume (int)
+        :rtype column total_volume (int)
+        :rtype column amount (int)
+        :rtype column total_amount (int)
+        :rtype column yesterday_volume (int)
+        :rtype column buy_price (float)
+        :rtype column buy_volume (int)
+        :rtype column sell_price (float)
+        :rtype column sell_volume (int)
+        :rtype column volume_ratio (float)
+        :rtype column date (str)
+        :rtype column options_id (str)
+        :rtype column TickType (int)
+        """
+        options_snapshot = self.get_taiwan_options_snapshot(
+            dataset=Dataset.TaiwanOptionsSnapshot,
+            data_id=options_id,
+            timeout=timeout,
+        )
+        return options_snapshot
 
 
 class Feature:

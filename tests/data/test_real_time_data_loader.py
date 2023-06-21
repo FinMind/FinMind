@@ -82,3 +82,61 @@ def test_taiwan_stock_info_all(data_loader):
             "TickType",
         ],
     )
+
+
+def test_taiwan_futures_snapshot(data_loader):
+    data = data_loader.taiwan_futures_snapshot(futures_id="TXF")
+    assert_data(
+        data,
+        [
+            "open",
+            "high",
+            "low",
+            "close",
+            "change_price",
+            "change_rate",
+            "average_price",
+            "volume",
+            "total_volume",
+            "amount",
+            "total_amount",
+            "yesterday_volume",
+            "buy_price",
+            "buy_volume",
+            "sell_price",
+            "sell_volume",
+            "volume_ratio",
+            "date",
+            "futures_id",
+            "TickType",
+        ],
+    )
+
+
+def test_taiwan_options_snapshot(data_loader):
+    data = data_loader.taiwan_options_snapshot(options_id="TXO")
+    assert_data(
+        data,
+        [
+            "open",
+            "high",
+            "low",
+            "close",
+            "change_price",
+            "change_rate",
+            "average_price",
+            "volume",
+            "total_volume",
+            "amount",
+            "total_amount",
+            "yesterday_volume",
+            "buy_price",
+            "buy_volume",
+            "sell_price",
+            "sell_volume",
+            "volume_ratio",
+            "date",
+            "options_id",
+            "TickType",
+        ],
+    )
