@@ -21,9 +21,13 @@ def test_kline(stock_id, start_date, end_date):
         stock_id=stock_id, start_date=start_date, end_date=end_date
     )
     assert plotting.kline(stock_data)
-    stock_data = data_loader.feature.add_kline_institutional_investors(stock_data)
+    stock_data = data_loader.feature.add_kline_institutional_investors(
+        stock_data
+    )
     assert plotting.kline(stock_data)
-    stock_data = data_loader.feature.add_kline_margin_purchase_short_sale(stock_data)
+    stock_data = data_loader.feature.add_kline_margin_purchase_short_sale(
+        stock_data
+    )
     assert plotting.kline(stock_data)
 
 

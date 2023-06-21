@@ -32,6 +32,7 @@ class Dataset(str, Enum):
     USStockPrice = "USStockPrice"
     TaiwanStockDividendResult = "TaiwanStockDividendResult"
     TaiwanStockInfo = "TaiwanStockInfo"
+    TaiwanStockInfoWithWarrant = "TaiwanStockInfoWithWarrant"
     TaiwanStockSecuritiesLending = "TaiwanStockSecuritiesLending"
     TaiwanFutOptTickInfo = "TaiwanFutOptTickInfo"
     TaiwanFutOptDailyInfo = "TaiwanFutOptDailyInfo"
@@ -69,6 +70,7 @@ class Dataset(str, Enum):
     TaiwanStockGovernmentBankBuySell = "TaiwanStockGovernmentBankBuySell"
     TaiwanSecuritiesTraderInfo ="TaiwanSecuritiesTraderInfo"
     TaiwanStockMarketValue = "TaiwanStockMarketValue"
+    TaiwanStockTickSnapshot = "taiwan_stock_tick_snapshot"
 
 
 class Version(str, Enum):

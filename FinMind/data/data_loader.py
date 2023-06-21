@@ -27,7 +27,27 @@ class DataLoader(FinMindApi):
         )
         return stock_info
 
-    def taiwan_securities_trader_info(self, timeout: int = None) -> pd.DataFrame:
+    def taiwan_stock_info_with_warrant(
+        self, timeout: int = None
+    ) -> pd.DataFrame:
+        """get 台股總覽(包含權證)
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股總覽 TaiwanStockInfoWithWarrant
+        :rtype pd.DataFrame
+        :rtype column industry_category (str)
+        :rtype column stock_id (str)
+        :rtype column stock_name (str)
+        :rtype column type (str)
+        """
+        stock_info = self.get_data(
+            dataset=Dataset.TaiwanStockInfoWithWarrant, timeout=timeout
+        )
+        return stock_info
+
+    def taiwan_securities_trader_info(
+        self, timeout: int = None
+    ) -> pd.DataFrame:
         """get 證券商資訊表
         :param timeout (int): timeout seconds, default None
 
@@ -1457,6 +1477,45 @@ class DataLoader(FinMindApi):
             data_id=stock_id,
             start_date=start_date,
             end_date=end_date,
+            timeout=timeout,
+        )
+        return stock_price
+
+    def taiwan_stock_tick_snapshot(
+        self,
+        stock_id: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台股即時資訊 taiwan_stock_tick_snapshot (只限 sponsor 會員使用)
+        :param stock_id (str): 股票代號("2330")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股即時資訊 taiwan_stock_tick_snapshot
+        :rtype pd.DataFrame
+        :rtype column open (float)
+        :rtype column high (float)
+        :rtype column low (float)
+        :rtype column close (float)
+        :rtype column change_price (float)
+        :rtype column change_rate (float)
+        :rtype column average_price (float)
+        :rtype column volume (int)
+        :rtype column total_volume (int)
+        :rtype column amount (int)
+        :rtype column total_amount (int)
+        :rtype column yesterday_volume (int)
+        :rtype column buy_price (float)
+        :rtype column buy_volume (int)
+        :rtype column sell_price (float)
+        :rtype column sell_volume (int)
+        :rtype column volume_ratio (float)
+        :rtype column date (str)
+        :rtype column stock_id (str)
+        :rtype column TickType (int)
+        """
+        stock_price = self.get_taiwan_stock_tick_snapshot(
+            dataset=Dataset.TaiwanStockTickSnapshot,
+            data_id=stock_id,
             timeout=timeout,
         )
         return stock_price

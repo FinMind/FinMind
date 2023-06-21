@@ -136,6 +136,32 @@ class FinMindApi:
         response = request_get(url, params, timeout).json()
         return pd.DataFrame(response["data"])
 
+    def get_taiwan_stock_tick_snapshot(
+        self,
+        dataset: Dataset,
+        data_id: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """
+        :param params: finmind api參數
+        :return:
+        """
+        params = dict(
+            dataset=dataset,
+            data_id=data_id,
+            user_id=self.__user_id,
+            password=self.__password,
+            token=self.__api_token,
+            device=self.__device,
+        )
+        params = self._compatible_api_version(params)
+        url = (
+            f"{self.__api_url}/{self.__api_version}/taiwan_stock_tick_snapshot"
+        )
+        logger.debug(params)
+        response = request_get(url, params, timeout).json()
+        return pd.DataFrame(response["data"])
+
     def get_datalist(self, dataset: str, timeout: int = None) -> pd.DataFrame:
         # 測試不支援以token方式獲取
         if not self.__user_id:

@@ -1,0 +1,84 @@
+import os
+
+import pandas as pd
+import pytest
+
+from FinMind.data import DataLoader
+from FinMind.data import FinMindApi
+
+user_id = os.environ.get("FINMIND_USER", "")
+password = os.environ.get("FINMIND_PASSWORD", "")
+
+
+@pytest.fixture(scope="module")
+def data_loader():
+    data_loader = DataLoader()
+    data_loader.login(user_id, password)
+    return data_loader
+
+
+def assert_data(data: pd.DataFrame, correct_columns_name: list):
+    errors = []
+    if not all(data.columns == correct_columns_name):
+        errors.append("data columns mismatch")
+    if not len(data) > 0:
+        errors.append("data is empty")
+    assert not errors, "errors :\n    {}".format("\n".join(errors))
+
+
+def test_taiwan_stock_info_2330(data_loader):
+    data = data_loader.taiwan_stock_tick_snapshot(stock_id="2330")
+    assert_data(
+        data,
+        [
+            "open",
+            "high",
+            "low",
+            "close",
+            "change_price",
+            "change_rate",
+            "average_price",
+            "volume",
+            "total_volume",
+            "amount",
+            "total_amount",
+            "yesterday_volume",
+            "buy_price",
+            "buy_volume",
+            "sell_price",
+            "sell_volume",
+            "volume_ratio",
+            "date",
+            "stock_id",
+            "TickType",
+        ],
+    )
+
+
+def test_taiwan_stock_info_all(data_loader):
+    data = data_loader.taiwan_stock_tick_snapshot()
+    assert_data(
+        data,
+        [
+            "open",
+            "high",
+            "low",
+            "close",
+            "change_price",
+            "change_rate",
+            "average_price",
+            "volume",
+            "total_volume",
+            "amount",
+            "total_amount",
+            "yesterday_volume",
+            "buy_price",
+            "buy_volume",
+            "sell_price",
+            "sell_volume",
+            "volume_ratio",
+            "date",
+            "stock_id",
+            "TickType",
+        ],
+    )
