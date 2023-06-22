@@ -1383,6 +1383,31 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_capital_reduction_reference_price
 
+    def taiwan_stock_market_value(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None
+    ) -> pd.DataFrame:
+        """get 台灣個股市值
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台灣個股市值 TaiwanStockMarketValue
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column stock_id (str)
+        :rtype column market_value (float)
+        """
+        tw_stock_market_value = self.get_data(
+            dataset=Dataset.TaiwanStockMarketValue,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return tw_stock_market_value
+
     def us_stock_info(self, timeout: int = None) -> pd.DataFrame:
         """get 美國股票代碼總覽
         :param timeout (int): timeout seconds, default None
