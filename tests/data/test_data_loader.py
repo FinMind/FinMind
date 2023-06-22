@@ -145,11 +145,27 @@ def test_taiwan_stock_info(data_loader):
         ["industry_category", "stock_id", "stock_name", "type", "date"],
     )
 
+
+def test_taiwan_stock_info_with_warrant(data_loader):
+    stock_info = data_loader.taiwan_stock_info_with_warrant()
+    assert_data(
+        stock_info,
+        ["industry_category", "stock_id", "stock_name", "type", "date"],
+    )
+    assert len(stock_info) > 10000
+
+
 def test_taiwan_securities_trader_info(data_loader):
     securities_trader_info = data_loader.taiwan_securities_trader_info()
     assert_data(
         securities_trader_info,
-        ["securities_trader_id", "securities_trader", "date", "address", "phone"],
+        [
+            "securities_trader_id",
+            "securities_trader",
+            "date",
+            "address",
+            "phone",
+        ],
     )
 
 
@@ -216,7 +232,7 @@ test_taiwan_stock_daily_adj_data = [
     ),
     (
         {
-            "stock_id": "00774C", # 股利資料時間晚於股價資料時間
+            "stock_id": "00774C",  # 股利資料時間晚於股價資料時間
             "start_date": "1900-01-01",
             "end_date": "2023-04-22",
             "expect_result": {
