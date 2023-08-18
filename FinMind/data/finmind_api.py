@@ -78,9 +78,10 @@ class FinMindApi:
             "device": self.__device,
         }
         url = f"{self.__api_url}/{self.__api_version}/login"
-        login_info = requests.post(url, data=payload).json()
+        resp = requests.post(url, data=payload)
+        login_info = resp.json()
         logger.debug(login_info)
-        if login_info.get("status", 0) == 200:
+        if resp.status_code == 200:
             self.__api_token = login_info.get("token", "")
             self.__user_id = user_id
             self.__password = password
