@@ -70,6 +70,7 @@ class Dataset(str, Enum):
     TaiwanStockGovernmentBankBuySell = "TaiwanStockGovernmentBankBuySell"
     TaiwanSecuritiesTraderInfo ="TaiwanSecuritiesTraderInfo"
     TaiwanStockMarketValue = "TaiwanStockMarketValue"
+    TaiwanStock10Year = "TaiwanStock10Year"
     TaiwanStockTickSnapshot = "taiwan_stock_tick_snapshot"
     TaiwanFuturesSnapshot = "taiwan_futures_snapshot"
     TaiwanOptionsSnapshot = "taiwan_options_snapshot"

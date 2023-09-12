@@ -1428,6 +1428,31 @@ class DataLoader(FinMindApi):
         )
         return tw_stock_market_value
 
+    def taiwan_stock_10year(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None
+    ) -> pd.DataFrame:
+        """get 台灣個股10年平均收盤價
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台灣個股10年平均收盤價 TaiwanStock10Year
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column stock_id (str)
+        :rtype column close (float)
+        """
+        tw_stock_10year = self.get_data(
+            dataset=Dataset.TaiwanStock10Year,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return tw_stock_10year
+
     def us_stock_info(self, timeout: int = None) -> pd.DataFrame:
         """get 美國股票代碼總覽
         :param timeout (int): timeout seconds, default None
