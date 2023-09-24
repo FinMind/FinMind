@@ -302,8 +302,9 @@ class BackTest:
             dic_value["signal"] = signal
             dic_value["CashEarningsDistribution"] = cash_div
             dic_value["StockEarningsDistribution"] = stock_div
-            self._trade_detail = self._trade_detail.append(
-                dic_value, ignore_index=True
+            df_dic_value = pd.DataFrame(dic_value, index=[0])
+            self._trade_detail = pd.concat(
+                (self._trade_detail, df_dic_value), ignore_index=True
             )
 
         self._trade_detail["EverytimeTotalProfit"] = (
