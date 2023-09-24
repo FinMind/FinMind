@@ -74,6 +74,7 @@ class Dataset(str, Enum):
     TaiwanStockTickSnapshot = "taiwan_stock_tick_snapshot"
     TaiwanFuturesSnapshot = "taiwan_futures_snapshot"
     TaiwanOptionsSnapshot = "taiwan_options_snapshot"
+    TaiwanStockPriceAdj = "TaiwanStockPriceAdj"
 
 
 class Version(str, Enum):

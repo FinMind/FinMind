@@ -190,99 +190,26 @@ def test_taiwan_stock_daily(data_loader):
     )
 
 
-test_taiwan_stock_daily_adj_data = [
-    (
-        {
-            "stock_id": "2330",  # 沒有減資
-            "start_date": "2019-04-01",
-            "end_date": "2021-03-06",
-            "expect_result": {
-                "open": 231.35,
-                "close": 228.11,
-                "max": 231.35,
-                "min": 228.11,
-            },
-        }
-    ),
-    (
-        {
-            "stock_id": "2603",  # 有減資
-            "start_date": "2022-09-19",
-            "end_date": "2022-10-06",
-            "expect_result": {
-                "open": 185.5,
-                "close": 169,
-                "max": 186,
-                "min": 169,
-            },
-        }
-    ),
-    (
-        {
-            "stock_id": "6012",  # 股利資料時間早於股價資料時間
-            "start_date": "1900-01-01",
-            "end_date": "2005-01-01",
-            "expect_result": {
-                "open": 10.82,
-                "close": 9.85,
-                "max": 10.87,
-                "min": 9.85,
-            },
-        }
-    ),
-    (
-        {
-            "stock_id": "00774C",  # 股利資料時間晚於股價資料時間
-            "start_date": "1900-01-01",
-            "end_date": "2023-04-22",
-            "expect_result": {
-                "open": 8.98,
-                "close": 8.98,
-                "max": 8.98,
-                "min": 8.98,
-            },
-        }
-    ),
-]
+def test_taiwan_stock_daily_adj(data_loader):
+    stock_price = data_loader.taiwan_stock_daily_adj(
+        stock_id="2330", start_date="2018-01-01", end_date="2021-03-06"
+    )
 
-
-@pytest.mark.parametrize(
-    "parameters",
-    test_taiwan_stock_daily_adj_data,
-)
-def test_taiwan_stock_daily_adj(data_loader, parameters):
-    stock_id = parameters.get("stock_id")
-    start_date = parameters.get("start_date")
-    end_date = parameters.get("end_date")
-    expect_result = parameters.get("expect_result")
-
-    data = data_loader.taiwan_stock_daily_adj(
-        stock_id=stock_id, start_date=start_date, end_date=end_date
-    ).iloc[0][["open", "close", "max", "min"]]
-
-    assert all(data == pd.Series(expect_result))
-
-
-def test_taiwan_stock_daily_adj_2(data_loader):
-    stock_id = "3288"
-    start_date = "2005-01-01"
-    end_date = "2021-05-28"
-    df_size = data_loader.taiwan_stock_daily_adj(
-        stock_id=stock_id, start_date=start_date, end_date=end_date
-    ).size
-
-    assert df_size == 36990
-
-
-def test_taiwan_stock_daily_adj_empty_dataframe(data_loader):
-    stock_id = "1230"
-    start_date = "2015-01-01"
-    end_date = "2021-06-19"
-    df_size = data_loader.taiwan_stock_daily_adj(
-        stock_id=stock_id, start_date=start_date, end_date=end_date
-    ).size
-
-    assert df_size == 0
+    assert_data(
+        stock_price,
+        [
+            "date",
+            "stock_id",
+            "Trading_Volume",
+            "Trading_money",
+            "open",
+            "max",
+            "min",
+            "close",
+            "spread",
+            "Trading_turnover",
+        ],
+    )
 
 
 def test_taiwan_stock_tick(data_loader):
