@@ -1237,6 +1237,36 @@ class DataLoader(FinMindApi):
         )
         return tw_stock_10year
 
+    def taiwan_stock_bar(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台股分 K 資料表
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股分 K 資料表 TaiwanStockKBar
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column minute (str)
+        :rtype column stock_id (str)
+        :rtype column open (float)
+        :rtype column high (float)
+        :rtype column low (float)
+        :rtype column close (float)
+        :rtype column volume (int)
+        """
+        taiwan_stock_bar = self.get_data(
+            dataset=Dataset.TaiwanStockKBar,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return taiwan_stock_bar
+
     def us_stock_info(self, timeout: int = None) -> pd.DataFrame:
         """get 美國股票代碼總覽
         :param timeout (int): timeout seconds, default None

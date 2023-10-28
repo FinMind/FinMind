@@ -619,6 +619,25 @@ def test_taiwan_stock_10year(data_loader):
     )
 
 
+def test_taiwan_stock_bar(data_loader):
+    data = data_loader.taiwan_stock_bar(
+        stock_id="2330", start_date="2023-01-05", end_date="2023-01-05"
+    )
+    assert_data(
+        data,
+        [
+            "date",
+            "minute",
+            "stock_id",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+        ],
+    )
+
+
 def test_us_stock_info(data_loader):
     data = data_loader.us_stock_info()
     assert_data(
