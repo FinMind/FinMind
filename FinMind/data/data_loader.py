@@ -1261,7 +1261,6 @@ class DataLoader(FinMindApi):
             dataset=Dataset.TaiwanStockKBar,
             data_id=stock_id,
             start_date=date,
-            end_date=date,
             timeout=timeout,
         )
         return taiwan_stock_bar
