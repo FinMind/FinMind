@@ -1240,8 +1240,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_bar(
         self,
         stock_id: str = "",
-        start_date: str = "",
-        end_date: str = "",
+        date: str = "",
         timeout: int = None,
     ) -> pd.DataFrame:
         """get 台股分 K 資料表
@@ -1261,8 +1260,8 @@ class DataLoader(FinMindApi):
         taiwan_stock_bar = self.get_data(
             dataset=Dataset.TaiwanStockKBar,
             data_id=stock_id,
-            start_date=start_date,
-            end_date=end_date,
+            start_date=date,
+            end_date=date,
             timeout=timeout,
         )
         return taiwan_stock_bar
