@@ -1,7 +1,10 @@
 import warnings
 
+from enum import Enum
+from loguru import logger
 import numpy as np
 import pandas as pd
+import typing
 
 from FinMind.data import DataLoader
 from FinMind.schema import (
@@ -19,6 +22,8 @@ from FinMind.strategies.utils import (
     get_underlying_trading_tax,
     period_return2annual_return,
 )
+from FinMind import indicators
+from FinMind.utility.rule import RULE_DICT
 
 
 class Trader:
@@ -86,6 +91,14 @@ class Trader:
     def no_action(self, trade_price: float):
         self.trade_price = trade_price
         self.__compute_realtime_status()
+
+    def trade(self, signal: float, trade_price: float):
+        if signal > 0:
+            self.buy(trade_price=trade_price, trade_lots=signal)
+        elif signal < 0:
+            self.sell(trade_price=trade_price, trade_lots=signal)
+        else:
+            self.no_action(trade_price=trade_price)
 
     def __compute_realtime_status(self):
         sell_fee = max(20, self.trade_price * self.hold_volume * self.fee)
@@ -183,8 +196,10 @@ class BackTest:
         fee: float = 0.001425,
         strategy: Strategy = None,
         data_loader: DataLoader = None,
+        token: str = "",
+        additional_dataset_list: typing.List[Dataset] = None,
     ):
-        self.data_loader = data_loader
+        self.data_loader = data_loader if data_loader else DataLoader(token)
         self.stock_id = stock_id
         self.start_date = start_date
         self.end_date = end_date
@@ -205,7 +220,14 @@ class BackTest:
         self.stock_price = pd.DataFrame()
         self._trade_detail = pd.DataFrame()
         self._final_stats = pd.Series()
+        self._sign_name_list = []
+        self.buy_rule_list = []
+        self.sell_rule_list = []
+        self.additional_dataset_list = (
+            additional_dataset_list if additional_dataset_list else []
+        )
         self.__init_base_data()
+        self.__additional_dataset()
         self._trade_period_years = days2years(
             calculate_datenbr(start_date, end_date) + 1
         )
@@ -216,7 +238,94 @@ class BackTest:
     def add_strategy(self, strategy: Strategy):
         self.strategy = strategy
 
-    def __init_base_data(self):
+    def add_indicators(
+        self, indicators_info_list: typing.List[typing.Dict[str, str]]  # enum
+    ):
+        for indicators_info in indicators_info_list:
+            # indicators_info = indicators_info_list[0]
+            indicator = (
+                indicators_info["name"].name
+                if isinstance(indicators_info["name"], Enum)
+                else indicators_info["name"]
+            )
+            logger.info(indicator)
+            func = indicators.INDICATORS_MAPPING.get(indicator)
+            self.stock_price = func(
+                self.stock_price, additional_dataset_obj=self, **indicators_info
+            )
+
+    def add_buy_rule(self, buy_rule_list):
+        self.buy_rule_list = buy_rule_list
+
+    def add_sell_rule(self, sell_rule_list):
+        self.sell_rule_list = sell_rule_list
+
+    def _create_sign(
+        self,
+        sign_name: str,
+        sign_value: str,
+        indicators: str,
+        more_or_less_than: str,
+        threshold: float,
+    ):
+        self.stock_price[sign_name] = 0
+        self.stock_price.loc[
+            self.stock_price[indicators].apply(
+                lambda _indicators: RULE_DICT[more_or_less_than](
+                    _indicators, threshold
+                )
+            ),
+            sign_name,
+        ] = sign_value
+
+    def _create_buy_sign(self):
+        for i in range(len(self.buy_rule_list)):
+            sign_name = f"buy_signal_{i}"
+            self._sign_name_list.append(sign_name)
+            self._create_sign(
+                sign_name=sign_name,
+                sign_value=1,
+                indicators=self.buy_rule_list[i]["indicators"],
+                more_or_less_than=self.buy_rule_list[i]["more_or_less_than"],
+                threshold=self.buy_rule_list[i]["threshold"],
+            )
+
+    def _create_sell_sign(self):
+        for i in range(len(self.sell_rule_list)):
+            sign_name = f"sell_signal_{i}"
+            self._sign_name_list.append(sign_name)
+            self._create_sign(
+                sign_name=sign_name,
+                sign_value=-1,
+                indicators=self.sell_rule_list[i]["indicators"],
+                more_or_less_than=self.sell_rule_list[i]["more_or_less_than"],
+                threshold=self.sell_rule_list[i]["threshold"],
+            )
+
+    def _create_trade_sign(self):
+        logger.info("create_trade_sign")
+        self._create_buy_sign()
+        self._create_sell_sign()
+        self.stock_price["signal"] = self.stock_price[self._sign_name_list].sum(
+            axis=1
+        )
+        self.stock_price.loc[self.stock_price["signal"] >= 1, "signal"] = 1
+        self.stock_price.loc[self.stock_price["signal"] <= -1, "signal"] = -1
+        self.stock_price = self.stock_price.drop(self._sign_name_list, axis=1)
+
+    def __additional_dataset(self):
+        for additional_dataset in self.additional_dataset_list:
+            df = self.data_loader.get_data(
+                dataset=additional_dataset,
+                data_id=self.stock_id,
+                start_date=self.start_date,
+                end_date=self.end_date,
+            )
+            setattr(self, additional_dataset.value, df)
+
+    def __init_base_data(
+        self, additional_dataset_list: typing.List[str] = None
+    ):
         self.stock_price = self.data_loader.get_data(
             dataset=Dataset.TaiwanStockPrice,
             data_id=self.stock_id,
@@ -263,26 +372,30 @@ class BackTest:
             self.stock_price["CashEarningsDistribution"] = 0
 
     def simulate(self):
-        strategy = self.strategy(
-            self.trader,
-            self.stock_id,
-            self.start_date,
-            self.end_date,
-            self.data_loader,
-        )
-        strategy.load_strategy_data()
-        self.stock_price = strategy.create_trade_sign(
-            stock_price=self.stock_price
-        )
-        assert (
-            "signal" in self.stock_price.columns
-        ), "Must be create signal columns in stock_price"
+        if self.strategy:
+            strategy = self.strategy(
+                self.trader,
+                self.stock_id,
+                self.start_date,
+                self.end_date,
+                self.data_loader,
+            )
+            strategy.load_strategy_data()
+            self.stock_price = strategy.create_trade_sign(
+                stock_price=self.stock_price, additional_dataset_obj=self
+            )
+            assert (
+                "signal" in self.stock_price.columns
+            ), "Must be create signal columns in stock_price"
+        else:
+            self._create_trade_sign()
         if not self.stock_price.index.is_monotonic_increasing:
             warnings.warn(
                 "data index is not sorted in ascending order. Sorting.",
                 stacklevel=2,
             )
             self.stock_price = self.stock_price.sort_index()
+        _trade_detail_dict_list = []
         for i in range(0, len(self.stock_price)):
             # use last date to decide buy or sell or nothing
             last_date_index = i - 1
@@ -290,23 +403,22 @@ class BackTest:
                 self.stock_price.loc[last_date_index, "signal"] if i != 0 else 0
             )
             trade_price = self.stock_price.loc[i, "open"]
-            strategy.trade(signal, trade_price)
+            self.trader.trade(signal, trade_price)
             cash_div = self.stock_price.loc[i, "CashEarningsDistribution"]
             stock_div = self.stock_price.loc[i, "StockEarningsDistribution"]
-            self.__compute_div_income(strategy.trader, cash_div, stock_div)
-            dic_value = strategy.trader.__dict__
-            dic_value = {
-                k: v for k, v in dic_value.items() if k not in ["tax", "fee"]
-            }
-            dic_value["date"] = self.stock_price.loc[i, "date"]
-            dic_value["signal"] = signal
-            dic_value["CashEarningsDistribution"] = cash_div
-            dic_value["StockEarningsDistribution"] = stock_div
-            df_dic_value = pd.DataFrame(dic_value, index=[0])
-            self._trade_detail = pd.concat(
-                (self._trade_detail, df_dic_value), ignore_index=True
+            self.__compute_div_income(self.trader, cash_div, stock_div)
+            _trade_detail_dict_list.append(
+                dict(
+                    CashEarningsDistribution=cash_div,
+                    StockEarningsDistribution=stock_div,
+                    signal=signal,
+                    **self.trader.__dict__,
+                )
             )
 
+        self._trade_detail = pd.DataFrame(_trade_detail_dict_list)
+        self._trade_detail["date"] = self.stock_price["date"]
+        self._trade_detail = self._trade_detail.drop(["fee", "tax"], axis=1)
         self._trade_detail["EverytimeTotalProfit"] = (
             self._trade_detail["trader_fund"]
             + self._trade_detail["EverytimeProfit"]

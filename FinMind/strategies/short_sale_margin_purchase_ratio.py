@@ -76,7 +76,9 @@ class ShortSaleMarginPurchaseRatio(Strategy):
             - self.InstitutionalInvestorsBuySell["sell"]
         )
 
-    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
+    def create_trade_sign(
+        self, stock_price: pd.DataFrame, **kwargs
+    ) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
         self.load_taiwan_stock_margin_purchase_short_sale()
         self.load_institutional_investors_buy_sell()

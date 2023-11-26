@@ -120,6 +120,7 @@ class FinMindApi:
         :param params: finmind api參數
         :return:
         """
+        logger.info(f"download {dataset}")
         params = dict(
             dataset=dataset,
             data_id=data_id,

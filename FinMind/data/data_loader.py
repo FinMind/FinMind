@@ -7,8 +7,9 @@ from FinMind.schema.data import Dataset
 
 
 class DataLoader(FinMindApi):
-    def __init__(self):
+    def __init__(self, token: str = ""):
         super(DataLoader, self).__init__()
+        self.login_by_token(api_token=token)
         self.feature = Feature(self)
 
     def taiwan_stock_info(self, timeout: int = None) -> pd.DataFrame:
@@ -1192,7 +1193,7 @@ class DataLoader(FinMindApi):
         stock_id: str = "",
         start_date: str = "",
         end_date: str = "",
-        timeout: int = None
+        timeout: int = None,
     ) -> pd.DataFrame:
         """get 台灣個股市值
         :param timeout (int): timeout seconds, default None
@@ -1217,7 +1218,7 @@ class DataLoader(FinMindApi):
         stock_id: str = "",
         start_date: str = "",
         end_date: str = "",
-        timeout: int = None
+        timeout: int = None,
     ) -> pd.DataFrame:
         """get 台灣個股10年平均收盤價
         :param timeout (int): timeout seconds, default None

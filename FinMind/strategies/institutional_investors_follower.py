@@ -15,7 +15,9 @@ class InstitutionalInvestorsFollower(Strategy):
         策略規則: 三大法人大量買超隔天就賣，大量賣超就買
     """
 
-    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
+    def create_trade_sign(
+        self, stock_price: pd.DataFrame, **kwargs
+    ) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
         stock_price.index = range(len(stock_price))
         institutional_investors_buy_sell = self.data_loader.get_data(

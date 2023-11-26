@@ -21,7 +21,9 @@ class MaxMinPeriodBias(Strategy):
     bias_lower = -7
     bias_upper = 8
 
-    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
+    def create_trade_sign(
+        self, stock_price: pd.DataFrame, **kwargs
+    ) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
         stock_price[f"ma{self.ma_days}"] = SMAIndicator(
             stock_price["close"], self.ma_days

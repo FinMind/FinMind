@@ -3,6 +3,7 @@ import pandas as pd
 from ta.momentum import StochasticOscillator
 
 from FinMind.strategies.base import Strategy
+from FinMind.indicators import add_kd_indicators
 
 
 class Kd(Strategy):
@@ -19,28 +20,12 @@ class Kd(Strategy):
     kd_upper = 80
     kd_lower = 20
 
-    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
-        stock_price = stock_price.sort_values("date")
-        kd = StochasticOscillator(
-            high=stock_price["max"],
-            low=stock_price["min"],
-            close=stock_price["close"],
-            n=self.k_days,
+    def create_trade_sign(
+        self, stock_price: pd.DataFrame, **kwargs
+    ) -> pd.DataFrame:
+        stock_price = add_kd_indicators(
+            stock_price=stock_price, k_days=self.k_days
         )
-        rsv_ = kd.stoch().fillna(50)
-        _k = np.zeros(stock_price.shape[0])
-        _d = np.zeros(stock_price.shape[0])
-        for i, r in enumerate(rsv_):
-            if i == 0:
-                _k[i] = 50
-                _d[i] = 50
-            else:
-                _k[i] = _k[i - 1] * 2 / 3 + r / 3
-                _d[i] = _d[i - 1] * 2 / 3 + _k[i] / 3
-
-        stock_price["K"] = _k
-        stock_price["D"] = _d
-        stock_price.index = range(len(stock_price))
         stock_price["signal"] = 0
         stock_price.loc[stock_price["K"] <= self.kd_lower, "signal"] = 1
         stock_price.loc[stock_price["K"] >= self.kd_upper, "signal"] = -1

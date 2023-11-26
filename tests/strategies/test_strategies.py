@@ -5,15 +5,19 @@ import pytest
 
 from FinMind import strategies
 from FinMind.data import DataLoader
+from FinMind.schema.data import Dataset
+from FinMind.schema.indicators import Indicators, IndicatorsParams
+from FinMind.schema.rule import Rule
 
-user_id = os.environ.get("FINMIND_USER", "")
-password = os.environ.get("FINMIND_PASSWORD", "")
+FINMIND_API_TOKEN = os.environ.get("FINMIND_API_TOKEN", "")
+FINMIND_USER = os.environ.get("FINMIND_USER", "")
+FINMIND_PASSWORD = os.environ.get("FINMIND_PASSWORD", "")
 
 
 @pytest.fixture(scope="module")
 def data_loader():
     data_loader = DataLoader()
-    data_loader.login(user_id, password)
+    data_loader.login(FINMIND_USER, FINMIND_PASSWORD)
     return data_loader
 
 
@@ -76,6 +80,68 @@ def test_continue_holding(data_loader):
     assert obj.compare_market_stats["AnnualReturnPer"] == 0.68
 
 
+def test_continue_holding_add_indicators(data_loader):
+    backtest = strategies.BackTest(
+        stock_id="0056",
+        start_date="2018-01-01",
+        end_date="2019-01-01",
+        trader_fund=500000.0,
+        fee=0.001425,
+        token=FINMIND_API_TOKEN,
+    )
+    backtest.add_indicators(
+        indicators_info_list=[
+            {
+                "name": Indicators.ContinueHolding,
+                IndicatorsParams.ContinueHolding.value: 30,
+            }
+        ]
+    )
+    backtest.add_buy_rule(
+        buy_rule_list=[
+            dict(
+                indicators=Indicators.ContinueHolding,
+                more_or_less_than=Rule.Equal,
+                threshold=1,
+            ),
+        ]
+    )
+    backtest.simulate()
+
+    assert int(backtest.final_stats.MeanProfit) == 2810
+    assert int(backtest.final_stats.MaxLoss) == -9663
+    assert int(backtest.final_stats.FinalProfit) == 3407
+
+    assert backtest.final_stats["MeanProfitPer"] == 0.56
+    assert backtest.final_stats["FinalProfitPer"] == 0.68
+    assert backtest.final_stats["MaxLossPer"] == -1.93
+
+    assert backtest.trade_detail.to_dict("r")[1] == {
+        "stock_id": "0056",
+        "date": "2018-01-03",
+        "EverytimeProfit": -96.83,
+        "RealizedProfit": 0.0,
+        "UnrealizedProfit": -96.83,
+        "board_lot": 1000,
+        "hold_cost": 25.18583875,
+        "hold_volume": 1000,
+        "signal": 1,
+        "trade_price": 25.15,
+        "trader_fund": 474814.16125,
+        "EverytimeTotalProfit": 474717.33125,
+        "CashEarningsDistribution": 0.0,
+        "StockEarningsDistribution": 0.0,
+    }
+
+    assert backtest.compare_market_detail.to_dict("r")[-1] == {
+        "CumDailyReturn": -0.61003,
+        "CumTaiExDailyReturn": -0.0963,
+        "date": "2018-12-28",
+    }
+    assert backtest.compare_market_stats["AnnualTaiexReturnPer"] == -9.6
+    assert backtest.compare_market_stats["AnnualReturnPer"] == 0.68
+
+
 def test_continue_holding_add_strategy(data_loader):
     obj = strategies.BackTest(
         stock_id="0056",
@@ -115,51 +181,73 @@ def test_continue_holding_add_strategy(data_loader):
     }
 
 
-def test_bias(data_loader):
-    obj = strategies.BackTest(
+def test_backtest_add_indicators_bias(data_loader):
+    backtest = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        strategy=strategies.Bias,
-        data_loader=data_loader,
+        token=FINMIND_API_TOKEN,
     )
-    obj.simulate()
+    backtest.add_indicators(
+        indicators_info_list=[
+            dict(name=Indicators.BIAS, ma_days=24),
+        ]
+    )
+    backtest.add_buy_rule(
+        buy_rule_list=[
+            dict(
+                indicators=Indicators.BIAS,
+                more_or_less_than=Rule.LessThan,
+                threshold=-7,
+            ),
+        ]
+    )
+    backtest.add_sell_rule(
+        sell_rule_list=[
+            dict(
+                indicators=Indicators.BIAS,
+                more_or_less_than=Rule.MoreThan,
+                threshold=8,
+            ),
+        ]
+    )
+    backtest.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 984
-    assert int(obj.final_stats.MaxLoss) == -863
-    assert int(obj.final_stats.FinalProfit) == 2845
+    assert int(backtest.final_stats.MeanProfit) == 893
+    assert int(backtest.final_stats.MaxLoss) == -863
+    assert int(backtest.final_stats.FinalProfit) == 2845
 
-    assert obj.final_stats["MeanProfitPer"] == 0.20
-    assert obj.final_stats["FinalProfitPer"] == 0.57
-    assert obj.final_stats["MaxLossPer"] == -0.17
+    assert backtest.final_stats["MeanProfitPer"] == 0.18
+    assert backtest.final_stats["FinalProfitPer"] == 0.57
+    assert backtest.final_stats["MaxLossPer"] == -0.17
 
-    assert obj.trade_detail.to_dict("r")[1] == {
+    assert backtest.trade_detail.to_dict("r")[1] == {
+        "stock_id": "0056",
+        "date": "2018-01-03",
         "EverytimeProfit": 0.0,
         "RealizedProfit": 0.0,
         "UnrealizedProfit": 0.0,
-        "board_lot": 1000.0,
-        "date": "2018-02-05",
+        "board_lot": 1000,
         "hold_cost": 0.0,
-        "hold_volume": 0.0,
-        "signal": 0.0,
-        "stock_id": "0056",
-        "trade_price": 26.1,
+        "hold_volume": 0,
+        "signal": 0,
+        "trade_price": 25.15,
         "trader_fund": 500000.0,
         "EverytimeTotalProfit": 500000.0,
         "CashEarningsDistribution": 0.0,
         "StockEarningsDistribution": 0.0,
     }
 
-    assert obj.compare_market_detail.to_dict("r")[-1] == {
+    assert backtest.compare_market_detail.to_dict("r")[-1] == {
         "CumDailyReturn": -0.39843,
         "CumTaiExDailyReturn": -0.0963,
         "date": "2018-12-28",
     }
 
-    assert obj.compare_market_stats["AnnualTaiexReturnPer"] == -9.6
-    assert obj.compare_market_stats["AnnualReturnPer"] == 0.57
+    assert backtest.compare_market_stats["AnnualTaiexReturnPer"] == -9.6
+    assert backtest.compare_market_stats["AnnualReturnPer"] == 0.57
 
 
 def test_bias_add_strategy(data_loader):
@@ -169,31 +257,30 @@ def test_bias_add_strategy(data_loader):
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        # strategy=Bias,
         data_loader=data_loader,
     )
     obj.add_strategy(strategies.Bias)
     obj.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 984
+    assert int(obj.final_stats.MeanProfit) == 893
     assert int(obj.final_stats.MaxLoss) == -863
     assert int(obj.final_stats.FinalProfit) == 2845
 
-    assert obj.final_stats["MeanProfitPer"] == 0.20
+    assert obj.final_stats["MeanProfitPer"] == 0.18
     assert obj.final_stats["FinalProfitPer"] == 0.57
     assert obj.final_stats["MaxLossPer"] == -0.17
 
     assert obj.trade_detail.to_dict("r")[1] == {
+        "stock_id": "0056",
+        "date": "2018-01-03",
         "EverytimeProfit": 0.0,
         "RealizedProfit": 0.0,
         "UnrealizedProfit": 0.0,
-        "board_lot": 1000.0,
-        "date": "2018-02-05",
+        "board_lot": 1000,
         "hold_cost": 0.0,
-        "hold_volume": 0.0,
-        "signal": 0.0,
-        "stock_id": "0056",
-        "trade_price": 26.1,
+        "hold_volume": 0,
+        "signal": 0,
+        "trade_price": 25.15,
         "trader_fund": 500000.0,
         "EverytimeTotalProfit": 500000.0,
         "CashEarningsDistribution": 0.0,
@@ -245,46 +332,52 @@ def test_naive_kd_add_strategy(data_loader):
 
 
 def test_kd(data_loader):
-    obj = strategies.BackTest(
+    self = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        strategy=strategies.Kd,
-        data_loader=data_loader,
+        token=FINMIND_API_TOKEN,
     )
-    obj.simulate()
-
-    assert int(obj.final_stats.MeanProfit) == 2356
-    assert int(obj.final_stats.MaxLoss) == -1425
-    assert int(obj.final_stats.FinalProfit) == 6196
-
-    assert obj.final_stats["MeanProfitPer"] == 0.47
-    assert obj.final_stats["FinalProfitPer"] == 1.24
-    assert obj.final_stats["MaxLossPer"] == -0.29
 
 
 def test_kd_add_strategy(data_loader):
-    obj = strategies.BackTest(
+    backtest = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        # strategy=strategies.Kd,
-        data_loader=data_loader,
+        token=FINMIND_API_TOKEN,
     )
-    obj.add_strategy(strategies.Kd)
-    obj.simulate()
+    backtest.add_indicators(
+        indicators_info_list=[
+            dict(name="KD", k_days=9),
+            # dict(name="BIAS", ma_days=24),
+        ]
+    )
+    backtest.add_buy_rule(
+        buy_rule_list=[
+            dict(indicators="K", more_or_less_than="less_than", threshold=20),
+            # dict(indicators="BIAS", more_or_less_than="less_than", threshold=-7),
+        ]
+    )
+    backtest.add_sell_rule(
+        sell_rule_list=[
+            dict(indicators="K", more_or_less_than="more_than", threshold=80),
+            # dict(indicators="BIAS", more_or_less_than="more_than", threshold=8),
+        ]
+    )
+    backtest.simulate()
 
-    assert int(obj.final_stats.MeanProfit) == 2356
-    assert int(obj.final_stats.MaxLoss) == -1425
-    assert int(obj.final_stats.FinalProfit) == 6196
+    assert int(backtest.final_stats.MeanProfit) == 2356
+    assert int(backtest.final_stats.MaxLoss) == -1425
+    assert int(backtest.final_stats.FinalProfit) == 6196
 
-    assert obj.final_stats["MeanProfitPer"] == 0.47
-    assert obj.final_stats["FinalProfitPer"] == 1.24
-    assert obj.final_stats["MaxLossPer"] == -0.29
+    assert backtest.final_stats["MeanProfitPer"] == 0.47
+    assert backtest.final_stats["FinalProfitPer"] == 1.24
+    assert backtest.final_stats["MaxLossPer"] == -0.29
 
 
 def test_kd_crossover(data_loader):
@@ -338,7 +431,7 @@ def test_institutional_investors_follower(data_loader):
         trader_fund=500000.0,
         fee=0.001425,
         strategy=strategies.InstitutionalInvestorsFollower,
-        data_loader=data_loader,
+        token=FINMIND_API_TOKEN,
     )
     obj.simulate()
 
@@ -351,6 +444,52 @@ def test_institutional_investors_follower(data_loader):
     assert obj.final_stats["MaxLossPer"] == -3.08
 
 
+def test_institutional_investors_follower_add_indicators(data_loader):
+    backtest = strategies.BackTest(
+        stock_id="0056",
+        start_date="2018-01-01",
+        end_date="2019-01-01",
+        trader_fund=500000.0,
+        fee=0.001425,
+        additional_dataset_list=[
+            Dataset.TaiwanStockInstitutionalInvestorsBuySell
+        ],
+        token=FINMIND_API_TOKEN,
+    )
+    backtest.add_indicators(
+        indicators_info_list=[
+            dict(name=Indicators.InstitutionalInvestorsFollower),
+        ]
+    )
+    backtest.add_buy_rule(
+        buy_rule_list=[
+            dict(
+                indicators=Indicators.InstitutionalInvestorsFollower,
+                more_or_less_than=Rule.Equal,
+                threshold=-1,
+            ),
+        ]
+    )
+    backtest.add_sell_rule(
+        sell_rule_list=[
+            dict(
+                indicators=Indicators.InstitutionalInvestorsFollower,
+                more_or_less_than=Rule.Equal,
+                threshold=1,
+            ),
+        ]
+    )
+    backtest.simulate()
+
+    assert int(backtest.final_stats.MeanProfit) == 6021
+    assert int(backtest.final_stats.MaxLoss) == -15410
+    assert int(backtest.final_stats.FinalProfit) == 10699
+
+    assert backtest.final_stats["MeanProfitPer"] == 1.2
+    assert backtest.final_stats["FinalProfitPer"] == 2.14
+    assert backtest.final_stats["MaxLossPer"] == -3.08
+
+
 def test_institutional_investors_follower_add_strategy(data_loader):
     obj = strategies.BackTest(
         stock_id="0056",
@@ -358,7 +497,6 @@ def test_institutional_investors_follower_add_strategy(data_loader):
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        # strategy=strategies.InstitutionalInvestorsFollower,
         data_loader=data_loader,
     )
     obj.add_strategy(strategies.InstitutionalInvestorsFollower)
