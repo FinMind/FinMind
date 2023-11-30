@@ -270,7 +270,7 @@ class BackTest:
     ):
         self.stock_price[sign_name] = 0
         self.stock_price.loc[
-            self.stock_price[indicators].apply(
+            self.stock_price[indicators].map(
                 lambda _indicators: RULE_DICT[more_or_less_than](
                     _indicators, threshold
                 )
