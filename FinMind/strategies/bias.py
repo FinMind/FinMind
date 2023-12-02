@@ -2,6 +2,7 @@ import pandas as pd
 from ta.trend import SMAIndicator
 
 from FinMind.strategies.base import Strategy
+from FinMind.indicators import add_bias_indicators
 
 
 class Bias(Strategy):
@@ -22,18 +23,13 @@ class Bias(Strategy):
     bias_lower = -7
     bias_upper = 8
 
-    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
-        stock_price = stock_price.sort_values("date")
-        stock_price[f"ma{self.ma_days}"] = SMAIndicator(
-            stock_price["close"], self.ma_days
-        ).sma_indicator()
-        stock_price["bias"] = (
-            (stock_price["close"] - stock_price[f"ma{self.ma_days}"])
-            / stock_price[f"ma{self.ma_days}"]
-        ) * 100
-        stock_price = stock_price.dropna()
-        stock_price.index = range(len(stock_price))
-        stock_price["signal"] = stock_price["bias"].map(
+    def create_trade_sign(
+        self, stock_price: pd.DataFrame, **kwargs
+    ) -> pd.DataFrame:
+        stock_price = add_bias_indicators(
+            stock_price=stock_price, ma_days=self.ma_days
+        )
+        stock_price["signal"] = stock_price["BIAS"].map(
             lambda x: 1
             if x < self.bias_lower
             else (-1 if x > self.bias_upper else 0)

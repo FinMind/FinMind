@@ -16,7 +16,9 @@ class KdCrossOver(Strategy):
 
     k_days = 9
 
-    def create_trade_sign(self, stock_price: pd.DataFrame) -> pd.DataFrame:
+    def create_trade_sign(
+        self, stock_price: pd.DataFrame, **kwargs
+    ) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
         kd = StochasticOscillator(
             high=stock_price["max"],
