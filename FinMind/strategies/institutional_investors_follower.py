@@ -12,8 +12,12 @@ class InstitutionalInvestorsFollower(Strategy):
     url: "https://www.finlab.tw/%E8%85%A6%E5%8A%9B%E6%BF%80%E7%9B%AA%E7%9A%84%E5%A4%96%E8%B3%87%E7%AD%96%E7%95%A5%EF%BC%81/"
     summary:
         策略概念: 法人大量買超會導致股價上漲, 賣超反之
-        策略規則: 三大法人大量買超隔天就賣，大量賣超就買
+        策略規則:
+            三大法人連續 n 天買超, 且股票沒漲, 則跟隨買入
+            反之, 三大法人連續 n 天賣超, 且股票沒跌, 則跟隨賣出
     """
+
+    n_days = 10
 
     def create_trade_sign(
         self, stock_price: pd.DataFrame, **kwargs
@@ -43,7 +47,7 @@ class InstitutionalInvestorsFollower(Strategy):
         ).fillna(0)
         stock_price["signal_info"] = self.detect_Abnormal_Peak(
             y=stock_price["diff"].values,
-            lag=10,
+            lag=self.n_days,
             threshold=3,
             influence=0.35,
         )

@@ -6,6 +6,14 @@ from ta.momentum import StochasticOscillator
 def add_kd_indicators(
     stock_price: pd.DataFrame, k_days: int = 9, **kwargs
 ) -> pd.DataFrame:
+    """
+    url: "https://www.mirrormedia.mg/story/20180719fin012/"
+    summary:
+        網路上常見的 kd 交易策略
+        日KD 80 20
+        日K線 <= 20 進場
+        日K線 >= 80 出場
+    """
     stock_price = stock_price.sort_values("date")
     kd = StochasticOscillator(
         high=stock_price["max"],

@@ -1,11 +1,12 @@
+import typing
 import warnings
-
 from enum import Enum
-from loguru import logger
+
 import numpy as np
 import pandas as pd
-import typing
+from loguru import logger
 
+from FinMind import indicators
 from FinMind.data import DataLoader
 from FinMind.schema import (
     CompareMarketDetail,
@@ -14,7 +15,11 @@ from FinMind.schema import (
     TradeDetail,
 )
 from FinMind.schema.data import Dataset
-from FinMind.schema.indicators import AddBuySellRule
+from FinMind.schema.indicators import (
+    AddBuySellRule,
+    IndicatorsInfo,
+    IndicatorsParams,
+)
 from FinMind.strategies.utils import (
     calculate_datenbr,
     calculate_sharp_ratio,
@@ -23,7 +28,6 @@ from FinMind.strategies.utils import (
     get_underlying_trading_tax,
     period_return2annual_return,
 )
-from FinMind import indicators
 from FinMind.utility.rule import RULE_DICT
 
 
@@ -228,7 +232,7 @@ class BackTest:
             additional_dataset_list if additional_dataset_list else []
         )
         self.__init_base_data()
-        self.__additional_dataset()
+        self._additional_dataset()
         self._trade_period_years = days2years(
             calculate_datenbr(start_date, end_date) + 1
         )
@@ -239,30 +243,97 @@ class BackTest:
     def add_strategy(self, strategy: Strategy):
         self.strategy = strategy
 
-    def add_indicators(
-        self, indicators_info_list: typing.List[typing.Dict[str, str]]  # enum
+    def _add_indicators_formula(
+        self,
+        indicator: str,
+        indicators_info: typing.Dict[str, typing.Union[str, int, float]],
     ):
+        indicators_info.update(
+            {
+                getattr(IndicatorsParams, indicator).value: indicators_info.pop(
+                    "formula_value", None
+                )
+            }
+        )
+        return indicators_info
+
+    def __convert_indicators_schema2dict(
+        self,
+        indicators_info: typing.Union[IndicatorsInfo, typing.Dict[str, str]],
+    ):
+        indicators_info = (
+            indicators_info.dict()
+            if isinstance(indicators_info, IndicatorsInfo)
+            else indicators_info
+        )
+        indicator = (
+            indicators_info["name"].name
+            if isinstance(indicators_info["name"], Enum)
+            else indicators_info["name"]
+        )
+        return indicators_info, indicator
+
+    def add_indicators(
+        self,
+        indicators_info_list: typing.List[
+            typing.Union[IndicatorsInfo, typing.Dict[str, str]]
+        ],
+    ):
+        """add indicators
+        :param indicators_info_list (List[FinMind.schema.indicators.IndicatorsInfo]):
+
+        For example1: if add KD indicators, and set k_days=9
+
+        [
+            IndicatorsInfo(
+                indicators=Indicators.KD,
+                formula_value=9
+            )
+        ]
+
+        For example2: if add BIAS indicators, and set ma_days=24
+
+        [
+            IndicatorsInfo(
+                indicators=Indicators.BIAS,
+                formula_value=24
+            )
+        ]
+        """
         for indicators_info in indicators_info_list:
-            # indicators_info = indicators_info_list[0]
-            indicator = (
-                indicators_info["name"].name
-                if isinstance(indicators_info["name"], Enum)
-                else indicators_info["name"]
+            indicators_info, indicator = self.__convert_indicators_schema2dict(
+                indicators_info
             )
             logger.info(indicator)
+            indicators_info = self._add_indicators_formula(
+                indicator, indicators_info
+            )
             func = indicators.INDICATORS_MAPPING.get(indicator)
             self.stock_price = func(
                 self.stock_price, additional_dataset_obj=self, **indicators_info
             )
 
+    def __convert_rule_schema2dict(
+        self,
+        rule_list: typing.List[
+            typing.Union[AddBuySellRule, typing.Dict[str, str]]
+        ],
+    ):
+        return [
+            rule.dict() if isinstance(rule, AddBuySellRule) else rule
+            for rule in rule_list
+        ]
+
     def add_buy_rule(
         self,
-        buy_rule_list: typing.List[AddBuySellRule],
+        buy_rule_list: typing.List[
+            typing.Union[AddBuySellRule, typing.Dict[str, str]]
+        ],
     ):
         """add buy rule
         :param buy_rule_list (List[FinMind.schema.indicators.AddBuySellRule]):
 
-        For example:: if BIAS <= -7, then buy stock
+        For example: if BIAS <= -7, then buy stock
 
         [
             AddBuySellRule(
@@ -272,18 +343,18 @@ class BackTest:
             )
         ]
         """
-        self.buy_rule_list = [
-            buy_rule.dict()
-            if isinstance(buy_rule, AddBuySellRule)
-            else buy_rule
-            for buy_rule in buy_rule_list
-        ]
+        self.buy_rule_list = self.__convert_rule_schema2dict(buy_rule_list)
 
-    def add_sell_rule(self, sell_rule_list: typing.List[AddBuySellRule]):
+    def add_sell_rule(
+        self,
+        sell_rule_list: typing.List[
+            typing.Union[AddBuySellRule, typing.Dict[str, str]]
+        ],
+    ):
         """add sell rule
         :param sell_rule_list (List[FinMind.schema.indicators.AddBuySellRule]):
 
-        For example:: if BIAS >= 8, then sell stock
+        For example: if BIAS >= 8, then sell stock
 
         [
             AddBuySellRule(
@@ -293,12 +364,7 @@ class BackTest:
             )
         ]
         """
-        self.sell_rule_list = [
-            sell_rule.dict()
-            if isinstance(sell_rule, AddBuySellRule)
-            else sell_rule
-            for sell_rule in sell_rule_list
-        ]
+        self.sell_rule_list = self.__convert_rule_schema2dict(sell_rule_list)
 
     def _create_sign(
         self,
@@ -353,7 +419,7 @@ class BackTest:
         self.stock_price.loc[self.stock_price["signal"] <= -1, "signal"] = -1
         self.stock_price = self.stock_price.drop(self._sign_name_list, axis=1)
 
-    def __additional_dataset(self):
+    def _additional_dataset(self):
         for additional_dataset in self.additional_dataset_list:
             df = self.data_loader.get_data(
                 dataset=additional_dataset,
@@ -614,8 +680,8 @@ class BackTest:
         grid: bool = True,
     ):
         try:
-            import matplotlib.pyplot as plt
             import matplotlib.gridspec as gridspec
+            import matplotlib.pyplot as plt
         except ImportError:
             raise ImportError("You must install matplotlib to plot importance")
 
