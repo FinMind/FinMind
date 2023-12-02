@@ -6,7 +6,11 @@ import pytest
 from FinMind import strategies
 from FinMind.data import DataLoader
 from FinMind.schema.data import Dataset
-from FinMind.schema.indicators import Indicators, IndicatorsParams
+from FinMind.schema.indicators import (
+    Indicators,
+    IndicatorsParams,
+    AddBuySellRule,
+)
 from FinMind.schema.rule import Rule
 
 FINMIND_API_TOKEN = os.environ.get("FINMIND_API_TOKEN", "")
@@ -80,7 +84,36 @@ def test_continue_holding(data_loader):
     assert obj.compare_market_stats["AnnualReturnPer"] == 0.68
 
 
-def test_continue_holding_add_indicators(data_loader):
+test_continue_holding_add_indicators_params = [
+    [
+        AddBuySellRule(
+            indicators=Indicators.ContinueHolding,
+            more_or_less_than=Rule.Equal,
+            threshold=1,
+        )
+    ],
+    [
+        dict(
+            indicators=Indicators.ContinueHolding,
+            more_or_less_than=Rule.Equal,
+            threshold=1,
+        ),
+    ],
+    [
+        dict(
+            indicators="DollarCostAveraging",
+            more_or_less_than="equal",
+            threshold=1,
+        ),
+    ],
+]
+
+
+@pytest.mark.parametrize(
+    "buy_rule_list",
+    test_continue_holding_add_indicators_params,
+)
+def test_continue_holding_add_indicators(buy_rule_list):
     backtest = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
@@ -97,15 +130,7 @@ def test_continue_holding_add_indicators(data_loader):
             }
         ]
     )
-    backtest.add_buy_rule(
-        buy_rule_list=[
-            dict(
-                indicators=Indicators.ContinueHolding,
-                more_or_less_than=Rule.Equal,
-                threshold=1,
-            ),
-        ]
-    )
+    backtest.add_buy_rule(buy_rule_list=buy_rule_list)
     backtest.simulate()
 
     assert int(backtest.final_stats.MeanProfit) == 2810
@@ -149,7 +174,6 @@ def test_continue_holding_add_strategy(data_loader):
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        # strategy=ContinueHolding,
         data_loader=data_loader,
     )
     obj.add_strategy(strategies.ContinueHolding)
@@ -181,7 +205,63 @@ def test_continue_holding_add_strategy(data_loader):
     }
 
 
-def test_backtest_add_indicators_bias(data_loader):
+test_backtest_add_indicators_bias_params = [
+    (
+        [
+            AddBuySellRule(
+                indicators=Indicators.BIAS,
+                more_or_less_than=Rule.LessThan,
+                threshold=-7,
+            )
+        ],
+        [
+            AddBuySellRule(
+                indicators=Indicators.BIAS,
+                more_or_less_than=Rule.MoreThan,
+                threshold=8,
+            )
+        ],
+    ),
+    (
+        [
+            dict(
+                indicators=Indicators.BIAS,
+                more_or_less_than=Rule.LessThan,
+                threshold=-7,
+            ),
+        ],
+        [
+            dict(
+                indicators=Indicators.BIAS,
+                more_or_less_than=Rule.MoreThan,
+                threshold=8,
+            ),
+        ],
+    ),
+    (
+        [
+            dict(
+                indicators="BIAS",
+                more_or_less_than="less_than",
+                threshold=-7,
+            ),
+        ],
+        [
+            dict(
+                indicators="BIAS",
+                more_or_less_than="more_than",
+                threshold=8,
+            ),
+        ],
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "buy_rule_list, sell_rule_list",
+    test_backtest_add_indicators_bias_params,
+)
+def test_backtest_add_indicators_bias(buy_rule_list, sell_rule_list):
     backtest = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
@@ -195,24 +275,8 @@ def test_backtest_add_indicators_bias(data_loader):
             dict(name=Indicators.BIAS, ma_days=24),
         ]
     )
-    backtest.add_buy_rule(
-        buy_rule_list=[
-            dict(
-                indicators=Indicators.BIAS,
-                more_or_less_than=Rule.LessThan,
-                threshold=-7,
-            ),
-        ]
-    )
-    backtest.add_sell_rule(
-        sell_rule_list=[
-            dict(
-                indicators=Indicators.BIAS,
-                more_or_less_than=Rule.MoreThan,
-                threshold=8,
-            ),
-        ]
-    )
+    backtest.add_buy_rule(buy_rule_list=buy_rule_list)
+    backtest.add_sell_rule(sell_rule_list=sell_rule_list)
     backtest.simulate()
 
     assert int(backtest.final_stats.MeanProfit) == 893
@@ -342,7 +406,53 @@ def test_kd(data_loader):
     )
 
 
-def test_kd_add_strategy(data_loader):
+test_kd_add_strategy_params = [
+    (
+        [
+            AddBuySellRule(
+                indicators=Indicators.KD,
+                more_or_less_than=Rule.LessThan,
+                threshold=20,
+            )
+        ],
+        [
+            AddBuySellRule(
+                indicators=Indicators.KD,
+                more_or_less_than=Rule.MoreThan,
+                threshold=80,
+            )
+        ],
+    ),
+    (
+        [
+            dict(
+                indicators=Indicators.KD,
+                more_or_less_than=Rule.LessThan,
+                threshold=20,
+            )
+        ],
+        [
+            dict(
+                indicators=Indicators.KD,
+                more_or_less_than=Rule.MoreThan,
+                threshold=80,
+            ),
+        ],
+    ),
+    (
+        [dict(indicators="K", more_or_less_than="less_than", threshold=20)],
+        [
+            dict(indicators="K", more_or_less_than="more_than", threshold=80),
+        ],
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "buy_rule_list, sell_rule_list",
+    test_kd_add_strategy_params,
+)
+def test_kd_add_strategy(buy_rule_list, sell_rule_list):
     backtest = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
@@ -357,18 +467,8 @@ def test_kd_add_strategy(data_loader):
             # dict(name="BIAS", ma_days=24),
         ]
     )
-    backtest.add_buy_rule(
-        buy_rule_list=[
-            dict(indicators="K", more_or_less_than="less_than", threshold=20),
-            # dict(indicators="BIAS", more_or_less_than="less_than", threshold=-7),
-        ]
-    )
-    backtest.add_sell_rule(
-        sell_rule_list=[
-            dict(indicators="K", more_or_less_than="more_than", threshold=80),
-            # dict(indicators="BIAS", more_or_less_than="more_than", threshold=8),
-        ]
-    )
+    backtest.add_buy_rule(buy_rule_list=buy_rule_list)
+    backtest.add_sell_rule(sell_rule_list=sell_rule_list)
     backtest.simulate()
 
     assert int(backtest.final_stats.MeanProfit) == 2356
@@ -444,7 +544,65 @@ def test_institutional_investors_follower(data_loader):
     assert obj.final_stats["MaxLossPer"] == -3.08
 
 
-def test_institutional_investors_follower_add_indicators(data_loader):
+test_institutional_investors_follower_add_indicators_params = [
+    (
+        [
+            AddBuySellRule(
+                indicators=Indicators.InstitutionalInvestorsFollower,
+                more_or_less_than=Rule.Equal,
+                threshold=-1,
+            )
+        ],
+        [
+            AddBuySellRule(
+                indicators=Indicators.InstitutionalInvestorsFollower,
+                more_or_less_than=Rule.Equal,
+                threshold=1,
+            )
+        ],
+    ),
+    (
+        [
+            dict(
+                indicators=Indicators.InstitutionalInvestorsFollower,
+                more_or_less_than=Rule.Equal,
+                threshold=-1,
+            ),
+        ],
+        [
+            dict(
+                indicators=Indicators.InstitutionalInvestorsFollower,
+                more_or_less_than=Rule.Equal,
+                threshold=1,
+            ),
+        ],
+    ),
+    (
+        [
+            dict(
+                indicators="InstitutionalInvestorsOverBuy",
+                more_or_less_than="equal",
+                threshold=-1,
+            ),
+        ],
+        [
+            dict(
+                indicators="InstitutionalInvestorsOverBuy",
+                more_or_less_than="equal",
+                threshold=1,
+            ),
+        ],
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "buy_rule_list, sell_rule_list",
+    test_institutional_investors_follower_add_indicators_params,
+)
+def test_institutional_investors_follower_add_indicators(
+    buy_rule_list, sell_rule_list
+):
     backtest = strategies.BackTest(
         stock_id="0056",
         start_date="2018-01-01",
@@ -461,24 +619,8 @@ def test_institutional_investors_follower_add_indicators(data_loader):
             dict(name=Indicators.InstitutionalInvestorsFollower),
         ]
     )
-    backtest.add_buy_rule(
-        buy_rule_list=[
-            dict(
-                indicators=Indicators.InstitutionalInvestorsFollower,
-                more_or_less_than=Rule.Equal,
-                threshold=-1,
-            ),
-        ]
-    )
-    backtest.add_sell_rule(
-        sell_rule_list=[
-            dict(
-                indicators=Indicators.InstitutionalInvestorsFollower,
-                more_or_less_than=Rule.Equal,
-                threshold=1,
-            ),
-        ]
-    )
+    backtest.add_buy_rule(buy_rule_list=buy_rule_list)
+    backtest.add_sell_rule(sell_rule_list=sell_rule_list)
     backtest.simulate()
 
     assert int(backtest.final_stats.MeanProfit) == 6021

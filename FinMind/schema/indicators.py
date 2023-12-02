@@ -1,5 +1,10 @@
 from enum import Enum
 
+from pydantic import BaseModel
+
+from FinMind.schema.rule import Rule
+import typing
+
 
 class Indicators(str, Enum):
     KD = "K"
@@ -13,3 +18,9 @@ class IndicatorsParams(str, Enum):
     BIAS = "ma_days"
     ContinueHolding = "buy_freq_day"
     InstitutionalInvestorsFollower = None
+
+
+class AddBuySellRule(BaseModel):
+    indicators: Indicators
+    more_or_less_than: Rule
+    threshold: typing.Union[int, float, str]

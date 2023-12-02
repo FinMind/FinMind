@@ -14,6 +14,7 @@ from FinMind.schema import (
     TradeDetail,
 )
 from FinMind.schema.data import Dataset
+from FinMind.schema.indicators import AddBuySellRule
 from FinMind.strategies.utils import (
     calculate_datenbr,
     calculate_sharp_ratio,
@@ -254,11 +255,50 @@ class BackTest:
                 self.stock_price, additional_dataset_obj=self, **indicators_info
             )
 
-    def add_buy_rule(self, buy_rule_list):
-        self.buy_rule_list = buy_rule_list
+    def add_buy_rule(
+        self,
+        buy_rule_list: typing.List[AddBuySellRule],
+    ):
+        """add buy rule
+        :param buy_rule_list (List[FinMind.schema.indicators.AddBuySellRule]):
 
-    def add_sell_rule(self, sell_rule_list):
-        self.sell_rule_list = sell_rule_list
+        For example:: if BIAS <= -7, then buy stock
+
+        [
+            AddBuySellRule(
+                indicators=Indicators.BIAS,
+                more_or_less_than=Rule.LessThan,
+                threshold=-7,
+            )
+        ]
+        """
+        self.buy_rule_list = [
+            buy_rule.dict()
+            if isinstance(buy_rule, AddBuySellRule)
+            else buy_rule
+            for buy_rule in buy_rule_list
+        ]
+
+    def add_sell_rule(self, sell_rule_list: typing.List[AddBuySellRule]):
+        """add sell rule
+        :param sell_rule_list (List[FinMind.schema.indicators.AddBuySellRule]):
+
+        For example:: if BIAS >= 8, then sell stock
+
+        [
+            AddBuySellRule(
+                indicators=Indicators.BIAS,
+                more_or_less_than=Rule.MoreThan,
+                threshold=8,
+            )
+        ]
+        """
+        self.sell_rule_list = [
+            sell_rule.dict()
+            if isinstance(sell_rule, AddBuySellRule)
+            else sell_rule
+            for sell_rule in sell_rule_list
+        ]
 
     def _create_sign(
         self,
