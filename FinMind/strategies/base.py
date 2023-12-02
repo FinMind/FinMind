@@ -248,13 +248,11 @@ class BackTest:
         indicator: str,
         indicators_info: typing.Dict[str, typing.Union[str, int, float]],
     ):
-        indicators_info.update(
-            {
-                getattr(IndicatorsParams, indicator).value: indicators_info.pop(
-                    "formula_value", None
-                )
-            }
-        )
+        value = indicators_info.pop("formula_value", None)
+        if value:
+            indicators_info.update(
+                {getattr(IndicatorsParams, indicator).value: value}
+            )
         return indicators_info
 
     def __convert_indicators_schema2dict(
