@@ -340,6 +340,16 @@ class BackTest:
                 threshold=-7,
             )
         ]
+
+        or
+
+        [
+            AddBuySellRule(
+                indicators=Indicators.BIAS,
+                more_or_less_than="<",
+                threshold=-7,
+            )
+        ]
         """
         self.buy_rule_list = self.__convert_rule_schema2dict(buy_rule_list)
 
@@ -358,6 +368,16 @@ class BackTest:
             AddBuySellRule(
                 indicators=Indicators.BIAS,
                 more_or_less_than=Rule.MoreThan,
+                threshold=8,
+            )
+        ]
+
+        or
+
+        [
+            AddBuySellRule(
+                indicators=Indicators.BIAS,
+                more_or_less_than=">",
                 threshold=8,
             )
         ]
