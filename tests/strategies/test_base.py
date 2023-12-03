@@ -298,18 +298,8 @@ def test_create_buy_sign(backtest):
     )
 
 
-def test_additional_dataset():
-    backtest = BackTest(
-        stock_id="0056",
-        start_date="2018-01-01",
-        end_date="2019-01-01",
-        trader_fund=500000.0,
-        fee=0.001425,
-        additional_dataset_list=[
-            Dataset.TaiwanStockInstitutionalInvestorsBuySell
-        ],
-        token=FINMIND_API_TOKEN,
-    )
+def test_additional_dataset(backtest):
+    backtest._additional_dataset(indicator="InstitutionalInvestorsFollower")
     assert isinstance(
         backtest.TaiwanStockInstitutionalInvestorsBuySell, pd.DataFrame
     )

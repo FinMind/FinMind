@@ -708,9 +708,6 @@ def test_institutional_investors_follower_add_indicators(
         end_date="2019-01-01",
         trader_fund=500000.0,
         fee=0.001425,
-        additional_dataset_list=[
-            Dataset.TaiwanStockInstitutionalInvestorsBuySell
-        ],
         token=FINMIND_API_TOKEN,
     )
     backtest.add_indicators(

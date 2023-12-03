@@ -3,6 +3,7 @@ from enum import Enum
 
 from pydantic import BaseModel
 
+from FinMind.schema.data import Dataset
 from FinMind.schema.rule import Rule
 
 
@@ -65,3 +66,9 @@ class AddBuySellRule(BaseModel):
     indicators: Indicators
     more_or_less_than: Rule
     threshold: typing.Union[int, float, str]
+
+
+class AdditionalDataset(str, Enum):
+    InstitutionalInvestorsFollower = (
+        Dataset.TaiwanStockInstitutionalInvestorsBuySell.value
+    )

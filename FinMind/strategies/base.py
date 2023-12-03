@@ -18,6 +18,7 @@ from FinMind.schema import (
 from FinMind.schema.data import Dataset
 from FinMind.schema.indicators import (
     AddBuySellRule,
+    AdditionalDataset,
     IndicatorsInfo,
     IndicatorsParams,
 )
@@ -203,7 +204,6 @@ class BackTest:
         strategy: Strategy = None,
         data_loader: DataLoader = None,
         token: str = "",
-        additional_dataset_list: typing.List[Dataset] = None,
     ):
         self.data_loader = data_loader if data_loader else DataLoader(token)
         self.stock_id = stock_id
@@ -229,11 +229,7 @@ class BackTest:
         self._sign_name_list = []
         self.buy_rule_list = []
         self.sell_rule_list = []
-        self.additional_dataset_list = (
-            additional_dataset_list if additional_dataset_list else []
-        )
         self.__init_base_data()
-        self._additional_dataset()
         self._trade_period_years = days2years(
             calculate_datenbr(start_date, end_date) + 1
         )
@@ -310,6 +306,7 @@ class BackTest:
             indicators_info, indicator = self.__convert_indicators_schema2dict(
                 indicators_info
             )
+            self._additional_dataset(indicator=indicator)
             logger.info(indicator)
             indicators_info = self._add_indicators_formula(
                 indicator, indicators_info
@@ -441,8 +438,9 @@ class BackTest:
         self.stock_price.loc[self.stock_price["signal"] <= -1, "signal"] = -1
         self.stock_price = self.stock_price.drop(self._sign_name_list, axis=1)
 
-    def _additional_dataset(self):
-        for additional_dataset in self.additional_dataset_list:
+    def _additional_dataset(self, indicator: str):
+        additional_dataset = getattr(AdditionalDataset, indicator, None)
+        if additional_dataset:
             df = self.data_loader.get_data(
                 dataset=additional_dataset,
                 data_id=self.stock_id,
@@ -451,9 +449,7 @@ class BackTest:
             )
             setattr(self, additional_dataset.value, df)
 
-    def __init_base_data(
-        self, additional_dataset_list: typing.List[str] = None
-    ):
+    def __init_base_data(self):
         self.stock_price = self.data_loader.get_data(
             dataset=Dataset.TaiwanStockPrice,
             data_id=self.stock_id,
