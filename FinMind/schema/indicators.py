@@ -25,9 +25,19 @@ class Indicators(str, Enum):
         so we will follow up and buy,
         defalt 10
     """
-    KDGoldenDeathCrossOver = "kd_golden_death_cross_over"
+    KDGoldenDeathCrossOver = "KDGoldenDeathCrossOver"
     """
         the formula of KD is k_days, defalt 9,
+
+        Indicators
+            1 means Golden Cross Over,
+            -1 means Death Cross Over
+    """
+    MAGoldenDeathCrossOver = "MAGoldenDeathCrossOver"
+    """
+        the formula of MA is [ma_short_term_days, ma_long_term_days]
+        
+        defalt [10, 30],
 
         Indicators
             1 means Golden Cross Over,
@@ -41,11 +51,14 @@ class IndicatorsParams(str, Enum):
     ContinueHolding = "buy_freq_day"
     InstitutionalInvestorsFollower = "n_days"
     KDGoldenDeathCrossOver = "k_days"
+    MAGoldenDeathCrossOver = ["ma_short_term_days", "ma_long_term_days"]
 
 
 class IndicatorsInfo(BaseModel):
     name: Indicators
-    formula_value: typing.Union[int, float, str] = None
+    formula_value: typing.Union[
+        typing.List[typing.Union[int, float, str]], int, float, str
+    ] = None
 
 
 class AddBuySellRule(BaseModel):

@@ -1,3 +1,4 @@
+import ast
 import typing
 import warnings
 from enum import Enum
@@ -250,9 +251,18 @@ class BackTest:
     ):
         value = indicators_info.pop("formula_value", None)
         if value:
-            indicators_info.update(
-                {getattr(IndicatorsParams, indicator).value: value}
-            )
+            if isinstance(value, list):
+                params_list = ast.literal_eval(
+                    getattr(IndicatorsParams, indicator).value
+                )
+                [
+                    indicators_info.update({params: value.pop(0)})
+                    for params in params_list
+                ]
+            else:
+                indicators_info.update(
+                    {getattr(IndicatorsParams, indicator).value: value}
+                )
         return indicators_info
 
     def __convert_indicators_schema2dict(

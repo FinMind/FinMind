@@ -4,11 +4,7 @@ import pandas as pd
 import pytest
 
 from FinMind.schema.data import Dataset
-from FinMind.schema.indicators import (
-    AddBuySellRule,
-    Indicators,
-    IndicatorsParams,
-)
+from FinMind.schema.indicators import AddBuySellRule, Indicators
 from FinMind.schema.rule import Rule
 from FinMind.strategies.base import BackTest
 
@@ -36,6 +32,21 @@ def test_add_indicators_formula(backtest):
         indicator="ContinueHolding", indicators_info=indicators_info
     )
     assert result == {"name": "DollarCostAveraging", "buy_freq_day": 30}
+
+
+def test_add_indicators_formula_list(backtest):
+    indicators_info = {
+        "name": "MAGoldenDeathCrossOver",
+        "formula_value": [10, 30],
+    }
+    result = backtest._add_indicators_formula(
+        indicator="MAGoldenDeathCrossOver", indicators_info=indicators_info
+    )
+    assert result == {
+        "name": "MAGoldenDeathCrossOver",
+        "ma_short_term_days": 10,
+        "ma_long_term_days": 30,
+    }
 
 
 def test_add_indicators(backtest):

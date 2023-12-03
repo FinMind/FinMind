@@ -41,14 +41,22 @@ def add_kd_golden_death_cross_over_indicators(
     stock_price["diff_sign_yesterday"] = (
         stock_price["diff_sign"].shift(1).fillna(0).astype(int)
     )
-    stock_price["kd_golden_death_cross_over"] = 0
+    stock_price["KDGoldenDeathCrossOver"] = 0
     stock_price.loc[
-        ((stock_price["diff_sign"] > 0) & (stock_price["diff_sign_yesterday"] < 0)),
-        "kd_golden_death_cross_over",
+        (
+            (stock_price["diff_sign"] > 0)
+            & (stock_price["diff_sign_yesterday"] < 0)
+        ),
+        "KDGoldenDeathCrossOver",
     ] = 1
     stock_price.loc[
-        ((stock_price["diff_sign"] < 0) & (stock_price["diff_sign_yesterday"] > 0)),
-        "kd_golden_death_cross_over",
+        (
+            (stock_price["diff_sign"] < 0)
+            & (stock_price["diff_sign_yesterday"] > 0)
+        ),
+        "KDGoldenDeathCrossOver",
     ] = -1
-    stock_price = stock_price.drop(["diff", "diff_sign", "diff_sign_yesterday"], axis=1)
+    stock_price = stock_price.drop(
+        ["diff", "diff_sign", "diff_sign_yesterday"], axis=1
+    )
     return stock_price

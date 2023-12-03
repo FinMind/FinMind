@@ -15,10 +15,12 @@ class KdCrossOver(Strategy):
 
     k_days = 9
 
-    def create_trade_sign(self, stock_price: pd.DataFrame, **kwargs) -> pd.DataFrame:
+    def create_trade_sign(
+        self, stock_price: pd.DataFrame, **kwargs
+    ) -> pd.DataFrame:
         stock_price = add_kd_golden_death_cross_over_indicators(
             stock_price=stock_price, k_days=self.k_days
         )
-        stock_price["signal"] = stock_price["kd_golden_death_cross_over"]
-        stock_price = stock_price.drop(["kd_golden_death_cross_over"], axis=1)
+        stock_price["signal"] = stock_price["KDGoldenDeathCrossOver"]
+        stock_price = stock_price.drop(["KDGoldenDeathCrossOver"], axis=1)
         return stock_price

@@ -881,6 +881,51 @@ def test_ma_crossover_add_strategy(data_loader):
     assert obj.final_stats["MaxLossPer"] == -0.25
 
 
+def test_ma_crossover_add_indicators(data_loader):
+    backtest = strategies.BackTest(
+        stock_id="0056",
+        start_date="2018-01-01",
+        end_date="2019-01-01",
+        trader_fund=500000.0,
+        fee=0.001425,
+        token=FINMIND_API_TOKEN,
+    )
+    backtest.add_indicators(
+        indicators_info_list=[
+            IndicatorsInfo(
+                name=Indicators.MAGoldenDeathCrossOver, formula_value=[10, 30]
+            )
+        ]
+    )
+    backtest.add_buy_rule(
+        buy_rule_list=[
+            AddBuySellRule(
+                indicators=Indicators.MAGoldenDeathCrossOver,
+                more_or_less_than="=",
+                threshold=1,
+            )
+        ]
+    )
+    backtest.add_sell_rule(
+        sell_rule_list=[
+            AddBuySellRule(
+                indicators=Indicators.MAGoldenDeathCrossOver,
+                more_or_less_than="=",
+                threshold=-1,
+            )
+        ]
+    )
+    backtest.simulate()
+
+    assert int(backtest.final_stats.MeanProfit) == -381
+    assert int(backtest.final_stats.MaxLoss) == -1230
+    assert int(backtest.final_stats.FinalProfit) == -1230
+
+    assert backtest.final_stats["MeanProfitPer"] == -0.08
+    assert backtest.final_stats["FinalProfitPer"] == -0.25
+    assert backtest.final_stats["MaxLossPer"] == -0.25
+
+
 def test_max_min_period_bias(data_loader):
     obj = strategies.BackTest(
         stock_id="0056",
