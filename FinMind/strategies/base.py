@@ -273,9 +273,7 @@ class BackTest:
 
     def add_indicators(
         self,
-        indicators_info_list: typing.List[
-            typing.Union[IndicatorsInfo, typing.Dict[str, str]]
-        ],
+        indicators_info_list: typing.List[IndicatorsInfo],
     ):
         """add indicators
         :param indicators_info_list (List[FinMind.schema.indicators.IndicatorsInfo]):
@@ -324,9 +322,7 @@ class BackTest:
 
     def add_buy_rule(
         self,
-        buy_rule_list: typing.List[
-            typing.Union[AddBuySellRule, typing.Dict[str, str]]
-        ],
+        buy_rule_list: typing.List[AddBuySellRule],
     ):
         """add buy rule
         :param buy_rule_list (List[FinMind.schema.indicators.AddBuySellRule]):
@@ -355,9 +351,7 @@ class BackTest:
 
     def add_sell_rule(
         self,
-        sell_rule_list: typing.List[
-            typing.Union[AddBuySellRule, typing.Dict[str, str]]
-        ],
+        sell_rule_list: typing.List[AddBuySellRule],
     ):
         """add sell rule
         :param sell_rule_list (List[FinMind.schema.indicators.AddBuySellRule]):
