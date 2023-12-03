@@ -4,7 +4,7 @@ import pandas as pd
 import pytest
 
 from FinMind.schema.data import Dataset
-from FinMind.schema.indicators import AddBuySellRule, Indicators
+from FinMind.schema.indicators import AddBuySellRule, Indicators, IndicatorsInfo
 from FinMind.schema.rule import Rule
 from FinMind.strategies.base import BackTest
 
@@ -175,7 +175,6 @@ def test_create_sign(backtest):
     )
     backtest._create_sign(
         sign_name=f"buy_signal_0",
-        sign_value=1,
         indicators="DollarCostAveraging",
         more_or_less_than="=",
         threshold=1,
@@ -218,7 +217,6 @@ def test_create_buy_sign(backtest):
     )
     backtest._create_buy_sign(
         sign_name=f"buy_signal_0",
-        sign_value=1,
         indicators="DollarCostAveraging",
         more_or_less_than="=",
         threshold=1,
@@ -303,3 +301,14 @@ def test_additional_dataset(backtest):
     assert isinstance(
         backtest.TaiwanStockInstitutionalInvestorsBuySell, pd.DataFrame
     )
+
+
+def test_convert_indicators_schema2dict(backtest):
+    indicators_info, indicator = backtest._convert_indicators_schema2dict(
+        IndicatorsInfo(name=Indicators.KDGoldenDeathCrossOver, formula_value=9)
+    )
+    assert indicators_info == {
+        "name": Indicators.KDGoldenDeathCrossOver,
+        "formula_value": 9,
+    }
+    assert indicator == "KDGoldenDeathCrossOver"

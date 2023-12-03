@@ -663,14 +663,14 @@ test_institutional_investors_follower_add_indicators_params = [
     (
         [
             dict(
-                indicators="InstitutionalInvestorsOverBuy",
+                indicators="InstitutionalInvestorsFollower",
                 more_or_less_than="equal",
                 threshold=-1,
             ),
         ],
         [
             dict(
-                indicators="InstitutionalInvestorsOverBuy",
+                indicators="InstitutionalInvestorsFollower",
                 more_or_less_than="equal",
                 threshold=1,
             ),
@@ -679,14 +679,14 @@ test_institutional_investors_follower_add_indicators_params = [
     (
         [
             dict(
-                indicators="InstitutionalInvestorsOverBuy",
+                indicators="InstitutionalInvestorsFollower",
                 more_or_less_than="=",
                 threshold=-1,
             ),
         ],
         [
             dict(
-                indicators="InstitutionalInvestorsOverBuy",
+                indicators="InstitutionalInvestorsFollower",
                 more_or_less_than="=",
                 threshold=1,
             ),
@@ -790,6 +790,62 @@ def test_short_sale_margin_purchase_ratio_add_strategy(data_loader):
     assert obj.final_stats["MeanProfitPer"] == 2.59
     assert obj.final_stats["FinalProfitPer"] == 4.52
     assert obj.final_stats["MaxLossPer"] == -2.94
+
+
+def test_short_sale_margin_purchase_ratio_add_indicator(data_loader):
+    backtest = strategies.BackTest(
+        stock_id="0056",
+        start_date="2018-01-01",
+        end_date="2019-01-01",
+        trader_fund=500000.0,
+        fee=0.001425,
+        token=FINMIND_API_TOKEN,
+    )
+    backtest.add_indicators(
+        indicators_info_list=[
+            IndicatorsInfo(name=Indicators.InstitutionalInvestorsOverBuy),
+            IndicatorsInfo(name=Indicators.ShortSaleMarginPurchaseRatio),
+        ]
+    )
+    backtest.add_buy_rule(
+        buy_rule_list=[
+            AddBuySellRule(
+                # 賣超
+                indicators=Indicators.InstitutionalInvestorsOverBuy,
+                more_or_less_than="<",
+                threshold=0,
+            ),
+            AddBuySellRule(
+                # 券資比<0.3
+                indicators=Indicators.ShortSaleMarginPurchaseRatio,
+                more_or_less_than="<",
+                threshold=0.3,
+            ),
+        ]
+    )
+    backtest.add_sell_rule(
+        sell_rule_list=[
+            AddBuySellRule(
+                indicators=Indicators.InstitutionalInvestorsOverBuy,
+                more_or_less_than=">",
+                threshold=0,
+            ),
+            AddBuySellRule(
+                # 券資比>0.3
+                indicators=Indicators.ShortSaleMarginPurchaseRatio,
+                more_or_less_than=">",
+                threshold=0.3,
+            ),
+        ]
+    )
+    backtest.simulate()
+    assert int(backtest.final_stats.MeanProfit) == 12946
+    assert int(backtest.final_stats.MaxLoss) == -14706
+    assert int(backtest.final_stats.FinalProfit) == 22576
+
+    assert backtest.final_stats["MeanProfitPer"] == 2.59
+    assert backtest.final_stats["FinalProfitPer"] == 4.52
+    assert backtest.final_stats["MaxLossPer"] == -2.94
 
 
 def test_macd_crossover(data_loader):

@@ -18,7 +18,7 @@ class Indicators(str, Enum):
         Regular fixed-amount buy-and-hold strategy, buy once every n days,
         defalt 30
     """
-    InstitutionalInvestorsFollower = "InstitutionalInvestorsOverBuy"
+    InstitutionalInvestorsFollower = "InstitutionalInvestorsFollower"
     """
         the formula of InstitutionalInvestorsFollower is n_days,
         if InstitutionalInvestors over buy n days,
@@ -44,6 +44,18 @@ class Indicators(str, Enum):
             1 means Golden Cross Over,
             -1 means Death Cross Over
     """
+    InstitutionalInvestorsOverBuy = "InstitutionalInvestorsOverBuy"
+    """
+        the formula is None, it just calculates ( Buy - Sell )
+
+        Indicators
+            > 0 means OverBuy,
+            < 0 means OverSell
+    """
+    ShortSaleMarginPurchaseRatio = "ShortSaleMarginPurchaseRatio"
+    """
+        the formula is None, it just calculates ( ShortSaleTodayBalance / MarginPurchaseTodayBalance )
+    """
 
 
 class IndicatorsParams(str, Enum):
@@ -53,6 +65,8 @@ class IndicatorsParams(str, Enum):
     InstitutionalInvestorsFollower = "n_days"
     KDGoldenDeathCrossOver = "k_days"
     MAGoldenDeathCrossOver = ["ma_short_term_days", "ma_long_term_days"]
+    InstitutionalInvestorsOverBuy = None
+    ShortSaleMarginPurchaseRatio = None
 
 
 class IndicatorsInfo(BaseModel):
@@ -65,10 +79,16 @@ class IndicatorsInfo(BaseModel):
 class AddBuySellRule(BaseModel):
     indicators: Indicators
     more_or_less_than: Rule
-    threshold: typing.Union[int, float, str]
+    threshold: typing.Union[float, int, str]
 
 
 class AdditionalDataset(str, Enum):
     InstitutionalInvestorsFollower = (
         Dataset.TaiwanStockInstitutionalInvestorsBuySell.value
+    )
+    InstitutionalInvestorsOverBuy = (
+        Dataset.TaiwanStockInstitutionalInvestorsBuySell.value
+    )
+    ShortSaleMarginPurchaseRatio = (
+        Dataset.TaiwanStockMarginPurchaseShortSale.value
     )
