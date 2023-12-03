@@ -561,6 +561,51 @@ def test_kd_crossover_add_strategy(data_loader):
     assert obj.final_stats["MaxLossPer"] == -0.24
 
 
+def test_kd_crossover_add_indicators():
+    backtest = strategies.BackTest(
+        stock_id="0056",
+        start_date="2018-01-01",
+        end_date="2019-01-01",
+        trader_fund=500000.0,
+        fee=0.001425,
+        token=FINMIND_API_TOKEN,
+    )
+    backtest.add_indicators(
+        indicators_info_list=[
+            IndicatorsInfo(
+                name=Indicators.KDGoldenDeathCrossOver, formula_value=9
+            )
+        ]
+    )
+    backtest.add_buy_rule(
+        buy_rule_list=[
+            AddBuySellRule(
+                indicators=Indicators.KDGoldenDeathCrossOver,
+                more_or_less_than="=",
+                threshold=1,
+            )
+        ]
+    )
+    backtest.add_sell_rule(
+        sell_rule_list=[
+            AddBuySellRule(
+                indicators=Indicators.KDGoldenDeathCrossOver,
+                more_or_less_than="=",
+                threshold=-1,
+            )
+        ]
+    )
+    backtest.simulate()
+
+    assert int(backtest.final_stats.MeanProfit) == 349
+    assert int(backtest.final_stats.MaxLoss) == -1223
+    assert int(backtest.final_stats.FinalProfit) == 933
+
+    assert backtest.final_stats["MeanProfitPer"] == 0.07
+    assert backtest.final_stats["FinalProfitPer"] == 0.19
+    assert backtest.final_stats["MaxLossPer"] == -0.24
+
+
 def test_institutional_investors_follower(data_loader):
     obj = strategies.BackTest(
         stock_id="0056",

@@ -29,6 +29,7 @@ jobs:
         env:
           FINMIND_USER: ${{ secrets.FINMIND_USER }}
           FINMIND_PASSWORD: ${{ secrets.FINMIND_PASSWORD }}
+          FINMIND_API_TOKEN: ${{ secrets.FINMIND_TOKEN }}
         run: |
           python genenv.py
           pipenv sync

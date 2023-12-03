@@ -1,7 +1,6 @@
-import numpy as np
 import pandas as pd
-from ta.momentum import StochasticOscillator
 
+from FinMind.indicators import add_kd_golden_death_cross_over_indicators
 from FinMind.strategies.base import Strategy
 
 
@@ -16,50 +15,10 @@ class KdCrossOver(Strategy):
 
     k_days = 9
 
-    def create_trade_sign(
-        self, stock_price: pd.DataFrame, **kwargs
-    ) -> pd.DataFrame:
-        stock_price = stock_price.sort_values("date")
-        kd = StochasticOscillator(
-            high=stock_price["max"],
-            low=stock_price["min"],
-            close=stock_price["close"],
-            n=self.k_days,
+    def create_trade_sign(self, stock_price: pd.DataFrame, **kwargs) -> pd.DataFrame:
+        stock_price = add_kd_golden_death_cross_over_indicators(
+            stock_price=stock_price, k_days=self.k_days
         )
-        rsv_ = kd.stoch().fillna(50)
-        _k = np.zeros(stock_price.shape[0])
-        _d = np.zeros(stock_price.shape[0])
-        for i, r in enumerate(rsv_):
-            if i == 0:
-                _k[i] = 50
-                _d[i] = 50
-            else:
-                _k[i] = _k[i - 1] * 2 / 3 + r / 3
-                _d[i] = _d[i - 1] * 2 / 3 + _k[i] / 3
-        stock_price["K"] = _k
-        stock_price["D"] = _d
-        stock_price.index = range(len(stock_price))
-        stock_price["diff"] = stock_price["K"] - stock_price["D"]
-        stock_price.loc[(stock_price.index < self.k_days), "diff"] = np.nan
-        stock_price["diff_sign"] = stock_price["diff"].map(
-            lambda x: 1 if x >= 0 else (-1 if x < 0 else 0)
-        )
-        stock_price["diff_sign_yesterday"] = (
-            stock_price["diff_sign"].shift(1).fillna(0).astype(int)
-        )
-        stock_price["signal"] = 0
-        stock_price.loc[
-            (
-                (stock_price["diff_sign"] > 0)
-                & (stock_price["diff_sign_yesterday"] < 0)
-            ),
-            "signal",
-        ] = 1
-        stock_price.loc[
-            (
-                (stock_price["diff_sign"] < 0)
-                & (stock_price["diff_sign_yesterday"] > 0)
-            ),
-            "signal",
-        ] = -1
+        stock_price["signal"] = stock_price["kd_golden_death_cross_over"]
+        stock_price = stock_price.drop(["kd_golden_death_cross_over"], axis=1)
         return stock_price

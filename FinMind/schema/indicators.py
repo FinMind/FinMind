@@ -25,6 +25,14 @@ class Indicators(str, Enum):
         so we will follow up and buy,
         defalt 10
     """
+    KDGoldenDeathCrossOver = "kd_golden_death_cross_over"
+    """
+        the formula of KD is k_days, defalt 9,
+
+        Indicators
+            1 means Golden Cross Over,
+            -1 means Death Cross Over
+    """
 
 
 class IndicatorsParams(str, Enum):
@@ -32,6 +40,7 @@ class IndicatorsParams(str, Enum):
     BIAS = "ma_days"
     ContinueHolding = "buy_freq_day"
     InstitutionalInvestorsFollower = "n_days"
+    KDGoldenDeathCrossOver = "k_days"
 
 
 class IndicatorsInfo(BaseModel):
