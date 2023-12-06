@@ -37,7 +37,7 @@ def add_institutional_investors_follower(
         on=["stock_id", "date"],
         how="left",
     ).fillna(0)
-    stock_price["InstitutionalInvestorsOverBuy"] = __detect_Abnormal_Peak(
+    stock_price["InstitutionalInvestorsFollower"] = __detect_Abnormal_Peak(
         y=stock_price["diff"].values,
         lag=n_days,
         threshold=3,

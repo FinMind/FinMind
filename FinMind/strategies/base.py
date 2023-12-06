@@ -1,3 +1,4 @@
+import ast
 import typing
 import warnings
 from enum import Enum
@@ -17,6 +18,7 @@ from FinMind.schema import (
 from FinMind.schema.data import Dataset
 from FinMind.schema.indicators import (
     AddBuySellRule,
+    AdditionalDataset,
     IndicatorsInfo,
     IndicatorsParams,
 )
@@ -202,7 +204,6 @@ class BackTest:
         strategy: Strategy = None,
         data_loader: DataLoader = None,
         token: str = "",
-        additional_dataset_list: typing.List[Dataset] = None,
     ):
         self.data_loader = data_loader if data_loader else DataLoader(token)
         self.stock_id = stock_id
@@ -228,11 +229,7 @@ class BackTest:
         self._sign_name_list = []
         self.buy_rule_list = []
         self.sell_rule_list = []
-        self.additional_dataset_list = (
-            additional_dataset_list if additional_dataset_list else []
-        )
         self.__init_base_data()
-        self._additional_dataset()
         self._trade_period_years = days2years(
             calculate_datenbr(start_date, end_date) + 1
         )
@@ -250,12 +247,21 @@ class BackTest:
     ):
         value = indicators_info.pop("formula_value", None)
         if value:
-            indicators_info.update(
-                {getattr(IndicatorsParams, indicator).value: value}
-            )
+            if isinstance(value, list):
+                params_list = ast.literal_eval(
+                    getattr(IndicatorsParams, indicator).value
+                )
+                [
+                    indicators_info.update({params: value.pop(0)})
+                    for params in params_list
+                ]
+            else:
+                indicators_info.update(
+                    {getattr(IndicatorsParams, indicator).value: value}
+                )
         return indicators_info
 
-    def __convert_indicators_schema2dict(
+    def _convert_indicators_schema2dict(
         self,
         indicators_info: typing.Union[IndicatorsInfo, typing.Dict[str, str]],
     ):
@@ -297,9 +303,10 @@ class BackTest:
         ]
         """
         for indicators_info in indicators_info_list:
-            indicators_info, indicator = self.__convert_indicators_schema2dict(
+            indicators_info, indicator = self._convert_indicators_schema2dict(
                 indicators_info
             )
+            self._additional_dataset(indicator=indicator)
             logger.info(indicator)
             indicators_info = self._add_indicators_formula(
                 indicator, indicators_info
@@ -381,7 +388,6 @@ class BackTest:
     def _create_sign(
         self,
         sign_name: str,
-        sign_value: str,
         indicators: str,
         more_or_less_than: str,
         threshold: float,
@@ -394,30 +400,52 @@ class BackTest:
                 )
             ),
             sign_name,
-        ] = sign_value
+        ] = 1
 
     def _create_buy_sign(self):
-        for i in range(len(self.buy_rule_list)):
-            sign_name = f"buy_signal_{i}"
-            self._sign_name_list.append(sign_name)
-            self._create_sign(
-                sign_name=sign_name,
-                sign_value=1,
-                indicators=self.buy_rule_list[i]["indicators"],
-                more_or_less_than=self.buy_rule_list[i]["more_or_less_than"],
-                threshold=self.buy_rule_list[i]["threshold"],
-            )
+        if len(self.buy_rule_list) > 0:
+            self._sign_name_list.append("buy_sign")
+            buy_sign_name_list = []
+            for i in range(len(self.buy_rule_list)):
+                sign_name = f"buy_signal_{i}"
+                buy_sign_name_list.append(sign_name)
+                self._create_sign(
+                    sign_name=sign_name,
+                    indicators=self.buy_rule_list[i]["indicators"],
+                    more_or_less_than=self.buy_rule_list[i][
+                        "more_or_less_than"
+                    ],
+                    threshold=self.buy_rule_list[i]["threshold"],
+                )
+            # if all of buy_sign_i are 1, then set buy_sign = 1
+            self.stock_price["buy_sign"] = (
+                self.stock_price[buy_sign_name_list].sum(axis=1)
+                == len(buy_sign_name_list)
+            ).astype(int)
+            self.stock_price = self.stock_price.drop(buy_sign_name_list, axis=1)
 
     def _create_sell_sign(self):
-        for i in range(len(self.sell_rule_list)):
-            sign_name = f"sell_signal_{i}"
-            self._sign_name_list.append(sign_name)
-            self._create_sign(
-                sign_name=sign_name,
-                sign_value=-1,
-                indicators=self.sell_rule_list[i]["indicators"],
-                more_or_less_than=self.sell_rule_list[i]["more_or_less_than"],
-                threshold=self.sell_rule_list[i]["threshold"],
+        if len(self.sell_rule_list) > 0:
+            self._sign_name_list.append("sell_sign")
+            sell_sign_name_list = []
+            for i in range(len(self.sell_rule_list)):
+                sign_name = f"sell_signal_{i}"
+                sell_sign_name_list.append(sign_name)
+                self._create_sign(
+                    sign_name=sign_name,
+                    indicators=self.sell_rule_list[i]["indicators"],
+                    more_or_less_than=self.sell_rule_list[i][
+                        "more_or_less_than"
+                    ],
+                    threshold=self.sell_rule_list[i]["threshold"],
+                )
+            # if all of sell_sign_i are 1, then set sell_sign = 1
+            self.stock_price["sell_sign"] = (
+                self.stock_price[sell_sign_name_list].sum(axis=1)
+                == len(sell_sign_name_list)
+            ).astype(int) * -1
+            self.stock_price = self.stock_price.drop(
+                sell_sign_name_list, axis=1
             )
 
     def _create_trade_sign(self):
@@ -431,19 +459,19 @@ class BackTest:
         self.stock_price.loc[self.stock_price["signal"] <= -1, "signal"] = -1
         self.stock_price = self.stock_price.drop(self._sign_name_list, axis=1)
 
-    def _additional_dataset(self):
-        for additional_dataset in self.additional_dataset_list:
-            df = self.data_loader.get_data(
-                dataset=additional_dataset,
-                data_id=self.stock_id,
-                start_date=self.start_date,
-                end_date=self.end_date,
-            )
-            setattr(self, additional_dataset.value, df)
+    def _additional_dataset(self, indicator: str):
+        additional_dataset = getattr(AdditionalDataset, indicator, None)
+        if additional_dataset:
+            if getattr(self, additional_dataset.value, None) is None:
+                df = self.data_loader.get_data(
+                    dataset=additional_dataset,
+                    data_id=self.stock_id,
+                    start_date=self.start_date,
+                    end_date=self.end_date,
+                )
+                setattr(self, additional_dataset.value, df)
 
-    def __init_base_data(
-        self, additional_dataset_list: typing.List[str] = None
-    ):
+    def __init_base_data(self):
         self.stock_price = self.data_loader.get_data(
             dataset=Dataset.TaiwanStockPrice,
             data_id=self.stock_id,

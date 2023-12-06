@@ -1,6 +1,6 @@
 import pandas as pd
-from ta.trend import SMAIndicator
 
+from FinMind.indicators import add_ma_golden_death_cross_orver_indicators
 from FinMind.strategies.base import Strategy
 
 
@@ -25,39 +25,11 @@ class MaCrossOver(Strategy):
     def create_trade_sign(
         self, stock_price: pd.DataFrame, **kwargs
     ) -> pd.DataFrame:
-        stock_price = stock_price.sort_values("date")
-        stock_price[f"ma{self.ma_fast_days}"] = SMAIndicator(
-            stock_price["close"], self.ma_fast_days
-        ).sma_indicator()
-        stock_price[f"ma{self.ma_slow_days}"] = SMAIndicator(
-            stock_price["close"], self.ma_slow_days
-        ).sma_indicator()
-        stock_price["ma_diff"] = (
-            stock_price[f"ma{self.ma_fast_days}"]
-            - stock_price[f"ma{self.ma_slow_days}"]
+        stock_price = add_ma_golden_death_cross_orver_indicators(
+            stock_price=stock_price,
+            ma_short_term_days=self.ma_fast_days,
+            ma_long_term_days=self.ma_slow_days,
         )
-        stock_price["bool_signal"] = stock_price["ma_diff"].map(
-            lambda x: 1 if x > 0 else -1
-        )
-        stock_price["bool_signal_shift1"] = (
-            stock_price["bool_signal"].shift(1).fillna(0)
-        )
-        stock_price["bool_signal_shift1"] = stock_price[
-            "bool_signal_shift1"
-        ].astype(int)
-        stock_price["signal"] = 0
-        stock_price.loc[
-            (
-                (stock_price["bool_signal"] > 0)
-                & (stock_price["bool_signal_shift1"] < 0)
-            ),
-            "signal",
-        ] = 1
-        stock_price.loc[
-            (
-                (stock_price["bool_signal"] < 0)
-                & (stock_price["bool_signal_shift1"] > 0)
-            ),
-            "signal",
-        ] = -1
+        stock_price["signal"] = stock_price["MAGoldenDeathCrossOver"]
+        stock_price = stock_price.drop(["MAGoldenDeathCrossOver"], axis=1)
         return stock_price

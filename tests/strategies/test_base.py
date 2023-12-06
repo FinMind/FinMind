@@ -4,11 +4,7 @@ import pandas as pd
 import pytest
 
 from FinMind.schema.data import Dataset
-from FinMind.schema.indicators import (
-    AddBuySellRule,
-    Indicators,
-    IndicatorsParams,
-)
+from FinMind.schema.indicators import AddBuySellRule, Indicators, IndicatorsInfo
 from FinMind.schema.rule import Rule
 from FinMind.strategies.base import BackTest
 
@@ -36,6 +32,21 @@ def test_add_indicators_formula(backtest):
         indicator="ContinueHolding", indicators_info=indicators_info
     )
     assert result == {"name": "DollarCostAveraging", "buy_freq_day": 30}
+
+
+def test_add_indicators_formula_list(backtest):
+    indicators_info = {
+        "name": "MAGoldenDeathCrossOver",
+        "formula_value": [10, 30],
+    }
+    result = backtest._add_indicators_formula(
+        indicator="MAGoldenDeathCrossOver", indicators_info=indicators_info
+    )
+    assert result == {
+        "name": "MAGoldenDeathCrossOver",
+        "ma_short_term_days": 10,
+        "ma_long_term_days": 30,
+    }
 
 
 def test_add_indicators(backtest):
@@ -164,7 +175,6 @@ def test_create_sign(backtest):
     )
     backtest._create_sign(
         sign_name=f"buy_signal_0",
-        sign_value=1,
         indicators="DollarCostAveraging",
         more_or_less_than="=",
         threshold=1,
@@ -207,7 +217,6 @@ def test_create_buy_sign(backtest):
     )
     backtest._create_buy_sign(
         sign_name=f"buy_signal_0",
-        sign_value=1,
         indicators="DollarCostAveraging",
         more_or_less_than="=",
         threshold=1,
@@ -287,18 +296,19 @@ def test_create_buy_sign(backtest):
     )
 
 
-def test_additional_dataset():
-    backtest = BackTest(
-        stock_id="0056",
-        start_date="2018-01-01",
-        end_date="2019-01-01",
-        trader_fund=500000.0,
-        fee=0.001425,
-        additional_dataset_list=[
-            Dataset.TaiwanStockInstitutionalInvestorsBuySell
-        ],
-        token=FINMIND_API_TOKEN,
-    )
+def test_additional_dataset(backtest):
+    backtest._additional_dataset(indicator="InstitutionalInvestorsFollower")
     assert isinstance(
         backtest.TaiwanStockInstitutionalInvestorsBuySell, pd.DataFrame
     )
+
+
+def test_convert_indicators_schema2dict(backtest):
+    indicators_info, indicator = backtest._convert_indicators_schema2dict(
+        IndicatorsInfo(name=Indicators.KDGoldenDeathCrossOver, formula_value=9)
+    )
+    assert indicators_info == {
+        "name": Indicators.KDGoldenDeathCrossOver,
+        "formula_value": 9,
+    }
+    assert indicator == "KDGoldenDeathCrossOver"
