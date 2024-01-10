@@ -35,6 +35,8 @@ def request_get(
         ) as exc:
             logger.warning(f"{exc}, retry {i} and sleep {i * 0.1} seonds")
             time.sleep(i * 0.1)
+        except Exception as exc:
+            raise Exception(exc)
     if response.json()["msg"] == "success" and response.status_code == 200:
         pass
     else:
