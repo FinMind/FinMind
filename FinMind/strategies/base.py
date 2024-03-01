@@ -575,7 +575,9 @@ class BackTest:
     @staticmethod
     def __compute_div_income(trader, cash_div: float, stock_div: float):
         gain_stock_div = stock_div * trader.hold_volume / 10
-        gain_cash = cash_div * trader.hold_volume
+        gain_stock_frac = gain_stock_div % 1
+        gain_stock_div = gain_stock_frac - gain_stock_frac
+        gain_cash = cash_div * trader.hold_volume + gain_stock_frac * 10
         origin_cost = trader.hold_cost * trader.hold_volume
         trader.hold_volume += gain_stock_div
         new_cost = origin_cost - gain_cash
