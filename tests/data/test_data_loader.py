@@ -636,6 +636,18 @@ def test_taiwan_stock_bar(data_loader):
     )
 
 
+def test_taiwan_stock_delisting(data_loader):
+    data = data_loader.taiwan_stock_delisting(stock_id="1230")
+    assert_data(
+        data,
+        [
+            "date",
+            "stock_id",
+            "stock_name",
+        ],
+    )
+
+
 def test_us_stock_info(data_loader):
     data = data_loader.us_stock_info()
     assert_data(
