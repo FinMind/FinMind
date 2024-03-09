@@ -1266,6 +1266,31 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_bar
 
+    def taiwan_stock_delisting(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台股個股下市下櫃表
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股個股下市下櫃表 TaiwanStockDelisting
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column stock_id (str)
+        :rtype column stock_name (str)
+        """
+        taiwan_stock_delisting = self.get_data(
+            dataset=Dataset.TaiwanStockDelisting,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return taiwan_stock_delisting
+
     def us_stock_info(self, timeout: int = None) -> pd.DataFrame:
         """get 美國股票代碼總覽
         :param timeout (int): timeout seconds, default None
