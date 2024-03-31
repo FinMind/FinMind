@@ -3,8 +3,7 @@ import os
 import pandas as pd
 import pytest
 
-from FinMind.data import DataLoader
-from FinMind.data import FinMindApi
+from FinMind.data import DataLoader, FinMindApi
 
 user_id = os.environ.get("FINMIND_USER", "")
 password = os.environ.get("FINMIND_PASSWORD", "")
@@ -679,5 +678,110 @@ def test_us_stock_price(data_loader):
             "Low",
             "Open",
             "Volume",
+        ],
+    )
+
+
+def test_taiwan_stock_convertible_bond_info(data_loader):
+    df = data_loader.taiwan_stock_convertible_bond_info()
+    assert_data(
+        df,
+        [
+            "cb_id",
+            "cb_name",
+            "InitialDateOfConversion",
+            "DueDateOfConversion",
+            "IssuanceAmount",
+        ],
+    )
+
+
+def test_taiwan_stock_convertible_bond_daily(data_loader):
+    df = data_loader.taiwan_stock_convertible_bond_daily(
+        cb_id="15131",
+        start_date="2020-04-01",
+        end_date="2020-04-10",
+    )
+    assert_data(
+        df,
+        [
+            "cb_id",
+            "cb_name",
+            "transaction_type",
+            "close",
+            "change",
+            "open",
+            "max",
+            "min",
+            "no_of_transactions",
+            "unit",
+            "trading_value",
+            "avg_price",
+            "next_ref_price",
+            "next_max_limit",
+            "next_min_limit",
+            "date",
+        ],
+    )
+
+
+def test_taiwan_stock_convertible_bond_institutional_investors(data_loader):
+    df = data_loader.taiwan_stock_convertible_bond_institutional_investors(
+        cb_id="15131",
+        start_date="2020-04-01",
+        end_date="2020-04-10",
+    )
+    assert_data(
+        df,
+        [
+            "Foreign_Investor_Buy",
+            "Foreign_Investor_Sell",
+            "Foreign_Investor_Overbuy",
+            "Investment_Trust_Buy",
+            "Investment_Trust_Sell",
+            "Investment_Trust_Overbuy",
+            "Dealer_self_Buy",
+            "Dealer_self_Sell",
+            "Dealer_self_Overbuy",
+            "Total_Overbuy",
+            "cb_id",
+            "cb_name",
+            "date",
+        ],
+    )
+
+
+def test_taiwan_stock_convertible_bond_daily_overview(data_loader):
+    df = data_loader.taiwan_stock_convertible_bond_daily_overview(
+        cb_id="15131",
+        start_date="2020-04-01",
+        end_date="2020-04-10",
+    )
+    assert_data(
+        df,
+        [
+            "cb_id",
+            "cb_name",
+            "date",
+            "InitialDateOfConversion",
+            "DueDateOfConversion",
+            "InitialDateOfStopConversion",
+            "DueDateOfStopConversion",
+            "ConversionPrice",
+            "NextEffectiveDateOfConversionPrice",
+            "LatestInitialDateOfPut",
+            "LatestDueDateOfPut",
+            "LatestPutPrice",
+            "InitialDateOfEarlyRedemption",
+            "DueDateOfEarlyRedemption",
+            "EarlyRedemptionPrice",
+            "DateOfDelisted",
+            "IssuanceAmount",
+            "OutstandingAmount",
+            "ReferencePrice",
+            "PriceOfUnderlyingStock",
+            "InitialDateOfSuspension",
+            "DueDateOfSuspension",
+            "CouponRate",
         ],
     )

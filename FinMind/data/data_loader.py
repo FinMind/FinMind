@@ -1463,6 +1463,153 @@ class DataLoader(FinMindApi):
         )
         return options_snapshot
 
+    def taiwan_stock_convertible_bond_info(
+        self, timeout: int = None
+    ) -> pd.DataFrame:
+        """get 可轉債總覽
+        :param timeout (int): timeout seconds, default None
+
+        :return: 可轉債總覽 TaiwanStockConvertibleBondInfo
+        :rtype pd.DataFrame
+        :rtype column cb_id (str)
+        :rtype column cb_name (str)
+        :rtype column InitialDateOfConversion (str)
+        :rtype column DueDateOfConversion (str)
+        :rtype column IssuanceAmount (int)
+        """
+        df = self.get_data(
+            dataset=Dataset.TaiwanStockConvertibleBondInfo,
+            timeout=timeout,
+        )
+        return df
+
+    def taiwan_stock_convertible_bond_daily(
+        self,
+        cb_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 可轉債日成交資訊
+        :param cb_id (str): 可轉債代號("2330")
+        :param start_date (str): 開始日期("2018-01-01")
+        :param end_date (str): 結束日期("2021-03-06")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 可轉債日成交資訊 TaiwanStockConvertibleBondDaily
+        :rtype pd.DataFrame
+        :rtype column cb_id: (str)
+        :rtype column cb_name: (str)
+        :rtype column transaction_type: (str)
+        :rtype column close: (float)
+        :rtype column change: (float)
+        :rtype column open: (float)
+        :rtype column max: (float)
+        :rtype column min: (float)
+        :rtype column no_of_transactions: (int)
+        :rtype column unit: (int)
+        :rtype column trading_value: (int)
+        :rtype column avg_price: (float)
+        :rtype column next_ref_price: (float)
+        :rtype column next_max_limit: (float)
+        :rtype column next_min_limit: (float)
+        :rtype column date: (str)
+        """
+        df = self.get_data(
+            dataset=Dataset.TaiwanStockConvertibleBondDaily,
+            data_id=cb_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return df
+
+    def taiwan_stock_convertible_bond_institutional_investors(
+        self,
+        cb_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 可轉債三大法人日交易資訊
+        :param cb_id (str): 可轉債代號("2330")
+        :param start_date (str): 開始日期("2018-01-01")
+        :param end_date (str): 結束日期("2021-03-06")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 可轉債三大法人日交易資訊 TaiwanStockConvertibleBondInstitutionalInvestors
+        :rtype pd.DataFrame
+        :rtype column Foreign_Investor_Buy: (int)
+        :rtype column Foreign_Investor_Sell: (int)
+        :rtype column Foreign_Investor_Overbuy: (int)
+        :rtype column Investment_Trust_Buy: (int)
+        :rtype column Investment_Trust_Sell: (int)
+        :rtype column Investment_Trust_Overbuy: (int)
+        :rtype column Dealer_self_Buy: (int)
+        :rtype column Dealer_self_Sell: (int)
+        :rtype column Dealer_self_Overbuy: (int)
+        :rtype column Total_Overbuy: (int)
+        :rtype column cb_id: (str)
+        :rtype column cb_name: (str)
+        :rtype column date: (str)
+        """
+        df = self.get_data(
+            dataset=Dataset.TaiwanStockConvertibleBondInstitutionalInvestors,
+            data_id=cb_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return df
+
+    def taiwan_stock_convertible_bond_daily_overview(
+        self,
+        cb_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 可轉債每日總覽資訊
+        :param cb_id (str): 可轉債代號("2330")
+        :param start_date (str): 開始日期("2018-01-01")
+        :param end_date (str): 結束日期("2021-03-06")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 可轉債每日總覽資訊 TaiwanStockConvertibleBondDailyOverview
+        :rtype pd.DataFrame
+        :rtype column cb_id: (str)
+        :rtype column cb_name: (str)
+        :rtype column date: (str)
+        :rtype column InitialDateOfConversion: (str)
+        :rtype column DueDateOfConversion: (str)
+        :rtype column InitialDateOfStopConversion: (str)
+        :rtype column DueDateOfStopConversion: (str)
+        :rtype column ConversionPrice: (float)
+        :rtype column NextEffectiveDateOfConversionPrice: (str)
+        :rtype column LatestInitialDateOfPut: (str)
+        :rtype column LatestDueDateOfPut: (str)
+        :rtype column LatestPutPrice: (float)
+        :rtype column InitialDateOfEarlyRedemption: (str)
+        :rtype column DueDateOfEarlyRedemption: (str)
+        :rtype column EarlyRedemptionPrice: (float)
+        :rtype column DateOfDelisted: (str)
+        :rtype column IssuanceAmount: (float)
+        :rtype column OutstandingAmount: (float)
+        :rtype column ReferencePrice: (float)
+        :rtype column PriceOfUnderlyingStock: (float)
+        :rtype column InitialDateOfSuspension: (str)
+        :rtype column DueDateOfSuspension: (str)
+        :rtype column CouponRate: (float)
+        """
+        df = self.get_data(
+            dataset=Dataset.TaiwanStockConvertibleBondDailyOverview,
+            data_id=cb_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return df
+
 
 class Feature:
     def __init__(self, data_loader: DataLoader):
