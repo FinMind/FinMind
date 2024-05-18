@@ -785,3 +785,20 @@ def test_taiwan_stock_convertible_bond_daily_overview(data_loader):
             "CouponRate",
         ],
     )
+
+
+def test_taiwan_stock_margin_short_sale_suspension(data_loader):
+    df = data_loader.taiwan_stock_margin_short_sale_suspension(
+        stock_id="2330",
+        start_date="2020-04-01",
+        end_date="2020-04-10",
+    )
+    assert_data(
+        df,
+        [
+            "stock_id",
+            "date",
+            "end_date",
+            "reason",
+        ],
+    )
