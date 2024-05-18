@@ -1610,6 +1610,35 @@ class DataLoader(FinMindApi):
         )
         return df
 
+    def taiwan_stock_margin_short_sale_suspension(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 暫停融券賣出表(融券回補日)
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 開始日期("2018-01-01")
+        :param end_date (str): 結束日期("2021-03-06")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 暫停融券賣出表(融券回補日) TaiwanStockMarginShortSaleSuspension
+        :rtype pd.DataFrame
+        :rtype column stock_id: (str)
+        :rtype column date: (str)
+        :rtype column end_date: (str)
+        :rtype column reason: (str)
+        """
+        df = self.get_data(
+            dataset=Dataset.TaiwanStockMarginShortSaleSuspension,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return df
+
 
 class Feature:
     def __init__(self, data_loader: DataLoader):
