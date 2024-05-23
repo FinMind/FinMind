@@ -549,10 +549,11 @@ class BackTest:
                 self.stock_price.loc[last_date_index, "signal"] if i != 0 else 0
             )
             trade_price = self.stock_price.loc[i, "open"]
-            self.trader.trade(signal, trade_price)
+            # 買賣之前，先進行配息配股
             cash_div = self.stock_price.loc[i, "CashEarningsDistribution"]
             stock_div = self.stock_price.loc[i, "StockEarningsDistribution"]
             self.__compute_div_income(self.trader, cash_div, stock_div)
+            self.trader.trade(signal, trade_price)
             _trade_detail_dict_list.append(
                 dict(
                     CashEarningsDistribution=cash_div,
@@ -574,25 +575,39 @@ class BackTest:
 
     @staticmethod
     def __compute_div_income(trader, cash_div: float, stock_div: float):
+        # 股票股利畸零股應被直接換算成現金
         gain_stock_div = stock_div * trader.hold_volume / 10
-        gain_stock_frac = gain_stock_div % 1
-        gain_stock_div = gain_stock_frac - gain_stock_frac
-        gain_cash = cash_div * trader.hold_volume + gain_stock_frac * 10
-        origin_cost = trader.hold_cost * trader.hold_volume
+        gain_stock_frac = gain_stock_div % 1  # 取 gain_stock_div 小數部分
+        gain_stock_div = (
+            gain_stock_div - gain_stock_frac
+        )  # gain_stock_div 只留整數部分
+        gain_cash = (
+            cash_div * trader.hold_volume + gain_stock_frac * 10
+        )  # 將小數部分加進 gain_cash
         trader.hold_volume += gain_stock_div
-        new_cost = origin_cost - gain_cash
+        # 在 UnrealizedProfit & RealizedProfit
+        # 避免重複計算 gain_cash
+        origin_cost = trader.hold_cost * trader.hold_volume
+        # 持有成本不變，將配息歸類在，已實現損益
+        # new_cost = origin_cost - gain_cash
         trader.hold_cost = (
-            new_cost / trader.hold_volume if trader.hold_volume != 0 else 0
+            origin_cost / trader.hold_volume if trader.hold_volume != 0 else 0
         )
-        trader.UnrealizedProfit = round(
-            (
-                trader.trade_price * (1 - trader.tax - trader.fee)
-                - trader.hold_cost
+        trader.UnrealizedProfit = (
+            round(
+                (
+                    trader.trade_price * (1 - trader.tax - trader.fee)
+                    - trader.hold_cost
+                )
+                * trader.hold_volume,
+                2,
             )
-            * trader.hold_volume,
-            2,
+            if trader.trade_price
+            else 0
         )
         trader.RealizedProfit += gain_cash
+        # 將配息也要增加資金池
+        trader.trader_fund += gain_cash
         trader.EverytimeProfit = trader.RealizedProfit + trader.UnrealizedProfit
 
     def __compute_final_stats(self):
