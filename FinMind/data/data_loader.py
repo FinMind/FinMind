@@ -1291,6 +1291,28 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_delisting
 
+    def taiwan_total_exchange_margin_maintenance(
+        self,
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台灣個股市值
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台灣個股市值 TaiwanTotalExchangeMarginMaintenance
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column market_value (float)
+        """
+        tw_total_exchange_mMargin_maintenance = self.get_data(
+            dataset=Dataset.TaiwanTotalExchangeMarginMaintenance,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return tw_total_exchange_mMargin_maintenance
+
     def us_stock_info(self, timeout: int = None) -> pd.DataFrame:
         """get 美國股票代碼總覽
         :param timeout (int): timeout seconds, default None
