@@ -647,6 +647,19 @@ def test_taiwan_stock_delisting(data_loader):
     )
 
 
+def test_taiwan_total_exchange_margin_maintenance(data_loader):
+    data = data_loader.taiwan_total_exchange_margin_maintenance(
+        start_date="2024-01-01", end_date="2024-01-20"
+    )
+    assert_data(
+        data,
+        [
+            "date",
+            "TotalExchangeMarginMaintenance",
+        ],
+    )
+
+
 def test_us_stock_info(data_loader):
     data = data_loader.us_stock_info()
     assert_data(
