@@ -1298,6 +1298,8 @@ class DataLoader(FinMindApi):
         timeout: int = None,
     ) -> pd.DataFrame:
         """get 台灣個股市值
+        :param start_date (str): 開始日期("2023-01-01")
+        :param end_date (str): 結束日期("2023-01-31")
         :param timeout (int): timeout seconds, default None
 
         :return: 台灣個股市值 TaiwanTotalExchangeMarginMaintenance
