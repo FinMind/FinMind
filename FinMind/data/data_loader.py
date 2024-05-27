@@ -1297,26 +1297,15 @@ class DataLoader(FinMindApi):
         end_date: str = "",
         timeout: int = None,
     ) -> pd.DataFrame:
-<<<<<<< HEAD
         """get 台灣大盤融資維持率
-=======
-        """get 台灣個股市值
->>>>>>> master
         :param start_date (str): 開始日期("2023-01-01")
         :param end_date (str): 結束日期("2023-01-31")
         :param timeout (int): timeout seconds, default None
 
-<<<<<<< HEAD
         :return: 台灣大盤融資維持率 TaiwanTotalExchangeMarginMaintenance
         :rtype pd.DataFrame
         :rtype column date (str)
         :rtype column TotalExchangeMarginMaintenance (float)
-=======
-        :return: 台灣個股市值 TaiwanTotalExchangeMarginMaintenance
-        :rtype pd.DataFrame
-        :rtype column date (str)
-        :rtype column market_value (float)
->>>>>>> master
         """
         tw_total_exchange_mMargin_maintenance = self.get_data(
             dataset=Dataset.TaiwanTotalExchangeMarginMaintenance,
