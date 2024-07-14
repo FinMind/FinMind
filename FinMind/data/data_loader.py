@@ -1238,6 +1238,72 @@ class DataLoader(FinMindApi):
         )
         return tw_stock_10year
 
+    def taiwan_stock_weekly(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台股週 K 資料表
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股週 K 資料表 TaiwanStockWeekPrice
+        :rtype pd.DataFrame
+        :rtype column stock_id (str)
+        :rtype column yweek (str)
+        :rtype column max (float)
+        :rtype column min (float)
+        :rtype column trading_volume (int))
+        :rtype column trading_money (int)
+        :rtype column trading_turnover (int)
+        :rtype column date (str)
+        :rtype column close (float)
+        :rtype column open (float)
+        :rtype column spread (float)
+        """
+        tw_stock_weekly = self.get_data(
+            dataset=Dataset.TaiwanStockWeekPrice,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return tw_stock_weekly
+
+    def taiwan_stock_monthly(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台股月 K 資料表
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股月 K 資料表 TaiwanStockMonthPrice
+        :rtype pd.DataFrame
+        :rtype column stock_id (str)
+        :rtype column ymonth (str)
+        :rtype column max (float)
+        :rtype column min (float)
+        :rtype column trading_volume (int))
+        :rtype column trading_money (int)
+        :rtype column trading_turnover (int)
+        :rtype column date (str)
+        :rtype column close (float)
+        :rtype column open (float)
+        :rtype column spread (float)
+        """
+        tw_stock_monthly = self.get_data(
+            dataset=Dataset.TaiwanStockMonthPrice,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return tw_stock_monthly
+
     def taiwan_stock_bar(
         self,
         stock_id: str = "",

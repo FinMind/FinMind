@@ -89,6 +89,8 @@ class Dataset(str, Enum):
         "TaiwanStockMarginShortSaleSuspension"
     )
     TaiwanTotalExchangeMarginMaintenance = "TaiwanTotalExchangeMarginMaintenance"
+    TaiwanStockWeekPrice = "TaiwanStockWeekPrice"
+    TaiwanStockMonthPrice = "TaiwanStockMonthPrice"
 
 
 class Version(str, Enum):
