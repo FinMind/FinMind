@@ -617,6 +617,49 @@ def test_taiwan_stock_10year(data_loader):
         ],
     )
 
+def test_taiwan_stock_weekly(data_loader):
+    data = data_loader.taiwan_stock_weekly(
+        stock_id="2330", start_date="2000-01-01", end_date="2023-06-01"
+    )
+    assert_data(
+        data,
+        [
+            "stock_id",
+            "ymonth",
+            "max",
+            "min",
+            "trading_volume",
+            "trading_money",
+            "trading_turnover",
+            "date",
+            "close",
+            "open",
+            "spread",
+        ],
+    )
+
+
+def test_taiwan_stock_monthly(data_loader):
+    data = data_loader.taiwan_stock_monthly(
+        stock_id="2330", start_date="2000-01-01", end_date="2023-06-01"
+    )
+    assert_data(
+        data,
+        [
+            "stock_id",
+            "ymonth",
+            "max",
+            "min",
+            "trading_volume",
+            "trading_money",
+            "trading_turnover",
+            "date",
+            "close",
+            "open",
+            "spread",
+        ],
+    )
+
 
 def test_taiwan_stock_bar(data_loader):
     data = data_loader.taiwan_stock_bar(stock_id="2330", date="2023-01-05")

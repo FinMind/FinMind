@@ -1245,10 +1245,10 @@ class DataLoader(FinMindApi):
         end_date: str = "",
         timeout: int = None,
     ) -> pd.DataFrame:
-        """get 台灣個股每周股價
+        """get 台股週 K 資料表
         :param timeout (int): timeout seconds, default None
 
-        :return: 台灣個股每周股價 TaiwanStockWeekPrice
+        :return: 台股週 K 資料表 TaiwanStockWeekPrice
         :rtype pd.DataFrame
         :rtype column stock_id (str)
         :rtype column yweek (str)
@@ -1278,10 +1278,10 @@ class DataLoader(FinMindApi):
         end_date: str = "",
         timeout: int = None,
     ) -> pd.DataFrame:
-        """get 台灣個股每周股價
+        """get 台股月 K 資料表
         :param timeout (int): timeout seconds, default None
 
-        :return: 台灣個股每月股價 TaiwanStockMonthPrice
+        :return: 台股月 K 資料表 TaiwanStockMonthPrice
         :rtype pd.DataFrame
         :rtype column stock_id (str)
         :rtype column ymonth (str)
