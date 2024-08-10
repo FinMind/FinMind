@@ -625,7 +625,7 @@ def test_taiwan_stock_weekly(data_loader):
         data,
         [
             "stock_id",
-            "ymonth",
+            "yweek",
             "max",
             "min",
             "trading_volume",
