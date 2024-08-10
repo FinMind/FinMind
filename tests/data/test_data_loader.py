@@ -863,8 +863,8 @@ def test_taiwan_stock_margin_short_sale_suspension(data_loader):
 def test_taiwan_stock_trading_daily_report_secid_agg(data_loader):
     df = data_loader.taiwan_stock_trading_daily_report_secid_agg(
         stock_id="2330",
-        start_date="2024-04-01",
-        end_date="2024-04-10",
+        start_date="2024-07-30",
+        end_date="2024-07-31",
     )
     assert_data(
         df,
