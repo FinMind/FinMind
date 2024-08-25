@@ -625,7 +625,7 @@ def test_taiwan_stock_weekly(data_loader):
         data,
         [
             "stock_id",
-            "ymonth",
+            "yweek",
             "max",
             "min",
             "trading_volume",
@@ -856,5 +856,26 @@ def test_taiwan_stock_margin_short_sale_suspension(data_loader):
             "date",
             "end_date",
             "reason",
+        ],
+    )
+
+
+def test_taiwan_stock_trading_daily_report_secid_agg(data_loader):
+    df = data_loader.taiwan_stock_trading_daily_report_secid_agg(
+        stock_id="2330",
+        start_date="2024-07-30",
+        end_date="2024-07-31",
+    )
+    assert_data(
+        df,
+        [
+            "securities_trader",
+            "securities_trader_id",
+            "stock_id",
+            "date",
+            "buy_volume",
+            "sell_volume",
+            "buy_price",
+            "sell_price",
         ],
     )

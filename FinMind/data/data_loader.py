@@ -1729,6 +1729,38 @@ class DataLoader(FinMindApi):
         )
         return df
 
+    def taiwan_stock_trading_daily_report_secid_agg(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 當日卷商分點統計表
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 開始日期("2018-01-01")
+        :param end_date (str): 結束日期("2021-03-06")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 當日卷商分點統計表 TaiwanStockTradingDailyReportSecIdAgg
+        :rtype pd.DataFrame
+        :rtype column securities_trader (str)
+        :rtype column securities_trader_id (str)
+        :rtype column stock_id (str)
+        :rtype column date (int)
+        :rtype column buy_volume (int)
+        :rtype column sell_volume (int)
+        :rtype column buy_price (float)
+        :rtype column sell_price (float)
+        """
+        stock_trading_daily_report_secid_agg = self.get_data(
+            dataset=Dataset.TaiwanStockTradingDailyReportSecIdAgg,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return stock_trading_daily_report_secid_agg
 
 class Feature:
     def __init__(self, data_loader: DataLoader):
