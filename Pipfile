@@ -23,6 +23,7 @@ typing-extensions = ">=4.0.0, <5.0.0"
 pytest = "==6.2.5"
 pytest-mock = "==3.6.1"
 pytest-cov = "==3.0.0"
+black = "==24.8.0"
 
 [requires]
 python_version = "3.8"

@@ -25,6 +25,10 @@ jobs:
           python -m pip install --upgrade pip
           pip3 install pipenv
           pipenv --python /usr/bin/python3
+      - name: Install package
+        run: |
+          pipenv sync
+          pipenv sync -d
       - name: Test with pytest
         env:
           FINMIND_USER: ${{ secrets.FINMIND_USER }}
@@ -32,6 +36,19 @@ jobs:
           FINMIND_API_TOKEN: ${{ secrets.FINMIND_TOKEN }}
         run: |
           python genenv.py
-          pipenv sync
-          pipenv sync -d
           pipenv run pytest --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
+  lint:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install Black
+        run: |
+          python -m pip install --upgrade pip
+          pip3 install black==24.8.0
+      - name: Check code formatting with Black
+        run: |
+          black -l 80 --check FinMind tests

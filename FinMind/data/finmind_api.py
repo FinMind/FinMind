@@ -109,9 +109,10 @@ class FinMindApi:
                 params["start_date"] = params.pop("date")
         return params
 
-    def _compatible_endpoints_param(self, params:str) -> dict:
+    def _compatible_endpoints_param(self, params: str) -> dict:
         if params["dataset"] in (
-            "TaiwanStockTradingDailyReportSecIdAgg", "TaiwanStockTradingDailyReport"
+            "TaiwanStockTradingDailyReportSecIdAgg",
+            "TaiwanStockTradingDailyReport",
         ):
             if "start_date" in params:
                 params["date"] = params.pop("start_date")
@@ -120,8 +121,8 @@ class FinMindApi:
     def _dispatcher_url(self, dataset: str) -> str:
         base_url = f"{self.__api_url}/{self.__api_version}"
         url_mapping = {
-            "TaiwanStockTradingDailyReportSecIdAgg":f"{base_url}/taiwan_stock_trading_daily_report_secid_agg",
-            "TaiwanStockTradingDailyReport":f"{base_url}/taiwan_stock_trading_daily_report",
+            "TaiwanStockTradingDailyReportSecIdAgg": f"{base_url}/taiwan_stock_trading_daily_report_secid_agg",
+            "TaiwanStockTradingDailyReport": f"{base_url}/taiwan_stock_trading_daily_report",
         }
         return url_mapping.get(dataset, f"{base_url}/data")
 

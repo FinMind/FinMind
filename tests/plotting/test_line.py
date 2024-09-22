@@ -42,5 +42,5 @@ def test_line_failed():
         .apply(lambda date: f"{date[0]}-{date[1]}M", axis=1)
     )
     df["labels"] = df["revenue"].map(lambda value: round(value * 1e-8, 2))
-    with (pytest.raises(Exception)):
+    with pytest.raises(Exception):
         plotting.line(labels=df["labels"], series=df["series"])

@@ -88,10 +88,14 @@ class Dataset(str, Enum):
     TaiwanStockMarginShortSaleSuspension = (
         "TaiwanStockMarginShortSaleSuspension"
     )
-    TaiwanTotalExchangeMarginMaintenance = "TaiwanTotalExchangeMarginMaintenance"
+    TaiwanTotalExchangeMarginMaintenance = (
+        "TaiwanTotalExchangeMarginMaintenance"
+    )
     TaiwanStockWeekPrice = "TaiwanStockWeekPrice"
     TaiwanStockMonthPrice = "TaiwanStockMonthPrice"
-    TaiwanStockTradingDailyReportSecIdAgg = "TaiwanStockTradingDailyReportSecIdAgg"
+    TaiwanStockTradingDailyReportSecIdAgg = (
+        "TaiwanStockTradingDailyReportSecIdAgg"
+    )
     TaiwanStockTradingDailyReport = "TaiwanStockTradingDailyReport"
 
 
