@@ -109,10 +109,27 @@ class FinMindApi:
                 params["start_date"] = params.pop("date")
         return params
 
+    def _compatible_endpoints_param(self, params:str) -> dict:
+        if params["dataset"] in (
+            "TaiwanStockTradingDailyReportSecIdAgg", "TaiwanStockTradingDailyReport"
+        ):
+            if "start_date" in params:
+                params["date"] = params.pop("start_date")
+        return params
+
+    def _dispatcher_url(self, dataset: str) -> str:
+        base_url = f"{self.__api_url}/{self.__api_version}"
+        url_mapping = {
+            "TaiwanStockTradingDailyReportSecIdAgg":f"{base_url}/taiwan_stock_trading_daily_report_secid_agg",
+            "TaiwanStockTradingDailyReport":f"{base_url}/taiwan_stock_trading_daily_report",
+        }
+        return url_mapping.get(dataset, f"{base_url}/data")
+
     def get_data(
         self,
         dataset: Dataset,
         data_id: str = "",
+        securities_trader_id: str = "",
         stock_id: str = "",
         start_date: str = "",
         end_date: str = "",
@@ -126,6 +143,7 @@ class FinMindApi:
         params = dict(
             dataset=dataset,
             data_id=data_id,
+            securities_trader_id=securities_trader_id,
             stock_id=stock_id,
             start_date=start_date,
             end_date=end_date,
@@ -135,7 +153,8 @@ class FinMindApi:
             device=self.__device,
         )
         params = self._compatible_api_version(params)
-        url = f"{self.__api_url}/{self.__api_version}/data"
+        params = self._compatible_endpoints_param(params)
+        url = self._dispatcher_url(dataset)
         logger.debug(params)
         response = request_get(url, params, timeout).json()
         return pd.DataFrame(response["data"])
