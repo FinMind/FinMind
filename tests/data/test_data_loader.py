@@ -617,6 +617,7 @@ def test_taiwan_stock_10year(data_loader):
         ],
     )
 
+
 def test_taiwan_stock_weekly(data_loader):
     data = data_loader.taiwan_stock_weekly(
         stock_id="2330", start_date="2000-01-01", end_date="2023-06-01"

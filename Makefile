@@ -31,5 +31,8 @@ linux-wheel:
 format:
 	black -l 80 FinMind tests
 
+format-check:
+	black -l 80 --check FinMind tests
+
 jupyterlab:
 	jupyter lab

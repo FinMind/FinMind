@@ -78,10 +78,10 @@ class DataSubscriber:
             return
 
         url = f"{self._ws_main_url}{contract_type.value}?data_id={contract_id}"
-        self._subscripting_contract[
-            contract_id + contract_type.value
-        ] = asyncio.run_coroutine_threadsafe(
-            self._connect_ws(url, cb), self._loop
+        self._subscripting_contract[contract_id + contract_type.value] = (
+            asyncio.run_coroutine_threadsafe(
+                self._connect_ws(url, cb), self._loop
+            )
         )
         logger.info(
             f"contract:{contract_id} {contract_type.name} subscribe success"

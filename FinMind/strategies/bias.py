@@ -30,9 +30,9 @@ class Bias(Strategy):
             stock_price=stock_price, ma_days=self.ma_days
         )
         stock_price["signal"] = stock_price["BIAS"].map(
-            lambda x: 1
-            if x < self.bias_lower
-            else (-1 if x > self.bias_upper else 0)
+            lambda x: (
+                1 if x < self.bias_lower else (-1 if x > self.bias_upper else 0)
+            )
         )
 
         stock_price["signal"] = stock_price["signal"].fillna(0)

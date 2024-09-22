@@ -573,9 +573,9 @@ class DataLoader(FinMindApi):
             dataset=Dataset.TaiwanStockCashFlowsStatement,
             data_id=stock_id,
             start_date=str(pd.Period(start_date).asfreq("D", "end")),
-            end_date=str(pd.Period(end_date).asfreq("D", "end"))
-            if end_date
-            else "",
+            end_date=(
+                str(pd.Period(end_date).asfreq("D", "end")) if end_date else ""
+            ),
             timeout=timeout,
         )
         return stock_cash_flows_statement
@@ -605,9 +605,9 @@ class DataLoader(FinMindApi):
             dataset=Dataset.TaiwanStockFinancialStatements,
             data_id=stock_id,
             start_date=str(pd.Period(start_date).asfreq("D", "end")),
-            end_date=str(pd.Period(end_date).asfreq("D", "end"))
-            if end_date
-            else "",
+            end_date=(
+                str(pd.Period(end_date).asfreq("D", "end")) if end_date else ""
+            ),
             timeout=timeout,
         )
         return stock_financial_statement
@@ -637,9 +637,9 @@ class DataLoader(FinMindApi):
             dataset=Dataset.TaiwanStockBalanceSheet,
             data_id=stock_id,
             start_date=str(pd.Period(start_date).asfreq("D", "end")),
-            end_date=str(pd.Period(end_date).asfreq("D", "end"))
-            if end_date
-            else "",
+            end_date=(
+                str(pd.Period(end_date).asfreq("D", "end")) if end_date else ""
+            ),
             timeout=timeout,
         )
         return stock_balance_sheet
@@ -759,13 +759,15 @@ class DataLoader(FinMindApi):
                     pd.Period(start_date).asfreq("M") + pd.offsets.MonthEnd(1)
                 ).asfreq("D", "start")
             ),
-            end_date=str(
-                (
-                    pd.Period(end_date).asfreq("M") + pd.offsets.MonthEnd(1)
-                ).asfreq("D", "start")
-            )
-            if end_date
-            else "",
+            end_date=(
+                str(
+                    (
+                        pd.Period(end_date).asfreq("M") + pd.offsets.MonthEnd(1)
+                    ).asfreq("D", "start")
+                )
+                if end_date
+                else ""
+            ),
             timeout=timeout,
         )
         return stock_month_revenue
@@ -1181,9 +1183,9 @@ class DataLoader(FinMindApi):
             dataset=Dataset.TaiwanStockCapitalReductionReferencePrice,
             data_id=stock_id,
             start_date=str(pd.Period(start_date).asfreq("D", "end")),
-            end_date=str(pd.Period(end_date).asfreq("D", "end"))
-            if end_date
-            else "",
+            end_date=(
+                str(pd.Period(end_date).asfreq("D", "end")) if end_date else ""
+            ),
             timeout=timeout,
         )
         return taiwan_stock_capital_reduction_reference_price
@@ -1795,6 +1797,7 @@ class DataLoader(FinMindApi):
             timeout=timeout,
         )
         return stock_trading_daily_report_secid_agg
+
 
 class Feature:
     def __init__(self, data_loader: DataLoader):
