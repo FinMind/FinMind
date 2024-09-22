@@ -56,6 +56,19 @@ class FinMindApi:
         self.__valid_versions = ["v3", "v4"]
 
     @property
+    def api_usage(
+        self,
+        timeout: int = 5,
+    ) -> int:
+        params = dict(
+            token=self.__api_token,
+        )
+        url = "https://api.web.finmindtrade.com/v2/user_info"
+        logger.debug(params)
+        response = request_get(url, params, timeout).json()
+        return response.get("user_count", 0)
+
+    @property
     def api_version(self):
         return self.__api_version
 
