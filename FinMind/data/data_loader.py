@@ -1768,13 +1768,15 @@ class DataLoader(FinMindApi):
         self,
         stock_id: str = "",
         securities_trader_id: str = "",
-        date: str = "",
+        start_date: str = "",
+        end_date: str = "",
         timeout: int = None,
     ) -> pd.DataFrame:
         """get 當日卷商分點統計表
         :param stock_id (str): 股票代號("2330")
         :param securities_trader_id (str): 卷商代號("1020")
-        :param date (str): 日期("2018-01-01")
+        :param start_date (str): 日期("2018-01-01")
+        :param end_date (str): 日期("2018-01-02")
         :param timeout (int): timeout seconds, default None
 
         :return: 當日卷商分點統計表 TaiwanStockTradingDailyReportSecIdAgg
