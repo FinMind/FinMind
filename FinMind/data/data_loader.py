@@ -1794,8 +1794,8 @@ class DataLoader(FinMindApi):
             dataset=Dataset.TaiwanStockTradingDailyReportSecIdAgg,
             data_id=stock_id,
             securities_trader_id=securities_trader_id,
-            start_date=date,
-            end_date=date,
+            start_date=start_date,
+            end_date=end_date,
             timeout=timeout,
         )
         return stock_trading_daily_report_secid_agg
