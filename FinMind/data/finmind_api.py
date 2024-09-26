@@ -110,10 +110,7 @@ class FinMindApi:
         return params
 
     def _compatible_endpoints_param(self, params: str) -> dict:
-        if params["dataset"] in (
-            "TaiwanStockTradingDailyReportSecIdAgg",
-            "TaiwanStockTradingDailyReport",
-        ):
+        if params["dataset"] in ("TaiwanStockTradingDailyReport"):
             if "start_date" in params:
                 params["date"] = params.pop("start_date")
         return params

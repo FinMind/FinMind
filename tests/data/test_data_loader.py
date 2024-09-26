@@ -865,7 +865,8 @@ def test_taiwan_stock_trading_daily_report_secid_agg(data_loader):
     df = data_loader.taiwan_stock_trading_daily_report_secid_agg(
         stock_id="2330",
         securities_trader_id="1020",
-        date="2024-07-30",
+        start_date="2024-07-30",
+        end_date="2024-07-31",
     )
     assert_data(
         df,
