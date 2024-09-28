@@ -15,3 +15,7 @@ def api():
 
 def test_api_usage(api):
     assert isinstance(api.api_usage, int)
+
+
+def test_api_usage_limit(api):
+    assert isinstance(api.api_usage_limit, int)
