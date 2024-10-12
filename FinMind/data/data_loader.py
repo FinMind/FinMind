@@ -902,7 +902,6 @@ class DataLoader(FinMindApi):
         )
         return option_daily
 
-
     def taiwan_futures_open_interest_large_traders(
         self,
         futures_id: str = "",
@@ -949,7 +948,6 @@ class DataLoader(FinMindApi):
         )
         return futures_open_interest_large_traders
 
-
     def taiwan_option_open_interest_large_traders(
         self,
         option_id: str = "",
@@ -995,7 +993,6 @@ class DataLoader(FinMindApi):
             timeout=timeout,
         )
         return option_open_interest_large_traders
-
 
     def taiwan_futures_tick(
         self, futures_id: str, date: str, timeout: int = None

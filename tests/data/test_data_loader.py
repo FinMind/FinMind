@@ -902,6 +902,7 @@ def test_taiwan_stock_trading_daily_report(data_loader):
         ],
     )
 
+
 def test_taiwan_futures_open_interest_large_traders(data_loader):
     df = data_loader.taiwan_futures_open_interest_large_traders(
         futures_id="TJF",
