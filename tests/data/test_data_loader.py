@@ -901,3 +901,72 @@ def test_taiwan_stock_trading_daily_report(data_loader):
             "date",
         ],
     )
+
+
+def test_taiwan_futures_open_interest_large_traders(data_loader):
+    df = data_loader.taiwan_futures_open_interest_large_traders(
+        futures_id="TJF",
+        start_date="2024-09-01",
+        end_date="2024-09-02",
+    )
+    assert_data(
+        df,
+        [
+            "name",
+            "contract_type",
+            "buy_top5_trader_open_interest",
+            "buy_top5_trader_open_interest_per",
+            "buy_top10_trader_open_interest",
+            "buy_top10_trader_open_interest_per",
+            "sell_top5_trader_open_interest",
+            "sell_top5_trader_open_interest_per",
+            "sell_top10_trader_open_interest",
+            "sell_top10_trader_open_interest_per",
+            "market_open_interest",
+            "buy_top5_specific_open_interest",
+            "buy_top5_specific_open_interest_per",
+            "buy_top10_specific_open_interest",
+            "buy_top10_specific_open_interest_per",
+            "sell_top5_specific_open_interest",
+            "sell_top5_specific_open_interest_per",
+            "sell_top10_specific_open_interest",
+            "sell_top10_specific_open_interest_per",
+            "date",
+            "futures_id",
+        ],
+    )
+
+
+def test_taiwan_option_open_interest_large_traders(data_loader):
+    df = data_loader.taiwan_option_open_interest_large_traders(
+        option_id="CA",
+        start_date="2024-09-01",
+        end_date="2024-09-02",
+    )
+    assert_data(
+        df,
+        [
+            "contract_type",
+            "buy_top5_trader_open_interest",
+            "buy_top5_trader_open_interest_per",
+            "buy_top10_trader_open_interest",
+            "buy_top10_trader_open_interest_per",
+            "sell_top5_trader_open_interest",
+            "sell_top5_trader_open_interest_per",
+            "sell_top10_trader_open_interest",
+            "sell_top10_trader_open_interest_per",
+            "market_open_interest",
+            "buy_top5_specific_open_interest",
+            "buy_top5_specific_open_interest_per",
+            "buy_top10_specific_open_interest",
+            "buy_top10_specific_open_interest_per",
+            "sell_top5_specific_open_interest",
+            "sell_top5_specific_open_interest_per",
+            "sell_top10_specific_open_interest",
+            "sell_top10_specific_open_interest_per",
+            "date",
+            "put_call",
+            "name",
+            "option_id",
+        ],
+    )

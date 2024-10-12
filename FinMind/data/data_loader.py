@@ -902,6 +902,98 @@ class DataLoader(FinMindApi):
         )
         return option_daily
 
+    def taiwan_futures_open_interest_large_traders(
+        self,
+        futures_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 期貨大額交易人未沖銷部位
+        :param futures_id: 期貨代號("TJF")
+        :param start_date (str): 起始日期("2018-01-01")
+        :param end_date (str): 結束日期("2021-03-06")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 期貨大額交易人未沖銷部位 TaiwanFuturesOpenInterestLargeTraders
+        :rtype pd.DataFrame
+        :rtype column name (str)
+        :rtype column contract_type (str)
+        :rtype column buy_top5_trader_open_interest (float)
+        :rtype column buy_top5_trader_open_interest_per (float)
+        :rtype column buy_top10_trader_open_interest (float)
+        :rtype column buy_top10_trader_open_interest_per (float)
+        :rtype column sell_top5_trader_open_interest (float)
+        :rtype column sell_top5_trader_open_interest_per (float)
+        :rtype column sell_top10_trader_open_interest (float)
+        :rtype column sell_top10_trader_open_interest_per (float)
+        :rtype column market_open_interest (int)
+        :rtype column buy_top5_specific_open_interest (float)
+        :rtype column buy_top5_specific_open_interest_per (float)
+        :rtype column buy_top10_specific_open_interest (float)
+        :rtype column buy_top10_specific_open_interest_per (float)
+        :rtype column sell_top5_specific_open_interest (float)
+        :rtype column sell_top5_specific_open_interest_per (float)
+        :rtype column sell_top10_specific_open_interest (float)
+        :rtype column sell_top10_specific_open_interest_per (float)
+        :rtype column date (str)
+        :rtype column futures_id (str)
+        """
+        futures_open_interest_large_traders = self.get_data(
+            dataset=Dataset.TaiwanFuturesOpenInterestLargeTraders,
+            data_id=futures_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return futures_open_interest_large_traders
+
+    def taiwan_option_open_interest_large_traders(
+        self,
+        option_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 選擇權大額交易人未沖銷部位
+        :param option_id: 期貨代號("CA")
+        :param start_date (str): 起始日期("2018-01-01")
+        :param end_date (str): 結束日期("2021-03-06")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 選擇權大額交易人未沖銷部位 TaiwanOptionOpenInterestLargeTraders
+        :rtype column contract_type (str)
+        :rtype column buy_top5_trader_open_interest (float)
+        :rtype column buy_top5_trader_open_interest_per (float)
+        :rtype column buy_top10_trader_open_interest (float)
+        :rtype column buy_top10_trader_open_interest_per (float)
+        :rtype column sell_top5_trader_open_interest (float)
+        :rtype column sell_top5_trader_open_interest_per (float)
+        :rtype column sell_top10_trader_open_interest (float)
+        :rtype column sell_top10_trader_open_interest_per (float)
+        :rtype column market_open_interest (int)
+        :rtype column buy_top5_specific_open_interest (float)
+        :rtype column buy_top5_specific_open_interest_per (float)
+        :rtype column buy_top10_specific_open_interest (float)
+        :rtype column buy_top10_specific_open_interest_per (float)
+        :rtype column sell_top5_specific_open_interest (float)
+        :rtype column sell_top5_specific_open_interest_per (float)
+        :rtype column sell_top10_specific_open_interest (float)
+        :rtype column sell_top10_specific_open_interest_per (float)
+        :rtype column date (str)
+        :rtype column put_call (str)
+        :rtype column name (str)
+        :rtype column option_id (str)
+        """
+        option_open_interest_large_traders = self.get_data(
+            dataset=Dataset.TaiwanOptionOpenInterestLargeTraders,
+            data_id=option_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return option_open_interest_large_traders
+
     def taiwan_futures_tick(
         self, futures_id: str, date: str, timeout: int = None
     ) -> pd.DataFrame:
