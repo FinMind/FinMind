@@ -54,6 +54,12 @@ class Dataset(str, Enum):
     TaiwanVariousIndicators5Seconds = "TaiwanVariousIndicators5Seconds"
     TaiwanFuturesInstitutionalInvestors = "TaiwanFuturesInstitutionalInvestors"
     TaiwanOptionInstitutionalInvestors = "TaiwanOptionInstitutionalInvestors"
+    TaiwanFuturesInstitutionalInvestorsAfterHours = (
+        "TaiwanFuturesInstitutionalInvestorsAfterHours"
+    )
+    TaiwanOptionInstitutionalInvestorsAfterHours = (
+        "TaiwanOptionInstitutionalInvestorsAfterHours"
+    )
     TaiwanFuturesDealerTradingVolumeDaily = (
         "TaiwanFuturesDealerTradingVolumeDaily"
     )
