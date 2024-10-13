@@ -570,6 +570,43 @@ def test_taiwan_futures_institutional_investors(data_loader):
     )
 
 
+def test_taiwan_option_institutional_investors_after_hours(data_loader):
+    data = data_loader.taiwan_option_institutional_investors_after_hours(
+        data_id="TXO", start_date="2021-10-12", end_date="2021-11-12"
+    )
+    assert_data(
+        data,
+        [
+            "option_id",
+            "date",
+            "call_put",
+            "institutional_investors",
+            "long_deal_volume",
+            "long_deal_amount",
+            "short_deal_volume",
+            "short_deal_amount",
+        ],
+    )
+
+
+def test_taiwan_futures_institutional_investors_after_hours(data_loader):
+    data = data_loader.taiwan_futures_institutional_investors_after_hours(
+        data_id="TX", start_date="2021-10-12", end_date="2021-11-12"
+    )
+    assert_data(
+        data,
+        [
+            "futures_id",
+            "date",
+            "institutional_investors",
+            "long_deal_volume",
+            "long_deal_amount",
+            "short_deal_volume",
+            "short_deal_amount",
+        ],
+    )
+
+
 def test_taiwan_stock_capital_reduction_reference_price(data_loader):
     data = data_loader.taiwan_stock_capital_reduction_reference_price(
         stock_id="2327", start_date="2000-01-01", end_date="2021-04-01"

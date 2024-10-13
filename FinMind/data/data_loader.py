@@ -1116,6 +1116,70 @@ class DataLoader(FinMindApi):
         )
         return option_institutional_investors
 
+    def taiwan_futures_institutional_investors_after_hours(
+        self,
+        data_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 期貨夜盤三大法人買賣
+        :param data_id: 期貨代號("TX")
+        :param start_date (str): 起始日期("2021-10-12")
+        :param end_date (str): 結束日期("2023-11-12")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 期貨夜盤三大法人買賣 TaiwanFuturesInstitutionalInvestorsAfterHours
+        :rtype pd.DataFrame
+        :rtype column name (str)
+        :rtype column date (str)
+        :rtype column institutional_investors (str)
+        :rtype column long_deal_volume (int)
+        :rtype column long_deal_amount (int)
+        :rtype column short_deal_volume (int)
+        :rtype column short_deal_amount (int)
+        """
+        futures_institutional_investors_after_hours = self.get_data(
+            dataset=Dataset.TaiwanFuturesInstitutionalInvestorsAfterHours,
+            data_id=data_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return futures_institutional_investors_after_hours
+
+    def taiwan_option_institutional_investors_after_hours(
+        self,
+        data_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 選擇權夜盤三大法人買賣
+        :param data_id: 選擇權代號("TXO")
+        :param start_date (str): 起始日期("2021-10-12")
+        :param end_date (str): 結束日期("2023-11-12")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 選擇權夜盤三大法人買賣 TaiwanOptionInstitutionalInvestorsAfterHours
+        :rtype pd.DataFrame
+        :rtype column name (str)
+        :rtype column date (str)
+        :rtype column institutional_investors (str)
+        :rtype column long_deal_volume (int)
+        :rtype column long_deal_amount (int)
+        :rtype column short_deal_volume (int)
+        :rtype column short_deal_amount (int)
+        """
+        option_institutional_investors_after_hours = self.get_data(
+            dataset=Dataset.TaiwanOptionInstitutionalInvestorsAfterHours,
+            data_id=data_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return option_institutional_investors_after_hours
+
     def taiwan_futures_dealer_trading_volume_daily(
         self,
         futures_id: str = "",
