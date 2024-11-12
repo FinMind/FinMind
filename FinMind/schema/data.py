@@ -109,6 +109,9 @@ class Dataset(str, Enum):
     TaiwanFuturesOpenInterestLargeTraders = (
         "TaiwanFuturesOpenInterestLargeTraders"
     )
+    TaiwanStockMarketValueWeight = (
+        "TaiwanStockMarketValueWeight"
+    )
 
 
 class Version(str, Enum):

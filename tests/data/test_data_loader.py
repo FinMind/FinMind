@@ -525,6 +525,23 @@ def test_taiwan_stock_total_return_index(data_loader):
     )
 
 
+def test_taiwan_stock_market_value_weight(data_loader):
+    data = data_loader.taiwan_stock_market_value_weight(
+        stock_id="2330", start_date="2024-01-01", end_date="2025-01-01"
+    )
+    assert_data(
+        data,
+        [
+            "rank",
+            "stock_id",
+            "stock_name",
+            "weight_per",
+            "date",
+            "type",
+        ],
+    )
+
+
 def test_taiwan_option_institutional_investors(data_loader):
     data = data_loader.taiwan_option_institutional_investors(
         data_id="TXO", start_date="2019-04-03", end_date="2019-04-04"

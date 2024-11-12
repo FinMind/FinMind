@@ -772,6 +772,37 @@ class DataLoader(FinMindApi):
         )
         return stock_month_revenue
 
+    def taiwan_stock_market_value_weight(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 市值比重表
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 起始日期: "2018-02-01"
+        :param end_date (str): 結束日期 "2021-03-01"
+        :param timeout (int): timeout seconds, default None
+
+        :return: 市值比重表 TaiwanStockMarketValueWeight
+        :rtype pd.DataFrame
+        :rtype column rank (int)
+        :rtype column stock_id (str)
+        :rtype column stock_name (str)
+        :rtype column weight_per (float)
+        :rtype column date (str)
+        :rtype column type (str)
+        """
+        stock_market_value_weight = self.get_data(
+            dataset=Dataset.TaiwanStockMarketValueWeight,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return stock_market_value_weight
+
     def taiwan_futopt_tick_info(self, timeout: int = None) -> pd.DataFrame:
         """get 期貨, 選擇權即時報價總覽
         :param timeout (int): timeout seconds, default None
