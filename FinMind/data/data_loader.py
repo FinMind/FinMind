@@ -1987,6 +1987,31 @@ class DataLoader(FinMindApi):
         )
         return stock_trading_daily_report_secid_agg
 
+    def cnn_fear_greed_index(
+        self,
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 恐懼與貪婪指數
+        :param start_date (str): 日期("2018-01-01")
+        :param end_date (str): 日期("2018-01-02")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 恐懼與貪婪指數 CnnFearGreedIndex
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column fear_greed (str)
+        :rtype column fear_greed_emotion (str)
+        """
+        Fear_Greed_Index = self.get_data(
+            dataset=Dataset.CnnFearGreedIndex,
+            timeout=timeout,
+            start_date=start_date,
+            end_date=end_date,
+        )
+        return Fear_Greed_Index
+
 
 class Feature:
     def __init__(self, data_loader: DataLoader):

@@ -1024,3 +1024,18 @@ def test_taiwan_option_open_interest_large_traders(data_loader):
             "option_id",
         ],
     )
+
+def test_cnn_fear_greed_index(data_loader):
+    df = data_loader.cnn_fear_greed_index(
+        start_date="2020-04-01",
+        end_date="2020-04-10",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "fear_greed",
+            "fear_greed_emotion",
+            "reason",
+        ],
+    )
