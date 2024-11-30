@@ -779,7 +779,7 @@ class DataLoader(FinMindApi):
         end_date: str = "",
         timeout: int = None,
     ) -> pd.DataFrame:
-        """get 市值比重表
+        """get 台股市值比重表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 起始日期: "2018-02-01"
         :param end_date (str): 結束日期 "2021-03-01"
