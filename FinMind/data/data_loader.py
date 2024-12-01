@@ -1987,6 +1987,37 @@ class DataLoader(FinMindApi):
         )
         return stock_trading_daily_report_secid_agg
 
+    def taiwan_business_indicator(
+        self,
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台灣每月景氣對策信號表
+        :param start_date (str): 日期("2018-01-01")
+        :param end_date (str): 日期("2018-01-02")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台灣每月景氣對策信號表 TaiwanBusinessIndicator
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column leading (float)
+        :rtype column leading_notrend (float)
+        :rtype column coincident (float)
+        :rtype column coincident_notrend (float)
+        :rtype column lagging (float)
+        :rtype column lagging_notrend (float)
+        :rtype column monitoring (float)
+        :rtype column monitoring_color (str)
+        """
+        taiwan_business_indicator = self.get_data(
+            dataset=Dataset.TaiwanBusinessIndicator,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return taiwan_business_indicator
+
     def cnn_fear_greed_index(
         self,
         start_date: str = "",
