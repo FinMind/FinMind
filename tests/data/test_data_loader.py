@@ -1058,6 +1058,5 @@ def test_cnn_fear_greed_index(data_loader):
             "date",
             "fear_greed",
             "fear_greed_emotion",
-            "reason",
         ],
     )

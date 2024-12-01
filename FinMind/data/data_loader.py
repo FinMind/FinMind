@@ -2035,13 +2035,13 @@ class DataLoader(FinMindApi):
         :rtype column fear_greed (str)
         :rtype column fear_greed_emotion (str)
         """
-        Fear_Greed_Index = self.get_data(
+        cnn_fear_greed_index = self.get_data(
             dataset=Dataset.CnnFearGreedIndex,
             timeout=timeout,
             start_date=start_date,
             end_date=end_date,
         )
-        return Fear_Greed_Index
+        return cnn_fear_greed_index
 
 
 class Feature:
