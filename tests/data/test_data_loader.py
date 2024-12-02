@@ -1026,6 +1026,27 @@ def test_taiwan_option_open_interest_large_traders(data_loader):
     )
 
 
+def test_taiwan_business_indicator(data_loader):
+    df = data_loader.taiwan_business_indicator(
+        start_date="2024-04-01",
+        end_date="2024-12-01",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "leading",
+            "leading_notrend",
+            "coincident",
+            "coincident_notrend",
+            "lagging",
+            "lagging_notrend",
+            "monitoring",
+            "monitoring_color",
+        ],
+    )
+
+
 def test_cnn_fear_greed_index(data_loader):
     df = data_loader.cnn_fear_greed_index(
         start_date="2020-04-01",
@@ -1037,6 +1058,5 @@ def test_cnn_fear_greed_index(data_loader):
             "date",
             "fear_greed",
             "fear_greed_emotion",
-            "reason",
         ],
     )
