@@ -23,7 +23,7 @@ def request_get(
             )
             break
         except requests.Timeout as exc:
-            raise Exception("Timeout")
+            raise Exception(f"Timeout {timeout} seconds")
         except (
             requests.ConnectionError,
             ssl.SSLError,
@@ -36,11 +36,15 @@ def request_get(
             time.sleep(retry_times * 0.1)
         except Exception as exc:
             raise Exception(exc)
-    if response.json()["msg"] == "success" and response.status_code == 200:
-        pass
-    else:
-        logger.error(params)
-        raise Exception(response.text)
+    try:
+        if response.json()["msg"] == "success" and response.status_code == 200:
+            pass
+        else:
+            logger.error(params)
+            raise Exception(response.text)
+    except Exception as exc:
+        logger.info(response.text)
+        raise Exception(exc)
     return response
 
 
