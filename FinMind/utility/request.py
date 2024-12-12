@@ -21,7 +21,13 @@ def request_get(
             response = requests.get(
                 url, verify=True, params=params, timeout=timeout
             )
-            break
+            if response.status_code == 504:
+                logger.warning(
+                    f"status_code = 504, retry {retry_times} and sleep {retry_times * 0.1} seonds"
+                )
+                time.sleep(retry_times * 0.1)
+            else:
+                break
         except requests.Timeout as exc:
             raise Exception(f"Timeout {timeout} seconds")
         except (
@@ -36,15 +42,12 @@ def request_get(
             time.sleep(retry_times * 0.1)
         except Exception as exc:
             raise Exception(exc)
-    try:
-        if response.json()["msg"] == "success" and response.status_code == 200:
-            pass
-        else:
-            logger.error(params)
-            raise Exception(response.text)
-    except Exception as exc:
-        logger.info(response.text)
-        raise Exception(exc)
+
+    if response.status_code == 200:
+        pass
+    else:
+        logger.error(params)
+        raise Exception(response.text)
     return response
 
 
