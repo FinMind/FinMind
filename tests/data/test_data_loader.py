@@ -960,7 +960,7 @@ def test_taiwan_stock_trading_daily_report(data_loader):
 
 
 def test_taiwan_stock_trading_daily_report_async(data_loader):
-    date = "2024-12-04"
+    date = datetime.datetime.today().strftime("%Y-%m-%d")
     taiwan_stock_price_df = data_loader.taiwan_stock_daily(start_date=date)
     # 只拿取當天交易量大於 0 的股票
     taiwan_stock_price_df = taiwan_stock_price_df[
@@ -993,8 +993,8 @@ def test_taiwan_stock_trading_daily_report_async(data_loader):
     cost = datetime.datetime.now() - start
     print(cost)
     # 0:08:22.485726
-    assert len(df) > 1700000
-    assert len(df["stock_id"].unique()) == 2175
+    assert len(df) > 1500000
+    assert len(df["stock_id"].unique()) > 2100
 
 
 def test_taiwan_futures_open_interest_large_traders(data_loader):

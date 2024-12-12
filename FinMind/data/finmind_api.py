@@ -127,7 +127,7 @@ class FinMindApi:
         stock_id: str = "",
         start_date: str = "",
         data_id_list: typing.List[str] = None,
-        securities_trader_id_list: typing.List[str] = None,
+        # securities_trader_id_list: typing.List[str] = None,
         end_date: str = "",
         timeout: int = None,
         use_async: bool = False,
@@ -140,7 +140,7 @@ class FinMindApi:
             return self._get_data_with_async(
                 dataset=dataset,
                 data_id_list=data_id_list,
-                securities_trader_id_list=securities_trader_id_list,
+                # securities_trader_id_list=securities_trader_id_list,
                 start_date=start_date,
                 end_date=end_date,
             )
@@ -169,7 +169,7 @@ class FinMindApi:
         self,
         dataset: Dataset,
         data_id_list: typing.List[str] = None,
-        securities_trader_id_list: typing.List[str] = None,
+        # securities_trader_id_list: typing.List[str] = None,
         start_date: str = "",
         end_date: str = "",
         timeout: int = None,
@@ -178,10 +178,6 @@ class FinMindApi:
         :param params: finmind api參數
         :return:
         """
-        data_id_list = data_id_list or [None for i in securities_trader_id_list]
-        securities_trader_id_list = securities_trader_id_list or [
-            None for i in data_id_list
-        ]
         logger.info(f"download {dataset}, data_id: {data_id_list}")
         params_list = [
             self._compatible_endpoints_param(
@@ -189,7 +185,6 @@ class FinMindApi:
                     params=dict(
                         dataset=dataset,
                         data_id=data_id,
-                        securities_trader_id=securities_trader_id,
                         start_date=start_date,
                         end_date=end_date,
                         user_id=self.__user_id,
@@ -199,9 +194,7 @@ class FinMindApi:
                     )
                 )
             )
-            for data_id, securities_trader_id in zip(
-                data_id_list, securities_trader_id_list
-            )
+            for data_id in data_id_list
         ]
         url = self._dispatcher_url(dataset)
         resp_list = async_request_get(url, params_list, timeout)
