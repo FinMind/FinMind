@@ -210,7 +210,7 @@ class DataLoader(FinMindApi):
         )
         return stock_book_and_trade
 
-    def tse(self, date: str, timeout: int = None) -> pd.DataFrame:
+    def tse(self, start_date: str, timeout: int = None) -> pd.DataFrame:
         """get 加權指數
         :param start_date (str): 日期("2018-01-01")
         :param timeout (int): timeout seconds, default None
@@ -222,7 +222,7 @@ class DataLoader(FinMindApi):
         """
         tse = self.get_data(
             dataset=Dataset.TaiwanVariousIndicators5Seconds,
-            start_date=date,
+            start_date=start_date,
             timeout=timeout,
         )
         return tse

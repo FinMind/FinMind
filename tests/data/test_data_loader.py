@@ -235,6 +235,16 @@ def test_taiwan_stock_book_and_trade(data_loader):
         ],
     )
 
+def test_tse(data_loader):
+    data = data_loader.tse("2021-04-01")
+    assert_data(
+        data,
+        [
+            "date",
+            "TAIEX",
+        ],
+    )
+
 
 def test_taiwan_stock_day_trading(data_loader):
     data = data_loader.taiwan_stock_day_trading(
