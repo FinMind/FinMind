@@ -1493,13 +1493,14 @@ class DataLoader(FinMindApi):
         )
         return tw_stock_monthly
 
+    # deprecated
     def taiwan_stock_bar(
         self,
         stock_id: str = "",
         date: str = "",
         timeout: int = None,
     ) -> pd.DataFrame:
-        """get 台股分 K 資料表
+        """get 台股分 K 資料表 (deprecated)
         :param timeout (int): timeout seconds, default None
 
         :return: 台股分 K 資料表 TaiwanStockKBar
@@ -1518,6 +1519,38 @@ class DataLoader(FinMindApi):
             data_id=stock_id,
             start_date=date,
             timeout=timeout,
+        )
+        return taiwan_stock_bar
+
+    def taiwan_stock_kbar(
+        self,
+        stock_id: str = "",
+        stock_id_list: typing.List[str] = None,
+        date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+    ) -> pd.DataFrame:
+        """get 台股分 K 資料表
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股分 K 資料表 TaiwanStockKBar
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column minute (str)
+        :rtype column stock_id (str)
+        :rtype column open (float)
+        :rtype column high (float)
+        :rtype column low (float)
+        :rtype column close (float)
+        :rtype column volume (int)
+        """
+        taiwan_stock_bar = self.get_data(
+            dataset=Dataset.TaiwanStockKBar,
+            data_id=stock_id,
+            data_id_list=stock_id_list,
+            start_date=date,
+            timeout=timeout,
+            use_async=use_async,
         )
         return taiwan_stock_bar
 
