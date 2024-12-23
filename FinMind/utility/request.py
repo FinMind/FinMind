@@ -1,5 +1,3 @@
-import asyncio
-import concurrent.futures
 import ssl
 import time
 from typing import Dict, List, Union
@@ -8,6 +6,12 @@ import requests
 import urllib3
 from loguru import logger
 from tqdm import tqdm
+
+try:
+    import asyncio
+    import concurrent.futures
+except Exception as error_msg:
+    logger.warning(f"asyncio import error: {error_msg}")
 
 
 def request_get(
