@@ -4,7 +4,6 @@ import pandas as pd
 import pytest
 
 from FinMind.data import DataLoader
-from FinMind.data import FinMindApi
 
 user_id = os.environ.get("FINMIND_USER", "")
 password = os.environ.get("FINMIND_PASSWORD", "")
@@ -28,6 +27,37 @@ def assert_data(data: pd.DataFrame, correct_columns_name: list):
 
 def test_taiwan_stock_info_2330(data_loader):
     data = data_loader.taiwan_stock_tick_snapshot(stock_id="2330")
+    assert_data(
+        data,
+        [
+            "open",
+            "high",
+            "low",
+            "close",
+            "change_price",
+            "change_rate",
+            "average_price",
+            "volume",
+            "total_volume",
+            "amount",
+            "total_amount",
+            "yesterday_volume",
+            "buy_price",
+            "buy_volume",
+            "sell_price",
+            "sell_volume",
+            "volume_ratio",
+            "date",
+            "stock_id",
+            "TickType",
+        ],
+    )
+
+
+def test_taiwan_stock_info_list(data_loader):
+    data = data_loader.taiwan_stock_tick_snapshot(
+        stock_id=["2330", "0050", "2317", "0056"]
+    )
     assert_data(
         data,
         [

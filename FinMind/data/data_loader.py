@@ -1658,11 +1658,11 @@ class DataLoader(FinMindApi):
 
     def taiwan_stock_tick_snapshot(
         self,
-        stock_id: str = "",
+        stock_id: typing.Union[str, typing.List[str]] = "",
         timeout: int = None,
     ) -> pd.DataFrame:
         """get 台股即時資訊 taiwan_stock_tick_snapshot (只限 sponsor 會員使用)
-        :param stock_id (str): 股票代號("2330")
+        :param stock_id (Union(str, List[str])): 股票代號("2330")
         :param timeout (int): timeout seconds, default None
 
         :return: 台股即時資訊 taiwan_stock_tick_snapshot
