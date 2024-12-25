@@ -206,7 +206,7 @@ class FinMindApi:
     def get_taiwan_stock_tick_snapshot(
         self,
         dataset: Dataset,
-        data_id: str = "",
+        data_id: typing.Union[str, typing.List[str]] = "",
         timeout: int = None,
     ) -> pd.DataFrame:
         """
