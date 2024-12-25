@@ -10,8 +10,12 @@ from tqdm import tqdm
 try:
     import asyncio
     import concurrent.futures
+
+    import nest_asyncio
+
+    nest_asyncio.apply()  # for Jupyter Notebook
 except Exception as error_msg:
-    logger.warning(f"asyncio import error: {error_msg}")
+    logger.warning(f"import error: {error_msg}")
 
 
 def request_get(
@@ -57,7 +61,7 @@ def request_get(
 
 async def _loop_run_get(
     executor: concurrent.futures.ThreadPoolExecutor,
-    loop: asyncio.unix_events._UnixSelectorEventLoop,
+    loop: asyncio,
     url: str,
     params: Dict[str, Union[str, int, float]],
     timeout: int = 30,

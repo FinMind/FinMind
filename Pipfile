@@ -19,6 +19,7 @@ Flask = ">=2.0.2, <3.0.0"
 finmind = {editable = true, path = "."}
 typing-extensions = ">=4.0.0, <5.0.0"
 tqdm = "*"
+nest-asyncio = "==1.6.0"
 
 [dev-packages]
 pytest = "==6.2.5"
