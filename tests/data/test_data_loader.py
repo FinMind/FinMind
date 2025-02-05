@@ -1141,6 +1141,26 @@ def test_taiwan_business_indicator(data_loader):
     )
 
 
+def test_taiwan_stock_disposition_securities_period(data_loader):
+    df = data_loader.taiwan_stock_disposition_securities_period(
+        start_date="2024-04-01",
+        end_date="2024-12-01",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "stock_name",
+            "disposition_cnt",
+            "condition",
+            "measure",
+            "period_start",
+            "period_end",
+        ],
+    )
+
+
 def test_cnn_fear_greed_index(data_loader):
     df = data_loader.cnn_fear_greed_index(
         start_date="2020-04-01",
