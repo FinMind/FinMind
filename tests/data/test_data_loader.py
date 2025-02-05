@@ -1145,7 +1145,7 @@ def test_taiwan_stock_disposition_securities_period(data_loader):
     df = data_loader.taiwan_stock_disposition_securities_period(
         start_date="2025-01-01",
         end_date="2025-02-01",
-        data_id="6477",
+        stock_id="6477",
     )
     assert_data(
         df,
