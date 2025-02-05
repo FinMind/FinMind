@@ -1143,8 +1143,9 @@ def test_taiwan_business_indicator(data_loader):
 
 def test_taiwan_stock_disposition_securities_period(data_loader):
     df = data_loader.taiwan_stock_disposition_securities_period(
-        start_date="2024-04-01",
-        end_date="2024-12-01",
+        start_date="2025-01-01",
+        end_date="2025-02-01",
+        data_id="6477",
     )
     assert_data(
         df,
