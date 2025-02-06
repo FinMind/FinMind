@@ -1035,7 +1035,9 @@ def test_taiwan_stock_trading_daily_report_async(data_loader):
     stock_info = stock_info.merge(
         taiwan_stock_price_df, how="inner", on=["stock_id"]
     )
-    stock_info = stock_info[~stock_info["stock_id"].isin(taiwan_stock_price_df)].head(5)
+    stock_info = stock_info[
+        ~stock_info["stock_id"].isin(taiwan_stock_price_df)
+    ].head(5)
     stock_id_list = list(set(stock_info["stock_id"].values))[:5]
     logger.info(f"len: {len(stock_id_list)}")  # 2176
     start = datetime.datetime.now()
