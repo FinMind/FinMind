@@ -111,6 +111,9 @@ class Dataset(str, Enum):
     )
     TaiwanStockMarketValueWeight = "TaiwanStockMarketValueWeight"
     TaiwanBusinessIndicator = "TaiwanBusinessIndicator"
+    TaiwanStockDispositionSecuritiesPeriod = (
+        "TaiwanStockDispositionSecuritiesPeriod"
+    )
 
 
 class Version(str, Enum):

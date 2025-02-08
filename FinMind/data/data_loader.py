@@ -2057,6 +2057,39 @@ class DataLoader(FinMindApi):
         )
         return taiwan_business_indicator
 
+    def taiwan_stock_disposition_securities_period(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 公布處置有價證劵表
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 日期("2018-01-01")
+        :param end_date (str): 日期("2018-01-02")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 公布處置有價證劵表 TaiwanStockDispositionSecuritiesPeriod
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column stock_id (str)
+        :rtype column stock_name (str)
+        :rtype column disposition_cnt (int)
+        :rtype column condition (str)
+        :rtype column measure (str)
+        :rtype column period_start (str)
+        :rtype column period_end (str)
+        """
+        stock_disposition_securities_period = self.get_data(
+            dataset=Dataset.TaiwanStockDispositionSecuritiesPeriod,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return stock_disposition_securities_period
+
     def cnn_fear_greed_index(
         self,
         start_date: str = "",

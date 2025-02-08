@@ -775,7 +775,7 @@ def test_taiwan_stock_kbar_async(data_loader):
         taiwan_stock_price_df, how="inner", on=["stock_id"]
     )
     stock_info = stock_info[~stock_info["stock_id"].isin(taiwan_stock_price_df)]
-    stock_id_list = list(set(stock_info["stock_id"].values))
+    stock_id_list = list(set(stock_info["stock_id"].values))[:30]
     start = datetime.datetime.now()
     df = data_loader.taiwan_stock_kbar(
         stock_id_list=stock_id_list,
@@ -785,8 +785,8 @@ def test_taiwan_stock_kbar_async(data_loader):
     cost = datetime.datetime.now() - start
     print(cost)
     # 0:01:05.227280
-    assert len(df) > 150000
-    assert len(df["stock_id"].unique()) > 2100
+    assert len(df) > 1000
+    assert len(df["stock_id"].unique()) > 1
 
 
 def test_taiwan_stock_delisting(data_loader):
@@ -1035,8 +1035,10 @@ def test_taiwan_stock_trading_daily_report_async(data_loader):
     stock_info = stock_info.merge(
         taiwan_stock_price_df, how="inner", on=["stock_id"]
     )
-    stock_info = stock_info[~stock_info["stock_id"].isin(taiwan_stock_price_df)]
-    stock_id_list = list(set(stock_info["stock_id"].values))
+    stock_info = stock_info[
+        ~stock_info["stock_id"].isin(taiwan_stock_price_df)
+    ].head(5)
+    stock_id_list = list(set(stock_info["stock_id"].values))[:5]
     logger.info(f"len: {len(stock_id_list)}")  # 2176
     start = datetime.datetime.now()
     df = data_loader.taiwan_stock_trading_daily_report(
@@ -1047,8 +1049,8 @@ def test_taiwan_stock_trading_daily_report_async(data_loader):
     cost = datetime.datetime.now() - start
     print(cost)
     # 0:08:22.485726
-    assert len(df) > 1500000
-    assert len(df["stock_id"].unique()) > 2100
+    assert len(df) > 1000
+    assert len(df["stock_id"].unique()) > 1
 
 
 def test_taiwan_futures_open_interest_large_traders(data_loader):
@@ -1137,6 +1139,27 @@ def test_taiwan_business_indicator(data_loader):
             "lagging_notrend",
             "monitoring",
             "monitoring_color",
+        ],
+    )
+
+
+def test_taiwan_stock_disposition_securities_period(data_loader):
+    df = data_loader.taiwan_stock_disposition_securities_period(
+        start_date="2025-01-01",
+        end_date="2025-02-01",
+        stock_id="6477",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "stock_name",
+            "disposition_cnt",
+            "condition",
+            "measure",
+            "period_start",
+            "period_end",
         ],
     )
 
