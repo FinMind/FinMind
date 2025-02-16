@@ -2064,13 +2064,13 @@ class DataLoader(FinMindApi):
         end_date: str = "",
         timeout: int = None,
     ) -> pd.DataFrame:
-        """get 公布處置有價證劵表
+        """get 公布處置有價證券表
         :param stock_id (str): 股票代號("2330")
         :param start_date (str): 日期("2018-01-01")
         :param end_date (str): 日期("2018-01-02")
         :param timeout (int): timeout seconds, default None
 
-        :return: 公布處置有價證劵表 TaiwanStockDispositionSecuritiesPeriod
+        :return: 公布處置有價證券表 TaiwanStockDispositionSecuritiesPeriod
         :rtype pd.DataFrame
         :rtype column date (str)
         :rtype column stock_id (str)
