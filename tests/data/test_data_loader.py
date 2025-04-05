@@ -1164,6 +1164,18 @@ def test_taiwan_stock_disposition_securities_period(data_loader):
     )
 
 
+def test_taiwan_stock_industry_chain(data_loader):
+    df = data_loader.taiwan_stock_industry_chain()
+    assert_data(
+        df,
+        [
+            "stock_id",
+            "industry",
+            "sub_industry",
+        ],
+    )
+
+
 def test_cnn_fear_greed_index(data_loader):
     df = data_loader.cnn_fear_greed_index(
         start_date="2020-04-01",
