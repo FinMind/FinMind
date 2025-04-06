@@ -1172,6 +1172,7 @@ def test_taiwan_stock_industry_chain(data_loader):
             "stock_id",
             "industry",
             "sub_industry",
+            "date",
         ],
     )
 

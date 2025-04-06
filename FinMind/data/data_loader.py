@@ -2111,9 +2111,6 @@ class DataLoader(FinMindApi):
         """
         stock_industry_chain = self.get_data(
             dataset=Dataset.TaiwanStockIndustryChain,
-            data_id=stock_id,
-            start_date=start_date,
-            end_date=end_date,
             timeout=timeout,
         )
         return stock_industry_chain
