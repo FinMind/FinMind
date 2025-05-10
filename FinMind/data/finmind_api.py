@@ -30,12 +30,13 @@ class FinMindApi:
         self,
         timeout: int = 5,
     ) -> int:
-        params = dict(
-            token=self.__api_token,
-        )
+        headers = {"Authorization": f"Bearer {self.__api_token}"}
         url = "https://api.web.finmindtrade.com/v2/user_info"
-        logger.debug(params)
-        response = request_get(url, params, timeout).json()
+        response = request_get(
+            url,
+            headers=headers,
+            timeout=timeout,
+        ).json()
         return response.get("user_count", 0)
 
     @property
@@ -43,12 +44,14 @@ class FinMindApi:
         self,
         timeout: int = 5,
     ) -> int:
-        params = dict(
-            token=self.__api_token,
-        )
+        headers = {"Authorization": f"Bearer {self.__api_token}"}
         url = "https://api.web.finmindtrade.com/v2/user_info"
-        logger.debug(params)
-        response = request_get(url, params, timeout).json()
+        logger.debug(headers)
+        response = request_get(
+            url,
+            headers=headers,
+            timeout=timeout,
+        ).json()
         return response.get("api_request_limit", 0)
 
     @property
@@ -155,14 +158,19 @@ class FinMindApi:
                 end_date=end_date,
                 user_id=self.__user_id,
                 password=self.__password,
-                token=self.__api_token,
                 device=self.__device,
             )
             params = self._compatible_api_version(params)
             params = self._compatible_endpoints_param(params)
+            headers = {"Authorization": f"Bearer {self.__api_token}"}
             url = self._dispatcher_url(dataset)
             logger.debug(params)
-            response = request_get(url, params, timeout).json()
+            response = request_get(
+                url,
+                params=params,
+                headers=headers,
+                timeout=timeout,
+            ).json()
             return pd.DataFrame(response["data"])
 
     def _get_data_with_async(
@@ -189,15 +197,20 @@ class FinMindApi:
                         end_date=end_date,
                         user_id=self.__user_id,
                         password=self.__password,
-                        token=self.__api_token,
                         device=self.__device,
                     )
                 )
             )
             for data_id in data_id_list
         ]
+        headers = {"Authorization": f"Bearer {self.__api_token}"}
         url = self._dispatcher_url(dataset)
-        resp_list = async_request_get(url, params_list, timeout)
+        resp_list = async_request_get(
+            url,
+            params_list=params_list,
+            headers=headers,
+            timeout=timeout,
+        )
         data_list = []
         [data_list.extend(resp.json()["data"]) for resp in resp_list]
         df = pd.DataFrame(data_list)
@@ -218,15 +231,20 @@ class FinMindApi:
             data_id=data_id,
             user_id=self.__user_id,
             password=self.__password,
-            token=self.__api_token,
             device=self.__device,
         )
+        headers = {"Authorization": f"Bearer {self.__api_token}"}
         params = self._compatible_api_version(params)
         url = (
             f"{self.__api_url}/{self.__api_version}/taiwan_stock_tick_snapshot"
         )
         logger.debug(params)
-        response = request_get(url, params, timeout).json()
+        response = request_get(
+            url,
+            params=params,
+            headers=headers,
+            timeout=timeout,
+        ).json()
         return pd.DataFrame(response["data"])
 
     def get_taiwan_futures_snapshot(
@@ -244,13 +262,18 @@ class FinMindApi:
             data_id=data_id,
             user_id=self.__user_id,
             password=self.__password,
-            token=self.__api_token,
             device=self.__device,
         )
+        headers = {"Authorization": f"Bearer {self.__api_token}"}
         params = self._compatible_api_version(params)
         url = f"{self.__api_url}/{self.__api_version}/taiwan_futures_snapshot"
         logger.debug(params)
-        response = request_get(url, params, timeout).json()
+        response = request_get(
+            url,
+            params=params,
+            headers=headers,
+            timeout=timeout,
+        ).json()
         return pd.DataFrame(response["data"])
 
     def get_taiwan_options_snapshot(
@@ -268,13 +291,18 @@ class FinMindApi:
             data_id=data_id,
             user_id=self.__user_id,
             password=self.__password,
-            token=self.__api_token,
             device=self.__device,
         )
+        headers = {"Authorization": f"Bearer {self.__api_token}"}
         params = self._compatible_api_version(params)
         url = f"{self.__api_url}/{self.__api_version}/taiwan_options_snapshot"
         logger.debug(params)
-        response = request_get(url, params, timeout).json()
+        response = request_get(
+            url,
+            params=params,
+            headers=headers,
+            timeout=timeout,
+        ).json()
         return pd.DataFrame(response["data"])
 
     def get_datalist(self, dataset: str, timeout: int = None) -> pd.DataFrame:
@@ -283,11 +311,16 @@ class FinMindApi:
             raise Exception("please login by account")
         params = {
             "dataset": dataset,
-            "token": self.__api_token,
             "device": self.__device,
         }
+        headers = {"Authorization": f"Bearer {self.__api_token}"}
         url = f"{self.__api_url}/{self.__api_version}/datalist"
-        data = request_get(url, params, timeout).json()
+        data = request_get(
+            url,
+            params=params,
+            headers=headers,
+            timeout=timeout,
+        ).json()
         data = data["data"]
         return data
 
@@ -295,10 +328,15 @@ class FinMindApi:
         # 測試v4不支援
         params = {
             "dataset": dataset,
-            "token": self.__api_token,
             "device": self.__device,
         }
+        headers = {"Authorization": f"Bearer {self.__api_token}"}
         url = f"{self.__api_url}/{self.__api_version}/translation"
-        data = request_get(url, params, timeout).json()
+        data = request_get(
+            url,
+            params=params,
+            headers=headers,
+            timeout=timeout,
+        ).json()
         data = pd.DataFrame(data["data"])
         return data
