@@ -753,7 +753,7 @@ def test_taiwan_stock_kbar(data_loader):
 
 
 def test_taiwan_stock_kbar_async(data_loader):
-    date = datetime.datetime.today().strftime("%Y-%m-%d")
+    date = "2025-05-09"
     taiwan_stock_price_df = data_loader.taiwan_stock_daily(start_date=date)
     # 只拿取當天交易量大於 0 的股票
     taiwan_stock_price_df = taiwan_stock_price_df[
@@ -1014,7 +1014,7 @@ def test_taiwan_stock_trading_daily_report(data_loader):
 
 
 def test_taiwan_stock_trading_daily_report_async(data_loader):
-    date = datetime.datetime.today().strftime("%Y-%m-%d")
+    date = "2025-05-09"
     taiwan_stock_price_df = data_loader.taiwan_stock_daily(start_date=date)
     # 只拿取當天交易量大於 0 的股票
     taiwan_stock_price_df = taiwan_stock_price_df[
@@ -1188,5 +1188,21 @@ def test_cnn_fear_greed_index(data_loader):
             "date",
             "fear_greed",
             "fear_greed_emotion",
+        ],
+    )
+
+
+def test_taiwan_stock_every5seconds_index(data_loader):
+    df = data_loader.taiwan_stock_every5seconds_index(
+        data_id="Automobile",
+        date="2025-05-09",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "time",
+            "stock_id",
+            "price",
         ],
     )
