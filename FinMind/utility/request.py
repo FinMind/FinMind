@@ -20,14 +20,19 @@ except Exception as error_msg:
 
 def request_get(
     url: str,
-    params: Dict[str, Union[int, str, float]],
+    params: Dict[str, Union[int, str, float]] = None,
+    headers: Dict[str, Union[int, str, float]] = None,
     timeout: int = 30,
     max_retry_times: int = 10,
 ):
     for retry_times in range(max_retry_times):
         try:
             response = requests.get(
-                url, verify=True, params=params, timeout=timeout
+                url,
+                verify=True,
+                params=params,
+                timeout=timeout,
+                headers=headers,
             )
             if response.status_code == 504:
                 logger.warning(
@@ -64,10 +69,11 @@ async def _loop_run_get(
     loop: asyncio,
     url: str,
     params: Dict[str, Union[str, int, float]],
+    headers: Dict[str, Union[int, str, float]] = None,
     timeout: int = 30,
 ):
     resp = await loop.run_in_executor(
-        executor, request_get, url, params, timeout
+        executor, request_get, url, params, headers, timeout
     )
     return resp
 
@@ -75,6 +81,7 @@ async def _loop_run_get(
 def async_request_get(
     url: str,
     params_list: List[Dict[str, Union[str, int, float]]] = None,
+    headers: Dict[str, Union[int, str, float]] = None,
     timeout: int = 30,
 ):
     async def async_batch_get(executor, params_list, timeout):
@@ -86,6 +93,7 @@ def async_request_get(
                     loop,
                     url=url,
                     params=params_list[i],
+                    headers=headers,
                     timeout=timeout,
                 )
             )
