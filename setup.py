@@ -1,7 +1,7 @@
 import os
 from io import open
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 print(os.environ.get("CI_COMMIT_TAG", "0.0.0"))
 _version = os.environ.get("CI_COMMIT_TAG", "0.0.1.dev2")
@@ -26,7 +26,7 @@ def _process_requirements():
 
 
 setup(
-    name="FinMind",  # Required
+    name="finmind",  # Required
     version=_version,  # Required
     description="financial mining",  # Optional
     long_description=long_description,  # Optional
