@@ -9,11 +9,11 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     # https://github.com/actions/setup-python/issues/544
     strategy:
       matrix:
-        python-version: [ "3.6", "3.7", "3.8", "3.9", "3.10" ]
+        python-version: [ "3.7", "3.8", "3.9", "3.10" ]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -38,7 +38,7 @@ jobs:
           python genenv.py
           pipenv run pytest --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
   lint:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.8

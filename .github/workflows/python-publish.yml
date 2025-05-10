@@ -10,11 +10,11 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     # https://github.com/actions/setup-python/issues/544
     strategy:
       matrix:
-        python-version: [ 3.6 ]
+        python-version: [ 3.7 ]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}

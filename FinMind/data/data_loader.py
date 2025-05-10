@@ -2093,14 +2093,10 @@ class DataLoader(FinMindApi):
     def taiwan_stock_industry_chain(
         self,
         stock_id: str = "",
-        start_date: str = "",
-        end_date: str = "",
         timeout: int = None,
     ) -> pd.DataFrame:
         """get 個體公司所屬產業鏈
         :param stock_id (str): 股票代號("2330")
-        :param start_date (str): 日期("2018-01-01")
-        :param end_date (str): 日期("2018-01-02")
         :param timeout (int): timeout seconds, default None
 
         :return: 個體公司所屬產業鏈 TaiwanStockIndustryChain
@@ -2111,6 +2107,7 @@ class DataLoader(FinMindApi):
         """
         stock_industry_chain = self.get_data(
             dataset=Dataset.TaiwanStockIndustryChain,
+            stock_id=stock_id,
             timeout=timeout,
         )
         return stock_industry_chain
@@ -2139,6 +2136,32 @@ class DataLoader(FinMindApi):
             end_date=end_date,
         )
         return cnn_fear_greed_index
+
+    def taiwan_stock_every5seconds_index(
+        self,
+        data_id: str = "",
+        date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 每5秒指數統計
+        :param data_id (str): 產業代號("Automobile")
+        :param date (str): 日期("2018-01-01")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 每5秒指數統計 TaiwanStockEvery5SecondsIndex
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column time (str)
+        :rtype column stock_id (str)
+        :rtype column price (float)
+        """
+        taiwan_stock_every5seconds_index = self.get_data(
+            dataset=Dataset.TaiwanStockEvery5SecondsIndex,
+            data_id=data_id,
+            timeout=timeout,
+            start_date=date,
+        )
+        return taiwan_stock_every5seconds_index
 
 
 class Feature:
