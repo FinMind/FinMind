@@ -1990,6 +1990,45 @@ class DataLoader(FinMindApi):
         )
         return stock_trading_daily_report
 
+    def taiwan_stock_warrant_trading_daily_report(
+        self,
+        stock_id: str = "",
+        securities_trader_id: str = "",
+        stock_id_list: typing.List[str] = None,
+        # securities_trader_id_list: typing.List[str] = None,
+        date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+    ) -> pd.DataFrame:
+        """get 當日權證卷商分點表
+        :param stock_id (str): 股票代號("2330")
+        :param securities_trader_id (str): 卷商代號("1020")
+        :param date (str): 日期("2018-01-01")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 當日權證卷商分點表 TaiwanStockWarrantTradingDailyReport
+        :rtype pd.DataFrame
+        :rtype column securities_trader (str)
+        :rtype column price (float)
+        :rtype column buy (int)
+        :rtype column sell (int)
+        :rtype column securities_trader_id (str)
+        :rtype column stock_id (str)
+        :rtype column date (str)
+        """
+        stock_trading_daily_report = self.get_data(
+            dataset=Dataset.TaiwanStockWarrantTradingDailyReport,
+            data_id=stock_id,
+            securities_trader_id=securities_trader_id,
+            data_id_list=stock_id_list,
+            # securities_trader_id_list=securities_trader_id_list,
+            start_date=date,
+            end_date=date,
+            timeout=timeout,
+            use_async=use_async,
+        )
+        return stock_trading_daily_report
+
     def taiwan_stock_trading_daily_report_secid_agg(
         self,
         stock_id: str = "",
