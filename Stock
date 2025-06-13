@@ -1,0 +1,63 @@
+# 安裝 finmindapi
+!pip install finmindapi --quiet
+
+# 引入套件
+from FinMind.data import DataLoader
+import pandas as pd
+import datetime
+
+# 輸入你的 API 金鑰
+token = "JoeHo148"  # ← 請在這輸入你自己的 Token！
+
+# 登入 API
+api = DataLoader()
+api.login_by_token(api_token=token)
+
+# 設定日期範圍（抓最近10個交易日）
+end_date = datetime.date.today()
+start_date = end_date - datetime.timedelta(days=15)
+
+# 取得上市股票清單
+stock_list = api.taiwan_stock_info()
+stock_ids = stock_list[stock_list["type"]=="上市"]["stock_id"].tolist()
+
+# 分析條件函式
+def analyze_stock(stock_id):
+    try:
+        df = api.taiwan_stock_daily(stock_id=stock_id,
+                                     start_date=str(start_date),
+                                     end_date=str(end_date))
+        if df.empty or len(df) < 6:
+            return None
+
+        # 條件一：法人連續買超3日以上
+        df["foreign_net_buy"] = df["foreign_investor_buy"] - df["foreign_investor_sell"]
+        df["連買"] = df["foreign_net_buy"] > 0
+        if df["連買"].rolling(3).sum().iloc[-1] < 3:
+            return None
+
+        # 條件二：成交量放大（近3日平均 > 前5日平均）
+        df["vol_ma3"] = df["Trading_Volume"].rolling(3).mean()
+        df["vol_ma5"] = df["Trading_Volume"].rolling(5).mean()
+        if df["vol_ma3"].iloc[-1] < df["vol_ma5"].iloc[-3]:
+            return None
+
+        # 條件三：收盤價上升（5天至少漲3天）
+        df["close_diff"] = df["close"].diff()
+        if (df["close_diff"].tail(5) > 0).sum() < 3:
+            return None
+
+        return stock_id
+    except:
+        return None
+
+# 開始分析
+matched = []
+print("🔍 分析中，請稍候...")
+for stock_id in stock_ids[:200]:  # 減少數量做初步測試，可改回全部 stock_ids
+    result = analyze_stock(stock_id)
+    if result:
+        matched.append(result)
+
+# 顯示結果
+print("\n✅ 符合條件的股票代號：", matched)
