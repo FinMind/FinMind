@@ -132,7 +132,12 @@ class DataLoader(FinMindApi):
         return stock_price
 
     def taiwan_stock_tick(
-        self, stock_id: str, date: str, timeout: int = None
+        self,
+        stock_id: str,
+        stock_id_list: typing.List[str] = None,
+        date:  str = "",
+        timeout: int = None,
+        use_async: bool = False,
     ) -> pd.DataFrame:
         """get 台灣股價歷史逐筆資料表 TaiwanStockPriceTick
         :param stock_id (str): 股票代號("2330")
@@ -149,8 +154,10 @@ class DataLoader(FinMindApi):
         stock_tick = self.get_data(
             dataset=Dataset.TaiwanStockPriceTick,
             data_id=stock_id,
+            data_id_list=stock_id_list,
             start_date=date,
             timeout=timeout,
+            use_async=use_async,
         )
         return stock_tick
 
