@@ -789,6 +789,43 @@ def test_taiwan_stock_kbar_async(data_loader):
     assert len(df["stock_id"].unique()) > 1
 
 
+def test_taiwan_stock_tick_async(data_loader):
+    date = "2025-05-09"
+    taiwan_stock_price_df = data_loader.taiwan_stock_daily(start_date=date)
+    # 只拿取當天交易量大於 0 的股票
+    taiwan_stock_price_df = taiwan_stock_price_df[
+        ["stock_id", "Trading_Volume"]
+    ]
+    taiwan_stock_price_df = taiwan_stock_price_df[
+        taiwan_stock_price_df["Trading_Volume"] > 0
+    ]
+    # 拿取當天上市櫃，industry_category 非大盤, index, 所有證券的股票 ID
+    # 因為這些股票沒有分點
+    stock_info_df = data_loader.taiwan_stock_info()
+    stock_info = stock_info_df[stock_info_df["type"].isin(["twse", "tpex"])]
+    cate_mask = stock_info["industry_category"].isin(
+        ["大盤", "Index", "所有證券"]
+    )
+    id_mask = stock_info["stock_id"].isin(["TAIEX", "TPEx"])
+    stock_info = stock_info[~(cate_mask | id_mask)]
+    stock_info = stock_info.merge(
+        taiwan_stock_price_df, how="inner", on=["stock_id"]
+    )
+    stock_info = stock_info[~stock_info["stock_id"].isin(taiwan_stock_price_df)]
+    stock_id_list = list(set(stock_info["stock_id"].values))[:30]
+    start = datetime.datetime.now()
+    df = data_loader.taiwan_stock_tick(
+        stock_id_list=stock_id_list,
+        date=date,
+        use_async=True,
+    )
+    cost = datetime.datetime.now() - start
+    print(cost)
+    # 0:01:05.227280
+    assert len(df) > 1000
+    assert len(df["stock_id"].unique()) > 1
+
+
 def test_taiwan_stock_delisting(data_loader):
     data = data_loader.taiwan_stock_delisting(stock_id="1230")
     assert_data(
