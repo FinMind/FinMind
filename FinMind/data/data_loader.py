@@ -134,7 +134,7 @@ class DataLoader(FinMindApi):
     def taiwan_stock_tick(
         self,
         stock_id: str = None,
-        date:  str = "",
+        date: str = "",
         stock_id_list: typing.List[str] = None,
         timeout: int = None,
         use_async: bool = False,

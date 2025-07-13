@@ -315,9 +315,6 @@ class FinMindApi:
         return pd.DataFrame(response["data"])
 
     def get_datalist(self, dataset: str, timeout: int = None) -> pd.DataFrame:
-        # 測試不支援以token方式獲取
-        if not self.__user_id:
-            raise Exception("please login by account")
         params = {
             "dataset": dataset,
             "device": self.__device,
