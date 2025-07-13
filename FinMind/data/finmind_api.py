@@ -136,8 +136,9 @@ class FinMindApi:
         data_id_list: typing.List[str] = None,
         # securities_trader_id_list: typing.List[str] = None,
         end_date: str = "",
-        timeout: int = None,
+        timeout: int = 60,
         use_async: bool = False,
+        max_retry_times: int = 30,
     ) -> pd.DataFrame:
         """
         :param params: finmind api參數
@@ -150,6 +151,8 @@ class FinMindApi:
                 # securities_trader_id_list=securities_trader_id_list,
                 start_date=start_date,
                 end_date=end_date,
+                timeout=timeout,
+                max_retry_times=max_retry_times,
             )
         else:
             logger.info(f"download {dataset}, data_id: {data_id}")
@@ -184,7 +187,8 @@ class FinMindApi:
         # securities_trader_id_list: typing.List[str] = None,
         start_date: str = "",
         end_date: str = "",
-        timeout: int = None,
+        timeout: int = 60,
+        max_retry_times: int = 10,
     ) -> pd.DataFrame:
         """
         :param params: finmind api參數
@@ -214,6 +218,7 @@ class FinMindApi:
             params_list=params_list,
             headers=headers,
             timeout=timeout,
+            max_retry_times=max_retry_times,
         )
         data_list = []
         [data_list.extend(resp.json()["data"]) for resp in resp_list]
@@ -310,9 +315,6 @@ class FinMindApi:
         return pd.DataFrame(response["data"])
 
     def get_datalist(self, dataset: str, timeout: int = None) -> pd.DataFrame:
-        # 測試不支援以token方式獲取
-        if not self.__user_id:
-            raise Exception("please login by account")
         params = {
             "dataset": dataset,
             "device": self.__device,

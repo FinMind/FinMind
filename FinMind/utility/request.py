@@ -22,7 +22,7 @@ def request_get(
     url: str,
     params: Dict[str, Union[int, str, float]] = None,
     headers: Dict[str, Union[int, str, float]] = None,
-    timeout: int = 30,
+    timeout: int = 60,
     max_retry_times: int = 10,
 ):
     for retry_times in range(max_retry_times):
@@ -70,10 +70,11 @@ async def _loop_run_get(
     url: str,
     params: Dict[str, Union[str, int, float]],
     headers: Dict[str, Union[int, str, float]] = None,
-    timeout: int = 30,
+    timeout: int = 60,
+    max_retry_times: int = 10,
 ):
     resp = await loop.run_in_executor(
-        executor, request_get, url, params, headers, timeout
+        executor, request_get, url, params, headers, timeout, max_retry_times
     )
     return resp
 
@@ -82,7 +83,8 @@ def async_request_get(
     url: str,
     params_list: List[Dict[str, Union[str, int, float]]] = None,
     headers: Dict[str, Union[int, str, float]] = None,
-    timeout: int = 30,
+    timeout: int = 60,
+    max_retry_times: int = 10,
 ):
     async def async_batch_get(executor, params_list, timeout):
         loop = asyncio.get_event_loop()
@@ -95,6 +97,7 @@ def async_request_get(
                     params=params_list[i],
                     headers=headers,
                     timeout=timeout,
+                    max_retry_times=max_retry_times,
                 )
             )
             for i in tqdm(range(len(params_list)))

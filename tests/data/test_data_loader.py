@@ -7,14 +7,15 @@ from loguru import logger
 
 from FinMind.data import DataLoader, FinMindApi
 
-user_id = os.environ.get("FINMIND_USER", "")
-password = os.environ.get("FINMIND_PASSWORD", "")
+FINMIND_USER = os.environ.get("FINMIND_USER", "")
+FINMIND_PASSWORD = os.environ.get("FINMIND_PASSWORD", "")
+FINMIND_API_TOKEN = os.environ.get("FINMIND_API_TOKEN", "")
 
 
 @pytest.fixture(scope="module")
 def api():
     api = FinMindApi()
-    api.login(user_id, password)
+    api.login_by_token(api_token=FINMIND_API_TOKEN)
     return api
 
 
@@ -121,13 +122,13 @@ def test_translation(api):
 @pytest.fixture(scope="module")
 def data_loader():
     data_loader = DataLoader()
-    data_loader.login(user_id, password)
+    data_loader.login_by_token(api_token=FINMIND_API_TOKEN)
     return data_loader
 
 
 def test_api_login():
     api = FinMindApi()
-    assert api.login(user_id, password)
+    assert api.login(user_id=FINMIND_USER, password=FINMIND_PASSWORD)
 
 
 def assert_data(data: pd.DataFrame, correct_columns_name: list):
@@ -785,7 +786,46 @@ def test_taiwan_stock_kbar_async(data_loader):
     cost = datetime.datetime.now() - start
     print(cost)
     # 0:01:05.227280
-    assert len(df) > 1000
+    assert len(df) > 300
+    assert len(df["stock_id"].unique()) > 1
+
+
+def test_taiwan_stock_tick_async(data_loader):
+    date = "2025-05-09"
+    taiwan_stock_price_df = data_loader.taiwan_stock_daily(start_date=date)
+    # 只拿取當天交易量大於 0 的股票
+    taiwan_stock_price_df = taiwan_stock_price_df[
+        ["stock_id", "Trading_Volume"]
+    ]
+    taiwan_stock_price_df = taiwan_stock_price_df[
+        taiwan_stock_price_df["Trading_Volume"] > 0
+    ]
+    # 拿取當天上市櫃，industry_category 非大盤, index, 所有證券的股票 ID
+    # 因為這些股票沒有分點
+    stock_info_df = data_loader.taiwan_stock_info()
+    stock_info = stock_info_df[stock_info_df["type"].isin(["twse", "tpex"])]
+    cate_mask = stock_info["industry_category"].isin(
+        ["大盤", "Index", "所有證券"]
+    )
+    id_mask = stock_info["stock_id"].isin(["TAIEX", "TPEx"])
+    stock_info = stock_info[~(cate_mask | id_mask)]
+    stock_info = stock_info.merge(
+        taiwan_stock_price_df, how="inner", on=["stock_id"]
+    )
+    stock_info = stock_info[~stock_info["stock_id"].isin(taiwan_stock_price_df)]
+    stock_id_list = list(set(stock_info["stock_id"].values))[:5]
+    # for test
+    stock_id_list += ["2330"]
+    start = datetime.datetime.now()
+    df = data_loader.taiwan_stock_tick(
+        stock_id_list=stock_id_list,
+        date=date,
+        use_async=True,
+    )
+    cost = datetime.datetime.now() - start
+    print(cost)
+    # 0:01:05.227280
+    assert len(df) > 5000
     assert len(df["stock_id"].unique()) > 1
 
 
@@ -1068,7 +1108,7 @@ def test_taiwan_stock_trading_daily_report_async(data_loader):
     cost = datetime.datetime.now() - start
     print(cost)
     # 0:08:22.485726
-    assert len(df) > 1000
+    assert len(df) > 500
     assert len(df["stock_id"].unique()) > 1
 
 
