@@ -2209,7 +2209,6 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_every5seconds_index
 
-
     def taiwan_stock_trading_date(
         self,
         start_date: str = "",
