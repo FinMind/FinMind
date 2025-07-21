@@ -2210,6 +2210,30 @@ class DataLoader(FinMindApi):
         return taiwan_stock_every5seconds_index
 
 
+    def taiwan_stock_trading_date(
+        self,
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台灣交易日日期
+        :param start_date (str): 日期("2025-01-01")
+        :param end_date (str): 日期("2025-02-01")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台灣交易日日期 TaiwanStockTradingDate
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        """
+        taiwan_stock_trading_date = self.get_data(
+            dataset=Dataset.TaiwanStockTradingDate,
+            timeout=timeout,
+            start_date=start_date,
+            end_date=end_date,
+        )
+        return taiwan_stock_trading_date
+
+
 class Feature:
     def __init__(self, data_loader: DataLoader):
         self.data_loader = data_loader
