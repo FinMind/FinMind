@@ -1265,3 +1265,16 @@ def test_taiwan_stock_every5seconds_index(data_loader):
             "price",
         ],
     )
+
+
+def test_taiwan_stock_trading_date(data_loader):
+    df = data_loader.taiwan_stock_trading_date(
+        start_date="2025-01-01",
+        end_date="2025-02-01",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+        ],
+    )
