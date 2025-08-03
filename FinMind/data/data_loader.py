@@ -2285,11 +2285,11 @@ class DataLoader(FinMindApi):
         :rtype column date (str)
         :rtype column stock_id (str)
         :rtype column type (str)
-        :rtype column before_price (str)
-        :rtype column after_price (str)
-        :rtype column max_price (str)
-        :rtype column min_price (str)
-        :rtype column open_price (str)
+        :rtype column before_price (float)
+        :rtype column after_price (float)
+        :rtype column max_price (float)
+        :rtype column min_price (float)
+        :rtype column open_price (float)
         """
         taiwan_stock_split_price = self.get_data(
             dataset=Dataset.TaiwanStockSplitPrice,
@@ -2315,11 +2315,11 @@ class DataLoader(FinMindApi):
         :rtype column date (str)
         :rtype column stock_id (str)
         :rtype column stock_name (str)
-        :rtype column before_close (str)
-        :rtype column after_ref_close (str)
-        :rtype column after_ref_max (str)
-        :rtype column after_ref_min (str)
-        :rtype column after_ref_open (str)
+        :rtype column before_close (float)
+        :rtype column after_ref_close (float)
+        :rtype column after_ref_max (float)
+        :rtype column after_ref_min (float)
+        :rtype column after_ref_open (float)
         """
         taiwan_stock_par_value_change = self.get_data(
             dataset=Dataset.TaiwanStockParValueChange,
