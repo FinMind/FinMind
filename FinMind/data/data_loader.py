@@ -2329,6 +2329,7 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_par_value_change
 
+
 class Feature:
     def __init__(self, data_loader: DataLoader):
         self.data_loader = data_loader
