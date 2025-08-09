@@ -2232,6 +2232,103 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_trading_date
 
+    def taiwan_stock_info_with_warrant_summary(
+        self,
+        start_date: str = "",
+        end_date: str = "",
+        data_id: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台股分割後參考價
+        :param start_date (str): 日期("2025-01-01")
+        :param end_date (str): 日期("2026-02-01")
+        :param data_id (str): 權證代號("2330")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股分割後參考價 TaiwanStockInfoWithWarrantSummary
+        :rtype pd.DataFrame
+        :rtype column stock_id (str)
+        :rtype column date (str)
+        :rtype column close (float)
+        :rtype column target_stock_id (str)
+        :rtype column target_close (float)
+        :rtype column type (str)
+        :rtype column fulfillment_method (str)
+        :rtype column end_date (str)
+        :rtype column fulfillment_start_date (str)
+        :rtype column fulfillment_end_date (str)
+        :rtype column exercise_ratio (float)
+        :rtype column fulfillment_price (float)
+        """
+        taiwan_stock_info_with_warrant_summary = self.get_data(
+            dataset=Dataset.TaiwanStockInfoWithWarrantSummary,
+            data_id=data_id,
+            timeout=timeout,
+            start_date=start_date,
+            end_date=end_date,
+        )
+        return taiwan_stock_info_with_warrant_summary
+
+    def taiwan_stock_split_price(
+        self,
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台股分割後參考價
+        :param start_date (str): 日期("2025-01-01")
+        :param end_date (str): 日期("2026-02-01")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股分割後參考價 TaiwanStockSplitPrice
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column stock_id (str)
+        :rtype column type (str)
+        :rtype column before_price (float)
+        :rtype column after_price (float)
+        :rtype column max_price (float)
+        :rtype column min_price (float)
+        :rtype column open_price (float)
+        """
+        taiwan_stock_split_price = self.get_data(
+            dataset=Dataset.TaiwanStockSplitPrice,
+            timeout=timeout,
+            start_date=start_date,
+            end_date=end_date,
+        )
+        return taiwan_stock_split_price
+
+    def taiwan_stock_par_value_change(
+        self,
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台灣股票變更面額恢復買賣參考價格
+        :param start_date (str): 日期("2025-01-01")
+        :param end_date (str): 日期("2025-02-01")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台灣股票變更面額恢復買賣參考價格 TaiwanStockParValueChange
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column stock_id (str)
+        :rtype column stock_name (str)
+        :rtype column before_close (float)
+        :rtype column after_ref_close (float)
+        :rtype column after_ref_max (float)
+        :rtype column after_ref_min (float)
+        :rtype column after_ref_open (float)
+        """
+        taiwan_stock_par_value_change = self.get_data(
+            dataset=Dataset.TaiwanStockParValueChange,
+            timeout=timeout,
+            start_date=start_date,
+            end_date=end_date,
+        )
+        return taiwan_stock_par_value_change
+
 
 class Feature:
     def __init__(self, data_loader: DataLoader):

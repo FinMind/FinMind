@@ -1278,3 +1278,63 @@ def test_taiwan_stock_trading_date(data_loader):
             "date",
         ],
     )
+
+
+def test_taiwan_stock_split_price(data_loader):
+    df = data_loader.taiwan_stock_split_price(
+        start_date="2025-06-01",
+        end_date="2025-07-01",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "type",
+            "before_price",
+            "after_price",
+            "max_price",
+            "min_price",
+            "open_price",
+        ],
+    )
+
+
+def test_taiwan_stock_split_price(data_loader):
+    df = data_loader.taiwan_stock_split_price(
+        start_date="2025-06-01",
+        end_date="2025-07-01",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "type",
+            "before_price",
+            "after_price",
+            "max_price",
+            "min_price",
+            "open_price",
+        ],
+    )
+
+
+def test_taiwan_stock_par_value_change(data_loader):
+    df = data_loader.taiwan_stock_par_value_change(
+        start_date="2025-06-01",
+        end_date="2025-07-01",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "stock_name",
+            "before_close",
+            "after_ref_close",
+            "after_ref_max",
+            "after_ref_min",
+            "after_ref_open",
+        ],
+    )
