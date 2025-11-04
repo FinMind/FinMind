@@ -24,6 +24,7 @@ def request_get(
     headers: Dict[str, Union[int, str, float]] = None,
     timeout: int = 60,
     max_retry_times: int = 10,
+    verbose: bool = False,
 ):
     for retry_times in range(max_retry_times):
         try:
@@ -35,31 +36,28 @@ def request_get(
                 headers=headers,
             )
             if response.status_code == 504:
-                logger.warning(
-                    f"status_code = 504, retry {retry_times} and sleep {retry_times * 0.1} seonds"
-                )
+                if verbose:
+                    logger.debug(
+                        f"status_code = 504, retry {retry_times} and sleep {retry_times * 0.1} seonds"
+                    )
                 time.sleep(retry_times * 0.1)
             else:
                 break
-        except requests.Timeout as exc:
-            raise Exception(f"Timeout {timeout} seconds")
         except (
             requests.ConnectionError,
             ssl.SSLError,
             urllib3.exceptions.ReadTimeoutError,
             urllib3.exceptions.ProtocolError,
         ) as exc:
-            logger.warning(
-                f"{exc}, retry {retry_times} and sleep {retry_times * 0.1} seonds"
-            )
+            if verbose:
+                logger.debug(
+                    f"{exc}, retry {retry_times} and sleep {retry_times * 0.1} seonds"
+                )
             time.sleep(retry_times * 0.1)
         except Exception as exc:
             raise Exception(exc)
 
-    if response.status_code == 200:
-        pass
-    else:
-        logger.error(params)
+    if response.status_code != 200:
         raise Exception(response.text)
     return response
 
@@ -72,9 +70,17 @@ async def _loop_run_get(
     headers: Dict[str, Union[int, str, float]] = None,
     timeout: int = 60,
     max_retry_times: int = 10,
+    verbose: bool = False,
 ):
     resp = await loop.run_in_executor(
-        executor, request_get, url, params, headers, timeout, max_retry_times
+        executor,
+        request_get,
+        url,
+        params,
+        headers,
+        timeout,
+        max_retry_times,
+        verbose,
     )
     return resp
 
@@ -85,6 +91,7 @@ def async_request_get(
     headers: Dict[str, Union[int, str, float]] = None,
     timeout: int = 60,
     max_retry_times: int = 10,
+    verbose: bool = False,
 ):
     async def async_batch_get(executor, params_list, timeout):
         loop = asyncio.get_event_loop()
@@ -98,6 +105,7 @@ def async_request_get(
                     headers=headers,
                     timeout=timeout,
                     max_retry_times=max_retry_times,
+                    verbose=verbose,
                 )
             )
             for i in tqdm(range(len(params_list)))
