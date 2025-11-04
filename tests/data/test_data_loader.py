@@ -1096,8 +1096,8 @@ def test_taiwan_stock_trading_daily_report_async(data_loader):
     )
     stock_info = stock_info[
         ~stock_info["stock_id"].isin(taiwan_stock_price_df)
-    ].head(5)
-    stock_id_list = list(set(stock_info["stock_id"].values))[:5]
+    ].head(100)
+    stock_id_list = list(set(stock_info["stock_id"].values))[:100]
     logger.info(f"len: {len(stock_id_list)}")  # 2176
     start = datetime.datetime.now()
     df = data_loader.taiwan_stock_trading_daily_report(
@@ -1263,6 +1263,7 @@ def test_taiwan_stock_every5seconds_index(data_loader):
             "time",
             "stock_id",
             "price",
+            "kind",
         ],
     )
 
