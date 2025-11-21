@@ -158,6 +158,7 @@ class FinMindApi:
                     securities_trader_id_list=securities_trader_id_list,
                     start_date=start_date,
                     end_date=end_date,
+                    max_retry_times=max_retry_times,
                 )
             elif data_id_list:
                 return self._get_data_with_async(
