@@ -1227,7 +1227,7 @@ class DataLoader(FinMindApi):
         option_id_list: typing.List[str] = None,
     ) -> pd.DataFrame:
         """get 選擇權三大法人買賣
-        :param data_id: 選擇權代號("TXO")
+        :param option_id: 選擇權代號("TXO")
         :param start_date (str): 起始日期("2018-01-01")
         :param end_date (str): 結束日期("2021-03-06")
         :param timeout (int): timeout seconds, default None
@@ -1267,7 +1267,7 @@ class DataLoader(FinMindApi):
         futures_id_list: typing.List[str] = None,
     ) -> pd.DataFrame:
         """get 期貨夜盤三大法人買賣
-        :param data_id: 期貨代號("TX")
+        :param futures_id: 期貨代號("TX")
         :param start_date (str): 起始日期("2021-10-12")
         :param end_date (str): 結束日期("2023-11-12")
         :param timeout (int): timeout seconds, default None
@@ -1303,7 +1303,7 @@ class DataLoader(FinMindApi):
         option_id_list: typing.List[str] = None,
     ) -> pd.DataFrame:
         """get 選擇權夜盤三大法人買賣
-        :param data_id: 選擇權代號("TXO")
+        :param option_id: 選擇權代號("TXO")
         :param start_date (str): 起始日期("2021-10-12")
         :param end_date (str): 結束日期("2023-11-12")
         :param timeout (int): timeout seconds, default None
@@ -2368,7 +2368,7 @@ class DataLoader(FinMindApi):
         """get 台股權證標的對照表
         :param start_date (str): 日期("2025-01-01")
         :param end_date (str): 日期("2026-02-01")
-        :param data_id (str): 權證代號("2330")
+        :param stock_id (str): 權證代號("2330")
         :param timeout (int): timeout seconds, default None
 
         :return: 台股權證標的對照表 TaiwanStockInfoWithWarrantSummary
