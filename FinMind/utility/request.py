@@ -103,6 +103,11 @@ def async_request_get(
 ):
     """
     批量 async request，支援自動根據機器資源調整 max_concurrency / batch_size
+
+    Returns:
+        List of responses corresponding to params_list. Failed requests will have
+        None in their position to maintain 1-to-1 correspondence with input params.
+        Callers should check for None values when processing results.
     """
     # 自動調整
     if auto_tune:
@@ -152,6 +157,7 @@ def async_request_get(
                 except Exception as exc:
                     if verbose:
                         logger.error(f"Task failed: {exc}")
+                    results.append(None)
                 pbar.update(1)
 
         pbar.close()

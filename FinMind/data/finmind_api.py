@@ -277,7 +277,7 @@ class FinMindApi:
             timeout=timeout,
         )
         data_list = []
-        [data_list.extend(resp.json()["data"]) for resp in resp_list]
+        [data_list.extend(resp.json()["data"]) for resp in resp_list if resp]
         df = pd.DataFrame(data_list)
         return df
 

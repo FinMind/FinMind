@@ -31,6 +31,6 @@ def test_async_request_get():
         url=url, params_list=parameter_list, headers=headers
     )
     data_list = []
-    [data_list.extend(resp.json()["data"]) for resp in resp_list]
+    [data_list.extend(resp.json()["data"]) for resp in resp_list if resp]
     df = pd.DataFrame(data_list)
     return df
