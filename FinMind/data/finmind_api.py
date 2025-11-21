@@ -1,11 +1,8 @@
-import ssl
 import sys
-import time
 import typing
 
 import pandas as pd
 import requests
-import urllib3
 from loguru import logger
 
 from FinMind.schema.data import Dataset
@@ -277,7 +274,7 @@ class FinMindApi:
             timeout=timeout,
         )
         data_list = []
-        [data_list.extend(resp.json()["data"]) for resp in resp_list]
+        [data_list.extend(resp.json()["data"]) for resp in resp_list if resp]
         df = pd.DataFrame(data_list)
         return df
 

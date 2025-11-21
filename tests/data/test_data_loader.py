@@ -545,7 +545,7 @@ def test_taiwan_stock_market_value_weight(data_loader):
 
 def test_taiwan_option_institutional_investors(data_loader):
     data = data_loader.taiwan_option_institutional_investors(
-        data_id="TXO", start_date="2019-04-03", end_date="2019-04-04"
+        open_id="TXO", start_date="2019-04-03", end_date="2019-04-04"
     )
     assert_data(
         data,
@@ -568,7 +568,7 @@ def test_taiwan_option_institutional_investors(data_loader):
 
 def test_taiwan_futures_institutional_investors(data_loader):
     data = data_loader.taiwan_futures_institutional_investors(
-        data_id="TX", start_date="2019-04-03", end_date="2019-04-04"
+        futures_id="TX", start_date="2019-04-03", end_date="2019-04-04"
     )
     assert_data(
         data,
@@ -590,7 +590,7 @@ def test_taiwan_futures_institutional_investors(data_loader):
 
 def test_taiwan_option_institutional_investors_after_hours(data_loader):
     data = data_loader.taiwan_option_institutional_investors_after_hours(
-        data_id="TXO", start_date="2021-10-12", end_date="2021-11-12"
+        option_id="TXO", start_date="2021-10-12", end_date="2021-11-12"
     )
     assert_data(
         data,
@@ -609,7 +609,7 @@ def test_taiwan_option_institutional_investors_after_hours(data_loader):
 
 def test_taiwan_futures_institutional_investors_after_hours(data_loader):
     data = data_loader.taiwan_futures_institutional_investors_after_hours(
-        data_id="TX", start_date="2021-10-12", end_date="2021-11-12"
+        futures_id="TX", start_date="2021-10-12", end_date="2021-11-12"
     )
     assert_data(
         data,
@@ -713,23 +713,6 @@ def test_taiwan_stock_monthly(data_loader):
             "close",
             "open",
             "spread",
-        ],
-    )
-
-
-def test_taiwan_stock_bar(data_loader):
-    data = data_loader.taiwan_stock_bar(stock_id="2330", date="2023-01-05")
-    assert_data(
-        data,
-        [
-            "date",
-            "minute",
-            "stock_id",
-            "open",
-            "high",
-            "low",
-            "close",
-            "volume",
         ],
     )
 

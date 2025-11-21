@@ -1,6 +1,7 @@
 import os
 
 import pandas as pd
+import requests
 
 from FinMind.utility import request
 
@@ -10,7 +11,6 @@ def test_async_request_get():
     url = (
         "https://api.finmindtrade.com/api/v4/taiwan_stock_trading_daily_report"
     )
-    headers = {"Authorization": f"Bearer {token}"}
     parameter_list = [
         {
             "data_id": stock_id,
@@ -27,9 +27,13 @@ def test_async_request_get():
             "00940",
         ]
     ]
-    resp_list = request.async_request_get(
-        url=url, params_list=parameter_list, headers=headers
+    session = requests.Session()
+    session.headers.update(
+        {
+            "Authorization": f"Bearer {token}",
+        }
     )
+    resp_list = request.async_request_get(url=url, params_list=parameter_list)
     data_list = []
     [data_list.extend(resp.json()["data"]) for resp in resp_list]
     df = pd.DataFrame(data_list)
