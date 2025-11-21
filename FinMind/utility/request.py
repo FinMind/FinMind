@@ -148,16 +148,18 @@ def async_request_get(
         # 分 batch 建立 task
         for i in range(0, len(params_list), batch_size):
             batch = params_list[i : i + batch_size]
-            tasks = [asyncio.create_task(_limited_run(p)) for p in batch]
+            tasks = [_limited_run(p) for p in batch]
 
-            for coro in asyncio.as_completed(tasks):
-                try:
-                    res = await coro
-                    results.append(res)
-                except Exception as exc:
+            # Use gather to maintain order and handle exceptions
+            batch_results = await asyncio.gather(*tasks, return_exceptions=True)
+
+            for result in batch_results:
+                if isinstance(result, Exception):
                     if verbose:
-                        logger.error(f"Task failed: {exc}")
+                        logger.error(f"Task failed: {result}")
                     results.append(None)
+                else:
+                    results.append(result)
                 pbar.update(1)
 
         pbar.close()
