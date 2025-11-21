@@ -242,6 +242,7 @@ class FinMindApi:
         start_date: str = "",
         end_date: str = "",
         timeout: int = None,
+        max_retry_times: int = 10,
     ) -> pd.DataFrame:
         """
         :param params: finmind api參數
@@ -272,6 +273,7 @@ class FinMindApi:
             url,
             params_list=params_list,
             timeout=timeout,
+            max_retry_times=max_retry_times,
         )
         data_list = []
         [data_list.extend(resp.json()["data"]) for resp in resp_list if resp]

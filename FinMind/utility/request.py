@@ -58,7 +58,11 @@ def request_get(
                     f"Unexpected error: {exc}, retry {retry_times}/{max_retry_times}"
                 )
             time.sleep(retry_times * 0.1)
-    if response and response.status_code != 200:
+    if response is None:
+        raise Exception(
+            f"All retry attempts exhausted and no response received from {url}."
+        )
+    if response.status_code != 200:
         raise Exception(
             f"Final response status: {response.status_code}, text: {response.text}"
         )
@@ -152,6 +156,9 @@ def async_request_get(
                 except Exception as exc:
                     if verbose:
                         logger.error(f"Task failed: {exc}")
+                    results.append(
+                        None
+                    )  # Explicitly append None for failed tasks
                 pbar.update(1)
 
         pbar.close()
