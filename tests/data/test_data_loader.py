@@ -14,8 +14,7 @@ FINMIND_API_TOKEN = os.environ.get("FINMIND_API_TOKEN", "")
 
 @pytest.fixture(scope="module")
 def api():
-    api = FinMindApi()
-    api.login_by_token(api_token=FINMIND_API_TOKEN)
+    api = FinMindApi(token=FINMIND_API_TOKEN)
     return api
 
 
@@ -121,8 +120,7 @@ def test_translation(api):
 
 @pytest.fixture(scope="module")
 def data_loader():
-    data_loader = DataLoader()
-    data_loader.login_by_token(api_token=FINMIND_API_TOKEN)
+    data_loader = DataLoader(token=FINMIND_API_TOKEN)
     return data_loader
 
 
