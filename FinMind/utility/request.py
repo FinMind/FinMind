@@ -151,6 +151,8 @@ def async_request_get(
             tasks = [_limited_run(p) for p in batch]
 
             # Use gather to maintain order and handle exceptions
+            # gather schedules all coroutines to start, and the semaphore
+            # inside _limited_run controls actual concurrency
             batch_results = await asyncio.gather(*tasks, return_exceptions=True)
 
             for result in batch_results:
