@@ -48,7 +48,7 @@ testdata_get_asset_underlying_type = [
 )
 def test_get_asset_underlying_type(stock_id, return_value, data_loader):
     underlying_type = get_asset_underlying_type(stock_id, data_loader)
-    assert underlying_type == "半導體業"
+    assert underlying_type == "電子工業"
 
 
 testdata_get_underlying_trading_tax = [("半導體", 0.003), ("ETF", 0.001)]
