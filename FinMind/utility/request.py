@@ -103,6 +103,11 @@ def async_request_get(
 ):
     """
     批量 async request，支援自動根據機器資源調整 max_concurrency / batch_size
+
+    Returns:
+        List of responses corresponding to params_list. Failed requests will have
+        None in their position to maintain 1-to-1 correspondence with input params.
+        Callers should check for None values when processing results.
     """
     # 自動調整
     if auto_tune:
@@ -138,15 +143,22 @@ def async_request_get(
         # 分 batch 建立 task
         for i in range(0, len(params_list), batch_size):
             batch = params_list[i : i + batch_size]
-            tasks = [asyncio.create_task(_limited_run(p)) for p in batch]
+            tasks = [_limited_run(p) for p in batch]
 
-            for coro in asyncio.as_completed(tasks):
-                try:
-                    res = await coro
-                    results.append(res)
-                except Exception as exc:
+            # Use gather to maintain order and handle exceptions
+            # Even though gather schedules all coroutines to start, the semaphore
+            # inside _limited_run ensures only max_concurrency tasks execute the
+            # actual network request simultaneously. Other tasks wait at the
+            # 'async with semaphore' line until the semaphore is available.
+            batch_results = await asyncio.gather(*tasks, return_exceptions=True)
+
+            for result in batch_results:
+                if isinstance(result, Exception):
                     if verbose:
-                        logger.error(f"Task failed: {exc}")
+                        logger.error(f"Task failed: {result}")
+                    results.append(None)
+                else:
+                    results.append(result)
                 pbar.update(1)
 
         pbar.close()
