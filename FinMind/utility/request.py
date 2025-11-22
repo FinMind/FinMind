@@ -19,7 +19,7 @@ def request_get(
     params: Dict[str, Union[int, str, float]] = None,
     timeout: int = 60,
     max_retry_times: int = 10,
-    verbose: bool = True,
+    verbose: bool = False,
 ):
     """
     單次 request，支援 retry 與 log
@@ -73,7 +73,7 @@ async def _loop_run_get(
     params: Dict[str, Union[str, int, float]],
     timeout: int = 60,
     max_retry_times: int = 10,
-    verbose: bool = True,
+    verbose: bool = False,
 ):
     """
     將同步 request 包成 async
@@ -96,7 +96,7 @@ def async_request_get(
     params_list: List[Dict[str, Union[str, int, float]]],
     timeout: int = 60,
     max_retry_times: int = 10,
-    verbose: bool = True,
+    verbose: bool = False,
     auto_tune: bool = True,
     max_concurrency: int = None,
     batch_size: int = 10,
@@ -110,11 +110,6 @@ def async_request_get(
         max_concurrency = max_concurrency or max(1, cpu_count * 2)
     else:
         max_concurrency = max_concurrency or 10
-    logger.info(
-        f"""
-        max_concurrency: {max_concurrency}
-    """
-    )
 
     async def runner():
         semaphore = asyncio.Semaphore(max_concurrency)
