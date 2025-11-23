@@ -1033,6 +1033,7 @@ def test_taiwan_stock_trading_daily_report(data_loader):
         ],
     )
 
+
 def test_taiwan_stock_trading_daily_report_use_async(data_loader):
     df = data_loader.taiwan_stock_trading_daily_report(
         securities_trader_id="1020",

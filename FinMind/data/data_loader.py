@@ -2109,7 +2109,9 @@ class DataLoader(FinMindApi):
                 ["大盤", "Index", "所有證券"]
             )
             stock_id_mask = stock_info["stock_id"].isin(["TAIEX", "TPEx"])
-            stock_info = stock_info[type_mask & (~industry_category_mask) & (~stock_id_mask)]
+            stock_info = stock_info[
+                type_mask & (~industry_category_mask) & (~stock_id_mask)
+            ]
 
             taiwan_stock_price_df = self.taiwan_stock_daily(start_date=date)
             taiwan_stock_price_df = taiwan_stock_price_df[
