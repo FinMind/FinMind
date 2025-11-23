@@ -2102,7 +2102,7 @@ class DataLoader(FinMindApi):
         :rtype column stock_id (str)
         :rtype column date (str)
         """
-        if not stock_id:
+        if not stock_id and not stock_id_list:
             stock_info = self.taiwan_stock_info(timeout=timeout)
             type_mask = stock_info["type"].isin(["twse", "tpex"])
             industry_category_mask = stock_info["industry_category"].isin(
