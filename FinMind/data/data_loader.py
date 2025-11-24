@@ -2468,7 +2468,7 @@ class DataLoader(FinMindApi):
         :param date (str): 日期("2025-01-01")
         :param timeout (int): timeout seconds, default None
 
-        :return: 台灣股票變更面額恢復買賣參考價格 TaiwanStockParValueChange
+        :return: list[str]
         """
         stock_info = self.taiwan_stock_info(timeout=timeout)
         type_mask = stock_info["type"].isin(["twse", "tpex"])
