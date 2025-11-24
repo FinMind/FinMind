@@ -2462,8 +2462,14 @@ class DataLoader(FinMindApi):
         return taiwan_stock_par_value_change
 
     def _get_stock_id_list(
-        self, date:str, timeout: int = None
+        self, date: str, timeout: int = None
     ) -> typing.List[str]:
+        """A helper function that returns all stock IDs with volume > 0 for specific date.
+        :param date (str): 日期("2025-01-01")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台灣股票變更面額恢復買賣參考價格 TaiwanStockParValueChange
+        """
         stock_info = self.taiwan_stock_info(timeout=timeout)
         type_mask = stock_info["type"].isin(["twse", "tpex"])
         industry_category_mask = stock_info["industry_category"].isin(
