@@ -2102,6 +2102,27 @@ class DataLoader(FinMindApi):
         :rtype column stock_id (str)
         :rtype column date (str)
         """
+        if not stock_id:
+            stock_info = self.taiwan_stock_info(timeout=timeout)
+            type_mask = stock_info["type"].isin(["twse", "tpex"])
+            industry_category_mask = stock_info["industry_category"].isin(
+                ["大盤", "Index", "所有證券"]
+            )
+            stock_id_mask = stock_info["stock_id"].isin(["TAIEX", "TPEx"])
+            stock_info = stock_info[type_mask & (~industry_category_mask) & (~stock_id_mask)]
+
+            taiwan_stock_price_df = self.taiwan_stock_daily(start_date=date)
+            taiwan_stock_price_df = taiwan_stock_price_df[
+                ["stock_id", "Trading_Volume"]
+            ]
+            taiwan_stock_price_df = taiwan_stock_price_df[
+                taiwan_stock_price_df["Trading_Volume"] > 0
+            ]
+            stock_info = stock_info.merge(
+                taiwan_stock_price_df, how="inner", on=["stock_id"]
+            )
+            stock_id_list = stock_info["stock_id"].tolist()
+
         stock_trading_daily_report = self.get_data(
             dataset=Dataset.TaiwanStockTradingDailyReport,
             data_id=stock_id,
