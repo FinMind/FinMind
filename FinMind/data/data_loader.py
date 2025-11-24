@@ -163,6 +163,9 @@ class DataLoader(FinMindApi):
         :rtype column deal_price (float)
         :rtype column volume (int)
         """
+        if not stock_id and not stock_id_list:
+            stock_id_list = self._get_stock_id_list(date, timeout)
+
         stock_tick = self.get_data(
             dataset=Dataset.TaiwanStockPriceTick,
             data_id=stock_id,
@@ -2103,27 +2106,7 @@ class DataLoader(FinMindApi):
         :rtype column date (str)
         """
         if not stock_id and not stock_id_list:
-            stock_info = self.taiwan_stock_info(timeout=timeout)
-            type_mask = stock_info["type"].isin(["twse", "tpex"])
-            industry_category_mask = stock_info["industry_category"].isin(
-                ["大盤", "Index", "所有證券"]
-            )
-            stock_id_mask = stock_info["stock_id"].isin(["TAIEX", "TPEx"])
-            stock_info = stock_info[
-                type_mask & (~industry_category_mask) & (~stock_id_mask)
-            ]
-
-            taiwan_stock_price_df = self.taiwan_stock_daily(start_date=date)
-            taiwan_stock_price_df = taiwan_stock_price_df[
-                ["stock_id", "Trading_Volume"]
-            ]
-            taiwan_stock_price_df = taiwan_stock_price_df[
-                taiwan_stock_price_df["Trading_Volume"] > 0
-            ]
-            stock_info = stock_info.merge(
-                taiwan_stock_price_df, how="inner", on=["stock_id"]
-            )
-            stock_id_list = stock_info["stock_id"].tolist()
+            stock_id_list = self._get_stock_id_list(date, timeout)
 
         stock_trading_daily_report = self.get_data(
             dataset=Dataset.TaiwanStockTradingDailyReport,
@@ -2477,6 +2460,31 @@ class DataLoader(FinMindApi):
             end_date=end_date,
         )
         return taiwan_stock_par_value_change
+
+    def _get_stock_id_list(
+        self, date:str, timeout: int = None
+    ) -> typing.List[str]:
+        stock_info = self.taiwan_stock_info(timeout=timeout)
+        type_mask = stock_info["type"].isin(["twse", "tpex"])
+        industry_category_mask = stock_info["industry_category"].isin(
+            ["大盤", "Index", "所有證券"]
+        )
+        stock_id_mask = stock_info["stock_id"].isin(["TAIEX", "TPEx"])
+        stock_info = stock_info[
+            type_mask & (~industry_category_mask) & (~stock_id_mask)
+        ]
+
+        taiwan_stock_price_df = self.taiwan_stock_daily(start_date=date)
+        taiwan_stock_price_df = taiwan_stock_price_df[
+            ["stock_id", "Trading_Volume"]
+        ]
+        taiwan_stock_price_df = taiwan_stock_price_df[
+            taiwan_stock_price_df["Trading_Volume"] > 0
+        ]
+        stock_info = stock_info.merge(
+            taiwan_stock_price_df, how="inner", on=["stock_id"]
+        )
+        return stock_info["stock_id"].tolist()
 
 
 class Feature:
