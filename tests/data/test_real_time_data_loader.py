@@ -108,6 +108,7 @@ def test_taiwan_stock_info_all(data_loader):
             "date",
             "stock_id",
             "TickType",
+            "name",
         ],
     )
 
