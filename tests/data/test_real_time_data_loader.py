@@ -5,14 +5,12 @@ import pytest
 
 from FinMind.data import DataLoader
 
-user_id = os.environ.get("FINMIND_USER", "")
-password = os.environ.get("FINMIND_PASSWORD", "")
+FINMIND_API_TOKEN = os.environ.get("FINMIND_API_TOKEN", "")
 
 
 @pytest.fixture(scope="module")
 def data_loader():
-    data_loader = DataLoader()
-    data_loader.login(user_id, password)
+    data_loader = DataLoader(token=FINMIND_API_TOKEN)
     return data_loader
 
 
@@ -110,6 +108,7 @@ def test_taiwan_stock_info_all(data_loader):
             "date",
             "stock_id",
             "TickType",
+            "name",
         ],
     )
 
