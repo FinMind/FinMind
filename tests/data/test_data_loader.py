@@ -1340,3 +1340,10 @@ def test_taiwan_stock_par_value_change(data_loader):
             "after_ref_open",
         ],
     )
+
+
+def test_get_stock_id_list(data_loader):
+    stock_id_list = data_loader._get_stock_id_list(
+        date="2025-12-08",
+    )
+    assert len(stock_id_list) < 3000

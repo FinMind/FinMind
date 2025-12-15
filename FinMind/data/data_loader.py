@@ -2479,7 +2479,6 @@ class DataLoader(FinMindApi):
         stock_info = stock_info[
             type_mask & (~industry_category_mask) & (~stock_id_mask)
         ]
-
         taiwan_stock_price_df = self.taiwan_stock_daily(start_date=date)
         taiwan_stock_price_df = taiwan_stock_price_df[
             ["stock_id", "Trading_Volume"]
@@ -2490,7 +2489,7 @@ class DataLoader(FinMindApi):
         stock_info = stock_info.merge(
             taiwan_stock_price_df, how="inner", on=["stock_id"]
         )
-        return stock_info["stock_id"].tolist()
+        return stock_info["stock_id"].unique().tolist()
 
 
 class Feature:
