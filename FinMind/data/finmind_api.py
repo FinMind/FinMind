@@ -68,31 +68,6 @@ class FinMindApi:
             return
         self.__api_version = version
 
-    def login(self, user_id: str, password: str):
-        """
-        :param user_id: finmind 使用者賬號
-        :param password: finmind 使用者密碼
-        :return: True if success login.
-        """
-        payload = {
-            "user_id": user_id,
-            "password": password,
-            "device": self.__device,
-        }
-        url = f"{self.__api_url}/{self.__api_version}/login"
-        resp = requests.post(url, data=payload)
-        login_info = resp.json()
-        logger.debug(login_info)
-        if resp.status_code == 200:
-            token = login_info.get("token", "")
-            self.login_by_token(api_token=token)
-            self.__user_id = user_id
-            self.__password = password
-            logger.info("Login success")
-            return True
-        else:
-            raise Exception(login_info["msg"])
-
     def login_by_token(self, api_token: str):
         """
         :param api_token: finmind api token
@@ -103,6 +78,13 @@ class FinMindApi:
                 "Authorization": f"Bearer {self.__api_token}",
             }
         )
+        url = "https://api.web.finmindtrade.com/v2/user_info"
+        resp = self.__session.get(url)
+        if resp.status_code == 200:
+            logger.info("Login success")
+            return True
+        else:
+            raise Exception(str(resp))
 
     def _compatible_api_version(self, params):
         if self.__api_version == "v3":

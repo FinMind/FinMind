@@ -8,10 +8,9 @@ from FinMind.schema.plot import Labels, Series, convert_labels_series_schema
 
 @pytest.fixture(scope="module")
 def df():
-    user_id = os.environ.get("FINMIND_USER", "")
-    password = os.environ.get("FINMIND_PASSWORD", "")
+    FINMIND_API_TOKEN = os.environ.get("FINMIND_API_TOKEN", "")
     data_loader = DataLoader()
-    data_loader.login(user_id, password)
+    data_loader.login_by_token(FINMIND_API_TOKEN)
     df = data_loader.taiwan_stock_month_revenue(
         stock_id="2890", start_date="2018-1M", end_date="2021-7M"
     )

@@ -7,8 +7,6 @@ from loguru import logger
 
 from FinMind.data import DataLoader, FinMindApi
 
-FINMIND_USER = os.environ.get("FINMIND_USER", "")
-FINMIND_PASSWORD = os.environ.get("FINMIND_PASSWORD", "")
 FINMIND_API_TOKEN = os.environ.get("FINMIND_API_TOKEN", "")
 
 
@@ -124,9 +122,9 @@ def data_loader():
     return data_loader
 
 
-def test_api_login():
+def test_api_login_by_token():
     api = FinMindApi()
-    assert api.login(user_id=FINMIND_USER, password=FINMIND_PASSWORD)
+    assert api.login_by_token(api_token=FINMIND_API_TOKEN)
 
 
 def assert_data(data: pd.DataFrame, correct_columns_name: list):

@@ -13,14 +13,13 @@ from FinMind.strategies.utils import (
     days2years,
 )
 
-user_id = os.environ.get("FINMIND_USER", "")
-password = os.environ.get("FINMIND_PASSWORD", "")
+FINMIND_API_TOKEN = os.environ.get("FINMIND_API_TOKEN", "")
 
 
 @pytest.fixture(scope="module")
 def data_loader():
     data_loader = DataLoader()
-    data_loader.login(user_id, password)
+    data_loader.login_by_token(FINMIND_API_TOKEN)
     return data_loader
 
 

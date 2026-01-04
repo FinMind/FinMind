@@ -10,14 +10,12 @@ from FinMind.schema.indicators import AddBuySellRule, Indicators, IndicatorsInfo
 from FinMind.schema.rule import Rule
 
 FINMIND_API_TOKEN = os.environ.get("FINMIND_API_TOKEN", "")
-FINMIND_USER = os.environ.get("FINMIND_USER", "")
-FINMIND_PASSWORD = os.environ.get("FINMIND_PASSWORD", "")
 
 
 @pytest.fixture(scope="module")
 def data_loader():
     data_loader = DataLoader()
-    data_loader.login(FINMIND_USER, FINMIND_PASSWORD)
+    data_loader.login_by_token(FINMIND_API_TOKEN)
     return data_loader
 
 
