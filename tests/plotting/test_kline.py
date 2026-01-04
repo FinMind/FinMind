@@ -13,10 +13,9 @@ testdata_kline = [
 
 @pytest.mark.parametrize("stock_id, start_date, end_date", testdata_kline)
 def test_kline(stock_id, start_date, end_date):
-    user_id = os.environ.get("FINMIND_USER", "")
-    password = os.environ.get("FINMIND_PASSWORD", "")
+    FINMIND_API_TOKEN = os.environ.get("FINMIND_API_TOKEN", "")
     data_loader = DataLoader()
-    data_loader.login(user_id, password)
+    data_loader.login_by_token(FINMIND_API_TOKEN)
     stock_data = data_loader.taiwan_stock_daily_adj(
         stock_id=stock_id, start_date=start_date, end_date=end_date
     )
