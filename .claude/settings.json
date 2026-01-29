@@ -1,0 +1,11 @@
+{
+  "enabledPlugins": {
+    "commit-commands@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "ralph-wiggum@claude-code-plugins": true,
+    "superpowers@superpowers-marketplace": true,
+    "claude-md-management@claude-plugins-official": true
+  }
+}
