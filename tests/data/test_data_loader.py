@@ -1340,6 +1340,41 @@ def test_taiwan_stock_par_value_change(data_loader):
     )
 
 
+def test_taiwan_stock_suspended(data_loader):
+    df = data_loader.taiwan_stock_suspended(
+        start_date="2020-01-01",
+        end_date="2026-01-01",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "suspension_time",
+            "resumption_date",
+            "resumption_time",
+        ],
+    )
+    assert len(df) >= 1000
+
+
+def test_taiwan_stock_day_trading_suspension(data_loader):
+    df = data_loader.taiwan_stock_day_trading_suspension(
+        start_date="2020-01-01",
+        end_date="2026-01-01",
+    )
+    assert_data(
+        df,
+        [
+            "stock_id",
+            "date",
+            "end_date",
+            "reason",
+        ],
+    )
+    assert len(df) >= 1000
+
+
 def test_get_stock_id_list(data_loader):
     stock_id_list = data_loader._get_stock_id_list(
         date="2025-12-08",

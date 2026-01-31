@@ -2461,6 +2461,65 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_par_value_change
 
+    def taiwan_stock_suspended(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台股暫停交易公告
+        :param stock_id (str): 股票代號
+        :param start_date (str): 日期("2017-04-01")
+        :param end_date (str): 日期("2025-01-01")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股暫停交易公告 TaiwanStockSuspended
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column stock_id (str)
+        :rtype column suspension_time (str)
+        :rtype column resumption_date (str)
+        :rtype column resumption_time (str)
+        """
+        taiwan_stock_suspended = self.get_data(
+            dataset=Dataset.TaiwanStockSuspended,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return taiwan_stock_suspended
+
+    def taiwan_stock_day_trading_suspension(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 暫停先賣後買當沖預告表
+        :param stock_id (str): 股票代號
+        :param start_date (str): 日期("2024-12-01")
+        :param end_date (str): 日期("2025-01-01")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 暫停先賣後買當沖預告表 TaiwanStockDayTradingSuspension
+        :rtype pd.DataFrame
+        :rtype column stock_id (str)
+        :rtype column date (str)
+        :rtype column end_date (str)
+        :rtype column reason (str)
+        """
+        taiwan_stock_day_trading_suspension = self.get_data(
+            dataset=Dataset.TaiwanStockDayTradingSuspension,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return taiwan_stock_day_trading_suspension
+
     def _get_stock_id_list(
         self, date: str, timeout: int = None
     ) -> typing.List[str]:

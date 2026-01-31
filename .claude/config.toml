@@ -1,0 +1,47 @@
+[permissions]
+write = true
+edit = true
+delete = false
+execute = true   # ⭐ 關鍵：允許執行指令
+
+[execution]
+allow = [
+  "git status",
+  "git diff",
+  "git log",
+  "git branch",
+  "git checkout",
+  "git switch",
+  "git pull",
+  "git fetch",
+  "git add",
+  "git commit",
+  "curl",
+  "curl https://",
+  "wget",
+  "wget https://",
+  "uv run python",
+  "make format",
+  "uv run",
+  "python3"
+]
+
+# 🚫 明確禁止所有 force 類操作
+deny = [
+  "git push --force",
+  "git push -f",
+  "git reset --hard",
+  "git checkout -f",
+  "git clean -f",
+  "git clean -fd",
+  "git push",
+  "--force",
+  "-f"
+]
+
+[behavior]
+auto_apply = true
+ask_before_edit = false
+ask_before_write = false
+ask_before_execute = false   # ⭐ 不再詢問就執行
+verbosity = "low"
