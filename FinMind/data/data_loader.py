@@ -464,7 +464,7 @@ class DataLoader(FinMindApi):
         :rtype column date (str): 日期
         :rtype column stock_id (str): 股票代碼
         :rtype column stock_name (str): 股票名稱
-        :rtype column InternationalCode (str): 國際股票邊碼
+        :rtype column InternationalCode (str): 國際股票編碼
         :rtype column ForeignInvestmentRemainingShares (int): 外資尚可投資股數
         :rtype column ForeignInvestmentShares (int): 外資持有股數
         :rtype column ForeignInvestmentRemainRatio (float): 外資尚可投資比例
@@ -544,7 +544,7 @@ class DataLoader(FinMindApi):
         :rtype column volume (int): 成交量
         :rtype column fee_rate (float): 成交費率
         :rtype column close (float): 收盤價
-        :rtype column original_return_date (str): 約定還卷日期
+        :rtype column original_return_date (str): 約定還券日期
         :rtype column original_lending_period (int): 約定借券天數
         """
         stock_securities_lending = self.get_data(
@@ -1839,7 +1839,7 @@ class DataLoader(FinMindApi):
         :rtype column date (str): 日期
         :rtype column stock_id (str): 股票代碼
         :rtype column Adj_Close (float): 調整股價
-        :rtype column Close (float): 成交金額
+        :rtype column Close (float): 收盤價
         :rtype column High (float): 最高價
         :rtype column Low (float): 最低價
         :rtype column Open (float): 開盤價
