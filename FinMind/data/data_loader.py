@@ -1402,6 +1402,80 @@ class DataLoader(FinMindApi):
         )
         return option_dealer_trading_volume_daily
 
+    def taiwan_futures_final_settlement_price(
+        self,
+        futures_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        futures_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 期貨最後結算價
+        :param futures_id: 期貨代號("TX")
+        :param start_date (str): 起始日期("2024-01-01")
+        :param end_date (str): 結束日期("2024-12-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 期貨最後結算價 TaiwanFuturesFinalSettlementPrice
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column contract_month (str)
+        :rtype column futures_type (str)
+        :rtype column futures_id (str)
+        :rtype column futures_name (str)
+        :rtype column settlement_price (float)
+        :rtype column underlying_code (str)
+        :rtype column notional_value (float)
+        """
+        futures_final_settlement_price = self.get_data(
+            dataset=Dataset.TaiwanFuturesFinalSettlementPrice,
+            data_id=futures_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=futures_id_list,
+        )
+        return futures_final_settlement_price
+
+    def taiwan_option_final_settlement_price(
+        self,
+        option_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        option_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 選擇權最後結算價
+        :param option_id: 選擇權代號("TXO")
+        :param start_date (str): 起始日期("2024-01-01")
+        :param end_date (str): 結束日期("2024-12-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 選擇權最後結算價 TaiwanOptionFinalSettlementPrice
+        :rtype pd.DataFrame
+        :rtype column date (str)
+        :rtype column contract_month (str)
+        :rtype column option_type (str)
+        :rtype column option_id (str)
+        :rtype column option_name (str)
+        :rtype column settlement_price (float)
+        :rtype column underlying_code (str)
+        :rtype column notional_value (float)
+        """
+        option_final_settlement_price = self.get_data(
+            dataset=Dataset.TaiwanOptionFinalSettlementPrice,
+            data_id=option_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=option_id_list,
+        )
+        return option_final_settlement_price
+
     def taiwan_stock_news(
         self,
         stock_id: str = "",
