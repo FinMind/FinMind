@@ -1380,3 +1380,45 @@ def test_get_stock_id_list(data_loader):
         date="2025-12-08",
     )
     assert len(stock_id_list) < 3000
+
+
+def test_taiwan_futures_final_settlement_price(data_loader):
+    df = data_loader.taiwan_futures_final_settlement_price(
+        futures_id="TX",
+        start_date="2024-01-01",
+        end_date="2024-12-31",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "contract_month",
+            "futures_type",
+            "futures_id",
+            "futures_name",
+            "settlement_price",
+            "underlying_code",
+            "notional_value",
+        ],
+    )
+
+
+def test_taiwan_option_final_settlement_price(data_loader):
+    df = data_loader.taiwan_option_final_settlement_price(
+        option_id="TXO",
+        start_date="2024-01-01",
+        end_date="2024-12-31",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "contract_month",
+            "option_type",
+            "option_id",
+            "option_name",
+            "settlement_price",
+            "underlying_code",
+            "notional_value",
+        ],
+    )
