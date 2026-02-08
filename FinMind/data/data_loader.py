@@ -1439,6 +1439,49 @@ class DataLoader(FinMindApi):
         )
         return futures_final_settlement_price
 
+    def taiwan_futures_spread_trading(
+        self,
+        futures_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        futures_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 期貨價差行情表
+        :param futures_id: 期貨代號("TX")
+        :param start_date (str): 起始日期("2024-01-01")
+        :param end_date (str): 結束日期("2024-12-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 期貨價差行情表 TaiwanFuturesSpreadTrading
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column futures_id (str): 期貨代碼
+        :rtype column contract_date (str): 到期月份
+        :rtype column open (float): 開盤價
+        :rtype column max (float): 最高價
+        :rtype column min (float): 最低價
+        :rtype column close (float): 收盤價
+        :rtype column best_bid (float): 最佳買價
+        :rtype column best_ask (float): 最佳賣價
+        :rtype column historical_max (float): 歷史最高價
+        :rtype column historical_min (float): 歷史最低價
+        :rtype column spread_to_spread_volume (float): 價差對價差成交量
+        :rtype column spread_to_single_volume (float): 價差對單式成交量
+        :rtype column trading_session (str): 交易時段
+        """
+        futures_spread_trading = self.get_data(
+            dataset=Dataset.TaiwanFuturesSpreadTrading,
+            data_id=futures_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=futures_id_list,
+        )
+        return futures_spread_trading
+
     def taiwan_option_final_settlement_price(
         self,
         option_id: str = "",

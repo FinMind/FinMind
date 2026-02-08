@@ -1403,6 +1403,33 @@ def test_taiwan_futures_final_settlement_price(data_loader):
     )
 
 
+def test_taiwan_futures_spread_trading(data_loader):
+    df = data_loader.taiwan_futures_spread_trading(
+        futures_id="TX",
+        start_date="2024-01-01",
+        end_date="2024-12-31",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "futures_id",
+            "contract_date",
+            "open",
+            "max",
+            "min",
+            "close",
+            "best_bid",
+            "best_ask",
+            "historical_max",
+            "historical_min",
+            "spread_to_spread_volume",
+            "spread_to_single_volume",
+            "trading_session",
+        ],
+    )
+
+
 def test_taiwan_option_final_settlement_price(data_loader):
     df = data_loader.taiwan_option_final_settlement_price(
         option_id="TXO",
