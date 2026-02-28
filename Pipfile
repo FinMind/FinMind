@@ -22,6 +22,7 @@ tqdm = "*"
 nest-asyncio = "==1.6.0"
 pyarrow = "*"
 exceptiongroup = "*"
+tomli = "*"
 
 [dev-packages]
 pytest = "==6.2.5"
