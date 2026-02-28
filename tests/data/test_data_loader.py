@@ -218,7 +218,7 @@ def test_taiwan_stock_tick(data_loader):
 
 
 def test_taiwan_stock_tick_object(data_loader):
-    data = data_loader.taiwan_stock_tick("2019-01-02")
+    data = data_loader.taiwan_stock_tick("2019-01-02", use_object=True)
     assert_data(
         data, ["date", "stock_id", "deal_price", "volume", "Time", "TickType"]
     )
