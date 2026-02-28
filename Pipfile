@@ -21,6 +21,7 @@ typing-extensions = ">=4.0.0, <5.0.0"
 tqdm = "*"
 nest-asyncio = "==1.6.0"
 pyarrow = "*"
+exceptiongroup = "*"
 
 [dev-packages]
 pytest = "==6.2.5"

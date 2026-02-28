@@ -217,6 +217,13 @@ def test_taiwan_stock_tick(data_loader):
     )
 
 
+def test_taiwan_stock_tick_object(data_loader):
+    data = data_loader.taiwan_stock_tick("2019-01-02")
+    assert_data(
+        data, ["date", "stock_id", "deal_price", "volume", "Time", "TickType"]
+    )
+
+
 def test_taiwan_stock_book_and_trade(data_loader):
     data = data_loader.taiwan_stock_book_and_trade("2021-04-01")
     assert_data(
