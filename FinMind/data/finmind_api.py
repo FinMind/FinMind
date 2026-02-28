@@ -1,4 +1,5 @@
 import sys
+import io
 import typing
 
 import pandas as pd
@@ -376,3 +377,31 @@ class FinMindApi:
         ).json()
         data = pd.DataFrame(data["data"])
         return data
+
+    def get_object(self, dataset: str, date: str, timeout: int) -> pd.DataFrame:
+        """透過 signed URL 下載整日資料物件 (parquet 格式)
+        :param dataset (str): 資料集名稱 (e.g. "TaiwanStockPriceTick")
+        :param date (str): 資料日期 ("2025-01-06")
+        :param timeout (int): request timeout 秒數
+
+        :return: 該日期所有資料
+        :rtype: pd.DataFrame
+        """
+        url = f"{self.__api_url}/{self.__api_version}/storage_objects"
+        params = {
+            "dataset": dataset,
+            "date": date,
+        }
+        response = request_get(
+            self.__session,
+            url,
+            params=params,
+            timeout=timeout,
+        )
+        status_code = response.status_code
+        if status_code == 200:
+            return pd.read_parquet(io.BytesIO(response.content))
+        else:
+            resp_json = response.json()
+            logger.info(resp_json)
+        return pd.DataFrame()

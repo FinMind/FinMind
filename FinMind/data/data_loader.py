@@ -150,11 +150,16 @@ class DataLoader(FinMindApi):
         stock_id_list: typing.List[str] = None,
         timeout: int = None,
         use_async: bool = False,
+        use_object: bool = False,
     ) -> pd.DataFrame:
         """get 台灣股價歷史逐筆資料表 TaiwanStockPriceTick
         :param stock_id (str): 股票代號("2330")
         :param date (str): 資料日期 ("2021-03-06")
+        :param stock_id_list (typing.List[str]): 股票代號列表 (["2330", "2317"])
         :param timeout (int): timeout seconds, default None
+        :param use_async (bool): 是否使用非同步下載, default False
+        :param use_object (bool): 是否透過 signed URL 下載整日 parquet 資料物件,
+            設為 True 時忽略 stock_id, stock_id_list, use_async 參數, default False
 
         :return: 台灣股價歷史逐筆資料表 TaiwanStockPriceTick
         :rtype pd.DataFrame
@@ -163,6 +168,12 @@ class DataLoader(FinMindApi):
         :rtype column deal_price (float): 成交價
         :rtype column volume (int): 成交量
         """
+        if use_object:
+            return self.get_object(
+                dataset=Dataset.TaiwanStockPriceTick,
+                date=date,
+                timeout=timeout,
+            )
         if not stock_id and not stock_id_list:
             stock_id_list = self._get_stock_id_list(date, timeout)
 
