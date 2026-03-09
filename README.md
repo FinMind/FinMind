@@ -127,6 +127,14 @@ plotting.kline(stock_data)
 ![png](figure/dashboard.png)
 -------------------------------------------
 
+## LLM / AI Integration
+
+FinMind provides [llms.txt](https://finmind.github.io/llms.txt) for AI tools (ChatGPT, Claude, etc.) to quickly understand all datasets and API usage. Just paste the link to your AI assistant:
+
+```
+https://finmind.github.io/llms.txt
+```
+
 ## Contact
 
 <!-- Solicit partners who are interested in joint development.
