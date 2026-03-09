@@ -1410,6 +1410,24 @@ def test_taiwan_futures_final_settlement_price(data_loader):
     )
 
 
+def test_taiwan_stock_price_limit(data_loader):
+    df = data_loader.taiwan_stock_price_limit(
+        stock_id="2330",
+        start_date="2024-01-01",
+        end_date="2024-01-31",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "reference_price",
+            "limit_up",
+            "limit_down",
+        ],
+    )
+
+
 def test_taiwan_futures_spread_trading(data_loader):
     df = data_loader.taiwan_futures_spread_trading(
         futures_id="TX",

@@ -1667,6 +1667,37 @@ class DataLoader(FinMindApi):
         )
         return tw_stock_market_value
 
+    def taiwan_stock_price_limit(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 每日漲跌停價
+        :param timeout (int): timeout seconds, default None
+
+        :return: 每日漲跌停價 TaiwanStockPriceLimit
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代碼
+        :rtype column reference_price (float): 參考價
+        :rtype column limit_up (float): 漲停價
+        :rtype column limit_down (float): 跌停價
+        """
+        tw_stock_price_limit = self.get_data(
+            dataset=Dataset.TaiwanStockPriceLimit,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return tw_stock_price_limit
+
     def taiwan_stock_10year(
         self,
         stock_id: str = "",
