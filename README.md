@@ -129,11 +129,10 @@ plotting.kline(stock_data)
 
 ## LLM / AI Integration
 
-FinMind provides [llms.txt](https://finmind.github.io/llms.txt) for AI tools (ChatGPT, Claude, etc.) to quickly understand all datasets and API usage. Just paste the link to your AI assistant:
+FinMind provides [llms.txt](https://finmind.github.io/llms.txt) and [llms-full.txt](https://finmindtrade.com/llms-full.txt) for AI tools (ChatGPT, Claude, Copilot, Gemini, etc.) to quickly understand all datasets and API usage. Just paste the link to your AI assistant:
 
-```
-https://finmind.github.io/llms.txt
-```
+- `https://finmind.github.io/llms.txt` — dataset index with links
+- `https://finmindtrade.com/llms-full.txt` — complete API reference with all 75+ dataset schemas, params, and columns
 
 ## Contact
 
