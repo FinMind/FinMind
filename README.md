@@ -17,7 +17,7 @@
 
 <a href="https://finmindtrade.com/analysis/#/Sponsor/sponsor"><img src="https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png" alt=""/></a>
 
-* [FinMind 架構獨家解析書籍推薦](https://www.tenlong.com.tw/products/9786267273739?list_name=b-r7-zh_tw)
+* [FinMind 架構獨家解析書籍推薦](https://www.tenlong.com.tw/products/9786267757802?list_name=trs-o)
 <a href="https://www.tenlong.com.tw/products/9786267273739?list_name=b-r7-zh_tw"><img src="https://github.com/FinMind/FinMindBook/blob/master/DataEngineering/FinMindBook.jpg" width="200" height="250" alt=""/></a>
 
 
@@ -29,6 +29,14 @@ pip install FinMind
 
 + Refer to our [Official Documentation](https://finmind.github.io/quickstart/).
 
+## LLM / AI 整合
+
+想用 ChatGPT、Claude 等 AI 工具查詢 FinMind 的資料集和 API 用法？我們提供 llms.txt，讓 AI 快速理解 FinMind 的所有資料集、API 端點與使用方式。
+
+只要將以下連結貼給你的 AI 助手，即可開始對話：
+
+- [llms.txt](https://finmind.github.io/llms.txt) — 精簡版，資料集索引與 API 概覽
+- [llms-full.txt](https://finmind.github.io/llms-full.txt) — 完整版，包含所有資料集的欄位名稱、SDK 方法、參數範例
 
 ## 這是什麼?
 
@@ -126,13 +134,6 @@ plotting.kline(stock_data)
 
 ![png](figure/dashboard.png)
 -------------------------------------------
-
-## LLM / AI Integration
-
-FinMind provides [llms.txt](https://finmind.github.io/llms.txt) and [llms-full.txt](https://finmind.github.io/llms-full.txt) for AI tools (ChatGPT, Claude, Copilot, Gemini, etc.) to quickly understand all datasets and API usage. Just paste the link to your AI assistant:
-
-- `https://finmind.github.io/llms.txt` — dataset index with links
-- `https://finmind.github.io/llms-full.txt` — complete API reference with all 75+ dataset schemas, params, and columns
 
 ## Contact
 
