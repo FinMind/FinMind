@@ -37,6 +37,7 @@ pip install FinMind
 
 - [llms.txt](https://finmind.github.io/llms.txt) — 精簡版，資料集索引與 API 概覽
 - [llms-full.txt](https://finmind.github.io/llms-full.txt) — 完整版，包含所有資料集的欄位名稱、SDK 方法、參數範例
+- [Agent Skill 教學](https://finmind.github.io/tutor/AgentSkill/) — 讓 AI Agent（如 Claude Code）直接查詢 FinMind 資料
 
 
 ## 這是什麼?
