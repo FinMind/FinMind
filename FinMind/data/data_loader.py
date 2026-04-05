@@ -2679,6 +2679,34 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_day_trading_suspension
 
+    def taiwan_stock_day_trading_borrowing_fee_rate(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 現股當日沖銷券差借券費率
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 開始日期("2024-12-01")
+        :param end_date (str): 結束日期("2025-01-01")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 現股當日沖銷券差借券費率 TaiwanStockDayTradingBorrowingFeeRate
+        :rtype pd.DataFrame
+        :rtype column stock_id (str): 股票代碼
+        :rtype column date (str): 日期
+        :rtype column SecuritiesLendingFeeRate (float): 借券費率
+        """
+        taiwan_stock_day_trading_borrowing_fee_rate = self.get_data(
+            dataset=Dataset.TaiwanStockDayTradingBorrowingFeeRate,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return taiwan_stock_day_trading_borrowing_fee_rate
+
     def _get_stock_id_list(
         self, date: str, timeout: int = None
     ) -> typing.List[str]:
