@@ -2280,6 +2280,36 @@ class DataLoader(FinMindApi):
         )
         return stock_trading_daily_report
 
+    def taiwan_stock_block_trading_daily_report(
+        self,
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 當日鉅額交易分點表
+        :param start_date (str): 日期("2018-01-01")
+        :param end_date (str): 日期("2018-01-02")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 當日鉅額交易分點表 TaiwanStockBlockTradingDailyReport
+        :rtype pd.DataFrame
+        :rtype column securities_trader (str): 券商名稱
+        :rtype column price (float): 成交價
+        :rtype column buy (int): 買進股數
+        :rtype column sell (int): 賣出股數
+        :rtype column trade_type (str): 交易類型
+        :rtype column securities_trader_id (str): 券商代碼
+        :rtype column stock_id (str): 股票代碼
+        :rtype column date (str): 日期
+        """
+        block_trading_daily_report = self.get_data(
+            dataset=Dataset.TaiwanStockBlockTradingDailyReport,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return block_trading_daily_report
+
     def taiwan_stock_warrant_trading_daily_report(
         self,
         stock_id: str = "",

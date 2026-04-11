@@ -104,6 +104,9 @@ class Dataset(str, Enum):
         "TaiwanStockTradingDailyReportSecIdAgg"
     )
     TaiwanStockTradingDailyReport = "TaiwanStockTradingDailyReport"
+    TaiwanStockBlockTradingDailyReport = (
+        "TaiwanStockBlockTradingDailyReport"
+    )
     TaiwanStockWarrantTradingDailyReport = (
         "TaiwanStockWarrantTradingDailyReport"
     )

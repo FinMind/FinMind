@@ -1059,6 +1059,26 @@ def test_taiwan_stock_trading_daily_report_use_async(data_loader):
     )
 
 
+def test_taiwan_stock_block_trading_daily_report(data_loader):
+    df = data_loader.taiwan_stock_block_trading_daily_report(
+        start_date="2024-07-30",
+        end_date="2024-07-30",
+    )
+    assert_data(
+        df,
+        [
+            "securities_trader",
+            "price",
+            "buy",
+            "sell",
+            "trade_type",
+            "securities_trader_id",
+            "stock_id",
+            "date",
+        ],
+    )
+
+
 def test_taiwan_stock_warrant_trading_daily_report(data_loader):
     df = data_loader.taiwan_stock_warrant_trading_daily_report(
         securities_trader_id="1020",
