@@ -14,9 +14,21 @@ Base URL: `https://api.finmindtrade.com/api/v4`
 
 ### Endpoints
 
-- `GET /data` — Fetch dataset. Params: dataset (str, required), data_id (str), start_date (str, YYYY-MM-DD), end_date (str, YYYY-MM-DD). Header: `Authorization: Bearer {token}`
+- `GET /data` — Fetch dataset (most datasets). Params: dataset (str, required), data_id (str), start_date (str, YYYY-MM-DD), end_date (str, YYYY-MM-DD). Header: `Authorization: Bearer {token}`
 - `GET /datalist` — List available data_id values for a dataset. Params: dataset (str, required)
 - `GET /translation` — Column name Chinese-English mapping. Params: dataset (str, required)
+
+#### Special Endpoints (不使用 /data)
+
+These datasets use dedicated endpoints with different parameter conventions:
+
+| Dataset | Endpoint | Params |
+|---------|----------|--------|
+| TaiwanStockTradingDailyReport | `/v4/taiwan_stock_trading_daily_report` | data_id, securities_trader_id, date (not start_date), end_date |
+| TaiwanStockWarrantTradingDailyReport | `/v4/taiwan_stock_warrant_trading_daily_report` | data_id, securities_trader_id, date (not start_date), end_date |
+| TaiwanStockTradingDailyReportSecIdAgg | `/v4/taiwan_stock_trading_daily_report_secid_agg` | data_id, securities_trader_id, start_date, end_date |
+
+Note: These endpoints require `data_id` (stock_id) — they do NOT support omitting data_id for "all stocks" mode.
 
 ### Rate Limits
 - 600 requests/hour (with token), 300/hour (without token)
@@ -80,7 +92,7 @@ print(df.to_string())
 | TaiwanStockPER | PER/PBR | Free | data_id, start_date, end_date | date, stock_id, dividend_yield, PER, PBR |
 | TaiwanStockStatisticsOfOrderBookAndTrade | 每5秒委託成交統計 | Free | start_date (single day) | Time, TotalBuyOrder, TotalBuyVolume, TotalSellOrder, TotalSellVolume, TotalDealVolume, TotalDealMoney, date |
 | TaiwanVariousIndicators5Seconds | 台股加權指數 | Free | start_date (single day) | date, TAIEX |
-| TaiwanStockDayTrading | 當沖交易 | Free(w/ data_id) | data_id, start_date, end_date | stock_id, date, BuyAfterSale, Volume, BuyAmount, SellAmount |
+| TaiwanStockDayTrading | 當沖交易 (2014-01-01~now) | Free(w/ data_id) | data_id, start_date, end_date | stock_id, date, BuyAfterSale, Volume, BuyAmount, SellAmount |
 | TaiwanStockTotalReturnIndex | 報酬指數 | Free | data_id(TAIEX/TPEx), start_date, end_date | price, stock_id, date |
 | TaiwanStock10Year | 十年線 | Backer | data_id, start_date, end_date | date, stock_id, close |
 | TaiwanStockKBar | 分K資料 | Sponsor | data_id, start_date (single day) | date, minute, stock_id, open, high, low, close, volume |
@@ -89,7 +101,7 @@ print(df.to_string())
 | TaiwanStockEvery5SecondsIndex | 每5秒指數統計 | Backer | start_date (single day) | date, time, stock_id, price, kind |
 | TaiwanStockSuspended | 暫停交易公告 | Backer | start_date, end_date | stock_id, date, suspension_time, resumption_date |
 | TaiwanStockDayTradingSuspension | 暫停先賣後買當沖 | Backer | start_date, end_date | stock_id, date, end_date, reason |
-| TaiwanStockPriceLimit | 每日漲跌停價 | Free(w/ data_id) | data_id, start_date | date, stock_id, reference_price, limit_up, limit_down |
+| TaiwanStockPriceLimit | 每日漲跌停價 (2000-01-01~now) | Free(w/ data_id) | data_id, start_date | date, stock_id, reference_price, limit_up, limit_down |
 
 ### Taiwan Market - Chip / Institutional (18 datasets)
 
@@ -109,7 +121,7 @@ print(df.to_string())
 | TaiwanStockWarrantTradingDailyReport | 權證分點資料 | Sponsor | securities_trader, price, buy, sell, securities_trader_id, stock_id, date |
 | TaiwanstockGovernmentBankBuySell | 八大行庫買賣 | Sponsor | date, stock_id, buy_amount, sell_amount, buy, sell, bank_name |
 | TaiwanTotalExchangeMarginMaintenance | 大盤融資維持率 | Backer | date, TotalExchangeMarginMaintenance |
-| TaiwanStockTradingDailyReportSecIdAgg | 卷商分點統計 | Sponsor | securities_trader, securities_trader_id, stock_id, date, buy_volume, sell_volume |
+| TaiwanStockTradingDailyReportSecIdAgg | 卷商分點統計 (2021-06-30~now, 特殊endpoint) | Sponsor | securities_trader, securities_trader_id, stock_id, date, buy_volume, sell_volume, buy_price, sell_price |
 | TaiwanStockDispositionSecuritiesPeriod | 處置有價證券 | Backer | date, stock_id, stock_name, disposition_cnt, condition, measure, period_start, period_end |
 
 ### Taiwan Market - Fundamental (12 datasets)
