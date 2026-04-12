@@ -24,21 +24,19 @@ These datasets use dedicated endpoints with different parameter conventions:
 
 | Dataset | Endpoint | Params |
 |---------|----------|--------|
-| TaiwanStockTradingDailyReport | `/v4/taiwan_stock_trading_daily_report` | data_id, securities_trader_id, date (not start_date), end_date |
-| TaiwanStockWarrantTradingDailyReport | `/v4/taiwan_stock_warrant_trading_daily_report` | data_id, securities_trader_id, date (not start_date), end_date |
+| TaiwanStockTradingDailyReport | `/v4/taiwan_stock_trading_daily_report` | data_id (required), securities_trader_id, date (not start_date), end_date |
+| TaiwanStockWarrantTradingDailyReport | `/v4/taiwan_stock_warrant_trading_daily_report` | data_id (required), securities_trader_id, date (not start_date), end_date |
 | TaiwanStockTradingDailyReportSecIdAgg | `/v4/taiwan_stock_trading_daily_report_secid_agg` | data_id, securities_trader_id, start_date, end_date |
 
-Note: These endpoints require `data_id` (stock_id) — they do NOT support omitting data_id for "all stocks" mode.
-
 ### Rate Limits
-- 600 requests/hour (with token), 300/hour (without token)
 - HTTP 402 when quota exceeded
 - Check usage: `GET https://api.web.finmindtrade.com/v2/user_info` (Bearer token), returns `user_count` and `api_request_limit`
 
 ### Membership Tiers
 - **Free**: Basic datasets, 600 req/hour
-- **Backer**: More datasets, higher limits
-- **Sponsor**: Full access including real-time, tick, branch trading, minute-level data
+- **Backer**: More datasets, 1,600 req/hour
+- **Sponsor**: Full access including real-time, tick, branch trading, minute-level data, 6,000 req/hour
+- **SponsorPro**: Full access, 20,000 req/hour
 
 ## Environment
 
