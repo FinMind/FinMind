@@ -26,7 +26,7 @@ These datasets use dedicated endpoints with different parameter conventions:
 |---------|----------|--------|
 | TaiwanStockTradingDailyReport | `/v4/taiwan_stock_trading_daily_report` | data_id (required), securities_trader_id, date (not start_date), end_date |
 | TaiwanStockWarrantTradingDailyReport | `/v4/taiwan_stock_warrant_trading_daily_report` | data_id (required), securities_trader_id, date (not start_date), end_date |
-| TaiwanStockTradingDailyReportSecIdAgg | `/v4/taiwan_stock_trading_daily_report_secid_agg` | securities_trader_id (required), data_id (optional), start_date, end_date |
+| TaiwanStockTradingDailyReportSecIdAgg | `/v4/taiwan_stock_trading_daily_report_secid_agg` | data_id, securities_trader_id, start_date, end_date |
 
 ### Rate Limits
 - HTTP 402 when quota exceeded
