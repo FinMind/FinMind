@@ -1395,7 +1395,7 @@ def test_taiwan_stock_day_trading_borrowing_fee_rate(data_loader):
             "stock_id",
             "stock_name",
             "InvestorBorrowedShares",
-            "InvestorBorrowingFeeRate"
+            "InvestorBorrowingFeeRate",
         ],
     )
     assert len(df) >= 1
