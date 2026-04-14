@@ -1382,6 +1382,25 @@ def test_taiwan_stock_day_trading_suspension(data_loader):
     assert len(df) >= 1000
 
 
+def test_taiwan_stock_day_trading_borrowing_fee_rate(data_loader):
+    df = data_loader.taiwan_stock_day_trading_borrowing_fee_rate(
+        stock_id="2330",
+        start_date="2024-01-01",
+        end_date="2025-01-01",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "stock_name",
+            "InvestorBorrowedShares",
+            "InvestorBorrowingFeeRate",
+        ],
+    )
+    assert len(df) >= 1
+
+
 def test_get_stock_id_list(data_loader):
     stock_id_list = data_loader._get_stock_id_list(
         date="2025-12-08",

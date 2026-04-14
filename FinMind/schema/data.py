@@ -125,6 +125,9 @@ class Dataset(str, Enum):
     TaiwanStockParValueChange = "TaiwanStockParValueChange"
     TaiwanStockSuspended = "TaiwanStockSuspended"
     TaiwanStockDayTradingSuspension = "TaiwanStockDayTradingSuspension"
+    TaiwanStockDayTradingBorrowingFeeRate = (
+        "TaiwanStockDayTradingBorrowingFeeRate"
+    )
     TaiwanFuturesSpreadTrading = "TaiwanFuturesSpreadTrading"
     TaiwanFuturesFinalSettlementPrice = "TaiwanFuturesFinalSettlementPrice"
     TaiwanOptionFinalSettlementPrice = "TaiwanOptionFinalSettlementPrice"
