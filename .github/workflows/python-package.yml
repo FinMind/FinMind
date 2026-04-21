@@ -7,24 +7,27 @@ on:
   pull_request:
     branches: [ master ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-22.04
-    # https://github.com/actions/setup-python/issues/544
     strategy:
       matrix:
-        python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11" ]
+        python-version: [ "3.8", "3.9", "3.10", "3.11" ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip3 install pipenv
-          pipenv --python /usr/bin/python3
+          pip install pipenv
+          pipenv --python $(which python)
       - name: Install package
         run: |
           pipenv sync
@@ -40,15 +43,15 @@ jobs:
   lint:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Python 3.8
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.8
+          python-version: "3.8"
       - name: Install Black
         run: |
           python -m pip install --upgrade pip
-          pip3 install black==24.8.0
+          pip install black==24.8.0
       - name: Check code formatting with Black
         run: |
           black -l 80 --check FinMind tests
