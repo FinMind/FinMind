@@ -107,6 +107,16 @@ class FinMindApi:
                 params["date"] = params.pop("start_date")
         return params
 
+    def _extract_data(self, response_json: dict) -> list:
+        if "data" not in response_json:
+            msg = (
+                response_json.get("msg")
+                or response_json.get("detail")
+                or response_json
+            )
+            raise Exception(f"FinMind API unexpected response: {msg}")
+        return response_json["data"]
+
     def _dispatcher_url(self, dataset: str) -> str:
         base_url = f"{self.__api_url}/{self.__api_version}"
         url_mapping = {
@@ -173,7 +183,7 @@ class FinMindApi:
                 params=params,
                 timeout=timeout,
             ).json()
-            return pd.DataFrame(response["data"])
+            return pd.DataFrame(self._extract_data(response))
 
     def _get_data_with_async(
         self,
@@ -214,7 +224,11 @@ class FinMindApi:
             max_retry_times=max_retry_times,
         )
         data_list = []
-        [data_list.extend(resp.json()["data"]) for resp in resp_list if resp]
+        [
+            data_list.extend(self._extract_data(resp.json()))
+            for resp in resp_list
+            if resp
+        ]
         df = pd.DataFrame(data_list)
         return df
 
@@ -257,7 +271,11 @@ class FinMindApi:
             timeout=timeout,
         )
         data_list = []
-        [data_list.extend(resp.json()["data"]) for resp in resp_list if resp]
+        [
+            data_list.extend(self._extract_data(resp.json()))
+            for resp in resp_list
+            if resp
+        ]
         df = pd.DataFrame(data_list)
         return df
 
@@ -289,7 +307,7 @@ class FinMindApi:
             params=params,
             timeout=timeout,
         ).json()
-        return pd.DataFrame(response["data"])
+        return pd.DataFrame(self._extract_data(response))
 
     def get_taiwan_futures_snapshot(
         self,
@@ -317,7 +335,7 @@ class FinMindApi:
             params=params,
             timeout=timeout,
         ).json()
-        return pd.DataFrame(response["data"])
+        return pd.DataFrame(self._extract_data(response))
 
     def get_taiwan_options_snapshot(
         self,
@@ -345,7 +363,7 @@ class FinMindApi:
             params=params,
             timeout=timeout,
         ).json()
-        return pd.DataFrame(response["data"])
+        return pd.DataFrame(self._extract_data(response))
 
     def get_datalist(self, dataset: str, timeout: int = None) -> pd.DataFrame:
         params = {
@@ -359,7 +377,7 @@ class FinMindApi:
             params=params,
             timeout=timeout,
         ).json()
-        data = data["data"]
+        data = self._extract_data(data)
         return data
 
     def translation(self, dataset: str, timeout: int = None) -> pd.DataFrame:
@@ -375,7 +393,7 @@ class FinMindApi:
             params=params,
             timeout=timeout,
         ).json()
-        data = pd.DataFrame(data["data"])
+        data = pd.DataFrame(self._extract_data(data))
         return data
 
     def get_object(self, dataset: str, date: str, timeout: int) -> pd.DataFrame:
