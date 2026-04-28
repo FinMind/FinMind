@@ -1493,3 +1493,22 @@ def test_taiwan_option_final_settlement_price(data_loader):
             "notional_value",
         ],
     )
+
+
+def test_taiwan_stock_block_trade(data_loader):
+    df = data_loader.taiwan_stock_block_trade(
+        stock_id="2330",
+        start_date="2026-04-01",
+        end_date="2026-04-30",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "trade_type",
+            "price",
+            "volume",
+            "trading_money",
+        ],
+    )

@@ -2707,6 +2707,37 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_day_trading_borrowing_fee_rate
 
+    def taiwan_stock_block_trade(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 鉅額交易日成交資訊
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 開始日期("2026-04-01")
+        :param end_date (str): 結束日期("2026-04-30")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 鉅額交易日成交資訊 TaiwanStockBlockTrade
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代碼
+        :rtype column trade_type (str): 交易別
+        :rtype column price (float): 成交價
+        :rtype column volume (int): 成交股數
+        :rtype column trading_money (int): 成交金額
+        """
+        taiwan_stock_block_trade = self.get_data(
+            dataset=Dataset.TaiwanStockBlockTrade,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return taiwan_stock_block_trade
+
     def _get_stock_id_list(
         self, date: str, timeout: int = None
     ) -> typing.List[str]:

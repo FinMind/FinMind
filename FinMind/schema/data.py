@@ -131,6 +131,7 @@ class Dataset(str, Enum):
     TaiwanFuturesSpreadTrading = "TaiwanFuturesSpreadTrading"
     TaiwanFuturesFinalSettlementPrice = "TaiwanFuturesFinalSettlementPrice"
     TaiwanOptionFinalSettlementPrice = "TaiwanOptionFinalSettlementPrice"
+    TaiwanStockBlockTrade = "TaiwanStockBlockTrade"
 
 
 class Version(str, Enum):
