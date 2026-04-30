@@ -1698,6 +1698,72 @@ class DataLoader(FinMindApi):
         )
         return tw_stock_price_limit
 
+    def taiwan_stock_loan_collateral_balance(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 借貸款項擔保品餘額表
+        :param stock_id (str): 股票代碼("2330")
+        :param start_date (str): 起始日期("2026-01-01")
+        :param end_date (str): 結束日期("2026-12-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 借貸款項擔保品餘額表 TaiwanStockLoanCollateralBalance
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代碼
+        :rtype column market (str): 市場別
+        :rtype column MarginPreviousDayBalance (int): 融資-前日餘額
+        :rtype column MarginBuy (int): 融資-買進
+        :rtype column MarginSell (int): 融資-賣出
+        :rtype column MarginCashRedemption (int): 融資-現償
+        :rtype column MarginCurrentDayBalance (int): 融資-今日餘額
+        :rtype column MarginNextDayQuota (int): 融資-次一營業日限額
+        :rtype column SecuritiesFirmLoanPreviousDayBalance (int): 證券商證券業務借貸款項-前日餘額
+        :rtype column SecuritiesFirmLoanBuy (int): 證券商證券業務借貸款項-買進
+        :rtype column SecuritiesFirmLoanSell (int): 證券商證券業務借貸款項-賣出
+        :rtype column SecuritiesFirmLoanCashRedemption (int): 證券商證券業務借貸款項-現償
+        :rtype column SecuritiesFirmLoanReplacement (int): 證券商證券業務借貸款項-更換
+        :rtype column SecuritiesFirmLoanCurrentDayBalance (int): 證券商證券業務借貸款項-今日餘額
+        :rtype column SecuritiesFirmLoanNextDayQuota (int): 證券商證券業務借貸款項-次一營業日限額
+        :rtype column UnrestrictedLoanPreviousDayBalance (int): 證券商不限用途款項借貸-前日餘額
+        :rtype column UnrestrictedLoanBuy (int): 證券商不限用途款項借貸-買進
+        :rtype column UnrestrictedLoanSell (int): 證券商不限用途款項借貸-賣出
+        :rtype column UnrestrictedLoanCashRedemption (int): 證券商不限用途款項借貸-現償
+        :rtype column UnrestrictedLoanReplacement (int): 證券商不限用途款項借貸-更換
+        :rtype column UnrestrictedLoanCurrentDayBalance (int): 證券商不限用途款項借貸-今日餘額
+        :rtype column UnrestrictedLoanNextDayQuota (int): 證券商不限用途款項借貸-次一營業日限額
+        :rtype column SecuritiesFinanceSecuredLoanPreviousDayBalance (int): 證金擔保放款-前日餘額
+        :rtype column SecuritiesFinanceSecuredLoanBuy (int): 證金擔保放款-買進
+        :rtype column SecuritiesFinanceSecuredLoanSell (int): 證金擔保放款-賣出
+        :rtype column SecuritiesFinanceSecuredLoanCashRedemption (int): 證金擔保放款-現償
+        :rtype column SecuritiesFinanceSecuredLoanReplacement (int): 證金擔保放款-更換
+        :rtype column SecuritiesFinanceSecuredLoanCurrentDayBalance (int): 證金擔保放款-今日餘額
+        :rtype column SecuritiesFinanceSecuredLoanNextDayQuota (int): 證金擔保放款-次一營業日限額
+        :rtype column SettlementMarginPreviousDayBalance (int): 證金交割融資-前日餘額
+        :rtype column SettlementMarginBuy (int): 證金交割融資-買進
+        :rtype column SettlementMarginSell (int): 證金交割融資-賣出
+        :rtype column SettlementMarginCashRedemption (int): 證金交割融資-現償
+        :rtype column SettlementMarginReplacement (int): 證金交割融資-更換
+        :rtype column SettlementMarginCurrentDayBalance (int): 證金交割融資-今日餘額
+        :rtype column SettlementMarginNextDayQuota (int): 證金交割融資-次一營業日限額
+        """
+        tw_stock_loan_collateral_balance = self.get_data(
+            dataset=Dataset.TaiwanStockLoanCollateralBalance,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return tw_stock_loan_collateral_balance
+
     def taiwan_stock_10year(
         self,
         stock_id: str = "",

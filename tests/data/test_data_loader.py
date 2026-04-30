@@ -1493,3 +1493,54 @@ def test_taiwan_option_final_settlement_price(data_loader):
             "notional_value",
         ],
     )
+
+
+def test_taiwan_stock_loan_collateral_balance(data_loader):
+    data_loader.login_by_token(api_token=os.environ.get("FINMIND_USER_TOKEN"))
+    df = data_loader.taiwan_stock_loan_collateral_balance(
+        stock_id="2330",
+        start_date="2025-01-01",
+        end_date="2025-01-31",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "market",
+            "MarginPreviousDayBalance",
+            "MarginBuy",
+            "MarginSell",
+            "MarginCashRedemption",
+            "MarginCurrentDayBalance",
+            "MarginNextDayQuota",
+            "SecuritiesFirmLoanPreviousDayBalance",
+            "SecuritiesFirmLoanBuy",
+            "SecuritiesFirmLoanSell",
+            "SecuritiesFirmLoanCashRedemption",
+            "SecuritiesFirmLoanReplacement",
+            "SecuritiesFirmLoanCurrentDayBalance",
+            "SecuritiesFirmLoanNextDayQuota",
+            "UnrestrictedLoanPreviousDayBalance",
+            "UnrestrictedLoanBuy",
+            "UnrestrictedLoanSell",
+            "UnrestrictedLoanCashRedemption",
+            "UnrestrictedLoanReplacement",
+            "UnrestrictedLoanCurrentDayBalance",
+            "UnrestrictedLoanNextDayQuota",
+            "SecuritiesFinanceSecuredLoanPreviousDayBalance",
+            "SecuritiesFinanceSecuredLoanBuy",
+            "SecuritiesFinanceSecuredLoanSell",
+            "SecuritiesFinanceSecuredLoanCashRedemption",
+            "SecuritiesFinanceSecuredLoanReplacement",
+            "SecuritiesFinanceSecuredLoanCurrentDayBalance",
+            "SecuritiesFinanceSecuredLoanNextDayQuota",
+            "SettlementMarginPreviousDayBalance",
+            "SettlementMarginBuy",
+            "SettlementMarginSell",
+            "SettlementMarginCashRedemption",
+            "SettlementMarginReplacement",
+            "SettlementMarginCurrentDayBalance",
+            "SettlementMarginNextDayQuota",
+        ],
+    )
