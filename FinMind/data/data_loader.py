@@ -327,6 +327,83 @@ class DataLoader(FinMindApi):
         )
         return stock_government_bank_buy_sell
 
+    def taiwan_stock_block_trade(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 鉅額交易日成交資訊（逐筆，Sponsor）
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 起始日期("2026-04-01")
+        :param end_date (str): 結束日期("2026-04-30")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 鉅額交易日成交資訊 TaiwanStockBlockTrade
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代碼
+        :rtype column trade_type (str): 交易別
+        :rtype column price (float): 成交價
+        :rtype column volume (int): 成交股數
+        :rtype column trading_money (int): 成交金額
+        """
+        stock_block_trade = self.get_data(
+            dataset=Dataset.TaiwanStockBlockTrade,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return stock_block_trade
+
+    def taiwan_stock_loan_collateral_balance(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 借貸款項擔保品餘額表（Sponsor）
+
+        包含融資、證券商證券業務借貸款項、證券商不限用途款項借貸、證金擔保放款、
+        證金交割融資的前日餘額、買進、賣出、現償、更換、今日餘額、次一營業日限額。
+
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 起始日期("2025-01-02")
+        :param end_date (str): 結束日期("2025-01-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 借貸款項擔保品餘額表 TaiwanStockLoanCollateralBalance
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代碼
+        :rtype column market (str): 市場別
+        :rtype column Margin* (int): 融資相關欄位
+            (PreviousDayBalance/Buy/Sell/CashRedemption/CurrentDayBalance/NextDayQuota)
+        :rtype column SecuritiesFirmLoan* (int): 證券商證券業務借貸款項相關欄位
+        :rtype column UnrestrictedLoan* (int): 證券商不限用途款項借貸相關欄位
+        :rtype column SecuritiesFinanceSecuredLoan* (int): 證金擔保放款相關欄位
+        :rtype column SettlementMargin* (int): 證金交割融資相關欄位
+        """
+        stock_loan_collateral_balance = self.get_data(
+            dataset=Dataset.TaiwanStockLoanCollateralBalance,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return stock_loan_collateral_balance
+
     def taiwan_stock_margin_purchase_short_sale(
         self,
         stock_id: str = "",
