@@ -97,6 +97,8 @@ When the user asks a question, map their intent to the right dataset:
 | 借券 | `TaiwanStockSecuritiesLending` |
 | 分點進出（券商） | `TaiwanStockTradingDailyReport` (Sponsor, special endpoint) |
 | 八大行庫 | `TaiwanstockGovernmentBankBuySell` (Sponsor) |
+| 鉅額交易日成交資訊（逐筆） | `TaiwanStockBlockTrade` (Sponsor) |
+| 借貸款項擔保品餘額（融資 / 證券商證券業務借貸 / 不限用途借貸 / 證金擔保 / 證金交割融資） | `TaiwanStockLoanCollateralBalance` (Sponsor) |
 
 ### Fundamentals
 | User Intent | Dataset |
