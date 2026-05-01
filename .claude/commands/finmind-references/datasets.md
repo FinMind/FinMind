@@ -74,6 +74,8 @@ Complete dataset list with column details, tier requirements, and parameter spec
 | TaiwanTotalExchangeMarginMaintenance | 大盤融資維持率 | Backer | date, TotalExchangeMarginMaintenance |
 | TaiwanStockTradingDailyReportSecIdAgg | 卷商分點統計 (2021-06-30~now, special endpoint) | Sponsor | securities_trader, securities_trader_id, stock_id, date, buy_volume, sell_volume, buy_price, sell_price |
 | TaiwanStockDispositionSecuritiesPeriod | 處置有價證券 | Backer | date, stock_id, stock_name, disposition_cnt, condition, measure, period_start, period_end |
+| TaiwanStockBlockTrade | 鉅額交易日成交資訊（逐筆，2005-04-04~now） | Sponsor | date, stock_id, trade_type, price, volume, trading_money |
+| TaiwanStockLoanCollateralBalance | 借貸款項擔保品餘額表（37 欄位，2006-10-02~now） | Sponsor | date, stock_id, market, Margin*, SecuritiesFirmLoan*, UnrestrictedLoan*, SecuritiesFinanceSecuredLoan*, SettlementMargin* (PreviousDayBalance/Buy/Sell/CashRedemption/Replacement/CurrentDayBalance/NextDayQuota) |
 
 ## Taiwan Market - Fundamental
 
