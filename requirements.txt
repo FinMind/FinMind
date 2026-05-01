@@ -3,7 +3,6 @@ numpy>=1.19.5
 requests>=2.23.0
 pydantic>=1.6.1
 ta~=0.5.25
-pytest>=6.2.2
 lxml>=4.6.3
 
 pyecharts>=1.9.0
