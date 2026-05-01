@@ -479,6 +479,7 @@ def test_taiwan_stock_month_revenue_date(data_loader):
             "revenue",
             "revenue_month",
             "revenue_year",
+            "create_time",
         ],
     )
 
@@ -496,6 +497,7 @@ def test_taiwan_stock_month_revenue_date_no_date(data_loader):
             "revenue",
             "revenue_month",
             "revenue_year",
+            "create_time",
         ],
     )
 
@@ -513,6 +515,7 @@ def test_taiwan_stock_month_revenue_month(data_loader):
             "revenue",
             "revenue_month",
             "revenue_year",
+            "create_time",
         ],
     )
 
