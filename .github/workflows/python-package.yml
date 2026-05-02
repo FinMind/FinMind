@@ -16,43 +16,35 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
+        # Python 3.7 dropped because dev dependency black==24.8.0 requires >=3.8
         python-version: [ "3.8", "3.9", "3.10", "3.11" ]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pipenv
-          pipenv --python $(which python)
-      - name: Install package
-        run: |
-          pipenv sync
-          pipenv sync -d
-          pipenv run pip install pytest-xdist
+        run: uv sync --group dev --python ${{ matrix.python-version }}
       - name: Test with pytest
         env:
           FINMIND_USER: ${{ secrets.FINMIND_USER }}
           FINMIND_PASSWORD: ${{ secrets.FINMIND_PASSWORD }}
           FINMIND_API_TOKEN: ${{ secrets.FINMIND_TOKEN }}
         run: |
-          python genenv.py
-          pipenv run pytest -n auto --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
+          uv run --python ${{ matrix.python-version }} python genenv.py
+          uv run --python ${{ matrix.python-version }} --with pytest-xdist pytest -n auto --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
   lint:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: "3.8"
-      - name: Install Black
-        run: |
-          python -m pip install --upgrade pip
-          pip install black==24.8.0
+          enable-cache: true
+      - name: Set up Python 3.8
+        run: uv python install 3.8
       - name: Check code formatting with Black
-        run: |
-          black -l 80 --check FinMind tests
+        run: uv tool run --python 3.8 black==24.8.0 -l 80 --check FinMind tests
