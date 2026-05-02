@@ -1,4 +1,4 @@
-# This workflow will install Python dependencies, build a wheel and publish to PyPI
+# This workflow builds a wheel and publishes to PyPI on tag push
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
 name: Upload Python Package
@@ -11,26 +11,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        # Python 3.7 dropped because dev dependency black==24.8.0 requires >=3.8
-        python-version: [ "3.8", "3.11" ]
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
-      - name: Set up Python ${{ matrix.python-version }}
-        run: uv python install ${{ matrix.python-version }}
-      - name: Set env
-        run: echo "CI_COMMIT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Set up Python
+        run: uv python install 3.11
       - name: Build distribution
         env:
-          CI_COMMIT_TAG: ${{ env.CI_COMMIT_TAG }}
-        run: uv build --python ${{ matrix.python-version }}
+          CI_COMMIT_TAG: ${{ github.ref_name }}
+        run: uv build
       - name: Publish to PyPI
-        if: matrix.python-version == '3.11'
         env:
           UV_PUBLISH_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: uv publish
