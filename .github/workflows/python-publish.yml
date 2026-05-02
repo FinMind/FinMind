@@ -1,4 +1,4 @@
-# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# This workflow will install Python dependencies, build a wheel and publish to PyPI
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
 name: Upload Python Package
@@ -11,25 +11,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        # Python 3.7 dropped because dev dependency black==24.8.0 requires >=3.8
+        python-version: [ "3.8", "3.11" ]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: "3.11"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pipenv
-          pipenv --python $(which python)
-          pipenv sync
-          pip install twine
+          enable-cache: true
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
       - name: Set env
         run: echo "CI_COMMIT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Build and publish
+      - name: Build distribution
         env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-        run: |
-          CI_COMMIT_TAG=${GITHUB_REF#refs/*/} pip wheel ./ --no-deps -w wheelhouse/
-          twine upload wheelhouse/*.whl
+          CI_COMMIT_TAG: ${{ env.CI_COMMIT_TAG }}
+        run: uv build --python ${{ matrix.python-version }}
+      - name: Publish to PyPI
+        if: matrix.python-version == '3.11'
+        env:
+          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: uv publish
