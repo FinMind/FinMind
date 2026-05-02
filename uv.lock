@@ -1041,7 +1041,7 @@ requires-dist = [
     { name = "pydantic", specifier = ">=1.6.1,<2.0.0" },
     { name = "pyecharts", specifier = ">=1.9.0,<2.0.0" },
     { name = "requests", specifier = ">=2.23.0,<3.0.0" },
-    { name = "ta", specifier = ">=0.5.25,<1.0.0" },
+    { name = "ta", specifier = ">=0.5.25,<0.6.0" },
     { name = "tomli" },
     { name = "tqdm" },
     { name = "typing-extensions", specifier = ">=4.0.0,<5.0.0" },
@@ -3090,14 +3090,14 @@ wheels = [
 
 [[package]]
 name = "ta"
-version = "0.11.0"
+version = "0.5.25"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy", version = "1.24.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
     { name = "numpy", version = "1.26.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
     { name = "pandas" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e0/9a/37d92a6b470dc9088612c2399a68f1a9ac22872d4e1eff416818e22ab11b/ta-0.11.0.tar.gz", hash = "sha256:de86af43418420bd6b088a2ea9b95483071bf453c522a8441bc2f12bcf8493fd", size = 25308, upload-time = "2023-11-02T13:53:35.434Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/90/ec/e4f5aea8c7f0f55f92b52ffbafa389ea82f3a10d9cab2760e40af34c5b3f/ta-0.5.25.tar.gz", hash = "sha256:cb0cc7d52d039afa084bf32d439e00183bde47e513801a44402611b57643a0c8", size = 20819, upload-time = "2020-05-12T11:13:30.315Z" }
 
 [[package]]
 name = "toml"
