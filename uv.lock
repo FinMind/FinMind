@@ -985,6 +985,15 @@ wheels = [
 ]
 
 [[package]]
+name = "execnet"
+version = "2.1.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/bf/89/780e11f9588d9e7128a3f87788354c7946a9cbb1401ad38a48c4db9a4f07/execnet-2.1.2.tar.gz", hash = "sha256:63d83bfdd9a23e35b9c6a3261412324f964c2ec8dcd8d3c6916ee9373e0befcd", size = 166622, upload-time = "2025-11-12T09:56:37.75Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ab/84/02fc1827e8cdded4aa65baef11296a9bbe595c474f0d6d758af082d849fd/execnet-2.1.2-py3-none-any.whl", hash = "sha256:67fba928dd5a544b783f6056f449e5e3931a5c378b128bc18501f7ea79e296ec", size = 40708, upload-time = "2025-11-12T09:56:36.333Z" },
+]
+
+[[package]]
 name = "finmind"
 source = { editable = "." }
 dependencies = [
@@ -1022,6 +1031,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-mock" },
+    { name = "pytest-xdist" },
 ]
 
 [package.metadata]
@@ -1053,6 +1063,7 @@ dev = [
     { name = "pytest", specifier = "==6.2.5" },
     { name = "pytest-cov", specifier = "==3.0.0" },
     { name = "pytest-mock", specifier = "==3.6.1" },
+    { name = "pytest-xdist" },
 ]
 
 [[package]]
@@ -2878,6 +2889,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/b3/08/b131e1b5c628a7d46c9b8d676a86a8d235bced79b9d90845500e39df81b9/pytest-mock-3.6.1.tar.gz", hash = "sha256:40217a058c52a63f1042f0784f62009e976ba824c418cced42e88d5f40ab0e62", size = 29933, upload-time = "2021-05-06T19:21:21.898Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/fd/be/ce7e79a7bf68ff6630f662f58a8dc68e2a602d8649a1c0e05c8e6b9a2177/pytest_mock-3.6.1-py3-none-any.whl", hash = "sha256:30c2f2cc9759e76eee674b81ea28c9f0b94f8f0445a1b87762cadf774f0df7e3", size = 12648, upload-time = "2021-05-06T19:21:18.274Z" },
+]
+
+[[package]]
+name = "pytest-xdist"
+version = "3.5.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "execnet" },
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b3/f4/ac9c4ccbc5984ebc3bef6dbdbcdaf553a1aae07c08e63b8b25a6239ecc45/pytest-xdist-3.5.0.tar.gz", hash = "sha256:cbb36f3d67e0c478baa57fa4edc8843887e0f6cfc42d677530a36d7472b32d8a", size = 78977, upload-time = "2023-11-21T15:21:15.305Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/50/37/125fe5ec459321e2d48a0c38672cfc2419ad87d580196fd894e5f25230b0/pytest_xdist-3.5.0-py3-none-any.whl", hash = "sha256:d075629c7e00b611df89f490a5063944bee7a4362a5ff11c7cc7824a03dfce24", size = 42017, upload-time = "2023-11-21T15:21:13.278Z" },
 ]
 
 [[package]]
