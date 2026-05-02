@@ -1,4 +1,4 @@
-# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# This workflow builds a wheel and publishes to PyPI on tag push
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
 name: Upload Python Package
@@ -13,23 +13,17 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: "3.11"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pipenv
-          pipenv --python $(which python)
-          pipenv sync
-          pip install twine
-      - name: Set env
-        run: echo "CI_COMMIT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Build and publish
+          enable-cache: true
+      - name: Set up Python
+        run: uv python install 3.11
+      - name: Build distribution
         env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-        run: |
-          CI_COMMIT_TAG=${GITHUB_REF#refs/*/} pip wheel ./ --no-deps -w wheelhouse/
-          twine upload wheelhouse/*.whl
+          CI_COMMIT_TAG: ${{ github.ref_name }}
+        run: uv build
+      - name: Publish to PyPI
+        env:
+          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: uv publish
