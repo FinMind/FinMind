@@ -32,6 +32,7 @@ jobs:
         run: |
           pipenv sync
           pipenv sync -d
+          pipenv run pip install pytest-xdist
       - name: Test with pytest
         env:
           FINMIND_USER: ${{ secrets.FINMIND_USER }}
@@ -39,7 +40,7 @@ jobs:
           FINMIND_API_TOKEN: ${{ secrets.FINMIND_TOKEN }}
         run: |
           python genenv.py
-          pipenv run pytest --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
+          pipenv run pytest -n auto --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
   lint:
     runs-on: ubuntu-22.04
     steps:
