@@ -35,7 +35,7 @@ jobs:
           FINMIND_API_TOKEN: ${{ secrets.FINMIND_TOKEN }}
         run: |
           uv run --python ${{ matrix.python-version }} python genenv.py
-          uv run --python ${{ matrix.python-version }} pytest --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
+          uv run --python ${{ matrix.python-version }} pytest -n auto --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
   lint:
     runs-on: ubuntu-22.04
     steps:
