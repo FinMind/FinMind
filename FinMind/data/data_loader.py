@@ -2324,12 +2324,17 @@ class DataLoader(FinMindApi):
         date: str = "",
         timeout: int = None,
         use_async: bool = False,
+        use_object: bool = False,
     ) -> pd.DataFrame:
         """get 當日卷商分點表
         :param stock_id (str): 股票代號("2330")
         :param securities_trader_id (str): 卷商代號("1020")
         :param date (str): 日期("2018-01-01")
         :param timeout (int): timeout seconds, default None
+        :param use_async (bool): 是否使用非同步下載, default False
+        :param use_object (bool): 是否透過 signed URL 下載整日 parquet 資料物件,
+            設為 True 時忽略 stock_id, securities_trader_id, stock_id_list,
+            securities_trader_id_list, use_async 參數, default False
 
         :return: 當日卷商分點表 TaiwanStockTradingDailyReport
         :rtype pd.DataFrame
@@ -2341,6 +2346,12 @@ class DataLoader(FinMindApi):
         :rtype column stock_id (str): 股票代碼
         :rtype column date (str): 日期
         """
+        if use_object:
+            return self.get_object(
+                dataset=Dataset.TaiwanStockTradingDailyReport,
+                date=date,
+                timeout=timeout,
+            )
         if not stock_id and not stock_id_list:
             stock_id_list = self._get_stock_id_list(date, timeout)
 
