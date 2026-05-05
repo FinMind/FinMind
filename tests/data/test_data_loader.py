@@ -756,9 +756,7 @@ def test_taiwan_stock_kbar_async(data_loader):
     # 因為這些股票沒有分點
     stock_info_df = data_loader.taiwan_stock_info()
     stock_info = stock_info_df[stock_info_df["type"].isin(["twse", "tpex"])]
-    cate_mask = stock_info["industry_category"].isin(
-        ["大盤", "Index", "所有證券"]
-    )
+    cate_mask = stock_info["industry_category"].isin(["大盤", "Index", "所有證券"])
     id_mask = stock_info["stock_id"].isin(["TAIEX", "TPEx"])
     stock_info = stock_info[~(cate_mask | id_mask)]
     stock_info = stock_info.merge(
@@ -793,9 +791,7 @@ def test_taiwan_stock_tick_async(data_loader):
     # 因為這些股票沒有分點
     stock_info_df = data_loader.taiwan_stock_info()
     stock_info = stock_info_df[stock_info_df["type"].isin(["twse", "tpex"])]
-    cate_mask = stock_info["industry_category"].isin(
-        ["大盤", "Index", "所有證券"]
-    )
+    cate_mask = stock_info["industry_category"].isin(["大盤", "Index", "所有證券"])
     id_mask = stock_info["stock_id"].isin(["TAIEX", "TPEx"])
     stock_info = stock_info[~(cate_mask | id_mask)]
     stock_info = stock_info.merge(
@@ -1062,6 +1058,25 @@ def test_taiwan_stock_trading_daily_report_use_async(data_loader):
     )
 
 
+def test_taiwan_stock_trading_daily_report_object(data_loader):
+    df = data_loader.taiwan_stock_trading_daily_report(
+        date="2024-07-30",
+        use_object=True,
+    )
+    assert_data(
+        df,
+        [
+            "securities_trader",
+            "price",
+            "buy",
+            "sell",
+            "securities_trader_id",
+            "stock_id",
+            "date",
+        ],
+    )
+
+
 def test_taiwan_stock_warrant_trading_daily_report(data_loader):
     df = data_loader.taiwan_stock_warrant_trading_daily_report(
         securities_trader_id="1020",
@@ -1095,9 +1110,7 @@ def test_taiwan_stock_trading_daily_report_async(data_loader):
     # 因為這些股票沒有分點
     stock_info_df = data_loader.taiwan_stock_info()
     stock_info = stock_info_df[stock_info_df["type"].isin(["twse", "tpex"])]
-    cate_mask = stock_info["industry_category"].isin(
-        ["大盤", "Index", "所有證券"]
-    )
+    cate_mask = stock_info["industry_category"].isin(["大盤", "Index", "所有證券"])
     id_mask = stock_info["stock_id"].isin(["TAIEX", "TPEx"])
     stock_info = stock_info[~(cate_mask | id_mask)]
     stock_info = stock_info.merge(
