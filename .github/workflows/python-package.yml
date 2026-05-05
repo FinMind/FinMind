@@ -40,7 +40,7 @@ jobs:
           FINMIND_API_TOKEN: ${{ secrets.FINMIND_TOKEN }}
         run: |
           python genenv.py
-          pipenv run pytest -n auto --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
+          pipenv run pytest -n auto --dist=loadfile --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
   lint:
     runs-on: ubuntu-22.04
     steps:
