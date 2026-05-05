@@ -756,7 +756,9 @@ def test_taiwan_stock_kbar_async(data_loader):
     # 因為這些股票沒有分點
     stock_info_df = data_loader.taiwan_stock_info()
     stock_info = stock_info_df[stock_info_df["type"].isin(["twse", "tpex"])]
-    cate_mask = stock_info["industry_category"].isin(["大盤", "Index", "所有證券"])
+    cate_mask = stock_info["industry_category"].isin(
+        ["大盤", "Index", "所有證券"]
+    )
     id_mask = stock_info["stock_id"].isin(["TAIEX", "TPEx"])
     stock_info = stock_info[~(cate_mask | id_mask)]
     stock_info = stock_info.merge(
@@ -791,7 +793,9 @@ def test_taiwan_stock_tick_async(data_loader):
     # 因為這些股票沒有分點
     stock_info_df = data_loader.taiwan_stock_info()
     stock_info = stock_info_df[stock_info_df["type"].isin(["twse", "tpex"])]
-    cate_mask = stock_info["industry_category"].isin(["大盤", "Index", "所有證券"])
+    cate_mask = stock_info["industry_category"].isin(
+        ["大盤", "Index", "所有證券"]
+    )
     id_mask = stock_info["stock_id"].isin(["TAIEX", "TPEx"])
     stock_info = stock_info[~(cate_mask | id_mask)]
     stock_info = stock_info.merge(
@@ -1110,7 +1114,9 @@ def test_taiwan_stock_trading_daily_report_async(data_loader):
     # 因為這些股票沒有分點
     stock_info_df = data_loader.taiwan_stock_info()
     stock_info = stock_info_df[stock_info_df["type"].isin(["twse", "tpex"])]
-    cate_mask = stock_info["industry_category"].isin(["大盤", "Index", "所有證券"])
+    cate_mask = stock_info["industry_category"].isin(
+        ["大盤", "Index", "所有證券"]
+    )
     id_mask = stock_info["stock_id"].isin(["TAIEX", "TPEx"])
     stock_info = stock_info[~(cate_mask | id_mask)]
     stock_info = stock_info.merge(
