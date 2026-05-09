@@ -150,7 +150,25 @@ Choose the output format based on what the user needs:
 | Single metric lookup (PER, dividend yield) | Plain text |
 | Statistical analysis request | Table + summary statistics |
 
-When plotting charts, always use **English** for title, axis labels, legend, and annotations — this avoids Chinese font rendering issues.
+### Chart text language
+
+Use **Chinese** for title, axis labels, legend, and annotations — FinMind 的讀者全是繁中受眾，圖面用英文反而違背使用情境。預設 matplotlib 沒有 CJK glyph 會印方塊，所以畫圖前先註冊系統內建的 `wqy-zenhei.ttc`：
+
+```python
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+
+ZH_FONT_PATH = "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc"
+fm.fontManager.addfont(ZH_FONT_PATH)
+plt.rcParams.update({
+    "font.family": fm.FontProperties(fname=ZH_FONT_PATH).get_name(),  # "WenQuanYi Zen Hei"
+    "axes.unicode_minus": False,  # 避免負號顯示成方塊
+})
+```
+
+把這段放在 `import matplotlib.pyplot as plt` 之後、開始 `plt.subplots(...)` 之前。每段畫圖程式都需要，不要省略。
+
+**字型不存在時的 fallback**：如果環境沒裝 `wqy-zenhei`（例如新機器），先 `fc-list :lang=zh` 確認，沒有就 `sudo apt install fonts-wqy-zenhei` 或改用 `fonts-noto-cjk`（路徑 `/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc`，font name `Noto Sans CJK TC`）。
 
 ## Multi-Step Query Patterns
 
