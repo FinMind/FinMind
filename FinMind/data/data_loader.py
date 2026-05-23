@@ -2022,7 +2022,9 @@ class DataLoader(FinMindApi):
         timeout: int = None,
     ) -> pd.DataFrame:
         """get 台股即時資訊 taiwan_stock_tick_snapshot (只限 sponsor 會員使用)
-        :param stock_id (Union(str, List[str])): 股票代號("2330")
+        :param stock_id (Union(str, List[str])): 股票代號("2330")，也支援 3 碼指數代號
+            (例 "001"=加權指數, "101"=櫃買加權)；完整指數對照表：
+            https://finmind.github.io/tutor/TaiwanMarket/IndexCodes/
         :param timeout (int): timeout seconds, default None
 
         :return: 台股即時資訊 taiwan_stock_tick_snapshot

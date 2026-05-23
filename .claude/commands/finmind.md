@@ -29,6 +29,7 @@ These datasets do NOT use `/data` — they have dedicated endpoints:
 | TaiwanStockTradingDailyReport | `/v4/taiwan_stock_trading_daily_report` | Uses `date` (not `start_date`), requires `data_id` |
 | TaiwanStockWarrantTradingDailyReport | `/v4/taiwan_stock_warrant_trading_daily_report` | Uses `date` (not `start_date`), requires `data_id` |
 | TaiwanStockTradingDailyReportSecIdAgg | `/v4/taiwan_stock_trading_daily_report_secid_agg` | Uses standard `start_date`/`end_date` |
+| taiwan_stock_tick_snapshot | `/v4/taiwan_stock_tick_snapshot` | `data_id` 可帶 4 碼個股，或 3 碼指數代號 (例 `001`=加權指數, `101`=櫃買加權, 共 91 個指數)；完整對照見 [Index Codes](https://finmind.github.io/tutor/TaiwanMarket/IndexCodes/) |
 
 ### Rate Limits
 
