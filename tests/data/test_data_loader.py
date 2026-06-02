@@ -224,6 +224,10 @@ def test_taiwan_stock_tick_object(data_loader):
     )
 
 
+@pytest.mark.skip(
+    reason="storage_objects for TaiwanStockKBar pending production data; "
+    "unskip after the bulk-download feature is live"
+)
 def test_taiwan_stock_kbar_object(data_loader):
     data = data_loader.taiwan_stock_kbar(date="2019-01-02", use_object=True)
     assert_data(
@@ -241,6 +245,10 @@ def test_taiwan_stock_kbar_object(data_loader):
     )
 
 
+@pytest.mark.skip(
+    reason="storage_objects for TaiwanFuturesTick pending production data; "
+    "unskip after the bulk-download feature is live"
+)
 def test_taiwan_futures_tick_object(data_loader):
     data = data_loader.taiwan_futures_tick(date="2019-01-02", use_object=True)
     assert_data(
@@ -248,6 +256,10 @@ def test_taiwan_futures_tick_object(data_loader):
     )
 
 
+@pytest.mark.skip(
+    reason="storage_objects for TaiwanOptionTick pending production data; "
+    "unskip after the bulk-download feature is live"
+)
 def test_taiwan_option_tick_object(data_loader):
     data = data_loader.taiwan_option_tick(date="2019-01-02", use_object=True)
     assert_data(
