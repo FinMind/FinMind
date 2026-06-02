@@ -1212,12 +1212,18 @@ class DataLoader(FinMindApi):
         return option_open_interest_large_traders
 
     def taiwan_futures_tick(
-        self, futures_id: str, date: str, timeout: int = None
+        self,
+        futures_id: str = "",
+        date: str = "",
+        timeout: int = None,
+        use_object: bool = False,
     ) -> pd.DataFrame:
         """get 期貨交易明細表, 資料量超過10萬筆, 需等一段時間
         :param futures_id: 期貨代號("TX")
         :param date (str): 日期("2018-01-01")
         :param timeout (int): timeout seconds, default None
+        :param use_object (bool): 是否透過 signed URL 下載整日 parquet 資料物件,
+            設為 True 時忽略 futures_id, use_async 參數, default False
 
         :return: 期貨交易明細表 TaiwanFuturesTick
         :rtype pd.DataFrame
@@ -1227,6 +1233,12 @@ class DataLoader(FinMindApi):
         :rtype column price (float): 成交價
         :rtype column volume (int): 成交量
         """
+        if use_object:
+            return self.get_object(
+                dataset=Dataset.TaiwanFuturesTick,
+                date=date,
+                timeout=timeout,
+            )
         futures_tick = self.get_data(
             dataset=Dataset.TaiwanFuturesTick,
             data_id=futures_id,
@@ -1237,16 +1249,19 @@ class DataLoader(FinMindApi):
 
     def taiwan_option_tick(
         self,
-        option_id: str,
-        date: str,
+        option_id: str = "",
+        date: str = "",
         timeout: int = None,
         use_async: bool = False,
         option_id_list: typing.List[str] = None,
+        use_object: bool = False,
     ) -> pd.DataFrame:
         """get 選擇權交易明細表, 資料量超過10萬筆, 需等一段時間
         :param option_id: 選擇權代號("TXO")
         :param date (str): 日期("2018-01-01")
         :param timeout (int): timeout seconds, default None
+        :param use_object (bool): 是否透過 signed URL 下載整日 parquet 資料物件,
+            設為 True 時忽略 option_id, option_id_list, use_async 參數, default False
 
         :return: 選擇權交易明細表 TaiwanOptionTick
         :rtype pd.DataFrame
@@ -1258,6 +1273,12 @@ class DataLoader(FinMindApi):
         :rtype column price (float): 成交價
         :rtype column volume (int): 成交量
         """
+        if use_object:
+            return self.get_object(
+                dataset=Dataset.TaiwanOptionTick,
+                date=date,
+                timeout=timeout,
+            )
         option_tick = self.get_data(
             dataset=Dataset.TaiwanOptionTick,
             data_id=option_id,
@@ -1885,9 +1906,12 @@ class DataLoader(FinMindApi):
         date: str = "",
         timeout: int = None,
         use_async: bool = False,
+        use_object: bool = False,
     ) -> pd.DataFrame:
         """get 台股分 K 資料表
         :param timeout (int): timeout seconds, default None
+        :param use_object (bool): 是否透過 signed URL 下載整日 parquet 資料物件,
+            設為 True 時忽略 stock_id, stock_id_list, use_async 參數, default False
 
         :return: 台股分 K 資料表 TaiwanStockKBar
         :rtype pd.DataFrame
@@ -1900,6 +1924,12 @@ class DataLoader(FinMindApi):
         :rtype column close (float): 收盤價
         :rtype column volume (int): 成交量
         """
+        if use_object:
+            return self.get_object(
+                dataset=Dataset.TaiwanStockKBar,
+                date=date,
+                timeout=timeout,
+            )
         taiwan_stock_bar = self.get_data(
             dataset=Dataset.TaiwanStockKBar,
             data_id=stock_id,

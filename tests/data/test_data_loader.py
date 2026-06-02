@@ -224,6 +224,46 @@ def test_taiwan_stock_tick_object(data_loader):
     )
 
 
+def test_taiwan_stock_kbar_object(data_loader):
+    data = data_loader.taiwan_stock_kbar(date="2019-01-02", use_object=True)
+    assert_data(
+        data,
+        [
+            "date",
+            "minute",
+            "stock_id",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+        ],
+    )
+
+
+def test_taiwan_futures_tick_object(data_loader):
+    data = data_loader.taiwan_futures_tick(date="2019-01-02", use_object=True)
+    assert_data(
+        data, ["date", "futures_id", "contract_date", "price", "volume"]
+    )
+
+
+def test_taiwan_option_tick_object(data_loader):
+    data = data_loader.taiwan_option_tick(date="2019-01-02", use_object=True)
+    assert_data(
+        data,
+        [
+            "date",
+            "option_id",
+            "ExercisePrice",
+            "contract_date",
+            "PutCall",
+            "price",
+            "volume",
+        ],
+    )
+
+
 def test_taiwan_stock_book_and_trade(data_loader):
     data = data_loader.taiwan_stock_book_and_trade("2021-04-01")
     assert_data(
