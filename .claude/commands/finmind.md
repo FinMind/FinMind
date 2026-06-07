@@ -33,6 +33,26 @@ These datasets do NOT use `/data` — they have dedicated endpoints:
 | taiwan_futures_snapshot | `/v4/taiwan_futures_snapshot` | `data_id` 帶期貨代號（例 `TXF`, `TMF`, `CDF`）；支援一次多個（list）或省略一次拿全部期貨即時報價 |
 | taiwan_options_snapshot | `/v4/taiwan_options_snapshot` | `data_id` 帶選擇權代號（例 `TXO`, `TX1`~`TX5`）；支援一次多個（list）或省略一次拿全部選擇權即時報價 |
 
+### 整日全市場批次下載（SDK `use_object`，Sponsor Pro）
+
+`TaiwanStockPriceTick`、`TaiwanStockKBar`、`TaiwanFuturesTick`、`TaiwanOptionTick` 為單日資料，一般需逐檔帶 `data_id` 查詢。**Sponsor Pro** 會員可一次下載「整日、全市場」parquet（透過 signed URL 物件下載，免指定 `data_id`，逐交易日提供、無歷史回補）：
+
+- **Endpoint：** `GET /api/v4/storage_objects?dataset=<Dataset>&date=YYYY-MM-DD`（Bearer token）
+- **SDK：** FinMind Python SDK 的 `use_object=True`：
+
+```python
+from FinMind.data import DataLoader
+
+api = DataLoader()
+api.login_by_token(api_token="...")
+df = api.taiwan_stock_kbar(date="2019-01-02", use_object=True)     # 全市場分 K
+df = api.taiwan_stock_tick(date="2019-01-02", use_object=True)     # 全市場逐筆
+df = api.taiwan_futures_tick(date="2019-01-02", use_object=True)   # 全期貨逐筆
+df = api.taiwan_option_tick(date="2019-01-02", use_object=True)    # 全選擇權逐筆
+```
+
+此為 SDK 方法（走資料物件下載），非 `/data` 的 query 參數。
+
 ### Rate Limits
 
 | Tier | Limit | Access |
