@@ -10,7 +10,7 @@ def add_institutional_investors_follower(
     stock_price: pd.DataFrame,
     additional_dataset_obj,
     n_days: int = 10,
-    **kwargs
+    **kwargs,
 ) -> pd.DataFrame:
     """
     url: "https://www.finlab.tw/%E8%85%A6%E5%8A%9B%E6%BF%80%E7%9B%AA%E7%9A%84%E5%A4%96%E8%B3%87%E7%AD%96%E7%95%A5%EF%BC%81/"
