@@ -26,6 +26,7 @@ Complete dataset list with column details, tier requirements, and parameter spec
 - `start_date` / `end_date`: Format `YYYY-MM-DD`
 - Datasets marked "single day" only accept `start_date` (no end_date range)
 - To query all stocks for a date: omit `data_id`, provide only `start_date` (requires Backer/Sponsor)
+- 整日全市場批次下載（**Sponsor Pro**）：`TaiwanStockPriceTick`、`TaiwanStockKBar`、`TaiwanFuturesTick`、`TaiwanOptionTick` 這類 "single day" 資料，Sponsor Pro 會員可一次下載「整日、全市場」parquet，免逐檔指定 `data_id`（透過 signed URL 物件下載，逐交易日提供、無歷史回補）。Endpoint：`GET /api/v4/storage_objects?dataset=<Dataset>&date=YYYY-MM-DD`；或用 FinMind Python SDK 的 `use_object=True`（`taiwan_stock_tick` / `taiwan_stock_kbar` / `taiwan_futures_tick` / `taiwan_option_tick`），例：`api.taiwan_stock_kbar(date="2019-01-02", use_object=True)`。
 
 ---
 
