@@ -1247,6 +1247,37 @@ class DataLoader(FinMindApi):
         )
         return futures_tick
 
+    def taiwan_futures_spread_tick(
+        self,
+        futures_id: str = "",
+        date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 期貨價差每筆成交資料, 資料量大, 單次請求只提供一天資料
+        :param futures_id: 價差商品代號("CAF")
+        :param date (str): 日期("2026-06-09")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 期貨價差每筆成交資料 TaiwanFuturesSpreadTick
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column time (str): 時間
+        :rtype column futures_id (str): 期貨代碼
+        :rtype column contract_date (str): 到期月份(近月/遠月)
+        :rtype column price (float): 價差成交價
+        :rtype column volume (int): 成交量
+        :rtype column near_price (float): 近月價格
+        :rtype column far_price (float): 遠月價格
+        :rtype column spread_to_spread (int): 是否價差對價差成交
+        """
+        futures_spread_tick = self.get_data(
+            dataset=Dataset.TaiwanFuturesSpreadTick,
+            data_id=futures_id,
+            start_date=date,
+            timeout=timeout,
+        )
+        return futures_spread_tick
+
     def taiwan_option_tick(
         self,
         option_id: str = "",
