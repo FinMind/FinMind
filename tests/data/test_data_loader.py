@@ -1536,6 +1536,26 @@ def test_taiwan_futures_spread_trading(data_loader):
     )
 
 
+def test_taiwan_futures_spread_tick(data_loader):
+    df = data_loader.taiwan_futures_spread_tick(
+        futures_id="CAF",
+        date="2026-06-09",
+    )
+    assert_data(
+        df,
+        [
+            "contract_date",
+            "date",
+            "far_price",
+            "futures_id",
+            "near_price",
+            "price",
+            "spread_to_spread",
+            "volume",
+        ],
+    )
+
+
 def test_taiwan_option_final_settlement_price(data_loader):
     df = data_loader.taiwan_option_final_settlement_price(
         option_id="TXO",
