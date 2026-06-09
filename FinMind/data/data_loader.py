@@ -1261,6 +1261,7 @@ class DataLoader(FinMindApi):
         :return: 期貨價差每筆成交資料 TaiwanFuturesSpreadTick
         :rtype pd.DataFrame
         :rtype column date (str): 日期
+        :rtype column time (str): 時間
         :rtype column futures_id (str): 期貨代碼
         :rtype column contract_date (str): 到期月份(近月/遠月)
         :rtype column price (float): 價差成交價

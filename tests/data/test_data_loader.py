@@ -1546,6 +1546,7 @@ def test_taiwan_futures_spread_tick(data_loader):
         [
             "contract_date",
             "date",
+            "time",
             "far_price",
             "futures_id",
             "near_price",
