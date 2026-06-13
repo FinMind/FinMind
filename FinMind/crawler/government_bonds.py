@@ -195,7 +195,7 @@ class GovernmentBondsCrawler(BaseCrawler):
             tem = td_path[i : i + 6]
             value = get_value(tem)
             if len(value) > 0:
-                data = data.append(value)
+                data = pd.concat([data, value])
 
         if len(data) > 0:
             data.columns = col_name

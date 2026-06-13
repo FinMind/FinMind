@@ -19,7 +19,7 @@ def add_kd_indicators(
         high=stock_price["max"],
         low=stock_price["min"],
         close=stock_price["close"],
-        n=k_days,
+        window=k_days,
     )
     rsv_ = kd.stoch().fillna(50)
     _k = np.zeros(stock_price.shape[0])
