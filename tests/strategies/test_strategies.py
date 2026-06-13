@@ -53,7 +53,7 @@ def test_continue_holding(data_loader):
     assert obj.final_stats["FinalProfitPer"] == -1.35
     assert obj.final_stats["MaxLossPer"] == -2.03
 
-    assert obj.trade_detail.to_dict("r")[1] == {
+    assert obj.trade_detail.to_dict("records")[1] == {
         "stock_id": "0056",
         "date": "2018-01-03",
         "EverytimeProfit": -96.82749999999899,
@@ -70,7 +70,7 @@ def test_continue_holding(data_loader):
         "StockEarningsDistribution": 0.0,
     }
 
-    assert obj.compare_market_detail.to_dict("r")[-1] == {
+    assert obj.compare_market_detail.to_dict("records")[-1] == {
         "date": "2018-12-28",
         "CumDailyReturn": -0.61003,
         "CumTaiExDailyReturn": -0.0963,
@@ -79,7 +79,7 @@ def test_continue_holding(data_loader):
     assert obj.compare_market_stats["AnnualReturnPer"] == -1.35
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = obj.trade_detail[-1:].to_dict("r")[0]
+    last_status = obj.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -155,7 +155,7 @@ def test_continue_holding_add_indicators(buy_rule_list):
     assert backtest.final_stats["FinalProfitPer"] == -1.35
     assert backtest.final_stats["MaxLossPer"] == -2.03
 
-    assert backtest.trade_detail.to_dict("r")[1] == {
+    assert backtest.trade_detail.to_dict("records")[1] == {
         "stock_id": "0056",
         "date": "2018-01-03",
         "EverytimeProfit": -96.82749999999899,
@@ -172,7 +172,7 @@ def test_continue_holding_add_indicators(buy_rule_list):
         "StockEarningsDistribution": 0.0,
     }
 
-    assert backtest.compare_market_detail.to_dict("r")[-1] == {
+    assert backtest.compare_market_detail.to_dict("records")[-1] == {
         "date": "2018-12-28",
         "CumDailyReturn": -0.61003,
         "CumTaiExDailyReturn": -0.0963,
@@ -181,7 +181,7 @@ def test_continue_holding_add_indicators(buy_rule_list):
     assert backtest.compare_market_stats["AnnualReturnPer"] == -1.35
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = backtest.trade_detail[-1:].to_dict("r")[0]
+    last_status = backtest.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -216,7 +216,7 @@ def test_continue_holding_add_strategy(data_loader):
     assert obj.final_stats["FinalProfitPer"] == -1.35
     assert obj.final_stats["MaxLossPer"] == -2.03
 
-    assert obj.trade_detail.to_dict("r")[1] == {
+    assert obj.trade_detail.to_dict("records")[1] == {
         "stock_id": "0056",
         "date": "2018-01-03",
         "EverytimeProfit": -96.82749999999899,
@@ -234,7 +234,7 @@ def test_continue_holding_add_strategy(data_loader):
     }
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = obj.trade_detail[-1:].to_dict("r")[0]
+    last_status = obj.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -347,7 +347,7 @@ def test_backtest_add_indicators_bias(buy_rule_list, sell_rule_list):
     assert backtest.final_stats["FinalProfitPer"] == 0.28
     assert backtest.final_stats["MaxLossPer"] == -0.46
 
-    assert backtest.trade_detail.to_dict("r")[1] == {
+    assert backtest.trade_detail.to_dict("records")[1] == {
         "stock_id": "0056",
         "date": "2018-01-03",
         "EverytimeProfit": 0.0,
@@ -364,7 +364,7 @@ def test_backtest_add_indicators_bias(buy_rule_list, sell_rule_list):
         "StockEarningsDistribution": 0.0,
     }
 
-    assert backtest.compare_market_detail.to_dict("r")[-1] == {
+    assert backtest.compare_market_detail.to_dict("records")[-1] == {
         "date": "2018-12-28",
         "CumDailyReturn": -0.39843,
         "CumTaiExDailyReturn": -0.0963,
@@ -374,7 +374,7 @@ def test_backtest_add_indicators_bias(buy_rule_list, sell_rule_list):
     assert backtest.compare_market_stats["AnnualReturnPer"] == 0.28
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = backtest.trade_detail[-1:].to_dict("r")[0]
+    last_status = backtest.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -409,7 +409,7 @@ def test_bias_add_strategy(data_loader):
     assert obj.final_stats["FinalProfitPer"] == 0.28
     assert obj.final_stats["MaxLossPer"] == -0.46
 
-    assert obj.trade_detail.to_dict("r")[1] == {
+    assert obj.trade_detail.to_dict("records")[1] == {
         "stock_id": "0056",
         "date": "2018-01-03",
         "EverytimeProfit": 0.0,
@@ -427,7 +427,7 @@ def test_bias_add_strategy(data_loader):
     }
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = obj.trade_detail[-1:].to_dict("r")[0]
+    last_status = obj.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -464,7 +464,7 @@ def test_naive_kd(data_loader):
 
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = obj.trade_detail[-1:].to_dict("r")[0]
+    last_status = obj.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -501,7 +501,7 @@ def test_naive_kd_add_strategy(data_loader):
     assert obj.final_stats["MaxLossPer"] == -0.66
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = obj.trade_detail[-1:].to_dict("r")[0]
+    last_status = obj.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -633,7 +633,7 @@ def test_kd_crossover(data_loader):
     assert obj.final_stats["MaxLossPer"] == -0.24
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = obj.trade_detail[-1:].to_dict("r")[0]
+    last_status = obj.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -670,7 +670,7 @@ def test_kd_crossover_add_strategy(data_loader):
     assert obj.final_stats["MaxLossPer"] == -0.24
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = obj.trade_detail[-1:].to_dict("r")[0]
+    last_status = obj.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -730,7 +730,7 @@ def test_kd_crossover_add_indicators():
     assert backtest.final_stats["MaxLossPer"] == -0.24
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = backtest.trade_detail[-1:].to_dict("r")[0]
+    last_status = backtest.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -766,7 +766,7 @@ def test_institutional_investors_follower(data_loader):
     assert obj.final_stats["MaxLossPer"] == -3.27
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = obj.trade_detail[-1:].to_dict("r")[0]
+    last_status = obj.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -882,7 +882,7 @@ def test_institutional_investors_follower_add_indicators(
     assert backtest.final_stats["MaxLossPer"] == -3.27
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = backtest.trade_detail[-1:].to_dict("r")[0]
+    last_status = backtest.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -918,7 +918,7 @@ def test_institutional_investors_follower_add_strategy(data_loader):
     assert obj.final_stats["MaxLossPer"] == -3.27
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = obj.trade_detail[-1:].to_dict("r")[0]
+    last_status = obj.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -954,7 +954,7 @@ def test_short_sale_margin_purchase_ratio(data_loader):
     assert obj.final_stats["MaxLossPer"] == -3.52
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = obj.trade_detail[-1:].to_dict("r")[0]
+    last_status = obj.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -991,7 +991,7 @@ def test_short_sale_margin_purchase_ratio_add_strategy(data_loader):
     assert obj.final_stats["MaxLossPer"] == -3.52
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = obj.trade_detail[-1:].to_dict("r")[0]
+    last_status = obj.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -1062,7 +1062,7 @@ def test_short_sale_margin_purchase_ratio_add_indicator(data_loader):
     assert backtest.final_stats["MaxLossPer"] == -3.52
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = backtest.trade_detail[-1:].to_dict("r")[0]
+    last_status = backtest.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -1098,7 +1098,7 @@ def test_macd_crossover(data_loader):
     assert obj.final_stats["MaxLossPer"] == -0.08
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = obj.trade_detail[-1:].to_dict("r")[0]
+    last_status = obj.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]
@@ -1135,7 +1135,7 @@ def test_macd_crossover_add_strategy(data_loader):
     assert obj.final_stats["MaxLossPer"] == -0.08
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
-    last_status = obj.trade_detail[-1:].to_dict("r")[0]
+    last_status = obj.trade_detail[-1:].to_dict("records")[0]
     assert (
         round(
             last_status["trader_fund"]

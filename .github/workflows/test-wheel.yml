@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         # Python 3.7 dropped because dev dependency black==24.8.0 requires >=3.8
-        python-version: [ "3.8", "3.9", "3.10", "3.11" ]
+        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12" ]
     steps:
       - uses: actions/checkout@v4
       - name: Install uv

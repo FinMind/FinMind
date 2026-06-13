@@ -27,8 +27,8 @@ class NaiveKd(Strategy):
             high=stock_price["max"],
             low=stock_price["min"],
             close=stock_price["close"],
-            n=self.k_days,
-            d_n=self.d_days,
+            window=self.k_days,
+            smooth_window=self.d_days,
         )
         stock_price["K"] = kd.stoch()
         stock_price["D"] = kd.stoch_signal()

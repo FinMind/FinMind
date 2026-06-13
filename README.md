@@ -8,6 +8,7 @@
   <a href="https://finmind.github.io/"><img src="https://readthedocs.org/projects/finminddoc/badge/?version=latest" alt="Documentation Status"></a>
   <a href="https://gitter.im/FinMindTW/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src="https://badges.gitter.im/FinMindTW/community.svg" alt="Gitter"></a>
   <a href="https://badge.fury.io/py/FinMind"><img src="https://badge.fury.io/py/FinMind.svg" alt="PyPI version"></a>
+  <a href="https://pypi.org/project/FinMind/"><img src="https://img.shields.io/pypi/pyversions/FinMind" alt="Python Versions"></a>
   <!--<a href="https://coveralls.io/github/linsamtw/FinMind?branch=master"><img src="https://coveralls.io/repos/github/linsamtw/FinMind/badge.svg?branch=master" alt="Coverage Status"></a>-->
 </p>
 

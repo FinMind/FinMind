@@ -19,7 +19,12 @@ class MacdCrossOver(Strategy):
     @staticmethod
     def create_trade_sign(stock_price: pd.DataFrame, **kwargs) -> pd.DataFrame:
         stock_price = stock_price.sort_values("date")
-        macd = MACD(close=stock_price["close"], n_slow=26, n_fast=12, n_sign=9)
+        macd = MACD(
+            close=stock_price["close"],
+            window_slow=26,
+            window_fast=12,
+            window_sign=9,
+        )
         stock_price["DIF"] = macd.macd_diff()
         stock_price["MACD"] = macd.macd_signal()
         stock_price["OSC"] = stock_price["DIF"] - stock_price["MACD"]

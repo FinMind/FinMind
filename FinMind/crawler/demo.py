@@ -15,7 +15,7 @@ commodities_df = pd.DataFrame()
 for loop in loop_list:
     print(loop)
     value = commodities_crawler.crawler(loop)
-    commodities_df = commodities_df.append(value)
+    commodities_df = pd.concat([commodities_df, value])
 # -------------------------------------------------------------------
 gb_crawler = GovernmentBondsCrawler()
 # get futures list
@@ -29,4 +29,4 @@ gd_df = pd.DataFrame()
 for loop in loop_list:
     print(loop)
     value = gb_crawler.crawler(loop)
-    gd_df = gd_df.append(value)
+    gd_df = pd.concat([gd_df, value])

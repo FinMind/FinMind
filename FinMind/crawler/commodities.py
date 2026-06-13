@@ -141,7 +141,7 @@ class CommoditiesCrawler(BaseCrawler):
         for i in range(0, len(td_path) - 7, 7):
             tem = td_path[i : i + 7]
             value = get_value(tem)
-            data = data.append(value)
+            data = pd.concat([data, value])
 
         if len(data) > 0:
             data.columns = col_name
