@@ -509,6 +509,55 @@ class DataLoader(FinMindApi):
         )
         return stock_institutional_investors
 
+    def taiwan_stock_institutional_investors_wide(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 個股三大法人買賣表（寬表）
+
+        與 taiwan_stock_institutional_investors 相同資料，改為寬表（橫式）：
+        每個交易日一列，各法人別買進、賣出攤平成獨立欄位。欄位涵蓋所有歷史
+        法人別分類，尚未存在的年代該欄為 0（自營商於 2014-12-01 由合併拆為
+        自行買賣／避險、外資自營商於 2018-01-15 起提供）。
+
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 起始日期("2018-01-01")
+        :param end_date (str): 結束日期("2021-03-06")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 個股三大法人買賣表（寬表）TaiwanStockInstitutionalInvestorsBuySellWide
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代碼
+        :rtype column Foreign_Investor_buy (int): 外資買進
+        :rtype column Foreign_Investor_sell (int): 外資賣出
+        :rtype column Foreign_Dealer_Self_buy (int): 外資自營商買進
+        :rtype column Foreign_Dealer_Self_sell (int): 外資自營商賣出
+        :rtype column Investment_Trust_buy (int): 投信買進
+        :rtype column Investment_Trust_sell (int): 投信賣出
+        :rtype column Dealer_buy (int): 自營商買進（合併，舊制）
+        :rtype column Dealer_sell (int): 自營商賣出（合併，舊制）
+        :rtype column Dealer_self_buy (int): 自營商買進（自行買賣）
+        :rtype column Dealer_self_sell (int): 自營商賣出（自行買賣）
+        :rtype column Dealer_Hedging_buy (int): 自營商買進（避險）
+        :rtype column Dealer_Hedging_sell (int): 自營商賣出（避險）
+        """
+        stock_institutional_investors_wide = self.get_data(
+            dataset=Dataset.TaiwanStockInstitutionalInvestorsBuySellWide,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return stock_institutional_investors_wide
+
     def taiwan_stock_institutional_investors_total(
         self, start_date: str, end_date: str = "", timeout: int = None
     ) -> pd.DataFrame:
