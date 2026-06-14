@@ -7,6 +7,9 @@ class Dataset(str, Enum):
     TaiwanStockInstitutionalInvestorsBuySell = (
         "TaiwanStockInstitutionalInvestorsBuySell"
     )
+    TaiwanStockInstitutionalInvestorsBuySellWide = (
+        "TaiwanStockInstitutionalInvestorsBuySellWide"
+    )
     TaiwanStockTotalInstitutionalInvestors = (
         "TaiwanStockTotalInstitutionalInvestors"
     )

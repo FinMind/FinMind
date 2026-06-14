@@ -372,6 +372,33 @@ def test_taiwan_stock_institutional_investors(data_loader):
     assert_data(data, ["date", "stock_id", "buy", "name", "sell"])
 
 
+def test_taiwan_stock_institutional_investors_wide(data_loader):
+    data = data_loader.taiwan_stock_institutional_investors_wide(
+        stock_id="2330",
+        start_date="2020-04-01",
+        end_date="2020-04-12",
+    )
+    assert_data(
+        data,
+        [
+            "date",
+            "stock_id",
+            "Foreign_Investor_buy",
+            "Foreign_Investor_sell",
+            "Foreign_Dealer_Self_buy",
+            "Foreign_Dealer_Self_sell",
+            "Investment_Trust_buy",
+            "Investment_Trust_sell",
+            "Dealer_buy",
+            "Dealer_sell",
+            "Dealer_self_buy",
+            "Dealer_self_sell",
+            "Dealer_Hedging_buy",
+            "Dealer_Hedging_sell",
+        ],
+    )
+
+
 def test_taiwan_stock_institutional_investors_total(data_loader):
     data = data_loader.taiwan_stock_institutional_investors_total("2020-04-02")
     assert_data(data, ["buy", "date", "name", "sell"])
