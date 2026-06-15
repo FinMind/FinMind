@@ -188,6 +188,33 @@ def test_taiwan_stock_daily(data_loader):
     )
 
 
+def test_taiwan_stock_daily_with_stock_id_list_default_async(data_loader):
+    # 傳入 stock_id_list 但不帶 use_async 也要能取到多檔資料，
+    # 避免回歸到「sync 分支忽略 list、回傳空 DataFrame」的問題
+    stock_id_list = ["2330", "2317", "2454"]
+    stock_price = data_loader.taiwan_stock_daily(
+        stock_id_list=stock_id_list,
+        start_date="2018-01-01",
+        end_date="2018-03-06",
+    )
+    assert_data(
+        stock_price,
+        [
+            "date",
+            "stock_id",
+            "Trading_Volume",
+            "Trading_money",
+            "open",
+            "max",
+            "min",
+            "close",
+            "spread",
+            "Trading_turnover",
+        ],
+    )
+    assert set(stock_price["stock_id"].unique()) == set(stock_id_list)
+
+
 def test_taiwan_stock_daily_adj(data_loader):
     stock_price = data_loader.taiwan_stock_daily_adj(
         stock_id="2330", start_date="2018-01-01", end_date="2021-03-06"
