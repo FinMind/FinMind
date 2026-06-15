@@ -144,22 +144,24 @@ class FinMindApi:
         :param params: finmind api參數
         :return:
         """
-        if use_async:
-            if securities_trader_id_list:
-                return self._get_data_with_async_with_securities_trader_id(
-                    dataset=dataset,
-                    securities_trader_id_list=securities_trader_id_list,
-                    start_date=start_date,
-                    end_date=end_date,
-                )
-            elif data_id_list:
-                return self._get_data_with_async(
-                    dataset=dataset,
-                    data_id_list=data_id_list,
-                    start_date=start_date,
-                    end_date=end_date,
-                    max_retry_times=max_retry_times,
-                )
+        # 只要傳入 id 列表就走非同步批次下載，不再依賴 use_async 旗標。
+        # 過去 use_async 預設 False 時 sync 分支會忽略 data_id_list、
+        # 只用空的 data_id 查詢，導致回傳空 DataFrame。
+        if securities_trader_id_list:
+            return self._get_data_with_async_with_securities_trader_id(
+                dataset=dataset,
+                securities_trader_id_list=securities_trader_id_list,
+                start_date=start_date,
+                end_date=end_date,
+            )
+        elif data_id_list:
+            return self._get_data_with_async(
+                dataset=dataset,
+                data_id_list=data_id_list,
+                start_date=start_date,
+                end_date=end_date,
+                max_retry_times=max_retry_times,
+            )
         else:
             logger.info(f"download {dataset}, data_id: {data_id}")
             params = dict(
