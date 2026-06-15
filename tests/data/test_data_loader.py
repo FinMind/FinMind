@@ -1167,6 +1167,29 @@ def test_taiwan_stock_warrant_trading_daily_report(data_loader):
     )
 
 
+@pytest.mark.skip(
+    reason="權證 storage 整日物件為新上線、僅每日往後產，prod 尚無已上傳物件，"
+    "待 daily DAG 產檔後再啟用"
+)
+def test_taiwan_stock_warrant_trading_daily_report_object(data_loader):
+    df = data_loader.taiwan_stock_warrant_trading_daily_report(
+        date="2024-07-30",
+        use_object=True,
+    )
+    assert_data(
+        df,
+        [
+            "securities_trader",
+            "price",
+            "buy",
+            "sell",
+            "securities_trader_id",
+            "stock_id",
+            "date",
+        ],
+    )
+
+
 def test_taiwan_stock_trading_daily_report_async(data_loader):
     date = "2025-05-09"
     taiwan_stock_price_df = data_loader.taiwan_stock_daily(start_date=date)
