@@ -28,6 +28,13 @@ Complete dataset list with column details, tier requirements, and parameter spec
 - To query all stocks for a date: omit `data_id`, provide only `start_date` (requires Backer/Sponsor)
 - 整日全市場批次下載（**Sponsor Pro**）：`TaiwanStockPriceTick`、`TaiwanStockKBar`、`TaiwanFuturesTick`、`TaiwanOptionTick` 這類 "single day" 資料，Sponsor Pro 會員可一次下載「整日、全市場」parquet，免逐檔指定 `data_id`（透過 signed URL 物件下載，逐交易日提供、無歷史回補）。Endpoint：`GET /api/v4/storage_objects?dataset=<Dataset>&date=YYYY-MM-DD`；或用 FinMind Python SDK 的 `use_object=True`（`taiwan_stock_tick` / `taiwan_stock_kbar` / `taiwan_futures_tick` / `taiwan_option_tick`），例：`api.taiwan_stock_kbar(date="2019-01-02", use_object=True)`。
 
+## Data Caveats (注意事項)
+
+Quirks of emerging-board (興櫃) stocks — normal market-structure behavior, **not** missing/corrupt data. Listed (twse) / OTC (tpex) stocks are unaffected.
+
+- **TaiwanStockPrice / TaiwanStockPriceAdj — emerging `open`**: For emerging stocks, `open` is the previous-day average price (前日均價) from TPEx, not an opening price, so it can fall outside `[min, max]` on volatile days. `max`/`min`/`close` (day high/low/last) are correct. Note `TaiwanStockInfo.type` reflects the *current* market, so a stock that later moved to TWSE/TPEx no longer shows its earlier emerging period.
+- **TaiwanStockTradingDailyReport — emerging dealer `price=0`**: For emerging stocks, the recommending dealer (market maker; `securities_trader_id` ends with `T`) quotes two-way across many price levels, so that branch row's `price` is `0` (`buy`/`sell` share counts are still correct).
+
 ---
 
 ## Taiwan Market - Technical
