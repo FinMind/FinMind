@@ -2974,6 +2974,8 @@ class DataLoader(FinMindApi):
         taiwan_option_vix = self.get_data(
             dataset=Dataset.TaiwanOptionVix,
             data_id="",
+            start_date=start_date,
+            end_date=end_date,
             timeout=timeout,
         )
         return taiwan_option_vix
