@@ -2954,6 +2954,30 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_convertible_bond_monthly_analysis
 
+    def taiwan_option_vix(
+        self,
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 臺指選擇權波動率指數
+        :param start_date (str): 起始日期("2024-01-01")
+        :param end_date (str): 結束日期("2024-12-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 臺指選擇權波動率指數 TaiwanOptionVix
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column time (str): 時間
+        :rtype column vix (float): 波動率指數
+        """
+        taiwan_option_vix = self.get_data(
+            dataset=Dataset.TaiwanOptionVix,
+            data_id="",
+            timeout=timeout,
+        )
+        return taiwan_option_vix
+
     def _get_stock_id_list(
         self, date: str, timeout: int = None
     ) -> typing.List[str]:

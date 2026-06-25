@@ -140,6 +140,7 @@ class Dataset(str, Enum):
     TaiwanStockConvertibleBondMonthlyAnalysis = (
         "TaiwanStockConvertibleBondMonthlyAnalysis"
     )
+    TaiwanOptionVix = "TaiwanOptionVix"
 
 
 class Version(str, Enum):
