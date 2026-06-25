@@ -2918,6 +2918,42 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_day_trading_borrowing_fee_rate
 
+    def taiwan_stock_convertible_bond_monthly_analysis(
+        self,
+        cb_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 可轉換公司債月份分析表
+        :param cb_id (str): 可轉債代號("11011")
+        :param start_date (str): 起始日期("2026-05-01")
+        :param end_date (str): 結束日期("2026-05-02")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 可轉換公司債月份分析表 TaiwanStockConvertibleBondMonthlyAnalysis
+        :rtype pd.DataFrame
+        :rtype column cb_id (str): 可轉債代號
+        :rtype column cb_name (str): 可轉債名稱
+        :rtype column cb_name_en (str): 可轉債英文名稱
+        :rtype column custody_balance (int): 保管餘額
+        :rtype column last_month_balance (int): 上月餘額
+        :rtype column change (int): 增減
+        :rtype column change_percent (float): 增減百分比
+        :rtype column issued_units (int): 發行單位數
+        :rtype column custody_accounts (int): 保管戶數
+        :rtype column pledged_units (int): 設質單位數
+        :rtype column date (str): 日期
+        """
+        taiwan_stock_convertible_bond_monthly_analysis = self.get_data(
+            dataset=Dataset.TaiwanStockConvertibleBondMonthlyAnalysis,
+            data_id=cb_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return taiwan_stock_convertible_bond_monthly_analysis
+
     def taiwan_option_vix(
         self,
         start_date: str = "",
