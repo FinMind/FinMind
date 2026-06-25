@@ -1543,7 +1543,7 @@ def test_taiwan_stock_day_trading_borrowing_fee_rate(data_loader):
 def test_taiwan_option_vix(data_loader):
     df = data_loader.taiwan_option_vix(
         start_date="2026-06-01",
-        end_date="2026-01-02",
+        end_date="2026-06-02",
     )
     assert_data(
         df,
