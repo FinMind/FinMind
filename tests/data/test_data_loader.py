@@ -1540,6 +1540,31 @@ def test_taiwan_stock_day_trading_borrowing_fee_rate(data_loader):
     assert len(df) >= 1
 
 
+def test_taiwan_stock_convertible_bond_monthly_analysis(data_loader):
+    df = data_loader.taiwan_stock_convertible_bond_monthly_analysis(
+        cb_id="11011",
+        start_date="2026-05-01",
+        end_date="2026-05-02",
+    )
+    assert_data(
+        df,
+        [
+            "cb_id",
+            "cb_name",
+            "cb_name_en",
+            "custody_balance",
+            "last_month_balance",
+            "change",
+            "change_percent",
+            "issued_units",
+            "custody_accounts",
+            "pledged_units",
+            "date",
+        ],
+    )
+    assert len(df) >= 1
+
+
 def test_get_stock_id_list(data_loader):
     stock_id_list = data_loader._get_stock_id_list(
         date="2025-12-08",
