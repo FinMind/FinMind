@@ -1540,6 +1540,22 @@ def test_taiwan_stock_day_trading_borrowing_fee_rate(data_loader):
     assert len(df) >= 1
 
 
+def test_taiwan_option_vix(data_loader):
+    df = data_loader.taiwan_option_vix(
+        start_date="2026-06-01",
+        end_date="2026-06-02",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "time",
+            "vix",
+        ],
+    )
+    assert len(df) >= 1
+
+
 def test_get_stock_id_list(data_loader):
     stock_id_list = data_loader._get_stock_id_list(
         date="2025-12-08",
