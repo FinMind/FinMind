@@ -7,9 +7,9 @@ Complete dataset list with column details, tier requirements, and parameter spec
 - [Taiwan Market - Technical (20 datasets)](#taiwan-market---technical)
 - [Taiwan Market - Chip / Institutional (16 datasets)](#taiwan-market---chip--institutional)
 - [Taiwan Market - Fundamental (12 datasets)](#taiwan-market---fundamental)
-- [Taiwan Market - Derivative (16 datasets)](#taiwan-market---derivative)
+- [Taiwan Market - Derivative (17 datasets)](#taiwan-market---derivative)
 - [Taiwan Market - Real-Time (4 datasets, Sponsor)](#taiwan-market---real-time)
-- [Taiwan Market - Convertible Bond (4 datasets)](#taiwan-market---convertible-bond)
+- [Taiwan Market - Convertible Bond (5 datasets)](#taiwan-market---convertible-bond)
 - [Taiwan Market - Others (3 datasets)](#taiwan-market---others)
 - [International Markets (8 datasets)](#international-markets)
 - [Global Economic Data (6 datasets)](#global-economic-data)
@@ -122,6 +122,7 @@ Quirks of emerging-board (興櫃) stocks — normal market-structure behavior, *
 | TaiwanFuturesSpreadTrading | 期貨價差行情 | Backer | date, futures_id, contract_date, open, max, min, close |
 | TaiwanFuturesFinalSettlementPrice | 期貨最後結算價 | Backer | date, contract_month, futures_id, settlement_price |
 | TaiwanOptionFinalSettlementPrice | 選擇權最後結算價 | Backer | date, contract_month, option_id, settlement_price |
+| TaiwanOptionVix | 臺指選擇權波動率指數 | Backer | date, time, vix |
 
 ## Taiwan Market - Real-Time
 
@@ -156,6 +157,7 @@ All convertible bond datasets require **Backer** or **Sponsor** tier.
 | TaiwanStockConvertibleBondDaily | 可轉債日成交 | cb_id, cb_name, close, open, max, min, volume, date |
 | TaiwanStockConvertibleBondInstitutionalInvestors | 可轉債三大法人 | Foreign/Investment_Trust/Dealer Buy/Sell, cb_id, date |
 | TaiwanStockConvertibleBondDailyOverview | 可轉債每日總覽 | cb_id, ConversionPrice, IssuanceAmount, OutstandingAmount, date |
+| TaiwanStockConvertibleBondMonthlyAnalysis | 可轉換公司債月份分析表 | cb_id, cb_name, cb_name_en, custody_balance, last_month_balance, change, change_percent, issued_units, custody_accounts, pledged_units, date |
 
 ## Taiwan Market - Others
 
