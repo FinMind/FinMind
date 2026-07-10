@@ -404,6 +404,48 @@ class DataLoader(FinMindApi):
         )
         return stock_loan_collateral_balance
 
+    def taiwan_stock_active_etf_holding(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 主動式ETF每日持股明細（Sponsor）
+
+        台灣掛牌主動式ETF（上市 + 上櫃）每日完整投資組合，包含成份標的、
+        股數、權重、市值、幣別；買賣標的可由相鄰交易日持股差分取得。
+
+        :param stock_id (str): ETF 代號("00980A")；空字串則取當日全部主動式ETF
+        :param start_date (str): 起始日期("2025-05-05")
+        :param end_date (str): 結束日期("2025-05-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 主動式ETF每日持股明細 TaiwanStockActiveETFHolding
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期（持股基準日）
+        :rtype column stock_id (str): ETF 代號
+        :rtype column component_stock_id (str): 成份標的代號
+        :rtype column component_stock_name (str): 成份標的名稱
+        :rtype column asset_type (str): 資產類別
+        :rtype column shares (float): 股數
+        :rtype column weight (float): 權重(%)
+        :rtype column market_value (float): 市值
+        :rtype column currency (str): 幣別
+        """
+        stock_active_etf_holding = self.get_data(
+            dataset=Dataset.TaiwanStockActiveETFHolding,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return stock_active_etf_holding
+
     def taiwan_stock_margin_purchase_short_sale(
         self,
         stock_id: str = "",
