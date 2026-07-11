@@ -153,6 +153,20 @@ def test_taiwan_stock_info_with_warrant(data_loader):
     assert len(stock_info) > 10000
 
 
+def test_taiwan_stock_active_etf_info(data_loader):
+    try:
+        stock_info = data_loader.taiwan_stock_active_etf_info()
+    except Exception as e:
+        pytest.skip(
+            "TaiwanStockActiveETFInfo not available on production API yet: "
+            f"{e}"
+        )
+    assert_data(
+        stock_info,
+        ["date", "stock_id", "stock_name", "category", "type"],
+    )
+
+
 def test_taiwan_securities_trader_info(data_loader):
     securities_trader_info = data_loader.taiwan_securities_trader_info()
     assert_data(

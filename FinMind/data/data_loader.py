@@ -46,6 +46,23 @@ class DataLoader(FinMindApi):
         )
         return stock_info
 
+    def taiwan_stock_active_etf_info(self, timeout: int = None) -> pd.DataFrame:
+        """get 主動式ETF清單（台灣掛牌主動式ETF 代號/名稱/分類/市場別）
+        :param timeout (int): timeout seconds, default None
+
+        :return: 主動式ETF清單 TaiwanStockActiveETFInfo
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): ETF 代碼
+        :rtype column stock_name (str): ETF 名稱
+        :rtype column category (str): 分類
+        :rtype column type (str): 市場別
+        """
+        stock_info = self.get_data(
+            dataset=Dataset.TaiwanStockActiveETFInfo, timeout=timeout
+        )
+        return stock_info
+
     def taiwan_securities_trader_info(
         self, timeout: int = None
     ) -> pd.DataFrame:

@@ -37,6 +37,7 @@ class Dataset(str, Enum):
     TaiwanStockDividendResult = "TaiwanStockDividendResult"
     TaiwanStockInfo = "TaiwanStockInfo"
     TaiwanStockInfoWithWarrant = "TaiwanStockInfoWithWarrant"
+    TaiwanStockActiveETFInfo = "TaiwanStockActiveETFInfo"
     TaiwanStockSecuritiesLending = "TaiwanStockSecuritiesLending"
     TaiwanFutOptTickInfo = "TaiwanFutOptTickInfo"
     TaiwanFutOptDailyInfo = "TaiwanFutOptDailyInfo"
