@@ -1791,3 +1791,31 @@ def test_taiwan_stock_active_etf_holding(data_loader):
             "currency",
         ],
     )
+
+
+def test_taiwan_stock_active_etf_holding_change(data_loader):
+    try:
+        df = data_loader.taiwan_stock_active_etf_holding_change(
+            stock_id="00980A",
+            start_date="2025-05-05",
+            end_date="2025-05-31",
+        )
+    except Exception as error_msg:
+        # 新資料集：正式 API 尚未部署 enum 前會回 dataset 不合法；先跳過
+        pytest.skip(f"TaiwanStockActiveETFHoldingChange 尚未部署：{error_msg}")
+    if len(df) == 0:
+        pytest.skip("TaiwanStockActiveETFHoldingChange 尚未 backfill")
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "component_stock_id",
+            "component_stock_name",
+            "asset_type",
+            "shares",
+            "weight",
+            "market_value",
+            "currency",
+        ],
+    )

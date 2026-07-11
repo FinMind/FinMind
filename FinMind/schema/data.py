@@ -138,6 +138,7 @@ class Dataset(str, Enum):
     TaiwanStockBlockTrade = "TaiwanStockBlockTrade"
     TaiwanStockLoanCollateralBalance = "TaiwanStockLoanCollateralBalance"
     TaiwanStockActiveETFHolding = "TaiwanStockActiveETFHolding"
+    TaiwanStockActiveETFHoldingChange = "TaiwanStockActiveETFHoldingChange"
     TaiwanStockConvertibleBondMonthlyAnalysis = (
         "TaiwanStockConvertibleBondMonthlyAnalysis"
     )
