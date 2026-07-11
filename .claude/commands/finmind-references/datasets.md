@@ -43,6 +43,7 @@ Quirks of emerging-board (興櫃) stocks — normal market-structure behavior, *
 |---------|------------|------|--------|-------------|
 | TaiwanStockInfo | 台股總覽 | Free | dataset only | industry_category, stock_id, stock_name, type, date |
 | TaiwanStockInfoWithWarrant | 台股總覽含權證 | Free | dataset only | industry_category, stock_id, stock_name, type, date |
+| TaiwanStockActiveETFInfo | 主動式ETF清單 | Free | dataset only | date, stock_id, stock_name, category, type |
 | TaiwanStockInfoWithWarrantSummary | 台股權證標的對照表 | Sponsor | data_id, start_date | stock_id, date, close, target_stock_id, target_close, type, exercise_ratio, fulfillment_price |
 | TaiwanStockTradingDate | 台股交易日 | Free | dataset only | date |
 | TaiwanStockPrice | 股價日成交資訊 | Free(w/ data_id) | data_id, start_date, end_date | date, stock_id, Trading_Volume, Trading_money, open, max, min, close, spread, Trading_turnover |
