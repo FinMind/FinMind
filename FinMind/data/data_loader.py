@@ -458,8 +458,8 @@ class DataLoader(FinMindApi):
         """get 主動式ETF每日持股異動／買賣（Sponsor）
 
         台灣掛牌主動式ETF（上市 + 上櫃）每日持股異動，由相鄰交易日持股
-        差分推導出的買賣標的，包含成份標的、異動股數（買入為正、賣出為負）、
-        權重變化、市值變化、幣別。
+        差分推導出的買賣標的，包含成份標的、當日買進股數 buy、當日賣出股數
+        sell（皆為整數），每一列僅有 buy／sell 其一為非零值。
 
         :param stock_id (str): ETF 代號("00980A")；空字串則取當日全部主動式ETF
         :param start_date (str): 起始日期("2025-05-05")
@@ -473,7 +473,8 @@ class DataLoader(FinMindApi):
         :rtype column component_stock_id (str): 成份標的代號
         :rtype column component_stock_name (str): 成份標的名稱
         :rtype column asset_type (str): 資產類別
-        :rtype column shares (float): 異動股數（買入為正、賣出為負）
+        :rtype column buy (int): 當日買進股數
+        :rtype column sell (int): 當日賣出股數（正值）
         :rtype column weight (float): 權重變化(%)
         :rtype column market_value (float): 市值變化
         :rtype column currency (str): 幣別
