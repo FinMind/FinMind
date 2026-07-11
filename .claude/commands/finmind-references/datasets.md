@@ -86,7 +86,7 @@ Quirks of emerging-board (興櫃) stocks — normal market-structure behavior, *
 | TaiwanStockBlockTrade | 鉅額交易日成交資訊（逐筆，2005-04-04~now） | Sponsor | date, stock_id, trade_type, price, volume, trading_money |
 | TaiwanStockLoanCollateralBalance | 借貸款項擔保品餘額表（37 欄位，2006-10-02~now） | Sponsor | date, stock_id, market, Margin*, SecuritiesFirmLoan*, UnrestrictedLoan*, SecuritiesFinanceSecuredLoan*, SettlementMargin* (PreviousDayBalance/Buy/Sell/CashRedemption/Replacement/CurrentDayBalance/NextDayQuota) |
 | TaiwanStockActiveETFHolding | 主動式ETF每日持股明細（上市+上櫃，2025-05-05~now） | Sponsor | date, stock_id (ETF代號), component_stock_id, component_stock_name, asset_type, shares, weight, market_value, currency |
-| TaiwanStockActiveETFHoldingChange | 主動式ETF每日持股異動／買賣（相鄰交易日持股差分，上市+上櫃，2025-05-05~now） | Sponsor | date, stock_id (ETF代號), component_stock_id, component_stock_name, asset_type, shares (異動股數，買入為正/賣出為負), weight, market_value, currency |
+| TaiwanStockActiveETFHoldingChange | 主動式ETF每日持股異動／買賣（相鄰交易日持股差分，上市+上櫃，2025-05-05~now） | Sponsor | date, stock_id (ETF代號), component_stock_id, component_stock_name, buy (當日買進股數), sell (當日賣出股數) |
 
 ## Taiwan Market - Fundamental
 
