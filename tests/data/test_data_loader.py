@@ -1826,10 +1826,7 @@ def test_taiwan_stock_active_etf_holding_change(data_loader):
             "stock_id",
             "component_stock_id",
             "component_stock_name",
-            "asset_type",
-            "shares",
-            "weight",
-            "market_value",
-            "currency",
+            "buy",
+            "sell",
         ],
     )
