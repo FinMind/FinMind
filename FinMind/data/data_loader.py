@@ -489,12 +489,8 @@ class DataLoader(FinMindApi):
         :rtype column stock_id (str): ETF 代號
         :rtype column component_stock_id (str): 成份標的代號
         :rtype column component_stock_name (str): 成份標的名稱
-        :rtype column asset_type (str): 資產類別
         :rtype column buy (int): 當日買進股數
         :rtype column sell (int): 當日賣出股數（正值）
-        :rtype column weight (float): 權重變化(%)
-        :rtype column market_value (float): 市值變化
-        :rtype column currency (str): 幣別
         """
         stock_active_etf_holding_change = self.get_data(
             dataset=Dataset.TaiwanStockActiveETFHoldingChange,
