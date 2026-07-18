@@ -46,6 +46,23 @@ class DataLoader(FinMindApi):
         )
         return stock_info
 
+    def taiwan_stock_active_etf_info(self, timeout: int = None) -> pd.DataFrame:
+        """get 主動式ETF清單（台灣掛牌主動式ETF 代號/名稱/分類/市場別）
+        :param timeout (int): timeout seconds, default None
+
+        :return: 主動式ETF清單 TaiwanStockActiveETFInfo
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): ETF 代碼
+        :rtype column stock_name (str): ETF 名稱
+        :rtype column category (str): 分類
+        :rtype column type (str): 市場別
+        """
+        stock_info = self.get_data(
+            dataset=Dataset.TaiwanStockActiveETFInfo, timeout=timeout
+        )
+        return stock_info
+
     def taiwan_securities_trader_info(
         self, timeout: int = None
     ) -> pd.DataFrame:
@@ -403,6 +420,88 @@ class DataLoader(FinMindApi):
             data_id_list=stock_id_list,
         )
         return stock_loan_collateral_balance
+
+    def taiwan_stock_active_etf_holding(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 主動式ETF每日持股明細（Sponsor）
+
+        台灣掛牌主動式ETF（上市 + 上櫃）每日完整投資組合，包含成份標的、
+        股數、權重、市值、幣別；買賣標的可由相鄰交易日持股差分取得。
+
+        :param stock_id (str): ETF 代號("00980A")；空字串則取當日全部主動式ETF
+        :param start_date (str): 起始日期("2025-05-05")
+        :param end_date (str): 結束日期("2025-05-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 主動式ETF每日持股明細 TaiwanStockActiveETFHolding
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期（持股基準日）
+        :rtype column stock_id (str): ETF 代號
+        :rtype column component_stock_id (str): 成份標的代號
+        :rtype column component_stock_name (str): 成份標的名稱
+        :rtype column asset_type (str): 資產類別
+        :rtype column shares (float): 股數
+        :rtype column weight (float): 權重(%)
+        :rtype column market_value (float): 市值
+        :rtype column currency (str): 幣別
+        """
+        stock_active_etf_holding = self.get_data(
+            dataset=Dataset.TaiwanStockActiveETFHolding,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return stock_active_etf_holding
+
+    def taiwan_stock_active_etf_holding_change(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 主動式ETF每日持股異動／買賣（Sponsor）
+
+        台灣掛牌主動式ETF（上市 + 上櫃）每日持股異動，由相鄰交易日持股
+        差分推導出的買賣標的，包含成份標的、當日買進股數 buy、當日賣出股數
+        sell（皆為整數），每一列僅有 buy／sell 其一為非零值。
+
+        :param stock_id (str): ETF 代號("00980A")；空字串則取當日全部主動式ETF
+        :param start_date (str): 起始日期("2025-05-05")
+        :param end_date (str): 結束日期("2025-05-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 主動式ETF每日持股異動 TaiwanStockActiveETFHoldingChange
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期（異動基準日）
+        :rtype column stock_id (str): ETF 代號
+        :rtype column component_stock_id (str): 成份標的代號
+        :rtype column component_stock_name (str): 成份標的名稱
+        :rtype column buy (int): 當日買進股數
+        :rtype column sell (int): 當日賣出股數（正值）
+        """
+        stock_active_etf_holding_change = self.get_data(
+            dataset=Dataset.TaiwanStockActiveETFHoldingChange,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return stock_active_etf_holding_change
 
     def taiwan_stock_margin_purchase_short_sale(
         self,

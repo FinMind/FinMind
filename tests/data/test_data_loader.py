@@ -153,6 +153,20 @@ def test_taiwan_stock_info_with_warrant(data_loader):
     assert len(stock_info) > 10000
 
 
+def test_taiwan_stock_active_etf_info(data_loader):
+    try:
+        stock_info = data_loader.taiwan_stock_active_etf_info()
+    except Exception as e:
+        pytest.skip(
+            "TaiwanStockActiveETFInfo not available on production API yet: "
+            f"{e}"
+        )
+    assert_data(
+        stock_info,
+        ["date", "stock_id", "stock_name", "category", "type"],
+    )
+
+
 def test_taiwan_securities_trader_info(data_loader):
     securities_trader_info = data_loader.taiwan_securities_trader_info()
     assert_data(
@@ -1761,5 +1775,58 @@ def test_taiwan_stock_loan_collateral_balance(data_loader):
             "SettlementMarginReplacement",
             "SettlementMarginCurrentDayBalance",
             "SettlementMarginNextDayQuota",
+        ],
+    )
+
+
+def test_taiwan_stock_active_etf_holding(data_loader):
+    try:
+        df = data_loader.taiwan_stock_active_etf_holding(
+            stock_id="00980A",
+            start_date="2025-05-05",
+            end_date="2025-05-31",
+        )
+    except Exception as error_msg:
+        # 新資料集：正式 API 尚未部署 enum 前會回 dataset 不合法；先跳過
+        pytest.skip(f"TaiwanStockActiveETFHolding 尚未部署：{error_msg}")
+    if len(df) == 0:
+        pytest.skip("TaiwanStockActiveETFHolding 尚未 backfill")
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "component_stock_id",
+            "component_stock_name",
+            "asset_type",
+            "shares",
+            "weight",
+            "market_value",
+            "currency",
+        ],
+    )
+
+
+def test_taiwan_stock_active_etf_holding_change(data_loader):
+    try:
+        df = data_loader.taiwan_stock_active_etf_holding_change(
+            stock_id="00980A",
+            start_date="2025-05-05",
+            end_date="2025-05-31",
+        )
+    except Exception as error_msg:
+        # 新資料集：正式 API 尚未部署 enum 前會回 dataset 不合法；先跳過
+        pytest.skip(f"TaiwanStockActiveETFHoldingChange 尚未部署：{error_msg}")
+    if len(df) == 0:
+        pytest.skip("TaiwanStockActiveETFHoldingChange 尚未 backfill")
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "component_stock_id",
+            "component_stock_name",
+            "buy",
+            "sell",
         ],
     )
