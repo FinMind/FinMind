@@ -124,6 +124,7 @@ class Dataset(str, Enum):
         "TaiwanStockDispositionSecuritiesPeriod"
     )
     TaiwanStockIndustryChain = "TaiwanStockIndustryChain"
+    TaiwanStockIndustryChainMoneyFlow = "TaiwanStockIndustryChainMoneyFlow"
     TaiwanStockTradingDate = "TaiwanStockTradingDate"
     TaiwanStockInfoWithWarrantSummary = "TaiwanStockInfoWithWarrantSummary"
     TaiwanStockSplitPrice = "TaiwanStockSplitPrice"

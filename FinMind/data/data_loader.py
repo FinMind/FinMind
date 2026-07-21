@@ -2755,6 +2755,41 @@ class DataLoader(FinMindApi):
         )
         return stock_industry_chain
 
+    def taiwan_stock_industry_chain_money_flow(
+        self,
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台股產業鏈資金流向（Sponsor）
+
+        計算每日交易資金在各產業鏈的分佈：以個體公司所屬產業鏈
+        （industry／sub_industry）彙總每日個股成交。sub_industry 為空字串的
+        列為該產業鏈總計（成分股不重複計算，不等於子產業列加總）；一檔股票
+        可屬多條產業鏈，各產業鏈佔比加總會超過 100%。
+
+        :param start_date (str): 起始日期("2026-07-01")
+        :param end_date (str): 結束日期("2026-07-17")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股產業鏈資金流向 TaiwanStockIndustryChainMoneyFlow
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column industry (str): 產業鏈
+        :rtype column sub_industry (str): 子產業；空字串代表該產業鏈總計列
+        :rtype column stock_count (int): 成分股數（當日有成交）
+        :rtype column trading_volume (int): 成交股數合計
+        :rtype column trading_money (int): 成交金額合計
+        :rtype column trading_money_pct (float): 佔當日全市場個股成交金額比重(%)
+        """
+        industry_chain_money_flow = self.get_data(
+            dataset=Dataset.TaiwanStockIndustryChainMoneyFlow,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return industry_chain_money_flow
+
     def cnn_fear_greed_index(
         self,
         start_date: str = "",
