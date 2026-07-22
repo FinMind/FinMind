@@ -1595,6 +1595,25 @@ def test_taiwan_stock_convertible_bond_monthly_analysis(data_loader):
     assert len(df) >= 1
 
 
+def test_taiwan_stock_convertible_bond_put_provision(data_loader):
+    df = data_loader.taiwan_stock_convertible_bond_put_provision(
+        cb_id="14773",
+        start_date="2011-06-01",
+        end_date="2011-06-30",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "cb_id",
+            "cb_name",
+            "PutPrice",
+            "PutYieldRate",
+        ],
+    )
+    assert len(df) >= 1
+
+
 def test_get_stock_id_list(data_loader):
     stock_id_list = data_loader._get_stock_id_list(
         date="2025-12-08",

@@ -9,7 +9,7 @@ Complete dataset list with column details, tier requirements, and parameter spec
 - [Taiwan Market - Fundamental (12 datasets)](#taiwan-market---fundamental)
 - [Taiwan Market - Derivative (17 datasets)](#taiwan-market---derivative)
 - [Taiwan Market - Real-Time (4 datasets, Sponsor)](#taiwan-market---real-time)
-- [Taiwan Market - Convertible Bond (5 datasets)](#taiwan-market---convertible-bond)
+- [Taiwan Market - Convertible Bond (6 datasets)](#taiwan-market---convertible-bond)
 - [Taiwan Market - Others (3 datasets)](#taiwan-market---others)
 - [International Markets (8 datasets)](#international-markets)
 - [Global Economic Data (6 datasets)](#global-economic-data)
@@ -164,6 +164,7 @@ All convertible bond datasets require **Backer** or **Sponsor** tier.
 | TaiwanStockConvertibleBondInstitutionalInvestors | 可轉債三大法人 | Foreign/Investment_Trust/Dealer Buy/Sell, cb_id, date |
 | TaiwanStockConvertibleBondDailyOverview | 可轉債每日總覽 | cb_id, ConversionPrice, IssuanceAmount, OutstandingAmount, date |
 | TaiwanStockConvertibleBondMonthlyAnalysis | 可轉換公司債月份分析表 | cb_id, cb_name, cb_name_en, custody_balance, last_month_balance, change, change_percent, issued_units, custody_accounts, pledged_units, date |
+| TaiwanStockConvertibleBondPutProvision | 可轉債賣回權時程（含未來場次） | date, cb_id, cb_name, PutPrice, PutYieldRate |
 
 ## Taiwan Market - Others
 
