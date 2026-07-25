@@ -1830,3 +1830,47 @@ def test_taiwan_stock_active_etf_holding_change(data_loader):
             "sell",
         ],
     )
+
+
+def test_taiwan_asset_swap_fixed_income_daily(data_loader):
+    df = data_loader.taiwan_asset_swap_fixed_income_daily(
+        stock_id="17172",
+        start_date="2026-06-01",
+        end_date="2026-06-30",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "stock_name",
+            "notional_amount",
+            "number_of_transactions",
+            "rate_lowest",
+            "rate_highest",
+            "rate_average",
+            "contract_term_years",
+        ],
+    )
+
+
+def test_taiwan_asset_swap_option_daily(data_loader):
+    df = data_loader.taiwan_asset_swap_option_daily(
+        stock_id="17172",
+        start_date="2026-06-01",
+        end_date="2026-06-30",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "stock_name",
+            "notional_amount",
+            "number_of_transactions",
+            "premium_lowest",
+            "premium_highest",
+            "premium_average",
+            "contract_term_years",
+        ],
+    )

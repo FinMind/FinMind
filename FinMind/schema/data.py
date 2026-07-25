@@ -144,6 +144,8 @@ class Dataset(str, Enum):
         "TaiwanStockConvertibleBondMonthlyAnalysis"
     )
     TaiwanOptionVix = "TaiwanOptionVix"
+    TaiwanAssetSwapFixedIncomeDaily = "TaiwanAssetSwapFixedIncomeDaily"
+    TaiwanAssetSwapOptionDaily = "TaiwanAssetSwapOptionDaily"
 
 
 class Version(str, Enum):

@@ -139,6 +139,8 @@ When the user asks a question, map their intent to the right dataset:
 | 期貨報價 | `TaiwanFuturesDaily` |
 | 選擇權報價 | `TaiwanOptionDaily` |
 | 期貨三大法人 | `TaiwanFuturesInstitutionalInvestors` |
+| 資產交換固定收益 | `TaiwanAssetSwapFixedIncomeDaily` (Backer/Sponsor) |
+| 資產交換選擇權 | `TaiwanAssetSwapOptionDaily` (Backer/Sponsor) |
 
 ### International & Macro
 | User Intent | Dataset |

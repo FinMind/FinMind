@@ -126,6 +126,8 @@ Quirks of emerging-board (興櫃) stocks — normal market-structure behavior, *
 | TaiwanFuturesFinalSettlementPrice | 期貨最後結算價 | Backer | date, contract_month, futures_id, settlement_price |
 | TaiwanOptionFinalSettlementPrice | 選擇權最後結算價 | Backer | date, contract_month, option_id, settlement_price |
 | TaiwanOptionVix | 臺指選擇權波動率指數 | Backer | date, time, vix |
+| TaiwanAssetSwapFixedIncomeDaily | 資產交換固定收益日成交資訊 | Backer | date, stock_id, stock_name, notional_amount, number_of_transactions, rate_lowest, rate_highest, rate_average, contract_term_years |
+| TaiwanAssetSwapOptionDaily | 資產交換選擇權日成交資訊 | Backer | date, stock_id, stock_name, notional_amount, number_of_transactions, premium_lowest, premium_highest, premium_average, contract_term_years |
 
 ## Taiwan Market - Real-Time
 
