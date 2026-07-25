@@ -3079,6 +3079,82 @@ class DataLoader(FinMindApi):
         )
         return taiwan_option_vix
 
+    def taiwan_asset_swap_fixed_income_daily(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 資產交換固定收益日成交資訊
+        :param stock_id: 股票代號("2330")
+        :param start_date (str): 起始日期("2025-01-01")
+        :param end_date (str): 結束日期("2025-12-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 資產交換固定收益日成交資訊 TaiwanAssetSwapFixedIncomeDaily
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代碼
+        :rtype column stock_name (str): 股票名稱
+        :rtype column notional_amount (int): 名目本金
+        :rtype column number_of_transactions (int): 成交筆數
+        :rtype column rate_lowest (float): 最低利率
+        :rtype column rate_highest (float): 最高利率
+        :rtype column rate_average (float): 平均利率
+        :rtype column contract_term_years (float): 合約期間(年)
+        """
+        data = self.get_data(
+            dataset=Dataset.TaiwanAssetSwapFixedIncomeDaily,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return data
+
+    def taiwan_asset_swap_option_daily(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 資產交換選擇權日成交資訊
+        :param stock_id: 股票代號("2330")
+        :param start_date (str): 起始日期("2025-01-01")
+        :param end_date (str): 結束日期("2025-12-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 資產交換選擇權日成交資訊 TaiwanAssetSwapOptionDaily
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代碼
+        :rtype column stock_name (str): 股票名稱
+        :rtype column notional_amount (int): 名目本金
+        :rtype column number_of_transactions (int): 成交筆數
+        :rtype column premium_lowest (float): 最低權利金
+        :rtype column premium_highest (float): 最高權利金
+        :rtype column premium_average (float): 平均權利金
+        :rtype column contract_term_years (float): 合約期間(年)
+        """
+        data = self.get_data(
+            dataset=Dataset.TaiwanAssetSwapOptionDaily,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return data
+
     def _get_stock_id_list(
         self, date: str, timeout: int = None
     ) -> typing.List[str]:
