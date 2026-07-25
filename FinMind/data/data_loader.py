@@ -3089,7 +3089,7 @@ class DataLoader(FinMindApi):
         stock_id_list: typing.List[str] = None,
     ) -> pd.DataFrame:
         """get 資產交換固定收益日成交資訊
-        :param stock_id: 股票代號("2330")
+        :param stock_id: 股票代號("17172")
         :param start_date (str): 起始日期("2025-01-01")
         :param end_date (str): 結束日期("2025-12-31")
         :param timeout (int): timeout seconds, default None
@@ -3127,7 +3127,7 @@ class DataLoader(FinMindApi):
         stock_id_list: typing.List[str] = None,
     ) -> pd.DataFrame:
         """get 資產交換選擇權日成交資訊
-        :param stock_id: 股票代號("2330")
+        :param stock_id: 股票代號("17172")
         :param start_date (str): 起始日期("2025-01-01")
         :param end_date (str): 結束日期("2025-12-31")
         :param timeout (int): timeout seconds, default None
