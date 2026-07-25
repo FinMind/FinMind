@@ -1834,7 +1834,7 @@ def test_taiwan_stock_active_etf_holding_change(data_loader):
 
 def test_taiwan_asset_swap_fixed_income_daily(data_loader):
     df = data_loader.taiwan_asset_swap_fixed_income_daily(
-        stock_id="2330",
+        stock_id="17172",
         start_date="2026-06-01",
         end_date="2026-06-30",
     )
@@ -1856,7 +1856,7 @@ def test_taiwan_asset_swap_fixed_income_daily(data_loader):
 
 def test_taiwan_asset_swap_option_daily(data_loader):
     df = data_loader.taiwan_asset_swap_option_daily(
-        stock_id="2330",
+        stock_id="17172",
         start_date="2026-06-01",
         end_date="2026-06-30",
     )
