@@ -3085,6 +3085,36 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_convertible_bond_monthly_analysis
 
+    def taiwan_stock_convertible_bond_put_provision(
+        self,
+        cb_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 可轉債賣回權時程（含未來已公告場次）
+        :param cb_id (str): 可轉債代號("14773")
+        :param start_date (str): 起始日期("2011-06-01")
+        :param end_date (str): 結束日期("2011-06-30")，可設未來日期查詢即將到來的賣回場次
+        :param timeout (int): timeout seconds, default None
+
+        :return: 可轉債賣回權時程 TaiwanStockConvertibleBondPutProvision
+        :rtype pd.DataFrame
+        :rtype column date (str): 賣回基準日
+        :rtype column cb_id (str): 可轉債代號
+        :rtype column cb_name (str): 可轉債名稱
+        :rtype column PutPrice (float): 賣回金額
+        :rtype column PutYieldRate (float): 賣回收益率
+        """
+        taiwan_stock_convertible_bond_put_provision = self.get_data(
+            dataset=Dataset.TaiwanStockConvertibleBondPutProvision,
+            data_id=cb_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return taiwan_stock_convertible_bond_put_provision
+
     def taiwan_option_vix(
         self,
         start_date: str = "",

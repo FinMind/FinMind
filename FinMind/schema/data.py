@@ -144,6 +144,9 @@ class Dataset(str, Enum):
     TaiwanStockConvertibleBondMonthlyAnalysis = (
         "TaiwanStockConvertibleBondMonthlyAnalysis"
     )
+    TaiwanStockConvertibleBondPutProvision = (
+        "TaiwanStockConvertibleBondPutProvision"
+    )
     TaiwanOptionVix = "TaiwanOptionVix"
     TaiwanAssetSwapFixedIncomeDaily = "TaiwanAssetSwapFixedIncomeDaily"
     TaiwanAssetSwapOptionDaily = "TaiwanAssetSwapOptionDaily"
