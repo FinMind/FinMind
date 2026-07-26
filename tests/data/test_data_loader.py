@@ -1879,8 +1879,7 @@ def test_taiwan_asset_swap_option_daily(data_loader):
 def test_taiwan_stock_industry_chain_money_flow(data_loader):
     try:
         df = data_loader.taiwan_stock_industry_chain_money_flow(
-            start_date="2026-07-17",
-            end_date="2026-07-17",
+            date="2026-07-17",
         )
     except Exception as error_msg:
         # 新資料集：正式 API 尚未部署 enum 前會回 dataset 不合法；先跳過

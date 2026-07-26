@@ -2757,8 +2757,7 @@ class DataLoader(FinMindApi):
 
     def taiwan_stock_industry_chain_money_flow(
         self,
-        start_date: str = "",
-        end_date: str = "",
+        date: str = "",
         timeout: int = None,
     ) -> pd.DataFrame:
         """get 台股產業鏈資金流向（Sponsor）
@@ -2768,8 +2767,7 @@ class DataLoader(FinMindApi):
         列為該產業鏈總計（成分股不重複計算，不等於子產業列加總）；一檔股票
         可屬多條產業鏈，各產業鏈佔比加總會超過 100%。
 
-        :param start_date (str): 起始日期("2026-07-01")
-        :param end_date (str): 結束日期("2026-07-17")
+        :param date (str): 資料日期("2026-07-17")；資料量大，一次提供一天
         :param timeout (int): timeout seconds, default None
 
         :return: 台股產業鏈資金流向 TaiwanStockIndustryChainMoneyFlow
@@ -2784,8 +2782,7 @@ class DataLoader(FinMindApi):
         """
         industry_chain_money_flow = self.get_data(
             dataset=Dataset.TaiwanStockIndustryChainMoneyFlow,
-            start_date=start_date,
-            end_date=end_date,
+            start_date=date,
             timeout=timeout,
         )
         return industry_chain_money_flow
