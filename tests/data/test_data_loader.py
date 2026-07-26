@@ -1874,3 +1874,30 @@ def test_taiwan_asset_swap_option_daily(data_loader):
             "contract_term_years",
         ],
     )
+
+
+def test_taiwan_stock_industry_chain_money_flow(data_loader):
+    try:
+        df = data_loader.taiwan_stock_industry_chain_money_flow(
+            date="2026-07-17",
+        )
+    except Exception as error_msg:
+        # 新資料集：正式 API 尚未部署 enum 前會回 dataset 不合法；先跳過
+        pytest.skip(f"TaiwanStockIndustryChainMoneyFlow 尚未部署：{error_msg}")
+    if len(df) == 0:
+        pytest.skip("TaiwanStockIndustryChainMoneyFlow 尚未 backfill")
+    assert_data(
+        df,
+        [
+            "date",
+            "industry",
+            "sub_industry",
+            "stock_count",
+            "trading_volume",
+            "trading_money",
+            "trading_money_pct",
+        ],
+    )
+    # 產業鏈總計列（sub_industry=""）與子產業明細列皆存在
+    assert (df["sub_industry"] == "").any()
+    assert (df["sub_industry"] != "").any()
