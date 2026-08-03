@@ -951,6 +951,36 @@ def test_taiwan_total_exchange_margin_maintenance(data_loader):
     )
 
 
+def test_taiwan_stock_margin_maintenance(data_loader):
+    try:
+        df = data_loader.taiwan_stock_margin_maintenance(
+            stock_id="2330",
+            start_date="2024-01-02",
+            end_date="2024-01-31",
+        )
+    except Exception as error_msg:
+        # 新資料集：正式 API 尚未部署 enum 前會回 dataset 不合法；
+        # 另本資料集為 Sponsor only，非 Sponsor token 會被拒絕；皆先跳過
+        pytest.skip(f"TaiwanStockMarginMaintenance 尚未部署：{error_msg}")
+    if len(df) == 0:
+        pytest.skip("TaiwanStockMarginMaintenance 尚未 backfill")
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "margin_balance",
+            "margin_cost",
+            "margin_ratio",
+            "margin_maintenance",
+        ],
+    )
+    # 融資維持率為百分比值，且融資餘額為正
+    assert (df["margin_maintenance"] > 0).all()
+    assert (df["margin_balance"] >= 0).all()
+    assert set(df["margin_ratio"].unique()) <= {0.5, 0.6}
+
+
 def test_us_stock_info(data_loader):
     data = data_loader.us_stock_info()
     assert_data(

@@ -150,6 +150,7 @@ class Dataset(str, Enum):
     TaiwanOptionVix = "TaiwanOptionVix"
     TaiwanAssetSwapFixedIncomeDaily = "TaiwanAssetSwapFixedIncomeDaily"
     TaiwanAssetSwapOptionDaily = "TaiwanAssetSwapOptionDaily"
+    TaiwanStockMarginMaintenance = "TaiwanStockMarginMaintenance"
 
 
 class Version(str, Enum):
