@@ -26,7 +26,7 @@ Complete dataset list with column details, tier requirements, and parameter spec
 - `start_date` / `end_date`: Format `YYYY-MM-DD`
 - Datasets marked "single day" only accept `start_date` (no end_date range)
 - To query all stocks for a date: omit `data_id`, provide only `start_date` (requires Backer/Sponsor)
-- 整日全市場批次下載（**Sponsor Pro**）：`TaiwanStockPriceTick`、`TaiwanStockKBar`、`TaiwanFuturesTick`、`TaiwanOptionTick` 這類 "single day" 資料，Sponsor Pro 會員可一次下載「整日、全市場」parquet，免逐檔指定 `data_id`（透過 signed URL 物件下載，逐交易日提供、無歷史回補）。Endpoint：`GET /api/v4/storage_objects?dataset=<Dataset>&date=YYYY-MM-DD`；或用 FinMind Python SDK 的 `use_object=True`（`taiwan_stock_tick` / `taiwan_stock_kbar` / `taiwan_futures_tick` / `taiwan_option_tick`），例：`api.taiwan_stock_kbar(date="2019-01-02", use_object=True)`。
+- 整日全市場批次下載（**Sponsor Pro**）：`TaiwanStockPriceTick`、`TaiwanStockKBar`、`TaiwanFuturesTick`、`TaiwanOptionTick` 這類 "single day" 資料，Sponsor Pro 會員可一次下載「整日、全市場」parquet，免逐檔指定 `data_id`（透過 signed URL 物件下載，逐交易日提供，歷史資料亦可下載）。Endpoint：`GET /api/v4/storage_objects?dataset=<Dataset>&date=YYYY-MM-DD`；或用 FinMind Python SDK 的 `use_object=True`（`taiwan_stock_tick` / `taiwan_stock_kbar` / `taiwan_futures_tick` / `taiwan_option_tick`），例：`api.taiwan_stock_kbar(date="2019-01-02", use_object=True)`。各資料集整日檔案最早可取得日（實打驗證）：`TaiwanStockPriceTick` 2018-12-07、`TaiwanStockKBar` 2019-01-02、`TaiwanFuturesTick` 2011-01-03、`TaiwanOptionTick` 2011-01-03（2019-01-16 ~ 2019-06-30 不完整）；非交易日沒有整日檔案、回 404 屬正常。
 
 ## Data Caveats (注意事項)
 
