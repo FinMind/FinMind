@@ -5,7 +5,7 @@ Complete dataset list with column details, tier requirements, and parameter spec
 ## Table of Contents
 
 - [Taiwan Market - Technical (20 datasets)](#taiwan-market---technical)
-- [Taiwan Market - Chip / Institutional (22 datasets)](#taiwan-market---chip--institutional)
+- [Taiwan Market - Chip / Institutional (23 datasets)](#taiwan-market---chip--institutional)
 - [Taiwan Market - Fundamental (12 datasets)](#taiwan-market---fundamental)
 - [Taiwan Market - Derivative (17 datasets)](#taiwan-market---derivative)
 - [Taiwan Market - Real-Time (4 datasets, Sponsor)](#taiwan-market---real-time)
@@ -88,6 +88,7 @@ Quirks of emerging-board (興櫃) stocks — normal market-structure behavior, *
 | TaiwanStockActiveETFHolding | 主動式ETF每日持股明細（上市+上櫃，2025-05-05~now） | Sponsor | date, stock_id (ETF代號), component_stock_id, component_stock_name, asset_type, shares, weight, market_value, currency |
 | TaiwanStockActiveETFHoldingChange | 主動式ETF每日持股異動／買賣（相鄰交易日持股差分，上市+上櫃，2025-05-05~now） | Sponsor | date, stock_id (ETF代號), component_stock_id, component_stock_name, buy (當日買進股數), sell (當日賣出股數) |
 | TaiwanStockIndustryChainMoneyFlow | 台股產業鏈資金流向（每日各產業鏈/子產業成交彙總，sub_industry="" 為產業鏈總計列；一檔可屬多鏈、佔比加總>100%；1992-01-04~now） | Sponsor | date, industry, sub_industry, stock_count, trading_volume, trading_money, trading_money_pct |
+| TaiwanStockMarginMaintenance | 個股融資維持率（估算指標，無官方真值；上市 2001-01-05~now、上櫃 2007-01-04~now） | Sponsor | date, stock_id, margin_balance, margin_cost, margin_ratio, margin_maintenance |
 
 ## Taiwan Market - Fundamental
 

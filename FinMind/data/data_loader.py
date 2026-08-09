@@ -2172,6 +2172,50 @@ class DataLoader(FinMindApi):
         )
         return tw_total_exchange_mMargin_maintenance
 
+    def taiwan_stock_margin_maintenance(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 個股融資維持率（Sponsor）
+
+        個股融資維持率為估算指標：僅個股融資餘額張數為公開資訊，個股融資
+        金額並未公開，因此本資料集無官方真值可對照，與其他服務的估算結果
+        不會完全一致。融資成數以法定上限計（上市六成；上櫃 2014-11-10 起
+        六成、之前五成），警示股／處置股實際成數可能較低。融資成本線為
+        名目值，已調整股數事件（分割／面額變更／減資／配股）並扣除現金
+        股利。上市自 2001-01-05 起、上櫃自 2007-01-04 起。
+
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 起始日期("2024-01-02")
+        :param end_date (str): 結束日期("2024-01-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 個股融資維持率 TaiwanStockMarginMaintenance
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代號
+        :rtype column margin_balance (int): 融資餘額（張）
+        :rtype column margin_cost (float): 融資成本線，
+            估算的融資部位移動加權平均成本
+        :rtype column margin_ratio (float): 融資成數，實際採用值(0.6 / 0.5)
+        :rtype column margin_maintenance (float): 融資維持率(%)，例 156.1
+        """
+        stock_margin_maintenance = self.get_data(
+            dataset=Dataset.TaiwanStockMarginMaintenance,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return stock_margin_maintenance
+
     def us_stock_info(self, timeout: int = None) -> pd.DataFrame:
         """get 美國股票代碼總覽
         :param timeout (int): timeout seconds, default None
