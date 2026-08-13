@@ -35,6 +35,15 @@ Quirks of emerging-board (興櫃) stocks — normal market-structure behavior, *
 - **TaiwanStockPrice / TaiwanStockPriceAdj — emerging `open`**: For emerging stocks, `open` is the previous-day average price (前日均價) from TPEx, not an opening price, so it can fall outside `[min, max]` on volatile days. `max`/`min`/`close` (day high/low/last) are correct. Note `TaiwanStockInfo.type` reflects the *current* market, so a stock that later moved to TWSE/TPEx no longer shows its earlier emerging period.
 - **TaiwanStockTradingDailyReport — emerging dealer `price=0`**: For emerging stocks, the recommending dealer (market maker; `securities_trader_id` ends with `T`) quotes two-way across many price levels, so that branch row's `price` is `0` (`buy`/`sell` share counts are still correct).
 
+### Point-in-time use of fundamental data
+
+The `date` column is not a general-purpose data availability timestamp:
+
+- **TaiwanStockFinancialStatements / TaiwanStockBalanceSheet / TaiwanStockCashFlowsStatement**: `date` is the end of the reporting period, not the date when the filing became public. These datasets do not include a disclosure timestamp.
+- **TaiwanStockMonthRevenue**: `revenue_year` and `revenue_month` identify the reporting month. The SDK queries the data by a `date` normalized to the first day of the following month; this value is not the exact announcement time. `create_time` is returned but can be empty and is not guaranteed to match the official announcement time, so validate it before using it as an availability timestamp.
+
+For point-in-time research or backtests, do not join these datasets to market data on `date` alone. Use the official announcement timestamp when available, or apply and document a conservative availability lag. Preserve the retrieval time if later revisions also need to be tracked.
+
 ---
 
 ## Taiwan Market - Technical
@@ -99,7 +108,7 @@ Quirks of emerging-board (興櫃) stocks — normal market-structure behavior, *
 | TaiwanStockCashFlowsStatement | 現金流量表 | Free(w/ data_id) | date, stock_id, type, value, origin_name |
 | TaiwanStockDividend | 股利政策 | Free(w/ data_id) | date, stock_id, CashEarningsDistribution, StockEarningsDistribution, CashExDividendTradingDate |
 | TaiwanStockDividendResult | 除權除息結果 | Free(w/ data_id) | date, stock_id, before_price, after_price, stock_and_cache_dividend |
-| TaiwanStockMonthRevenue | 月營收 | Free(w/ data_id) | date, stock_id, revenue, revenue_month, revenue_year |
+| TaiwanStockMonthRevenue | 月營收 | Free(w/ data_id) | date, stock_id, revenue, revenue_month, revenue_year, create_time |
 | TaiwanStockCapitalReductionReferencePrice | 減資恢復買賣參考價 | Free | date, stock_id, PostReductionReferencePrice, ReasonforCapitalReduction |
 | TaiwanStockMarketValue | 股價市值 | Backer | date, stock_id, market_value |
 | TaiwanStockDelisting | 下市櫃 | Free | date, stock_id, stock_name |
