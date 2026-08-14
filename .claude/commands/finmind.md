@@ -35,7 +35,7 @@ These datasets do NOT use `/data` — they have dedicated endpoints:
 
 ### 整日全市場批次下載（SDK `use_object`，Sponsor Pro）
 
-`TaiwanStockPriceTick`、`TaiwanStockKBar`、`TaiwanFuturesTick`、`TaiwanOptionTick` 為單日資料，一般需逐檔帶 `data_id` 查詢。**Sponsor Pro** 會員可一次下載「整日、全市場」parquet（透過 signed URL 物件下載，免指定 `data_id`，逐交易日提供、無歷史回補）：
+`TaiwanStockPriceTick`、`TaiwanStockKBar`、`TaiwanFuturesTick`、`TaiwanOptionTick` 為單日資料，一般需逐檔帶 `data_id` 查詢。**Sponsor Pro** 會員可一次下載「整日、全市場」parquet（透過 signed URL 物件下載，免指定 `data_id`，逐交易日提供，歷史資料亦可下載）：
 
 - **Endpoint：** `GET /api/v4/storage_objects?dataset=<Dataset>&date=YYYY-MM-DD`（Bearer token）
 - **SDK：** FinMind Python SDK 的 `use_object=True`：
@@ -52,6 +52,17 @@ df = api.taiwan_option_tick(date="2019-01-02", use_object=True)    # 全選擇�
 ```
 
 此為 SDK 方法（走資料物件下載），非 `/data` 的 query 參數。
+
+各資料集整日檔案最早可取得日（實打 `storage_objects` 驗證）：
+
+| dataset | 最早日期 | 備註 |
+|---|---|---|
+| `TaiwanStockPriceTick` | 2018-12-07 | 2018-12-06 以前來源本身無逐筆資料 |
+| `TaiwanStockKBar` | 2019-01-02 | |
+| `TaiwanFuturesTick` | 2011-01-03 | 與一般 API 逐筆最早日相同 |
+| `TaiwanOptionTick` | 2011-01-03 | 2019-01-16 ~ 2019-06-30 資料不完整 |
+
+非交易日（假日、休市日）沒有整日檔案，會回 404，屬正常。
 
 ### Rate Limits
 
@@ -122,6 +133,7 @@ When the user asks a question, map their intent to the right dataset:
 | 八大行庫 | `TaiwanstockGovernmentBankBuySell` (Sponsor) |
 | 鉅額交易日成交資訊（逐筆） | `TaiwanStockBlockTrade` (Sponsor) |
 | 借貸款項擔保品餘額（融資 / 證券商證券業務借貸 / 不限用途借貸 / 證金擔保 / 證金交割融資） | `TaiwanStockLoanCollateralBalance` (Sponsor) |
+| 個股融資維持率（估算指標） | `TaiwanStockMarginMaintenance` (Sponsor) |
 
 ### Fundamentals
 | User Intent | Dataset |
@@ -139,6 +151,8 @@ When the user asks a question, map their intent to the right dataset:
 | 期貨報價 | `TaiwanFuturesDaily` |
 | 選擇權報價 | `TaiwanOptionDaily` |
 | 期貨三大法人 | `TaiwanFuturesInstitutionalInvestors` |
+| 資產交換固定收益 | `TaiwanAssetSwapFixedIncomeDaily` (Backer/Sponsor) |
+| 資產交換選擇權 | `TaiwanAssetSwapOptionDaily` (Backer/Sponsor) |
 
 ### International & Macro
 | User Intent | Dataset |

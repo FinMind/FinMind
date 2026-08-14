@@ -37,6 +37,7 @@ class Dataset(str, Enum):
     TaiwanStockDividendResult = "TaiwanStockDividendResult"
     TaiwanStockInfo = "TaiwanStockInfo"
     TaiwanStockInfoWithWarrant = "TaiwanStockInfoWithWarrant"
+    TaiwanStockActiveETFInfo = "TaiwanStockActiveETFInfo"
     TaiwanStockSecuritiesLending = "TaiwanStockSecuritiesLending"
     TaiwanFutOptTickInfo = "TaiwanFutOptTickInfo"
     TaiwanFutOptDailyInfo = "TaiwanFutOptDailyInfo"
@@ -123,6 +124,7 @@ class Dataset(str, Enum):
         "TaiwanStockDispositionSecuritiesPeriod"
     )
     TaiwanStockIndustryChain = "TaiwanStockIndustryChain"
+    TaiwanStockIndustryChainMoneyFlow = "TaiwanStockIndustryChainMoneyFlow"
     TaiwanStockTradingDate = "TaiwanStockTradingDate"
     TaiwanStockInfoWithWarrantSummary = "TaiwanStockInfoWithWarrantSummary"
     TaiwanStockSplitPrice = "TaiwanStockSplitPrice"
@@ -137,10 +139,18 @@ class Dataset(str, Enum):
     TaiwanOptionFinalSettlementPrice = "TaiwanOptionFinalSettlementPrice"
     TaiwanStockBlockTrade = "TaiwanStockBlockTrade"
     TaiwanStockLoanCollateralBalance = "TaiwanStockLoanCollateralBalance"
+    TaiwanStockActiveETFHolding = "TaiwanStockActiveETFHolding"
+    TaiwanStockActiveETFHoldingChange = "TaiwanStockActiveETFHoldingChange"
     TaiwanStockConvertibleBondMonthlyAnalysis = (
         "TaiwanStockConvertibleBondMonthlyAnalysis"
     )
+    TaiwanStockConvertibleBondPutProvision = (
+        "TaiwanStockConvertibleBondPutProvision"
+    )
     TaiwanOptionVix = "TaiwanOptionVix"
+    TaiwanAssetSwapFixedIncomeDaily = "TaiwanAssetSwapFixedIncomeDaily"
+    TaiwanAssetSwapOptionDaily = "TaiwanAssetSwapOptionDaily"
+    TaiwanStockMarginMaintenance = "TaiwanStockMarginMaintenance"
 
 
 class Version(str, Enum):

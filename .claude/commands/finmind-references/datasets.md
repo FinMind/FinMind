@@ -5,11 +5,11 @@ Complete dataset list with column details, tier requirements, and parameter spec
 ## Table of Contents
 
 - [Taiwan Market - Technical (20 datasets)](#taiwan-market---technical)
-- [Taiwan Market - Chip / Institutional (16 datasets)](#taiwan-market---chip--institutional)
+- [Taiwan Market - Chip / Institutional (23 datasets)](#taiwan-market---chip--institutional)
 - [Taiwan Market - Fundamental (12 datasets)](#taiwan-market---fundamental)
 - [Taiwan Market - Derivative (17 datasets)](#taiwan-market---derivative)
 - [Taiwan Market - Real-Time (4 datasets, Sponsor)](#taiwan-market---real-time)
-- [Taiwan Market - Convertible Bond (5 datasets)](#taiwan-market---convertible-bond)
+- [Taiwan Market - Convertible Bond (6 datasets)](#taiwan-market---convertible-bond)
 - [Taiwan Market - Others (3 datasets)](#taiwan-market---others)
 - [International Markets (8 datasets)](#international-markets)
 - [Global Economic Data (6 datasets)](#global-economic-data)
@@ -26,7 +26,7 @@ Complete dataset list with column details, tier requirements, and parameter spec
 - `start_date` / `end_date`: Format `YYYY-MM-DD`
 - Datasets marked "single day" only accept `start_date` (no end_date range)
 - To query all stocks for a date: omit `data_id`, provide only `start_date` (requires Backer/Sponsor)
-- 整日全市場批次下載（**Sponsor Pro**）：`TaiwanStockPriceTick`、`TaiwanStockKBar`、`TaiwanFuturesTick`、`TaiwanOptionTick` 這類 "single day" 資料，Sponsor Pro 會員可一次下載「整日、全市場」parquet，免逐檔指定 `data_id`（透過 signed URL 物件下載，逐交易日提供、無歷史回補）。Endpoint：`GET /api/v4/storage_objects?dataset=<Dataset>&date=YYYY-MM-DD`；或用 FinMind Python SDK 的 `use_object=True`（`taiwan_stock_tick` / `taiwan_stock_kbar` / `taiwan_futures_tick` / `taiwan_option_tick`），例：`api.taiwan_stock_kbar(date="2019-01-02", use_object=True)`。
+- 整日全市場批次下載（**Sponsor Pro**）：`TaiwanStockPriceTick`、`TaiwanStockKBar`、`TaiwanFuturesTick`、`TaiwanOptionTick` 這類 "single day" 資料，Sponsor Pro 會員可一次下載「整日、全市場」parquet，免逐檔指定 `data_id`（透過 signed URL 物件下載，逐交易日提供，歷史資料亦可下載）。Endpoint：`GET /api/v4/storage_objects?dataset=<Dataset>&date=YYYY-MM-DD`；或用 FinMind Python SDK 的 `use_object=True`（`taiwan_stock_tick` / `taiwan_stock_kbar` / `taiwan_futures_tick` / `taiwan_option_tick`），例：`api.taiwan_stock_kbar(date="2019-01-02", use_object=True)`。各資料集整日檔案最早可取得日（實打驗證）：`TaiwanStockPriceTick` 2018-12-07、`TaiwanStockKBar` 2019-01-02、`TaiwanFuturesTick` 2011-01-03、`TaiwanOptionTick` 2011-01-03（2019-01-16 ~ 2019-06-30 不完整）；非交易日沒有整日檔案、回 404 屬正常。
 
 ## Data Caveats (注意事項)
 
@@ -84,6 +84,11 @@ Quirks of emerging-board (興櫃) stocks — normal market-structure behavior, *
 | TaiwanStockDispositionSecuritiesPeriod | 處置有價證券 | Backer | date, stock_id, stock_name, disposition_cnt, condition, measure, period_start, period_end |
 | TaiwanStockBlockTrade | 鉅額交易日成交資訊（逐筆，2005-04-04~now） | Sponsor | date, stock_id, trade_type, price, volume, trading_money |
 | TaiwanStockLoanCollateralBalance | 借貸款項擔保品餘額表（37 欄位，2006-10-02~now） | Sponsor | date, stock_id, market, Margin*, SecuritiesFirmLoan*, UnrestrictedLoan*, SecuritiesFinanceSecuredLoan*, SettlementMargin* (PreviousDayBalance/Buy/Sell/CashRedemption/Replacement/CurrentDayBalance/NextDayQuota) |
+| TaiwanStockActiveETFInfo | 主動式ETF清單 | Free | date, stock_id, stock_name, category, type |
+| TaiwanStockActiveETFHolding | 主動式ETF每日持股明細（上市+上櫃，2025-05-05~now） | Sponsor | date, stock_id (ETF代號), component_stock_id, component_stock_name, asset_type, shares, weight, market_value, currency |
+| TaiwanStockActiveETFHoldingChange | 主動式ETF每日持股異動／買賣（相鄰交易日持股差分，上市+上櫃，2025-05-05~now） | Sponsor | date, stock_id (ETF代號), component_stock_id, component_stock_name, buy (當日買進股數), sell (當日賣出股數) |
+| TaiwanStockIndustryChainMoneyFlow | 台股產業鏈資金流向（每日各產業鏈/子產業成交彙總，sub_industry="" 為產業鏈總計列；一檔可屬多鏈、佔比加總>100%；1992-01-04~now） | Sponsor | date, industry, sub_industry, stock_count, trading_volume, trading_money, trading_money_pct |
+| TaiwanStockMarginMaintenance | 個股融資維持率（估算指標，無官方真值；上市 2001-01-05~now、上櫃 2007-01-04~now） | Sponsor | date, stock_id, margin_balance, margin_cost, margin_ratio, margin_maintenance |
 
 ## Taiwan Market - Fundamental
 
@@ -123,6 +128,8 @@ Quirks of emerging-board (興櫃) stocks — normal market-structure behavior, *
 | TaiwanFuturesFinalSettlementPrice | 期貨最後結算價 | Backer | date, contract_month, futures_id, settlement_price |
 | TaiwanOptionFinalSettlementPrice | 選擇權最後結算價 | Backer | date, contract_month, option_id, settlement_price |
 | TaiwanOptionVix | 臺指選擇權波動率指數 | Backer | date, time, vix |
+| TaiwanAssetSwapFixedIncomeDaily | 資產交換固定收益日成交資訊 | Backer | date, stock_id, stock_name, notional_amount, number_of_transactions, rate_lowest, rate_highest, rate_average, contract_term_years |
+| TaiwanAssetSwapOptionDaily | 資產交換選擇權日成交資訊 | Backer | date, stock_id, stock_name, notional_amount, number_of_transactions, premium_lowest, premium_highest, premium_average, contract_term_years |
 
 ## Taiwan Market - Real-Time
 
@@ -158,6 +165,7 @@ All convertible bond datasets require **Backer** or **Sponsor** tier.
 | TaiwanStockConvertibleBondInstitutionalInvestors | 可轉債三大法人 | Foreign/Investment_Trust/Dealer Buy/Sell, cb_id, date |
 | TaiwanStockConvertibleBondDailyOverview | 可轉債每日總覽 | cb_id, ConversionPrice, IssuanceAmount, OutstandingAmount, date |
 | TaiwanStockConvertibleBondMonthlyAnalysis | 可轉換公司債月份分析表 | cb_id, cb_name, cb_name_en, custody_balance, last_month_balance, change, change_percent, issued_units, custody_accounts, pledged_units, date |
+| TaiwanStockConvertibleBondPutProvision | 可轉債賣回權時程（含未來場次） | date, cb_id, cb_name, PutPrice, PutYieldRate |
 
 ## Taiwan Market - Others
 
