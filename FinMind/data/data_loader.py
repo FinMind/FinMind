@@ -46,6 +46,23 @@ class DataLoader(FinMindApi):
         )
         return stock_info
 
+    def taiwan_stock_active_etf_info(self, timeout: int = None) -> pd.DataFrame:
+        """get 主動式ETF清單（台灣掛牌主動式ETF 代號/名稱/分類/市場別）
+        :param timeout (int): timeout seconds, default None
+
+        :return: 主動式ETF清單 TaiwanStockActiveETFInfo
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): ETF 代碼
+        :rtype column stock_name (str): ETF 名稱
+        :rtype column category (str): 分類
+        :rtype column type (str): 市場別
+        """
+        stock_info = self.get_data(
+            dataset=Dataset.TaiwanStockActiveETFInfo, timeout=timeout
+        )
+        return stock_info
+
     def taiwan_securities_trader_info(
         self, timeout: int = None
     ) -> pd.DataFrame:
@@ -403,6 +420,88 @@ class DataLoader(FinMindApi):
             data_id_list=stock_id_list,
         )
         return stock_loan_collateral_balance
+
+    def taiwan_stock_active_etf_holding(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 主動式ETF每日持股明細（Sponsor）
+
+        台灣掛牌主動式ETF（上市 + 上櫃）每日完整投資組合，包含成份標的、
+        股數、權重、市值、幣別；買賣標的可由相鄰交易日持股差分取得。
+
+        :param stock_id (str): ETF 代號("00980A")；空字串則取當日全部主動式ETF
+        :param start_date (str): 起始日期("2025-05-05")
+        :param end_date (str): 結束日期("2025-05-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 主動式ETF每日持股明細 TaiwanStockActiveETFHolding
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期（持股基準日）
+        :rtype column stock_id (str): ETF 代號
+        :rtype column component_stock_id (str): 成份標的代號
+        :rtype column component_stock_name (str): 成份標的名稱
+        :rtype column asset_type (str): 資產類別
+        :rtype column shares (float): 股數
+        :rtype column weight (float): 權重(%)
+        :rtype column market_value (float): 市值
+        :rtype column currency (str): 幣別
+        """
+        stock_active_etf_holding = self.get_data(
+            dataset=Dataset.TaiwanStockActiveETFHolding,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return stock_active_etf_holding
+
+    def taiwan_stock_active_etf_holding_change(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 主動式ETF每日持股異動／買賣（Sponsor）
+
+        台灣掛牌主動式ETF（上市 + 上櫃）每日持股異動，由相鄰交易日持股
+        差分推導出的買賣標的，包含成份標的、當日買進股數 buy、當日賣出股數
+        sell（皆為整數），每一列僅有 buy／sell 其一為非零值。
+
+        :param stock_id (str): ETF 代號("00980A")；空字串則取當日全部主動式ETF
+        :param start_date (str): 起始日期("2025-05-05")
+        :param end_date (str): 結束日期("2025-05-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 主動式ETF每日持股異動 TaiwanStockActiveETFHoldingChange
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期（異動基準日）
+        :rtype column stock_id (str): ETF 代號
+        :rtype column component_stock_id (str): 成份標的代號
+        :rtype column component_stock_name (str): 成份標的名稱
+        :rtype column buy (int): 當日買進股數
+        :rtype column sell (int): 當日賣出股數（正值）
+        """
+        stock_active_etf_holding_change = self.get_data(
+            dataset=Dataset.TaiwanStockActiveETFHoldingChange,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return stock_active_etf_holding_change
 
     def taiwan_stock_margin_purchase_short_sale(
         self,
@@ -2073,6 +2172,50 @@ class DataLoader(FinMindApi):
         )
         return tw_total_exchange_mMargin_maintenance
 
+    def taiwan_stock_margin_maintenance(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 個股融資維持率（Sponsor）
+
+        個股融資維持率為估算指標：僅個股融資餘額張數為公開資訊，個股融資
+        金額並未公開，因此本資料集無官方真值可對照，與其他服務的估算結果
+        不會完全一致。融資成數以法定上限計（上市六成；上櫃 2014-11-10 起
+        六成、之前五成），警示股／處置股實際成數可能較低。融資成本線為
+        名目值，已調整股數事件（分割／面額變更／減資／配股）並扣除現金
+        股利。上市自 2001-01-05 起、上櫃自 2007-01-04 起。
+
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 起始日期("2024-01-02")
+        :param end_date (str): 結束日期("2024-01-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 個股融資維持率 TaiwanStockMarginMaintenance
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代號
+        :rtype column margin_balance (int): 融資餘額（張）
+        :rtype column margin_cost (float): 融資成本線，
+            估算的融資部位移動加權平均成本
+        :rtype column margin_ratio (float): 融資成數，實際採用值(0.6 / 0.5)
+        :rtype column margin_maintenance (float): 融資維持率(%)，例 156.1
+        """
+        stock_margin_maintenance = self.get_data(
+            dataset=Dataset.TaiwanStockMarginMaintenance,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return stock_margin_maintenance
+
     def us_stock_info(self, timeout: int = None) -> pd.DataFrame:
         """get 美國股票代碼總覽
         :param timeout (int): timeout seconds, default None
@@ -2656,6 +2799,38 @@ class DataLoader(FinMindApi):
         )
         return stock_industry_chain
 
+    def taiwan_stock_industry_chain_money_flow(
+        self,
+        date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台股產業鏈資金流向（Sponsor）
+
+        計算每日交易資金在各產業鏈的分佈：以個體公司所屬產業鏈
+        （industry／sub_industry）彙總每日個股成交。sub_industry 為空字串的
+        列為該產業鏈總計（成分股不重複計算，不等於子產業列加總）；一檔股票
+        可屬多條產業鏈，各產業鏈佔比加總會超過 100%。
+
+        :param date (str): 資料日期("2026-07-17")；資料量大，一次提供一天
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股產業鏈資金流向 TaiwanStockIndustryChainMoneyFlow
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column industry (str): 產業鏈
+        :rtype column sub_industry (str): 子產業；空字串代表該產業鏈總計列
+        :rtype column stock_count (int): 成分股數（當日有成交）
+        :rtype column trading_volume (int): 成交股數合計
+        :rtype column trading_money (int): 成交金額合計
+        :rtype column trading_money_pct (float): 佔當日全市場個股成交金額比重(%)
+        """
+        industry_chain_money_flow = self.get_data(
+            dataset=Dataset.TaiwanStockIndustryChainMoneyFlow,
+            start_date=date,
+            timeout=timeout,
+        )
+        return industry_chain_money_flow
+
     def cnn_fear_greed_index(
         self,
         start_date: str = "",
@@ -2954,6 +3129,36 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_convertible_bond_monthly_analysis
 
+    def taiwan_stock_convertible_bond_put_provision(
+        self,
+        cb_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 可轉債賣回權時程（含未來已公告場次）
+        :param cb_id (str): 可轉債代號("14773")
+        :param start_date (str): 起始日期("2011-06-01")
+        :param end_date (str): 結束日期("2011-06-30")，可設未來日期查詢即將到來的賣回場次
+        :param timeout (int): timeout seconds, default None
+
+        :return: 可轉債賣回權時程 TaiwanStockConvertibleBondPutProvision
+        :rtype pd.DataFrame
+        :rtype column date (str): 賣回基準日
+        :rtype column cb_id (str): 可轉債代號
+        :rtype column cb_name (str): 可轉債名稱
+        :rtype column PutPrice (float): 賣回金額
+        :rtype column PutYieldRate (float): 賣回收益率
+        """
+        taiwan_stock_convertible_bond_put_provision = self.get_data(
+            dataset=Dataset.TaiwanStockConvertibleBondPutProvision,
+            data_id=cb_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return taiwan_stock_convertible_bond_put_provision
+
     def taiwan_option_vix(
         self,
         start_date: str = "",
@@ -2979,6 +3184,82 @@ class DataLoader(FinMindApi):
             timeout=timeout,
         )
         return taiwan_option_vix
+
+    def taiwan_asset_swap_fixed_income_daily(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 資產交換固定收益日成交資訊
+        :param stock_id: 股票代號("17172")
+        :param start_date (str): 起始日期("2025-01-01")
+        :param end_date (str): 結束日期("2025-12-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 資產交換固定收益日成交資訊 TaiwanAssetSwapFixedIncomeDaily
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代碼
+        :rtype column stock_name (str): 股票名稱
+        :rtype column notional_amount (int): 名目本金
+        :rtype column number_of_transactions (int): 成交筆數
+        :rtype column rate_lowest (float): 最低利率
+        :rtype column rate_highest (float): 最高利率
+        :rtype column rate_average (float): 平均利率
+        :rtype column contract_term_years (float): 合約期間(年)
+        """
+        data = self.get_data(
+            dataset=Dataset.TaiwanAssetSwapFixedIncomeDaily,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return data
+
+    def taiwan_asset_swap_option_daily(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 資產交換選擇權日成交資訊
+        :param stock_id: 股票代號("17172")
+        :param start_date (str): 起始日期("2025-01-01")
+        :param end_date (str): 結束日期("2025-12-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 資產交換選擇權日成交資訊 TaiwanAssetSwapOptionDaily
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代碼
+        :rtype column stock_name (str): 股票名稱
+        :rtype column notional_amount (int): 名目本金
+        :rtype column number_of_transactions (int): 成交筆數
+        :rtype column premium_lowest (float): 最低權利金
+        :rtype column premium_highest (float): 最高權利金
+        :rtype column premium_average (float): 平均權利金
+        :rtype column contract_term_years (float): 合約期間(年)
+        """
+        data = self.get_data(
+            dataset=Dataset.TaiwanAssetSwapOptionDaily,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return data
 
     def _get_stock_id_list(
         self, date: str, timeout: int = None

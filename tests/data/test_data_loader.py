@@ -153,6 +153,20 @@ def test_taiwan_stock_info_with_warrant(data_loader):
     assert len(stock_info) > 10000
 
 
+def test_taiwan_stock_active_etf_info(data_loader):
+    try:
+        stock_info = data_loader.taiwan_stock_active_etf_info()
+    except Exception as e:
+        pytest.skip(
+            "TaiwanStockActiveETFInfo not available on production API yet: "
+            f"{e}"
+        )
+    assert_data(
+        stock_info,
+        ["date", "stock_id", "stock_name", "category", "type"],
+    )
+
+
 def test_taiwan_securities_trader_info(data_loader):
     securities_trader_info = data_loader.taiwan_securities_trader_info()
     assert_data(
@@ -937,6 +951,36 @@ def test_taiwan_total_exchange_margin_maintenance(data_loader):
     )
 
 
+def test_taiwan_stock_margin_maintenance(data_loader):
+    try:
+        df = data_loader.taiwan_stock_margin_maintenance(
+            stock_id="2330",
+            start_date="2024-01-02",
+            end_date="2024-01-31",
+        )
+    except Exception as error_msg:
+        # 新資料集：正式 API 尚未部署 enum 前會回 dataset 不合法；
+        # 另本資料集為 Sponsor only，非 Sponsor token 會被拒絕；皆先跳過
+        pytest.skip(f"TaiwanStockMarginMaintenance 尚未部署：{error_msg}")
+    if len(df) == 0:
+        pytest.skip("TaiwanStockMarginMaintenance 尚未 backfill")
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "margin_balance",
+            "margin_cost",
+            "margin_ratio",
+            "margin_maintenance",
+        ],
+    )
+    # 融資維持率為百分比值，且融資餘額為正
+    assert (df["margin_maintenance"] > 0).all()
+    assert (df["margin_balance"] >= 0).all()
+    assert set(df["margin_ratio"].unique()) <= {0.5, 0.6}
+
+
 def test_us_stock_info(data_loader):
     data = data_loader.us_stock_info()
     assert_data(
@@ -1581,6 +1625,25 @@ def test_taiwan_stock_convertible_bond_monthly_analysis(data_loader):
     assert len(df) >= 1
 
 
+def test_taiwan_stock_convertible_bond_put_provision(data_loader):
+    df = data_loader.taiwan_stock_convertible_bond_put_provision(
+        cb_id="14773",
+        start_date="2011-06-01",
+        end_date="2011-06-30",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "cb_id",
+            "cb_name",
+            "PutPrice",
+            "PutYieldRate",
+        ],
+    )
+    assert len(df) >= 1
+
+
 def test_get_stock_id_list(data_loader):
     stock_id_list = data_loader._get_stock_id_list(
         date="2025-12-08",
@@ -1763,3 +1826,127 @@ def test_taiwan_stock_loan_collateral_balance(data_loader):
             "SettlementMarginNextDayQuota",
         ],
     )
+
+
+def test_taiwan_stock_active_etf_holding(data_loader):
+    try:
+        df = data_loader.taiwan_stock_active_etf_holding(
+            stock_id="00980A",
+            start_date="2025-05-05",
+            end_date="2025-05-31",
+        )
+    except Exception as error_msg:
+        # 新資料集：正式 API 尚未部署 enum 前會回 dataset 不合法；先跳過
+        pytest.skip(f"TaiwanStockActiveETFHolding 尚未部署：{error_msg}")
+    if len(df) == 0:
+        pytest.skip("TaiwanStockActiveETFHolding 尚未 backfill")
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "component_stock_id",
+            "component_stock_name",
+            "asset_type",
+            "shares",
+            "weight",
+            "market_value",
+            "currency",
+        ],
+    )
+
+
+def test_taiwan_stock_active_etf_holding_change(data_loader):
+    try:
+        df = data_loader.taiwan_stock_active_etf_holding_change(
+            stock_id="00980A",
+            start_date="2025-05-05",
+            end_date="2025-05-31",
+        )
+    except Exception as error_msg:
+        # 新資料集：正式 API 尚未部署 enum 前會回 dataset 不合法；先跳過
+        pytest.skip(f"TaiwanStockActiveETFHoldingChange 尚未部署：{error_msg}")
+    if len(df) == 0:
+        pytest.skip("TaiwanStockActiveETFHoldingChange 尚未 backfill")
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "component_stock_id",
+            "component_stock_name",
+            "buy",
+            "sell",
+        ],
+    )
+
+
+def test_taiwan_asset_swap_fixed_income_daily(data_loader):
+    df = data_loader.taiwan_asset_swap_fixed_income_daily(
+        stock_id="17172",
+        start_date="2026-06-01",
+        end_date="2026-06-30",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "stock_name",
+            "notional_amount",
+            "number_of_transactions",
+            "rate_lowest",
+            "rate_highest",
+            "rate_average",
+            "contract_term_years",
+        ],
+    )
+
+
+def test_taiwan_asset_swap_option_daily(data_loader):
+    df = data_loader.taiwan_asset_swap_option_daily(
+        stock_id="17172",
+        start_date="2026-06-01",
+        end_date="2026-06-30",
+    )
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "stock_name",
+            "notional_amount",
+            "number_of_transactions",
+            "premium_lowest",
+            "premium_highest",
+            "premium_average",
+            "contract_term_years",
+        ],
+    )
+
+
+def test_taiwan_stock_industry_chain_money_flow(data_loader):
+    try:
+        df = data_loader.taiwan_stock_industry_chain_money_flow(
+            date="2026-07-17",
+        )
+    except Exception as error_msg:
+        # 新資料集：正式 API 尚未部署 enum 前會回 dataset 不合法；先跳過
+        pytest.skip(f"TaiwanStockIndustryChainMoneyFlow 尚未部署：{error_msg}")
+    if len(df) == 0:
+        pytest.skip("TaiwanStockIndustryChainMoneyFlow 尚未 backfill")
+    assert_data(
+        df,
+        [
+            "date",
+            "industry",
+            "sub_industry",
+            "stock_count",
+            "trading_volume",
+            "trading_money",
+            "trading_money_pct",
+        ],
+    )
+    # 產業鏈總計列（sub_industry=""）與子產業明細列皆存在
+    assert (df["sub_industry"] == "").any()
+    assert (df["sub_industry"] != "").any()
