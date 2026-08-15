@@ -584,11 +584,15 @@ class BackTest:
         gain_cash = (
             cash_div * trader.hold_volume + gain_stock_frac * 10
         )  # 將小數部分加進 gain_cash
+        # 配股「除權」不是一筆交易，總持有成本不會改變，
+        # 只是同一筆成本攤到更多股數上（每股成本被稀釋）。
+        # 因此 origin_cost 必須在 hold_volume 增加「之前」計算，
+        # 否則總成本會憑空跟著配股一起變大。
+        origin_cost = trader.hold_cost * trader.hold_volume
         trader.hold_volume += gain_stock_div
         # 在 UnrealizedProfit & RealizedProfit
         # 避免重複計算 gain_cash
-        origin_cost = trader.hold_cost * trader.hold_volume
-        # 持有成本不變，將配息歸類在，已實現損益
+        # 現金股利不調整持有成本，改歸類在已實現損益
         # new_cost = origin_cost - gain_cash
         trader.hold_cost = (
             origin_cost / trader.hold_volume if trader.hold_volume != 0 else 0
