@@ -1217,6 +1217,38 @@ class DataLoader(FinMindApi):
         )
         return futures_daily
 
+    def taiwan_futures_kbar(
+        self,
+        futures_id: str = "",
+        date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 期貨分K資料
+        :param futures_id: 期貨代號("TX")
+        :param date (str): 日期("2024-01-02")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 期貨分K TaiwanFuturesKBar
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column futures_id (str): 期貨代碼
+        :rtype column contract_date (str): 到期月份
+        :rtype column minute (str): 分鐘時間
+        :rtype column open (float): 開盤價
+        :rtype column high (float): 最高價
+        :rtype column low (float): 最低價
+        :rtype column close (float): 收盤價
+        :rtype column volume (int): 成交量
+        """
+        futures_kbar = self.get_data(
+            dataset=Dataset.TaiwanFuturesKBar,
+            data_id=futures_id,
+            start_date=date,
+            end_date=date,
+            timeout=timeout,
+        )
+        return futures_kbar
+
     def taiwan_option_daily(
         self,
         option_id: str = "",

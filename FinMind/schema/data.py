@@ -30,6 +30,7 @@ class Dataset(str, Enum):
     TaiwanOptionTick = "TaiwanOptionTick"
     TaiwanStockPriceBidAsk = "TaiwanStockPriceBidAsk"
     TaiwanFuturesDaily = "TaiwanFuturesDaily"
+    TaiwanFuturesKBar = "TaiwanFuturesKBar"
     TaiwanOptionDaily = "TaiwanOptionDaily"
     TaiwanStockNews = "TaiwanStockNews"
     TaiwanStockTotalReturnIndex = "TaiwanStockTotalReturnIndex"
