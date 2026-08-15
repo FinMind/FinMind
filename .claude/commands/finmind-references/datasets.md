@@ -7,7 +7,7 @@ Complete dataset list with column details, tier requirements, and parameter spec
 - [Taiwan Market - Technical (20 datasets)](#taiwan-market---technical)
 - [Taiwan Market - Chip / Institutional (23 datasets)](#taiwan-market---chip--institutional)
 - [Taiwan Market - Fundamental (12 datasets)](#taiwan-market---fundamental)
-- [Taiwan Market - Derivative (17 datasets)](#taiwan-market---derivative)
+- [Taiwan Market - Derivative (18 datasets)](#taiwan-market---derivative)
 - [Taiwan Market - Real-Time (4 datasets, Sponsor)](#taiwan-market---real-time)
 - [Taiwan Market - Convertible Bond (6 datasets)](#taiwan-market---convertible-bond)
 - [Taiwan Market - Others (3 datasets)](#taiwan-market---others)
@@ -115,6 +115,7 @@ Quirks of emerging-board (興櫃) stocks — normal market-structure behavior, *
 | TaiwanFuturesDaily | 期貨日成交 | Free(w/ data_id) | date, futures_id, contract_date, open, max, min, close, volume, settlement_price, open_interest |
 | TaiwanOptionDaily | 選擇權日成交 | Free(w/ data_id) | date, option_id, contract_date, strike_price, call_put, open, max, min, close, volume |
 | TaiwanFuturesTick | 期貨交易明細 | Backer | contract_date, date, futures_id, price, volume |
+| TaiwanFuturesKBar | 期貨分K | Sponsor | data_id (futures_id), start_date (single day) | date, futures_id, contract_date, minute, open, high, low, close, volume |
 | TaiwanOptionTIck | 選擇權交易明細 | Backer | ExercisePrice, PutCall, contract_date, date, option_id, price, volume |
 | TaiwanFuturesInstitutionalInvestors | 期貨三大法人 | Free(w/ data_id) | name, date, institutional_investors, long/short_deal_volume/amount |
 | TaiwanOptionInstitutionalInvestors | 選擇權三大法人 | Free(w/ data_id) | name, date, call_put, institutional_investors, long/short_deal_volume/amount |
