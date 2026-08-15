@@ -850,6 +850,27 @@ def test_taiwan_stock_kbar(data_loader):
     )
 
 
+def test_taiwan_futures_kbar(data_loader):
+    data = data_loader.taiwan_futures_kbar(
+        futures_id="TX",
+        date="2023-09-13",
+    )
+    assert_data(
+        data,
+        [
+            "date",
+            "futures_id",
+            "contract_date",
+            "minute",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+        ],
+    )
+
+
 def test_taiwan_stock_kbar_async(data_loader):
     date = "2025-05-09"
     taiwan_stock_price_df = data_loader.taiwan_stock_daily(start_date=date)
