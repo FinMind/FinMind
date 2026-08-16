@@ -116,11 +116,12 @@ class Trader:
         self.UnrealizedProfit = capital_gains - sell_fee - sell_tax
         self.EverytimeProfit = self.UnrealizedProfit + self.RealizedProfit
 
-    @staticmethod
     def __have_enough_money(
-        trader_fund: int, trade_price: float, trade_volume: float
+        self, trader_fund: int, trade_price: float, trade_volume: float
     ) -> bool:
-        return trader_fund >= (trade_price * trade_volume)
+        buy_price = trade_price * trade_volume
+        buy_fee = max(20.0, buy_price * self.fee)
+        return trader_fund >= (buy_price + buy_fee)
 
     @staticmethod
     def __have_enough_volume(hold_volume: float, trade_volume: float) -> bool:
