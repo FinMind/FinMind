@@ -91,19 +91,12 @@ jobs:
           uv run --python ${{ matrix.python-version }} pytest -n auto --dist=loadfile --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
   lint:
     runs-on: ubuntu-22.04
-    if: >-
-      (github.event_name == 'pull_request' &&
-       github.event.pull_request.head.repo.full_name == github.repository) ||
-      (github.event_name == 'pull_request_target' &&
-       github.event.pull_request.head.repo.full_name != github.repository)
+    if: github.event_name == 'pull_request'
     # No environment gate: this job reads no secrets and Black only parses the
-    # checked-out files, it never executes them.
+    # checked-out files, it never executes them, so it can always use the
+    # untrusted `pull_request` event where fork checkout is allowed.
     steps:
       - uses: actions/checkout@v4
-        with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.sha }}
-          persist-credentials: false
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
