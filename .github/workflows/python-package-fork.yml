@@ -1,0 +1,107 @@
+# Runs the test suite for FORK pull requests.
+#
+# SECURITY NOTE — read before editing.
+#
+# GitHub never passes secrets to a `pull_request` run coming from a fork, so
+# fork PRs failed every API-backed test with "Your level is free". This file
+# uses `pull_request_target`, which runs in the base repository's trusted
+# context and therefore DOES have access to FINMIND_* secrets.
+#
+# That means the checked-out fork code executes with access to those secrets —
+# `uv sync` runs build hooks, `pytest` runs conftest.py. `actions/checkout`
+# blocks this by default ("pwn request" guard); `allow-unsafe-pr-checkout`
+# below opts in.
+#
+# The ONLY thing standing between an untrusted contributor and the FinMind API
+# token is the `fork-ci` environment's required-reviewer gate. Note that
+# `pull_request_target` BYPASSES the repo-level "Approve and run workflows"
+# button — it always runs regardless of that setting — so this gate is not a
+# second line of defence, it is the only one.
+#
+# Before approving a fork PR, actually read the diff: tests/, conftest.py,
+# pyproject.toml and any build hooks all execute.
+#
+# Do not remove `environment: fork-ci`, do not widen `permissions:`, do not
+# unpin the checkout ref, and do not copy `allow-unsafe-pr-checkout` into any
+# job that lacks the gate.
+#
+# Same-repo PRs are handled by python-package.yml on plain `pull_request`; they
+# skip here. Keeping the two events in separate files also keeps every check
+# name unique across runs, which matters because branch protection matches
+# required checks by name.
+
+name: Python package (fork)
+
+on:
+  pull_request_target:
+    branches: [ master ]
+
+# `pull_request_target` grants a write-scoped GITHUB_TOKEN by default; the tests
+# need none of it.
+permissions:
+  contents: read
+
+# `github.ref` resolves to the default branch under `pull_request_target`, so
+# keying on it would make every open PR share one group and cancel the others.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-fork:
+    runs-on: ubuntu-22.04
+    # Same-repo PRs already ran on `pull_request` with secrets; they must not
+    # take the trusted path a second time.
+    if: github.event.pull_request.head.repo.full_name != github.repository
+    # Required reviewers: the job stays queued until a maintainer approves, so
+    # secrets are only injected into code a human has read.
+    environment: fork-ci
+    strategy:
+      matrix:
+        # Python 3.7 dropped because dev dependency black==24.8.0 requires >=3.8
+        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14" ]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # `pull_request_target` checks out the base branch by default; check
+          # out the PR head instead, pinned to the exact SHA that was approved.
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          allow-unsafe-pr-checkout: true
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: uv sync --group dev --python ${{ matrix.python-version }}
+      - name: Test with pytest
+        env:
+          FINMIND_USER: ${{ secrets.FINMIND_USER }}
+          FINMIND_PASSWORD: ${{ secrets.FINMIND_PASSWORD }}
+          FINMIND_API_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          uv run --python ${{ matrix.python-version }} python genenv.py
+          uv run --python ${{ matrix.python-version }} pytest -n auto --dist=loadfile --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
+
+  # Stable single check for branch protection — see the equivalent note in
+  # python-package.yml. On same-repo PRs `build-fork` is skipped and this passes
+  # immediately; on fork PRs it stays pending until the `fork-ci` approval is
+  # granted and the tests finish, which is exactly the gate we want required.
+  fork-gate:
+    runs-on: ubuntu-22.04
+    if: always()
+    needs: [ build-fork ]
+    steps:
+      - name: Check required job results
+        env:
+          BUILD: ${{ needs.build-fork.result }}
+        run: |
+          echo "build-fork=$BUILD"
+          # Skipped means this PR is same-repo and was covered by build-internal.
+          case "$BUILD" in
+            success|skipped) ;;
+            *) echo "::error::build-fork did not succeed (result=$BUILD)"; exit 1 ;;
+          esac
