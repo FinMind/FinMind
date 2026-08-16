@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <a href="https://travis-ci.org/FinMind/FinMind"><img src="https://travis-ci.org/FinMind/FinMind.svg?branch=master" alt="Build Status"></a>
-  <a href="https://github.com/linsamtw/FinMind/blob/master/LICENSE"><img src="https://img.shields.io/github/license/FinMind/FinMind" alt="license"></a>
+  <a href="https://github.com/FinMind/FinMind/actions/workflows/python-package.yml"><img src="https://github.com/FinMind/FinMind/actions/workflows/python-package.yml/badge.svg?branch=master" alt="Build Status"></a>
+  <a href="https://github.com/FinMind/FinMind/blob/master/LICENSE"><img src="https://img.shields.io/github/license/FinMind/FinMind" alt="license"></a>
   <a href="https://finmind.github.io/"><img src="https://readthedocs.org/projects/finminddoc/badge/?version=latest" alt="Documentation Status"></a>
   <a href="https://gitter.im/FinMindTW/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src="https://badges.gitter.im/FinMindTW/community.svg" alt="Gitter"></a>
   <a href="https://badge.fury.io/py/FinMind"><img src="https://badge.fury.io/py/FinMind.svg" alt="PyPI version"></a>
@@ -43,7 +43,7 @@ pip install FinMind
 
 ## 這是什麼?
 
-**FinMind** 是超過 50 種金融開源數據 [50 datasets](https://finmind.github.io/)。
+**FinMind** 提供台灣與國際市場的金融開源數據，完整資料集清單請見[官方文件](https://finmind.github.io/)。
 包含
 
 * 技術面 : 台股股價 daily、即時報價、歷史 tick、PER、PBR、每5秒委託成交統計、加權指數、當日沖銷交易標的及成交量值。
@@ -57,8 +57,9 @@ pip install FinMind
 
 ## What is this?
 
-**FinMind** is open source of more
-than [50 datasets](https://finmind.github.io/), including
+**FinMind** provides open financial datasets for Taiwan and international
+markets. See the [official documentation](https://finmind.github.io/) for the
+current dataset list, including
 
 Taiwan stock trade data daily, Taiwan stock trade data (5 seconds) (2019-05-29 ~
 now, more than 30 million data in total), Financial Statements, Balance Sheet,
@@ -79,7 +80,7 @@ without having to collect the data by yourself.
 
 ## License
 
-- [License Detail](https://github.com/linsamtw/FinMind/blob/master/LICENSE)
+- [License Detail](https://github.com/FinMind/FinMind/blob/master/LICENSE)
 
 - 本專案提供的所有內容均用於教育、非商業用途。資料僅供參考，使用者依本資料交易發生交易損失需自行負責，本專案不對資料內容錯誤、更新延誤或傳輸中斷負任何責任。
 
@@ -147,6 +148,11 @@ plotting.kline(stock_data)
 Email: FinMind.TW@gmail.com
 
 每週日早上零點至早上七點為維護時間，不提供服務。
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the development setup, test commands,
+and pull request checklist.
 
 ## Note
 
