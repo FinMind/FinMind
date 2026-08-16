@@ -3,29 +3,31 @@
 #
 # SECURITY NOTE — read before editing.
 #
-# The tests need FINMIND_* secrets, but GitHub never passes secrets to a
+# The `build` job needs FINMIND_* secrets, but GitHub never passes secrets to a
 # `pull_request` run coming from a fork, so fork PRs failed every API-backed
 # test with "Your level is free". This workflow therefore listens to BOTH
-# events and routes each PR to exactly one of them:
+# events and routes each job to the narrowest one that can do its work:
 #
-#   same-repo PR -> `pull_request`        (already trusted, secrets available)
-#   fork PR      -> `pull_request_target` (runs in the base repo's trusted
-#                                          context, so secrets are available)
+#   build, same-repo PR -> `pull_request`        (already trusted, has secrets)
+#   build, fork PR      -> `pull_request_target` (base repo's trusted context,
+#                                                 so secrets are available)
+#   lint, every PR      -> `pull_request`        (needs no secrets, so it never
+#                                                 touches the trusted context)
 #
 # Both events fire for every PR, so each job carries an `if:` guard that lets
-# only the correct one through; the other run's jobs are skipped. Keeping
-# same-repo PRs on plain `pull_request` means the dangerous event is used for
-# untrusted code only.
+# only the correct one through; the other run's jobs are skipped.
 #
 # `pull_request_target` executes the checked-out PR code WITH access to those
-# secrets. The only thing standing between an untrusted contributor and the
-# FinMind API token is the `fork-ci` environment's required-reviewer gate.
-# Before approving a fork PR, actually read the diff — including tests,
-# conftest.py, pyproject.toml and any build hooks, which all execute during
-# `uv sync` / `pytest`.
+# secrets — which is why `actions/checkout` refuses to fetch fork code there
+# unless `allow-unsafe-pr-checkout` is set. We opt in on the `build` job only,
+# and the compensating control is the `fork-ci` environment's required-reviewer
+# gate: the job stays queued until a maintainer approves. Before approving a
+# fork PR, actually read the diff — including tests, conftest.py, pyproject.toml
+# and any build hooks, which all execute during `uv sync` / `pytest`.
 #
 # Do not remove the `environment:` line, do not drop the `if:` guards, do not
-# widen `permissions:`, and do not switch the checkout back to an unpinned ref.
+# widen `permissions:`, do not switch the checkout back to an unpinned ref, and
+# do not add `allow-unsafe-pr-checkout` to any job that lacks the `fork-ci` gate.
 
 name: Python package
 
@@ -73,6 +75,11 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: false
+          # actions/checkout blocks fetching fork code under
+          # `pull_request_target` by default ("pwn request" guard). Opting in is
+          # only defensible because this job sits behind the `fork-ci`
+          # required-reviewer gate — see the SECURITY NOTE at the top.
+          allow-unsafe-pr-checkout: ${{ github.event_name == 'pull_request_target' }}
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
@@ -91,18 +98,17 @@ jobs:
           uv run --python ${{ matrix.python-version }} pytest -n auto --dist=loadfile --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
   lint:
     runs-on: ubuntu-22.04
-    if: >-
-      (github.event_name == 'pull_request' &&
-       github.event.pull_request.head.repo.full_name == github.repository) ||
-      (github.event_name == 'pull_request_target' &&
-       github.event.pull_request.head.repo.full_name != github.repository)
-    # No environment gate: this job reads no secrets and Black only parses the
-    # checked-out files, it never executes them.
+    # Black needs no secrets, so lint always runs on the untrusted
+    # `pull_request` event — for fork PRs too. That keeps it out of the trusted
+    # context entirely, so it needs neither the `fork-ci` gate nor
+    # `allow-unsafe-pr-checkout`, and it reports without waiting for approval.
+    if: github.event_name == 'pull_request'
     steps:
+      # Default checkout (the PR merge ref) is correct here — no cross-repo
+      # ref juggling needed, because `pull_request` already runs the fork's code
+      # in an untrusted sandbox.
       - uses: actions/checkout@v4
         with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: false
       - name: Install uv
         uses: astral-sh/setup-uv@v6
