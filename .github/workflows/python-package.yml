@@ -1,68 +1,45 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 #
-# SECURITY NOTE — read before editing.
+# This file covers the UNTRUSTED path only: `pull_request`, which never receives
+# secrets when the PR comes from a fork. Its companion is
+# `python-package-fork.yml`, which handles fork PRs on `pull_request_target`.
 #
-# The `build` job needs FINMIND_* secrets, but GitHub never passes secrets to a
-# `pull_request` run coming from a fork, so fork PRs failed every API-backed
-# test with "Your level is free". This workflow therefore listens to BOTH
-# events and routes each job to the narrowest one that can do its work:
+# The two paths live in separate files on purpose. A single file listening to
+# both events would place every job in BOTH runs — real in one, skipped in the
+# other — so each check name would appear twice and branch protection could be
+# satisfied by the skipped copy. One event per file keeps every check name
+# unique across all runs.
 #
-#   build, same-repo PR -> `pull_request`        (already trusted, has secrets)
-#   build, fork PR      -> `pull_request_target` (base repo's trusted context,
-#                                                 so secrets are available)
-#   lint, every PR      -> `pull_request`        (needs no secrets, so it never
-#                                                 touches the trusted context)
+#   build-internal : same-repo PRs (has secrets on this event)
+#   build-fork     : fork PRs, in python-package-fork.yml
+#   lint           : every PR, needs no secrets
 #
-# Both events fire for every PR, so each job carries an `if:` guard that lets
-# only the correct one through; the other run's jobs are skipped.
-#
-# `pull_request_target` executes the checked-out PR code WITH access to those
-# secrets — which is why `actions/checkout` refuses to fetch fork code there
-# unless `allow-unsafe-pr-checkout` is set. We opt in on the `build` job only,
-# and the compensating control is the `fork-ci` environment's required-reviewer
-# gate: the job stays queued until a maintainer approves. Before approving a
-# fork PR, actually read the diff — including tests, conftest.py, pyproject.toml
-# and any build hooks, which all execute during `uv sync` / `pytest`.
-#
-# Do not remove the `environment:` line, do not drop the `if:` guards, do not
-# widen `permissions:`, do not switch the checkout back to an unpinned ref, and
-# do not add `allow-unsafe-pr-checkout` to any job that lacks the `fork-ci` gate.
+# Jobs are named `build-internal` / `build-fork` rather than `build` so they
+# never collide with each other or with the `wheel` job in test-wheel.yml.
+# Branch protection matches required checks by name — reusing `build` made it
+# ambiguous which run satisfied the requirement.
 
 name: Python package
 
 on:
   pull_request:
     branches: [ master ]
-  pull_request_target:
-    branches: [ master ]
 
-# `pull_request_target` grants a write-scoped GITHUB_TOKEN by default; the tests
-# need none of it.
 permissions:
   contents: read
 
-# Both events fire for the same PR, so `github.event_name` has to be part of the
-# group or the two runs would cancel each other. `github.ref` resolves to the
-# default branch under `pull_request_target`, so key on the PR number instead —
-# otherwise every open PR would share one group.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-internal:
     runs-on: ubuntu-22.04
-    if: >-
-      (github.event_name == 'pull_request' &&
-       github.event.pull_request.head.repo.full_name == github.repository) ||
-      (github.event_name == 'pull_request_target' &&
-       github.event.pull_request.head.repo.full_name != github.repository)
-    # Fork PRs land in `fork-ci`, which has required reviewers: the job stays
-    # queued until a maintainer approves, so secrets are only injected into code
-    # a human has read. Same-repo PRs land in `internal-ci`, which has no
-    # protection rules and therefore runs immediately as before.
-    environment: ${{ github.event_name == 'pull_request_target' && 'fork-ci' || 'internal-ci' }}
+    # Fork PRs get no secrets on this event, so their tests would fail with
+    # "Your level is free". They are handled by python-package-fork.yml instead;
+    # here they skip.
+    if: github.event.pull_request.head.repo.full_name == github.repository
     strategy:
       matrix:
         # Python 3.7 dropped because dev dependency black==24.8.0 requires >=3.8
@@ -70,16 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # `pull_request_target` checks out the base branch by default; check
-          # out the PR head instead, pinned to the exact SHA that was approved.
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: false
-          # actions/checkout blocks fetching fork code under
-          # `pull_request_target` by default ("pwn request" guard). Opting in is
-          # only defensible because this job sits behind the `fork-ci`
-          # required-reviewer gate — see the SECURITY NOTE at the top.
-          allow-unsafe-pr-checkout: ${{ github.event_name == 'pull_request_target' }}
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
@@ -98,15 +66,10 @@ jobs:
           uv run --python ${{ matrix.python-version }} pytest -n auto --dist=loadfile --cov-report term-missing --cov-config=.coveragerc --cov=./ tests/
   lint:
     runs-on: ubuntu-22.04
-    # Black needs no secrets, so lint always runs on the untrusted
-    # `pull_request` event — for fork PRs too. That keeps it out of the trusted
-    # context entirely, so it needs neither the `fork-ci` gate nor
-    # `allow-unsafe-pr-checkout`, and it reports without waiting for approval.
-    if: github.event_name == 'pull_request'
+    # Black needs no secrets, so lint runs here for every PR including forks.
+    # That keeps it out of the trusted context entirely and lets it report
+    # without waiting for the fork-ci approval gate.
     steps:
-      # Default checkout (the PR merge ref) is correct here — no cross-repo
-      # ref juggling needed, because `pull_request` already runs the fork's code
-      # in an untrusted sandbox.
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
@@ -118,3 +81,33 @@ jobs:
         run: uv python install 3.8
       - name: Check code formatting with Black
         run: uv tool run --python 3.8 black==24.8.0 -l 80 --check FinMind tests
+
+  # Stable single check for branch protection.
+  #
+  # Matrix jobs cannot be required directly: when a matrix job is skipped GitHub
+  # emits ONE check named `build-internal`, not `build-internal (3.8)` etc. So a
+  # required context of `build-internal (3.8)` would never appear on a fork PR
+  # and the PR would sit pending forever. This job always reports, under a name
+  # that is identical on every PR, and encodes what "green" actually means.
+  internal-gate:
+    runs-on: ubuntu-22.04
+    if: always()
+    needs: [ build-internal, lint ]
+    steps:
+      - name: Check required job results
+        env:
+          BUILD: ${{ needs.build-internal.result }}
+          LINT: ${{ needs.lint.result }}
+        run: |
+          echo "build-internal=$BUILD  lint=$LINT"
+          # lint runs for every PR, so it must genuinely succeed.
+          if [ "$LINT" != "success" ]; then
+            echo "::error::lint did not succeed (result=$LINT)"
+            exit 1
+          fi
+          # build-internal is legitimately skipped on fork PRs — those are
+          # covered by build-fork in python-package-fork.yml.
+          case "$BUILD" in
+            success|skipped) ;;
+            *) echo "::error::build-internal did not succeed (result=$BUILD)"; exit 1 ;;
+          esac

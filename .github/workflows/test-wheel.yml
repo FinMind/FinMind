@@ -12,7 +12,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  # Named `wheel`, not `build`: this job only builds a wheel and runs no tests.
+  # Sharing the name `build` with the test job in python-package.yml made the
+  # two indistinguishable as branch-protection required checks, so a 10-second
+  # wheel build could satisfy a requirement meant for the full test suite.
+  wheel:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
