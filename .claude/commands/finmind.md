@@ -145,6 +145,12 @@ When the user asks a question, map their intent to the right dataset:
 | 股利、配息 | `TaiwanStockDividend` |
 | 除權息結果 | `TaiwanStockDividendResult` |
 
+**Point-in-time note:** For financial statements and monthly revenue, `date`
+identifies the reporting period or a normalized month marker; it is not the
+exact time when the market could first observe the data. Do not join
+fundamental data to prices on `date` alone in backtests. See the point-in-time
+caveat in `.claude/commands/finmind-references/datasets.md`.
+
 ### Derivatives
 | User Intent | Dataset |
 |------------|---------|

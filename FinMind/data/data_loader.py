@@ -855,7 +855,7 @@ class DataLoader(FinMindApi):
 
         :return: 現金流量表 TaiwanStockCashFlowsStatement
         :rtype pd.DataFrame
-        :rtype column date (str): 日期
+        :rtype column date (str): 財報期間截止日，非公告日
         :rtype column stock_id (str): 股票代碼
         :rtype column type (str): 類別
         :rtype column value (float): 數值
@@ -891,7 +891,7 @@ class DataLoader(FinMindApi):
 
         :return: 綜合損益表 TaiwanStockFinancialStatements
         :rtype pd.DataFrame
-        :rtype column date (str): 日期
+        :rtype column date (str): 財報期間截止日，非公告日
         :rtype column stock_id (str): 股票代碼
         :rtype column type (str): 類別
         :rtype column value (float): 數值
@@ -927,7 +927,7 @@ class DataLoader(FinMindApi):
 
         :return: 資產負債表 TaiwanStockBalanceSheet
         :rtype pd.DataFrame
-        :rtype column date (str): 日期
+        :rtype column date (str): 財報期間截止日，非公告日
         :rtype column stock_id (str): 股票代碼
         :rtype column type (str): 類別
         :rtype column value (float): 數值
@@ -1046,22 +1046,25 @@ class DataLoader(FinMindApi):
         stock_id_list: typing.List[str] = None,
     ) -> pd.DataFrame:
         """get 月營收表
-        Since the revenue in January,
-        the public time is usually only announced in February,
-        so the date plus one month
+        `start_date` / `end_date` are interpreted as the **reporting month**
+        (both the "2021-01-01" and "2021-1M" forms; the day part is ignored,
+        and both endpoints are inclusive). The returned `date` is normalized by
+        the SDK to the first day of the *following* month, so do not pass the
+        shifted value back in as a bound. It is not the announcement time.
         :param stock_id (str): 股票代號("2330")
-        :param start_date (str): 起始日期: "2018-02-01" or "2021-1M"
-        :param end_date (str): 結束日期 "2021-03-01" or "2021-2M"
+        :param start_date (str): 起始營收月份: "2018-02-01" or "2021-1M"
+        :param end_date (str): 結束營收月份 "2021-03-01" or "2021-2M"
         :param timeout (int): timeout seconds, default None
 
         :return: 月營收表 TaiwanStockMonthRevenue
         :rtype pd.DataFrame
-        :rtype column date (str): 日期
+        :rtype column date (str): 營收月份的次月一日，非實際公告時間
         :rtype column stock_id (str): 股票代碼
         :rtype column country (str): 國家
         :rtype column revenue (int): 營收
         :rtype column revenue_month (int): 營收月份
         :rtype column revenue_year (int): 營收年份
+        :rtype column create_time (str): 資料建立時間，歷史資料幾乎皆為空，且不等於公告時間
         """
         stock_month_revenue = self.get_data(
             dataset=Dataset.TaiwanStockMonthRevenue,
