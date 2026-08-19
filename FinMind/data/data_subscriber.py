@@ -71,14 +71,15 @@ class DataSubscriber:
         :param contract_type: 商品訂閱種類(Stock.Tick)
         :param cb: callback 回調函數
         """
-        if contract_id in self._subscripting_contract:
+        subscripting_id = contract_id + contract_type.value
+        if subscripting_id in self._subscripting_contract:
             logger.warning(
                 f"contract:{contract_id} {contract_type.name} already subscribe"
             )
             return
 
         url = f"{self._ws_main_url}{contract_type.value}?data_id={contract_id}"
-        self._subscripting_contract[contract_id + contract_type.value] = (
+        self._subscripting_contract[subscripting_id] = (
             asyncio.run_coroutine_threadsafe(
                 self._connect_ws(url, cb), self._loop
             )
