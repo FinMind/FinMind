@@ -850,6 +850,29 @@ def test_taiwan_stock_kbar(data_loader):
     )
 
 
+def test_taiwan_stock_kbar_taiex(data_loader):
+    data = data_loader.taiwan_stock_kbar(stock_id="TAIEX", date="2023-01-05")
+    assert_data(
+        data,
+        [
+            "date",
+            "minute",
+            "stock_id",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+        ],
+    )
+    # 加權指數每個交易日固定 271 筆, 涵蓋 09:00:00 ~ 13:30:00
+    assert len(data) == 271
+    assert data["minute"].min() == "09:00:00"
+    assert data["minute"].max() == "13:30:00"
+    # 指數沒有成交量
+    assert (data["volume"] == 0).all()
+
+
 def test_taiwan_stock_kbar_async(data_loader):
     date = "2025-05-09"
     taiwan_stock_price_df = data_loader.taiwan_stock_daily(start_date=date)

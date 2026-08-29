@@ -2088,6 +2088,7 @@ class DataLoader(FinMindApi):
         use_object: bool = False,
     ) -> pd.DataFrame:
         """get 台股分 K 資料表
+        :param stock_id (str): 股票代碼, 加權指數請帶 "TAIEX"
         :param timeout (int): timeout seconds, default None
         :param use_object (bool): 是否透過 signed URL 下載整日 parquet 資料物件,
             設為 True 時忽略 stock_id, stock_id_list, use_async 參數, default False
