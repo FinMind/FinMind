@@ -48,10 +48,11 @@ api.login_by_token(api_token="...")
 df = api.taiwan_stock_kbar(date="2019-01-02", use_object=True)     # 全市場分 K
 df = api.taiwan_stock_tick(date="2019-01-02", use_object=True)     # 全市場逐筆
 df = api.taiwan_futures_tick(date="2019-01-02", use_object=True)   # 全期貨逐筆
+df = api.taiwan_futures_kbar(date="2024-01-02", use_object=True)   # 全期貨分 K
 df = api.taiwan_option_tick(date="2019-01-02", use_object=True)    # 全選擇權逐筆
 ```
 
-此為 SDK 方法（走資料物件下載），非 `/data` 的 query 參數。
+此為 SDK 方法（走資料物件下載），非 `/data` 的 query 參數。逐筆／分 K 用 `/data` 查詢時必須帶代號（stock_id／futures_id／option_id），不帶代號 SDK 會直接 raise `ValueError`。
 
 各資料集整日檔案最早可取得日（實打 `storage_objects` 驗證）：
 

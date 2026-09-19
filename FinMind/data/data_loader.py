@@ -191,9 +191,9 @@ class DataLoader(FinMindApi):
                 date=date,
                 timeout=timeout,
             )
-        if not stock_id and not stock_id_list:
-            stock_id_list = self._get_stock_id_list(date, timeout)
-
+        self._require_data_id(
+            Dataset.TaiwanStockPriceTick, "stock_id", stock_id, stock_id_list
+        )
         stock_tick = self.get_data(
             dataset=Dataset.TaiwanStockPriceTick,
             data_id=stock_id,
@@ -1222,11 +1222,14 @@ class DataLoader(FinMindApi):
         futures_id: str = "",
         date: str = "",
         timeout: int = None,
+        use_object: bool = False,
     ) -> pd.DataFrame:
         """get 期貨分K資料
         :param futures_id: 期貨代號("TX")
         :param date (str): 日期("2024-01-02")
         :param timeout (int): timeout seconds, default None
+        :param use_object (bool): 是否透過 signed URL 下載整日 parquet 資料物件,
+            設為 True 時忽略 futures_id 參數, default False
 
         :return: 期貨分K TaiwanFuturesKBar
         :rtype pd.DataFrame
@@ -1240,6 +1243,15 @@ class DataLoader(FinMindApi):
         :rtype column close (float): 收盤價
         :rtype column volume (int): 成交量
         """
+        if use_object:
+            return self.get_object(
+                dataset=Dataset.TaiwanFuturesKBar,
+                date=date,
+                timeout=timeout,
+            )
+        self._require_data_id(
+            Dataset.TaiwanFuturesKBar, "futures_id", futures_id
+        )
         futures_kbar = self.get_data(
             dataset=Dataset.TaiwanFuturesKBar,
             data_id=futures_id,
@@ -1419,6 +1431,9 @@ class DataLoader(FinMindApi):
                 date=date,
                 timeout=timeout,
             )
+        self._require_data_id(
+            Dataset.TaiwanFuturesTick, "futures_id", futures_id
+        )
         futures_tick = self.get_data(
             dataset=Dataset.TaiwanFuturesTick,
             data_id=futures_id,
@@ -1490,6 +1505,9 @@ class DataLoader(FinMindApi):
                 date=date,
                 timeout=timeout,
             )
+        self._require_data_id(
+            Dataset.TaiwanOptionTick, "option_id", option_id, option_id_list
+        )
         option_tick = self.get_data(
             dataset=Dataset.TaiwanOptionTick,
             data_id=option_id,
@@ -2142,6 +2160,9 @@ class DataLoader(FinMindApi):
                 date=date,
                 timeout=timeout,
             )
+        self._require_data_id(
+            Dataset.TaiwanStockKBar, "stock_id", stock_id, stock_id_list
+        )
         taiwan_stock_bar = self.get_data(
             dataset=Dataset.TaiwanStockKBar,
             data_id=stock_id,
@@ -3293,6 +3314,23 @@ class DataLoader(FinMindApi):
             data_id_list=stock_id_list,
         )
         return data
+
+    @staticmethod
+    def _require_data_id(
+        dataset: str,
+        id_name: str,
+        data_id: str,
+        data_id_list: typing.List[str] = None,
+    ) -> None:
+        """逐筆 / 分K 資料必須指定代號, 不支援不帶代號一次查詢所有商品
+        一次取得特定日期所有資料, 請用 use_object=True (限 sponsorpro)
+        """
+        if not data_id and not data_id_list:
+            dataset = getattr(dataset, "value", dataset)
+            raise ValueError(
+                f"{dataset} 必須指定 {id_name}; "
+                f"一次取得特定日期所有資料, 請使用 use_object=True (限 sponsorpro)"
+            )
 
     def _get_stock_id_list(
         self, date: str, timeout: int = None
