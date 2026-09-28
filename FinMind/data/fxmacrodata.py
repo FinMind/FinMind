@@ -28,6 +28,8 @@ class FXMacroDataApi:
 
     API_VERSION = "v1"
     DEFAULT_BASE_URL = "https://api.fxmacrodata.com/v1/"
+    PAGE_LIMIT = 100
+    MAX_PAGES = 1000
 
     def __init__(
         self,
@@ -84,6 +86,52 @@ class FXMacroDataApi:
                 "FXMacroData response from {!r} was not valid JSON".format(path)
             ) from None
 
+    def request_all(
+        self, path: str, params: typing.Optional[Params] = None
+    ) -> typing.Any:
+        """Fetch every page of a history endpoint.
+
+        History endpoints return 20 rows by default and at most 100 per
+        request. Unless the caller passes ``limit`` or ``offset`` itself,
+        follow ``pagination.next_offset`` until ``has_more`` is false and
+        return the first payload with ``data`` holding every row.
+        """
+
+        query = dict(params or {})
+        if "limit" in query or "offset" in query:
+            return self.request(path, query)
+
+        first = None
+        rows = []
+        offset = 0
+        for _ in range(self.MAX_PAGES):
+            page_query = dict(query, limit=self.PAGE_LIMIT, offset=offset)
+            payload = self.request(path, page_query)
+            if not isinstance(payload, dict) or not isinstance(
+                payload.get("data"), list
+            ):
+                return payload if first is None else first
+            if first is None:
+                first = payload
+            data = payload["data"]
+            if not data:
+                break
+            rows.extend(data)
+            pagination = payload.get("pagination")
+            if not isinstance(pagination, dict) or not pagination.get(
+                "has_more"
+            ):
+                break
+            next_offset = pagination.get("next_offset")
+            if next_offset is None:
+                next_offset = offset + len(data)
+            if next_offset <= offset:
+                break
+            offset = next_offset
+        first = dict(first)
+        first["data"] = rows
+        return first
+
     def data_catalogue(self, currency: str, **params) -> pd.DataFrame:
         return self._frame(
             self.request("data_catalogue/" + currency.lower(), params)
@@ -93,7 +141,7 @@ class FXMacroDataApi:
         self, currency: str, indicator: str, **params
     ) -> pd.DataFrame:
         path = "announcements/{}/{}".format(currency.lower(), indicator)
-        return self._frame(self.request(path, params))
+        return self._frame(self.request_all(path, params))
 
     def latest_announcements(self, currency: str, **params) -> pd.DataFrame:
         path = "announcements/{}/latest".format(currency.lower())
@@ -109,11 +157,11 @@ class FXMacroDataApi:
         self, currency: str, indicator: str, **params
     ) -> pd.DataFrame:
         path = "predictions/{}/{}".format(currency.lower(), indicator)
-        return self._predictions_frame(self.request(path, params))
+        return self._predictions_frame(self.request_all(path, params))
 
     def forex(self, base: str, quote: str = "usd", **params) -> pd.DataFrame:
         path = "forex/{}/{}".format(base.lower(), quote.lower())
-        return self._frame(self.request(path, params))
+        return self._frame(self.request_all(path, params))
 
     def intraday_reference_rates(
         self, base: str, quote: str = "usd", **params
@@ -132,10 +180,10 @@ class FXMacroDataApi:
         return self._frame(self.request("fx/source-universe", params))
 
     def cot(self, currency: str, **params) -> pd.DataFrame:
-        return self._frame(self.request("cot/" + currency.lower(), params))
+        return self._frame(self.request_all("cot/" + currency.lower(), params))
 
     def commodity(self, indicator: str, **params) -> pd.DataFrame:
-        return self._frame(self.request("commodities/" + indicator, params))
+        return self._frame(self.request_all("commodities/" + indicator, params))
 
     def commodities_latest(self, **params) -> pd.DataFrame:
         return self._frame(self.request("commodities/latest", params))
@@ -145,19 +193,19 @@ class FXMacroDataApi:
 
     def factor(self, currency: str, factor: str, **params) -> pd.DataFrame:
         path = "factors/{}/{}".format(currency.lower(), factor)
-        return self._frame(self.request(path, params))
+        return self._frame(self.request_all(path, params))
 
     def rate_differentials(
         self, base: str, quote: str = "usd", **params
     ) -> pd.DataFrame:
         path = "rate_differentials/{}/{}".format(base.lower(), quote.lower())
-        return self._frame(self.request(path, params))
+        return self._frame(self.request_all(path, params))
 
     def market_sessions(self, **params) -> pd.DataFrame:
         return self._frame(self.request("market_sessions", params))
 
     def risk_sentiment(self, **params) -> pd.DataFrame:
-        return self._frame(self.request("risk_sentiment", params))
+        return self._frame(self.request_all("risk_sentiment", params))
 
     def press_releases(self, currency: str, **params) -> pd.DataFrame:
         return self._frame(

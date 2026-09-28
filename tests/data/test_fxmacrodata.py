@@ -133,3 +133,50 @@ def test_invalid_json_uses_client_exception(monkeypatch):
 
     with pytest.raises(FXMacroDataError, match="was not valid JSON"):
         FXMacroDataApi().calendar("USD")
+
+
+def test_history_follows_pagination(monkeypatch):
+    urls = []
+    pages = {
+        "0": {
+            "data": [{"date": "2026-08-31", "val": 2.9}],
+            "pagination": {"has_more": True, "next_offset": 1},
+        },
+        "1": {
+            "data": [{"date": "2026-07-31", "val": 2.7}],
+            "pagination": {"has_more": False, "next_offset": None},
+        },
+    }
+
+    def fake_urlopen(request, timeout):
+        urls.append(request.full_url)
+        offset = request.full_url.rsplit("offset=", 1)[1]
+        return FakeResponse(json.dumps(pages[offset]).encode())
+
+    monkeypatch.setattr("urllib.request.urlopen", fake_urlopen)
+
+    frame = FXMacroDataApi().announcements("USD", "inflation")
+
+    assert urls == [
+        "https://api.fxmacrodata.com/v1/announcements/usd/inflation"
+        "?limit=100&offset=0",
+        "https://api.fxmacrodata.com/v1/announcements/usd/inflation"
+        "?limit=100&offset=1",
+    ]
+    assert frame["val"].tolist() == [2.9, 2.7]
+
+
+def test_explicit_limit_requests_one_page(monkeypatch):
+    urls = []
+
+    def fake_urlopen(request, timeout):
+        urls.append(request.full_url)
+        return FakeResponse(
+            b'{"data": [{"val": 1}], "pagination": {"has_more": true}}'
+        )
+
+    monkeypatch.setattr("urllib.request.urlopen", fake_urlopen)
+
+    FXMacroDataApi().forex("EUR", "USD", limit=5)
+
+    assert urls == ["https://api.fxmacrodata.com/v1/forex/eur/usd?limit=5"]
