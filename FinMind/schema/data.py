@@ -152,6 +152,7 @@ class Dataset(str, Enum):
     TaiwanAssetSwapFixedIncomeDaily = "TaiwanAssetSwapFixedIncomeDaily"
     TaiwanAssetSwapOptionDaily = "TaiwanAssetSwapOptionDaily"
     TaiwanStockMarginMaintenance = "TaiwanStockMarginMaintenance"
+    TaiwanStockBrokerDailyConcentration = "TaiwanStockBrokerDailyConcentration"
 
 
 class Version(str, Enum):
