@@ -3147,6 +3147,35 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_day_trading_borrowing_fee_rate
 
+    def taiwan_stock_broker_daily_concentration(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 每日個股主力集中度
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 開始日期("2024-01-01")
+        :param end_date (str): 結束日期("2024-01-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 每日個股主力集中度 TaiwanStockBrokerDailyConcentration
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代號
+        :rtype column top_k (int): 前 K 大（目前固定為 15）
+        :rtype column top_buy_volume (int): 前 top_k 大買超券商買超股數總和（股）
+        :rtype column top_sell_volume (int): 前 top_k 大賣超券商賣超股數總和（股，正值）
+        """
+        return self.get_data(
+            dataset=Dataset.TaiwanStockBrokerDailyConcentration,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+
     def taiwan_stock_convertible_bond_monthly_analysis(
         self,
         cb_id: str = "",
