@@ -2,6 +2,8 @@ import io
 import json
 import socket
 import urllib.error
+import urllib.request
+from email.message import Message
 
 import pytest
 
@@ -180,3 +182,42 @@ def test_explicit_limit_requests_one_page(monkeypatch):
     FXMacroDataApi().forex("EUR", "USD", limit=5)
 
     assert urls == ["https://api.fxmacrodata.com/v1/forex/eur/usd?limit=5"]
+
+
+def test_api_key_is_not_forwarded_on_redirect(monkeypatch):
+    captured = {}
+
+    def fake_urlopen(request, timeout):
+        captured["request"] = request
+        return FakeResponse(b'{"data": []}')
+
+    monkeypatch.setattr("urllib.request.urlopen", fake_urlopen)
+    FXMacroDataApi(api_key="test-key").calendar("USD")
+
+    redirected = urllib.request.HTTPRedirectHandler().redirect_request(
+        captured["request"],
+        None,
+        302,
+        "Found",
+        Message(),
+        "https://elsewhere.example/v1/calendar/usd",
+    )
+    assert captured["request"].get_header("X-api-key") == "test-key"
+    assert redirected.get_header("X-api-key") is None
+
+
+def test_invalid_api_key_error_does_not_echo_key():
+    with pytest.raises(FXMacroDataError) as raised:
+        FXMacroDataApi(api_key="test-key\r\nX-Other: 1")
+
+    assert "test-key" not in str(raised.value)
+
+
+def test_error_body_with_200_uses_client_exception(monkeypatch):
+    monkeypatch.setattr(
+        "urllib.request.urlopen",
+        lambda request, timeout: FakeResponse(b'{"detail": "Not found"}'),
+    )
+
+    with pytest.raises(FXMacroDataError, match="returned an error: Not found"):
+        FXMacroDataApi().calendar("USD")

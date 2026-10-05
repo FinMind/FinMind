@@ -23,6 +23,16 @@ class FXMacroDataError(RuntimeError):
     """Raised when an FXMacroData request or response cannot be processed."""
 
 
+def _clean_api_key(api_key: str) -> str:
+    api_key = (api_key or "").strip()
+    if any(char.isspace() for char in api_key) or not api_key.isprintable():
+        # Never include the key itself in the message.
+        raise FXMacroDataError(
+            "FXMacroData API key contains invalid characters"
+        )
+    return api_key
+
+
 class FXMacroDataApi:
     """FXMacroData v1 client that returns FinMind-friendly data frames."""
 
@@ -37,7 +47,7 @@ class FXMacroDataApi:
         base_url: str = DEFAULT_BASE_URL,
         timeout: int = 30,
     ):
-        self.api_key = (
+        self.api_key = _clean_api_key(
             api_key
             or os.getenv("FXMACRODATA_API_KEY", "")
             or os.getenv("FXMD_API_KEY", "")
@@ -56,10 +66,13 @@ class FXMacroDataApi:
         if query:
             url = url + "?" + urllib.parse.urlencode(query)
 
-        headers = {"Accept": "application/json"}
+        req = urllib.request.Request(
+            url, headers={"Accept": "application/json"}
+        )
         if self.api_key:
-            headers["X-API-Key"] = self.api_key
-        req = urllib.request.Request(url, headers=headers)
+            # Unredirected headers are not copied onto a followed redirect,
+            # so the key is never forwarded to another host.
+            req.add_unredirected_header("X-API-Key", self.api_key)
         request_timeout = self.timeout if timeout is None else timeout
         try:
             with urllib.request.urlopen(req, timeout=request_timeout) as resp:
@@ -80,11 +93,18 @@ class FXMacroDataApi:
             ) from None
 
         try:
-            return json.loads(payload)
+            data = json.loads(payload)
         except json.JSONDecodeError:
             raise FXMacroDataError(
                 "FXMacroData response from {!r} was not valid JSON".format(path)
             ) from None
+        if isinstance(data, dict) and "detail" in data and "data" not in data:
+            raise FXMacroDataError(
+                "FXMacroData request to {!r} returned an error: {}".format(
+                    path, data["detail"]
+                )
+            )
+        return data
 
     def request_all(
         self, path: str, params: typing.Optional[Params] = None
