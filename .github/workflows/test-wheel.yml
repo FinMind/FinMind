@@ -12,12 +12,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  # Named `wheel`, not `build`: this job only builds a wheel and runs no tests.
+  # Sharing the name `build` with the test job in python-package.yml made the
+  # two indistinguishable as branch-protection required checks, so a 10-second
+  # wheel build could satisfy a requirement meant for the full test suite.
+  wheel:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
         # Python 3.7 dropped because dev dependency black==24.8.0 requires >=3.8
-        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12" ]
+        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14" ]
     steps:
       - uses: actions/checkout@v4
       - name: Install uv

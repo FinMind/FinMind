@@ -105,10 +105,15 @@ test_add_buy_rule_params = [
 def test_add_buy_rule(backtest, buy_rule_list):
     backtest.buy_rule_list = []
     backtest.add_buy_rule(buy_rule_list=buy_rule_list)
-    backtest.buy_rule_list == [
+    expected_operator = (
+        buy_rule_list[0].more_or_less_than
+        if isinstance(buy_rule_list[0], AddBuySellRule)
+        else buy_rule_list[0]["more_or_less_than"]
+    )
+    assert backtest.buy_rule_list == [
         {
             "indicators": "DollarCostAveraging",
-            "more_or_less_than": "=",
+            "more_or_less_than": expected_operator,
             "threshold": 1,
         }
     ]
@@ -153,10 +158,15 @@ test_add_sell_rule_params = [
 def test_add_sell_rule(backtest, sell_rule_list):
     backtest.sell_rule_list = []
     backtest.add_sell_rule(sell_rule_list=sell_rule_list)
-    backtest.sell_rule_list == [
+    expected_operator = (
+        sell_rule_list[0].more_or_less_than
+        if isinstance(sell_rule_list[0], AddBuySellRule)
+        else sell_rule_list[0]["more_or_less_than"]
+    )
+    assert backtest.sell_rule_list == [
         {
             "indicators": "DollarCostAveraging",
-            "more_or_less_than": "=",
+            "more_or_less_than": expected_operator,
             "threshold": 1,
         }
     ]
@@ -205,49 +215,7 @@ def test_create_sign(backtest):
     )
 
 
-def test_create_buy_sign(backtest):
-    backtest.add_buy_rule(
-        buy_rule_list=[
-            {
-                "indicators": "DollarCostAveraging",
-                "more_or_less_than": "=",
-                "threshold": 1,
-            }
-        ]
-    )
-    backtest._create_buy_sign(
-        sign_name=f"buy_signal_0",
-        indicators="DollarCostAveraging",
-        more_or_less_than="=",
-        threshold=1,
-    )
-    date_list = [
-        "2018-01-02",
-        "2018-02-21",
-        "2018-04-09",
-        "2018-05-22",
-        "2018-07-04",
-        "2018-08-15",
-        "2018-09-27",
-        "2018-11-09",
-        "2018-12-21",
-    ]
-    # buy date
-    assert list(
-        backtest.stock_price.loc[
-            backtest.stock_price.date.isin(date_list), "buy_signal_0"
-        ].values
-    ) == [1 for i in range(len(date_list))]
-    # other day no buy
-    assert (
-        backtest.stock_price.loc[
-            backtest.stock_price.date.isin(date_list) == False, "buy_signal_0"
-        ].sum()
-        == 0
-    )
-
-
-def test_create_buy_sign(backtest):
+def test_create_trade_sign(backtest):
     backtest.add_indicators(
         indicators_info_list=[
             dict(name=Indicators.BIAS, formula_value=24),

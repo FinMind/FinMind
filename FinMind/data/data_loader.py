@@ -191,9 +191,9 @@ class DataLoader(FinMindApi):
                 date=date,
                 timeout=timeout,
             )
-        if not stock_id and not stock_id_list:
-            stock_id_list = self._get_stock_id_list(date, timeout)
-
+        self._require_data_id(
+            Dataset.TaiwanStockPriceTick, "stock_id", stock_id, stock_id_list
+        )
         stock_tick = self.get_data(
             dataset=Dataset.TaiwanStockPriceTick,
             data_id=stock_id,
@@ -1220,6 +1220,50 @@ class DataLoader(FinMindApi):
         )
         return futures_daily
 
+    def taiwan_futures_kbar(
+        self,
+        futures_id: str = "",
+        date: str = "",
+        timeout: int = None,
+        use_object: bool = False,
+    ) -> pd.DataFrame:
+        """get 期貨分K資料
+        :param futures_id: 期貨代號("TX")
+        :param date (str): 日期("2024-01-02")
+        :param timeout (int): timeout seconds, default None
+        :param use_object (bool): 是否透過 signed URL 下載整日 parquet 資料物件,
+            設為 True 時忽略 futures_id 參數, default False
+
+        :return: 期貨分K TaiwanFuturesKBar
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column futures_id (str): 期貨代碼
+        :rtype column contract_date (str): 到期月份
+        :rtype column minute (str): 分鐘時間
+        :rtype column open (float): 開盤價
+        :rtype column high (float): 最高價
+        :rtype column low (float): 最低價
+        :rtype column close (float): 收盤價
+        :rtype column volume (int): 成交量
+        """
+        if use_object:
+            return self.get_object(
+                dataset=Dataset.TaiwanFuturesKBar,
+                date=date,
+                timeout=timeout,
+            )
+        self._require_data_id(
+            Dataset.TaiwanFuturesKBar, "futures_id", futures_id
+        )
+        futures_kbar = self.get_data(
+            dataset=Dataset.TaiwanFuturesKBar,
+            data_id=futures_id,
+            start_date=date,
+            end_date=date,
+            timeout=timeout,
+        )
+        return futures_kbar
+
     def taiwan_option_daily(
         self,
         option_id: str = "",
@@ -1390,6 +1434,9 @@ class DataLoader(FinMindApi):
                 date=date,
                 timeout=timeout,
             )
+        self._require_data_id(
+            Dataset.TaiwanFuturesTick, "futures_id", futures_id
+        )
         futures_tick = self.get_data(
             dataset=Dataset.TaiwanFuturesTick,
             data_id=futures_id,
@@ -1461,6 +1508,9 @@ class DataLoader(FinMindApi):
                 date=date,
                 timeout=timeout,
             )
+        self._require_data_id(
+            Dataset.TaiwanOptionTick, "option_id", option_id, option_id_list
+        )
         option_tick = self.get_data(
             dataset=Dataset.TaiwanOptionTick,
             data_id=option_id,
@@ -2091,6 +2141,7 @@ class DataLoader(FinMindApi):
         use_object: bool = False,
     ) -> pd.DataFrame:
         """get 台股分 K 資料表
+        :param stock_id (str): 股票代碼, 加權指數請帶 "TAIEX"
         :param timeout (int): timeout seconds, default None
         :param use_object (bool): 是否透過 signed URL 下載整日 parquet 資料物件,
             設為 True 時忽略 stock_id, stock_id_list, use_async 參數, default False
@@ -2112,6 +2163,9 @@ class DataLoader(FinMindApi):
                 date=date,
                 timeout=timeout,
             )
+        self._require_data_id(
+            Dataset.TaiwanStockKBar, "stock_id", stock_id, stock_id_list
+        )
         taiwan_stock_bar = self.get_data(
             dataset=Dataset.TaiwanStockKBar,
             data_id=stock_id,
@@ -3096,6 +3150,35 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_day_trading_borrowing_fee_rate
 
+    def taiwan_stock_broker_daily_concentration(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 每日個股主力集中度
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 開始日期("2024-01-01")
+        :param end_date (str): 結束日期("2024-01-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 每日個股主力集中度 TaiwanStockBrokerDailyConcentration
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期
+        :rtype column stock_id (str): 股票代號
+        :rtype column top_k (int): 前 K 大（目前固定為 15）
+        :rtype column top_buy_volume (int): 前 top_k 大買超券商買超股數總和（股）
+        :rtype column top_sell_volume (int): 前 top_k 大賣超券商賣超股數總和（股，正值）
+        """
+        return self.get_data(
+            dataset=Dataset.TaiwanStockBrokerDailyConcentration,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+
     def taiwan_stock_convertible_bond_monthly_analysis(
         self,
         cb_id: str = "",
@@ -3263,6 +3346,23 @@ class DataLoader(FinMindApi):
             data_id_list=stock_id_list,
         )
         return data
+
+    @staticmethod
+    def _require_data_id(
+        dataset: str,
+        id_name: str,
+        data_id: str,
+        data_id_list: typing.List[str] = None,
+    ) -> None:
+        """逐筆 / 分K 資料必須指定代號, 不支援不帶代號一次查詢所有商品
+        一次取得特定日期所有資料, 請用 use_object=True (限 sponsorpro)
+        """
+        if not data_id and not data_id_list:
+            dataset = getattr(dataset, "value", dataset)
+            raise ValueError(
+                f"{dataset} 必須指定 {id_name}; "
+                f"一次取得特定日期所有資料, 請使用 use_object=True (限 sponsorpro)"
+            )
 
     def _get_stock_id_list(
         self, date: str, timeout: int = None

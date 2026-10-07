@@ -82,6 +82,12 @@ testdata_get_asset_underlying_type_duplicated = [
     (["水泥工業"], "水泥工業"),
     # 只剩總稱那列時，寧可回總稱也不要回空
     (["電子工業"], "電子工業"),
+    # 上櫃 ETF 兩種寫法都可能單獨出現或成對出現，不論排序取到哪個，
+    # 都要對應到 ETF 稅率（見 test_get_underlying_trading_tax）
+    (["上櫃ETF"], "上櫃ETF"),
+    (["上櫃指數股票型基金(ETF)"], "上櫃指數股票型基金(ETF)"),
+    (["上櫃ETF", "上櫃指數股票型基金(ETF)"], "上櫃ETF"),
+    (["上櫃指數股票型基金(ETF)", "上櫃ETF"], "上櫃ETF"),
 ]
 
 
@@ -96,7 +102,14 @@ def test_get_asset_underlying_type_duplicated(industry_category_list, expected):
     assert underlying_type == expected
 
 
-testdata_get_underlying_trading_tax = [("半導體", 0.003), ("ETF", 0.001)]
+# 上櫃 ETF 在 TaiwanStockInfo 有兩種寫法，兩種都必須拿到 ETF 的 0.1% 證交稅，
+# 否則回測會被課到一般股票的 0.3%（3 倍）。
+testdata_get_underlying_trading_tax = [
+    ("半導體", 0.003),
+    ("ETF", 0.001),
+    ("上櫃指數股票型基金(ETF)", 0.001),
+    ("上櫃ETF", 0.001),
+]
 
 
 @pytest.mark.parametrize(
@@ -106,6 +119,27 @@ testdata_get_underlying_trading_tax = [("半導體", 0.003), ("ETF", 0.001)]
 def test_get_underlying_trading_tax(underlying_type, expected):
     resp = get_underlying_trading_tax(underlying_type)
     assert resp == expected
+
+
+# BackTest 實際走的路徑是 get_asset_underlying_type -> get_underlying_trading_tax，
+# 上櫃 ETF 不論 TaiwanStockInfo 回哪幾列、排序取到哪一種寫法，稅率都要是 0.1%
+testdata_otc_etf_trading_tax = [
+    ["上櫃ETF"],
+    ["上櫃指數股票型基金(ETF)"],
+    ["上櫃ETF", "上櫃指數股票型基金(ETF)"],
+    ["上櫃指數股票型基金(ETF)", "上櫃ETF"],
+]
+
+
+@pytest.mark.parametrize(
+    "industry_category_list",
+    testdata_otc_etf_trading_tax,
+)
+def test_otc_etf_trading_tax(industry_category_list):
+    underlying_type = get_asset_underlying_type(
+        "2330", FakeDataLoader(industry_category_list)
+    )
+    assert get_underlying_trading_tax(underlying_type) == 0.001
 
 
 testdata_calculate_Datenbr = [

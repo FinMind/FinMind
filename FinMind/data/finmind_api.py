@@ -7,7 +7,11 @@ import requests
 from loguru import logger
 
 from FinMind.schema.data import Dataset
-from FinMind.utility.request import async_request_get, request_get
+from FinMind.utility.request import (
+    async_request_get,
+    download_storage_object,
+    request_get,
+)
 
 logger.remove()
 logger.add(sys.stderr, level="INFO")
@@ -398,11 +402,19 @@ class FinMindApi:
         data = pd.DataFrame(self._extract_data(data))
         return data
 
-    def get_object(self, dataset: str, date: str, timeout: int) -> pd.DataFrame:
+    def get_object(
+        self,
+        dataset: str,
+        date: str,
+        timeout: int,
+        max_retry_times: int = 10,
+    ) -> pd.DataFrame:
         """透過 signed URL 下載整日資料物件 (parquet 格式)
+        傳輸中斷時會自動重試，並以 HTTP Range 從中斷處續傳
         :param dataset (str): 資料集名稱 (e.g. "TaiwanStockPriceTick")
         :param date (str): 資料日期 ("2025-01-06")
         :param timeout (int): request timeout 秒數
+        :param max_retry_times (int): 最多重試次數
 
         :return: 該日期所有資料
         :rtype: pd.DataFrame
@@ -412,16 +424,11 @@ class FinMindApi:
             "dataset": dataset,
             "date": date,
         }
-        response = request_get(
+        content = download_storage_object(
             self.__session,
             url,
             params=params,
             timeout=timeout,
+            max_retry_times=max_retry_times,
         )
-        status_code = response.status_code
-        if status_code == 200:
-            return pd.read_parquet(io.BytesIO(response.content))
-        else:
-            resp_json = response.json()
-            logger.info(resp_json)
-        return pd.DataFrame()
+        return pd.read_parquet(io.BytesIO(content))

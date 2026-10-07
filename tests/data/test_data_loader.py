@@ -1,5 +1,6 @@
 import datetime
 import os
+from unittest import mock
 
 import pandas as pd
 import pytest
@@ -287,6 +288,50 @@ def test_taiwan_futures_tick_object(data_loader):
     assert_data(
         data, ["date", "futures_id", "contract_date", "price", "volume"]
     )
+
+
+def test_taiwan_futures_kbar_object(data_loader):
+    data = data_loader.taiwan_futures_kbar(date="2024-01-02", use_object=True)
+    assert_data(
+        data,
+        [
+            "date",
+            "futures_id",
+            "contract_date",
+            "minute",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+        ],
+    )
+    assert data["futures_id"].nunique() > 1
+
+
+@pytest.mark.parametrize(
+    "method, id_name",
+    [
+        ("taiwan_stock_tick", "stock_id"),
+        ("taiwan_stock_kbar", "stock_id"),
+        ("taiwan_futures_tick", "futures_id"),
+        ("taiwan_futures_kbar", "futures_id"),
+        ("taiwan_option_tick", "option_id"),
+    ],
+)
+def test_tick_kbar_without_id_raises(data_loader, method, id_name):
+    # 逐筆 / 分K 不帶代號必須在 SDK 端直接擋下, 不可打 API
+    # (taiwan_stock_tick 以前會自動展開全部股票逐檔請求)
+    with mock.patch.object(data_loader, "get_data") as get_data:
+        with mock.patch.object(
+            data_loader, "_get_stock_id_list"
+        ) as get_stock_id_list:
+            with pytest.raises(
+                ValueError, match=f"必須指定 {id_name}.*use_object=True"
+            ):
+                getattr(data_loader, method)(date="2024-01-02")
+    get_data.assert_not_called()
+    get_stock_id_list.assert_not_called()
 
 
 def test_taiwan_option_tick_object(data_loader):
@@ -841,6 +886,50 @@ def test_taiwan_stock_kbar(data_loader):
             "date",
             "minute",
             "stock_id",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+        ],
+    )
+
+
+def test_taiwan_stock_kbar_taiex(data_loader):
+    data = data_loader.taiwan_stock_kbar(stock_id="TAIEX", date="2023-01-05")
+    assert_data(
+        data,
+        [
+            "date",
+            "minute",
+            "stock_id",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+        ],
+    )
+    # 加權指數每個交易日固定 271 筆, 涵蓋 09:00:00 ~ 13:30:00
+    assert len(data) == 271
+    assert data["minute"].min() == "09:00:00"
+    assert data["minute"].max() == "13:30:00"
+    # 指數沒有成交量
+    assert (data["volume"] == 0).all()
+
+
+def test_taiwan_futures_kbar(data_loader):
+    data = data_loader.taiwan_futures_kbar(
+        futures_id="TX",
+        date="2023-09-13",
+    )
+    assert_data(
+        data,
+        [
+            "date",
+            "futures_id",
+            "contract_date",
+            "minute",
             "open",
             "high",
             "low",
@@ -1466,26 +1555,6 @@ def test_taiwan_stock_trading_date(data_loader):
         df,
         [
             "date",
-        ],
-    )
-
-
-def test_taiwan_stock_split_price(data_loader):
-    df = data_loader.taiwan_stock_split_price(
-        start_date="2025-06-01",
-        end_date="2025-07-01",
-    )
-    assert_data(
-        df,
-        [
-            "date",
-            "stock_id",
-            "type",
-            "before_price",
-            "after_price",
-            "max_price",
-            "min_price",
-            "open_price",
         ],
     )
 

@@ -35,9 +35,18 @@ def get_asset_underlying_type(stock_id: str, data_loader: DataLoader) -> str:
     return sorted(industry_category.values)[0]
 
 
+# ETF 的證交稅是 0.1%，一般股票是 0.3%。TaiwanStockInfo 對上櫃 ETF 的
+# industry_category 有「上櫃指數股票型基金(ETF)」與「上櫃ETF」兩種寫法，
+# 同一檔可能只出現其中一種，兩種都要對應到 ETF 稅率。
+UNDERLYING_TRADING_TAX = {
+    "ETF": 0.001,
+    "上櫃指數股票型基金(ETF)": 0.001,
+    "上櫃ETF": 0.001,
+}
+
+
 def get_underlying_trading_tax(underlying_type: str) -> float:
-    mapping = {"ETF": 0.001, "上櫃指數股票型基金(ETF)": 0.001}
-    return mapping.get(underlying_type, 0.003)
+    return UNDERLYING_TRADING_TAX.get(underlying_type, 0.003)
 
 
 def calculate_datenbr(day1: str, day2: str) -> int:

@@ -116,11 +116,12 @@ class Trader:
         self.UnrealizedProfit = capital_gains - sell_fee - sell_tax
         self.EverytimeProfit = self.UnrealizedProfit + self.RealizedProfit
 
-    @staticmethod
     def __have_enough_money(
-        trader_fund: int, trade_price: float, trade_volume: float
+        self, trader_fund: int, trade_price: float, trade_volume: float
     ) -> bool:
-        return trader_fund >= (trade_price * trade_volume)
+        buy_price = trade_price * trade_volume
+        buy_fee = max(20.0, buy_price * self.fee)
+        return trader_fund >= (buy_price + buy_fee)
 
     @staticmethod
     def __have_enough_volume(hold_volume: float, trade_volume: float) -> bool:
@@ -266,7 +267,7 @@ class BackTest:
         indicators_info: typing.Union[IndicatorsInfo, typing.Dict[str, str]],
     ):
         indicators_info = (
-            indicators_info.dict()
+            indicators_info.model_dump()
             if isinstance(indicators_info, IndicatorsInfo)
             else indicators_info
         )
@@ -323,7 +324,7 @@ class BackTest:
         ],
     ):
         return [
-            rule.dict() if isinstance(rule, AddBuySellRule) else rule
+            rule.model_dump() if isinstance(rule, AddBuySellRule) else rule
             for rule in rule_list
         ]
 
@@ -584,11 +585,15 @@ class BackTest:
         gain_cash = (
             cash_div * trader.hold_volume + gain_stock_frac * 10
         )  # 將小數部分加進 gain_cash
+        # 配股「除權」不是一筆交易，總持有成本不會改變，
+        # 只是同一筆成本攤到更多股數上（每股成本被稀釋）。
+        # 因此 origin_cost 必須在 hold_volume 增加「之前」計算，
+        # 否則總成本會憑空跟著配股一起變大。
+        origin_cost = trader.hold_cost * trader.hold_volume
         trader.hold_volume += gain_stock_div
         # 在 UnrealizedProfit & RealizedProfit
         # 避免重複計算 gain_cash
-        origin_cost = trader.hold_cost * trader.hold_volume
-        # 持有成本不變，將配息歸類在，已實現損益
+        # 現金股利不調整持有成本，改歸類在已實現損益
         # new_cost = origin_cost - gain_cash
         trader.hold_cost = (
             origin_cost / trader.hold_volume if trader.hold_volume != 0 else 0
@@ -698,7 +703,7 @@ class BackTest:
     @property
     def final_stats(self) -> pd.Series:
         self._final_stats = pd.Series(
-            FinalStats(**self._final_stats.to_dict()).dict()
+            FinalStats(**self._final_stats.to_dict()).model_dump()
         )
         return self._final_stats
 
@@ -706,7 +711,7 @@ class BackTest:
     def trade_detail(self) -> pd.DataFrame:
         self._trade_detail = pd.DataFrame(
             [
-                TradeDetail(**row_dict).dict()
+                TradeDetail(**row_dict).model_dump()
                 for row_dict in self._trade_detail.to_dict("records")
             ]
         )
@@ -716,7 +721,7 @@ class BackTest:
     def compare_market_detail(self) -> pd.DataFrame:
         self._compare_market_detail = pd.DataFrame(
             [
-                CompareMarketDetail(**row_dict).dict()
+                CompareMarketDetail(**row_dict).model_dump()
                 for row_dict in self._compare_market_detail.to_dict("records")
             ]
         )
@@ -725,7 +730,9 @@ class BackTest:
     @property
     def compare_market_stats(self) -> pd.Series:
         self._compare_market_stats = pd.Series(
-            CompareMarketStats(**self._compare_market_stats.to_dict()).dict()
+            CompareMarketStats(
+                **self._compare_market_stats.to_dict()
+            ).model_dump()
         )
         return self._compare_market_stats
 
