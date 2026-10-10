@@ -35,7 +35,7 @@ These datasets do NOT use `/data` — they have dedicated endpoints:
 
 ### 整日全市場批次下載（SDK `use_object`，Sponsor Pro）
 
-`TaiwanStockPriceTick`、`TaiwanStockKBar`、`TaiwanFuturesTick`、`TaiwanFuturesKBar`、`TaiwanOptionTick` 為單日資料，一般需逐檔帶 `data_id` 查詢。**Sponsor Pro** 會員可一次下載「整日、全市場」parquet（透過 signed URL 物件下載，免指定 `data_id`，逐交易日提供，歷史資料亦可下載）：
+`TaiwanStockPriceTick`、`TaiwanStockKBar`、`TaiwanFuturesTick`、`TaiwanFuturesKBar`、`TaiwanOptionTick`、`TaiwanStockTradingDailyReportSecIdAgg` 為單日資料，一般需逐檔帶 `data_id` 查詢。**Sponsor Pro** 會員可一次下載「整日、全市場」parquet（透過 signed URL 物件下載，免指定 `data_id`，逐交易日提供，歷史資料亦可下載）：
 
 - **Endpoint：** `GET /api/v4/storage_objects?dataset=<Dataset>&date=YYYY-MM-DD`（Bearer token）
 - **SDK：** FinMind Python SDK 的 `use_object=True`：
@@ -50,6 +50,7 @@ df = api.taiwan_stock_tick(date="2019-01-02", use_object=True)     # 全市場�
 df = api.taiwan_futures_tick(date="2019-01-02", use_object=True)   # 全期貨逐筆
 df = api.taiwan_futures_kbar(date="2024-01-02", use_object=True)   # 全期貨分 K
 df = api.taiwan_option_tick(date="2019-01-02", use_object=True)    # 全選擇權逐筆
+df = api.taiwan_stock_trading_daily_report_secid_agg(start_date="2024-07-01", use_object=True)  # 全市場券商分點統計
 ```
 
 此為 SDK 方法（走資料物件下載），非 `/data` 的 query 參數。逐筆／分 K 用 `/data` 查詢時必須帶代號（stock_id／futures_id／option_id），不帶代號 SDK 會直接 raise `ValueError`。
@@ -63,6 +64,7 @@ df = api.taiwan_option_tick(date="2019-01-02", use_object=True)    # 全選擇�
 | `TaiwanFuturesTick` | 2011-01-03 | 與一般 API 逐筆最早日相同 |
 | `TaiwanFuturesKBar` | 2011-01-03 | 與一般 API 分 K 最早日相同 |
 | `TaiwanOptionTick` | 2011-01-03 | 2019-01-16 ~ 2019-06-30 資料不完整 |
+| `TaiwanStockTradingDailyReportSecIdAgg` | 2021-06-30 | 與一般 API 最早日相同；SDK 以 `start_date` 指定日期 |
 
 非交易日（假日、休市日）沒有整日檔案，會回 404，屬正常。
 
