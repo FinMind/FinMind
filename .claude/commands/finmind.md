@@ -35,7 +35,7 @@ These datasets do NOT use `/data` — they have dedicated endpoints:
 
 ### 整日全市場批次下載（SDK `use_object`，Sponsor Pro）
 
-`TaiwanStockPriceTick`、`TaiwanStockKBar`、`TaiwanFuturesTick`、`TaiwanOptionTick` 為單日資料，一般需逐檔帶 `data_id` 查詢。**Sponsor Pro** 會員可一次下載「整日、全市場」parquet（透過 signed URL 物件下載，免指定 `data_id`，逐交易日提供，歷史資料亦可下載）：
+`TaiwanStockPriceTick`、`TaiwanStockKBar`、`TaiwanFuturesTick`、`TaiwanFuturesKBar`、`TaiwanOptionTick` 為單日資料，一般需逐檔帶 `data_id` 查詢。**Sponsor Pro** 會員可一次下載「整日、全市場」parquet（透過 signed URL 物件下載，免指定 `data_id`，逐交易日提供，歷史資料亦可下載）：
 
 - **Endpoint：** `GET /api/v4/storage_objects?dataset=<Dataset>&date=YYYY-MM-DD`（Bearer token）
 - **SDK：** FinMind Python SDK 的 `use_object=True`：
@@ -61,6 +61,7 @@ df = api.taiwan_option_tick(date="2019-01-02", use_object=True)    # 全選擇�
 | `TaiwanStockPriceTick` | 2018-12-07 | 2018-12-06 以前來源本身無逐筆資料 |
 | `TaiwanStockKBar` | 2019-01-02 | |
 | `TaiwanFuturesTick` | 2011-01-03 | 與一般 API 逐筆最早日相同 |
+| `TaiwanFuturesKBar` | 2011-01-03 | 與一般 API 分 K 最早日相同 |
 | `TaiwanOptionTick` | 2011-01-03 | 2019-01-16 ~ 2019-06-30 資料不完整 |
 
 非交易日（假日、休市日）沒有整日檔案，會回 404，屬正常。
