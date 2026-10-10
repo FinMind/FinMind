@@ -1249,6 +1249,76 @@ def test_taiwan_stock_trading_daily_report_secid_agg(data_loader):
     )
 
 
+def test_taiwan_stock_trading_daily_report_secid_agg_object_mock(data_loader):
+    # use_object=True 走 get_object 下載 start_date 整日檔,
+    # 忽略 stock_id / securities_trader_id / end_date, 不打一般 API
+    expected = pd.DataFrame({"stock_id": ["2330"]})
+    with mock.patch.object(
+        data_loader, "get_object", return_value=expected
+    ) as get_object:
+        with mock.patch.object(data_loader, "get_data") as get_data:
+            df = data_loader.taiwan_stock_trading_daily_report_secid_agg(
+                stock_id="2330",
+                securities_trader_id="1020",
+                start_date="2024-07-01",
+                end_date="2024-07-31",
+                timeout=30,
+                use_object=True,
+            )
+    get_object.assert_called_once_with(
+        dataset="TaiwanStockTradingDailyReportSecIdAgg",
+        date="2024-07-01",
+        timeout=30,
+    )
+    get_data.assert_not_called()
+    assert df is expected
+
+
+def test_taiwan_stock_trading_daily_report_secid_agg_default_mock(data_loader):
+    # use_object 預設 False, 行為與原本相同: 走 get_data, 不呼叫 get_object
+    with mock.patch.object(data_loader, "get_object") as get_object:
+        with mock.patch.object(
+            data_loader, "get_data", return_value=pd.DataFrame()
+        ) as get_data:
+            data_loader.taiwan_stock_trading_daily_report_secid_agg(
+                "2330", "1020", "2024-07-30", "2024-07-31", 30
+            )
+    get_object.assert_not_called()
+    get_data.assert_called_once_with(
+        dataset="TaiwanStockTradingDailyReportSecIdAgg",
+        data_id="2330",
+        securities_trader_id="1020",
+        start_date="2024-07-30",
+        end_date="2024-07-31",
+        timeout=30,
+    )
+
+
+@pytest.mark.skip(
+    reason="分點統計整日物件為新上線、需後端開放並回補完成後 prod 才有物件，"
+    "待確認 storage_objects 可下載後再啟用"
+)
+def test_taiwan_stock_trading_daily_report_secid_agg_object(data_loader):
+    df = data_loader.taiwan_stock_trading_daily_report_secid_agg(
+        start_date="2024-07-01",
+        use_object=True,
+    )
+    assert_data(
+        df,
+        [
+            "securities_trader",
+            "securities_trader_id",
+            "stock_id",
+            "date",
+            "buy_volume",
+            "sell_volume",
+            "buy_price",
+            "sell_price",
+        ],
+    )
+    assert df["stock_id"].nunique() > 1
+
+
 def test_taiwan_stock_trading_daily_report(data_loader):
     df = data_loader.taiwan_stock_trading_daily_report(
         stock_id="2330",
