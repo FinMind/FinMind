@@ -4,7 +4,7 @@ Complete dataset list with column details, tier requirements, and parameter spec
 
 ## Table of Contents
 
-- [Taiwan Market - Technical (20 datasets)](#taiwan-market---technical)
+- [Taiwan Market - Technical (21 datasets)](#taiwan-market---technical)
 - [Taiwan Market - Chip / Institutional (23 datasets)](#taiwan-market---chip--institutional)
 - [Taiwan Market - Fundamental (12 datasets)](#taiwan-market---fundamental)
 - [Taiwan Market - Derivative (18 datasets)](#taiwan-market---derivative)
@@ -72,6 +72,7 @@ For point-in-time research or backtests, do not join these datasets to market da
 | TaiwanStockSuspended | 暫停交易公告 | Backer | start_date, end_date | stock_id, date, suspension_time, resumption_date |
 | TaiwanStockDayTradingSuspension | 暫停先賣後買當沖 | Backer | start_date, end_date | stock_id, date, end_date, reason |
 | TaiwanStockPriceLimit | 每日漲跌停價 (2000-01-01~now) | Free(w/ data_id) | data_id, start_date | date, stock_id, reference_price, limit_up, limit_down |
+| TaiwanStockAfterHoursFixedPriceTrading | 盤後定價交易（上市 2004-12-24~now，上櫃自 2011-01-03；volume/unfilled_*_volume 單位：張） | Backer | date, stock_id, market, price, volume, trading_turnover, trading_money, unfilled_buy_volume, unfilled_sell_volume |
 
 ## Taiwan Market - Chip / Institutional
 

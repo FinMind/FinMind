@@ -379,6 +379,55 @@ class DataLoader(FinMindApi):
         )
         return stock_block_trade
 
+    def taiwan_stock_after_hours_fixed_price_trading(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+        use_async: bool = False,
+        stock_id_list: typing.List[str] = None,
+    ) -> pd.DataFrame:
+        """get 盤後定價交易（Backer）
+        Taiwan Stock After-Hours Fixed-Price Trading
+
+        上市 2004-12-24 ~ now；上櫃自 2011-01-03 起。
+        收錄官方表全部證券，含當天無盤後成交（volume=0）的列；
+        上市無成交列的 price 為當日定價（收盤價），上櫃無成交列 price 為 0。
+
+        :param stock_id (str): 股票代號("2330")
+        :param start_date (str): 起始日期("2025-09-01")
+        :param end_date (str): 結束日期("2025-09-30")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 盤後定價交易 TaiwanStockAfterHoursFixedPriceTrading
+        :rtype pd.DataFrame
+        :rtype column date (str): 日期 Date
+        :rtype column stock_id (str): 股票代號 Stock ID
+        :rtype column market (str): 市場別，twse 上市、tpex 上櫃
+            Market (twse: listed, tpex: OTC)
+        :rtype column price (float): 成交價，盤後定價成交價（元）
+            Fixed trading price (TWD)
+        :rtype column volume (int): 成交量，單位：張（交易單位），非股
+            Trading volume (lots)
+        :rtype column trading_turnover (int): 成交筆數 Number of transactions
+        :rtype column trading_money (int): 成交金額（元） Trading value (TWD)
+        :rtype column unfilled_buy_volume (int): 未成交買量，
+            撮合後剩餘委買量（張） Unfilled buy volume (lots)
+        :rtype column unfilled_sell_volume (int): 未成交賣量，
+            撮合後剩餘委賣量（張） Unfilled sell volume (lots)
+        """
+        stock_after_hours_fixed_price_trading = self.get_data(
+            dataset=Dataset.TaiwanStockAfterHoursFixedPriceTrading,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+            use_async=use_async,
+            data_id_list=stock_id_list,
+        )
+        return stock_after_hours_fixed_price_trading
+
     def taiwan_stock_loan_collateral_balance(
         self,
         stock_id: str = "",
