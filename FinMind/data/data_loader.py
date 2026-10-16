@@ -953,7 +953,7 @@ class DataLoader(FinMindApi):
         end_date: str = "",
         timeout: int = None,
     ) -> pd.DataFrame:
-        """get 台股財報與年報檔案（Sponsor Pro）
+        """get 台股財報與年報 PDF（Sponsor Pro）
 
         回傳財務報告書與股東會年報的完整 PDF 下載連結，不是財報數字；
         財報數字請用 taiwan_stock_financial_statement /
@@ -981,7 +981,7 @@ class DataLoader(FinMindApi):
         :param end_date (str): 結束日期("2025-12-31")，可省略，預設今天
         :param timeout (int): timeout seconds, default None
 
-        :return: 台股財報與年報檔案 TaiwanStockFinancialReportFile
+        :return: 台股財報與年報 PDF TaiwanStockFinancialReportFile
         :rtype pd.DataFrame
         :rtype column date (str): 期間截止日，財報為季底、年報為年度末
         :rtype column stock_id (str): 股票代號
