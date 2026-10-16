@@ -1294,10 +1294,6 @@ def test_taiwan_stock_trading_daily_report_secid_agg_default_mock(data_loader):
     )
 
 
-@pytest.mark.skip(
-    reason="分點統計整日物件為新上線、需後端開放並回補完成後 prod 才有物件，"
-    "待確認 storage_objects 可下載後再啟用"
-)
 def test_taiwan_stock_trading_daily_report_secid_agg_object(data_loader):
     df = data_loader.taiwan_stock_trading_daily_report_secid_agg(
         start_date="2024-07-01",
