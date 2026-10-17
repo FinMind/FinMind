@@ -620,55 +620,46 @@ def test_taiwan_stock_cash_flows_statement_quarter(data_loader):
 
 
 def test_taiwan_stock_financial_report_file_mock(data_loader):
-    # SDK 以 year + quarter 呼叫 get_data，不再帶日期區間
+    # SDK 以日期區間呼叫 get_data
     expected = pd.DataFrame({"stock_id": ["2330"]})
     with mock.patch.object(
         data_loader, "get_data", return_value=expected
     ) as get_data:
         df = data_loader.taiwan_stock_financial_report_file(
-            stock_id="2330", year=2025, quarter=4, timeout=30
+            stock_id="2330",
+            start_date="2024-01-01",
+            end_date="2025-12-31",
+            timeout=30,
         )
     get_data.assert_called_once_with(
         dataset="TaiwanStockFinancialReportFile",
         data_id="2330",
-        year=2025,
-        quarter=4,
+        start_date="2024-01-01",
+        end_date="2025-12-31",
         timeout=30,
     )
     assert df is expected
 
 
 def test_taiwan_stock_financial_report_file_request_params_mock(data_loader):
-    # 實際送出的 request 帶 data_id / year / quarter，不帶 start_date / end_date
+    # 實際送出的 request 打 /v4/data，帶 data_id / start_date / end_date，
+    # 不帶 year / quarter
     response = mock.Mock()
     response.json.return_value = {"msg": "success", "status": 200, "data": []}
     with mock.patch(
         "FinMind.data.finmind_api.request_get", return_value=response
     ) as request_get:
         data_loader.taiwan_stock_financial_report_file(
-            stock_id="2330", year=2025, quarter=1
+            stock_id="2330", start_date="2024-01-01", end_date="2025-12-31"
         )
     params = request_get.call_args.kwargs["params"]
     assert params["dataset"] == "TaiwanStockFinancialReportFile"
     assert params["data_id"] == "2330"
-    assert params["year"] == 2025
-    assert params["quarter"] == 1
-    assert "start_date" not in params
-    assert "end_date" not in params
+    assert params["start_date"] == "2024-01-01"
+    assert params["end_date"] == "2025-12-31"
+    assert "year" not in params
+    assert "quarter" not in params
     assert request_get.call_args.args[1].endswith("/v4/data")
-
-
-@pytest.mark.parametrize("quarter", [0, 5, -1, True])
-def test_taiwan_stock_financial_report_file_invalid_quarter(
-    data_loader, quarter
-):
-    # quarter 只能 1~4，SDK 端直接擋下，不打 API
-    with mock.patch.object(data_loader, "get_data") as get_data:
-        with pytest.raises(ValueError, match="quarter"):
-            data_loader.taiwan_stock_financial_report_file(
-                stock_id="2330", year=2025, quarter=quarter
-            )
-    get_data.assert_not_called()
 
 
 def test_taiwan_stock_financial_report_file_without_url_mock(data_loader):
@@ -697,7 +688,7 @@ def test_taiwan_stock_financial_report_file_without_url_mock(data_loader):
         "FinMind.data.finmind_api.request_get", return_value=response
     ):
         df = data_loader.taiwan_stock_financial_report_file(
-            stock_id="2330", year=2025, quarter=4
+            stock_id="2330", start_date="2025-01-01", end_date="2025-12-31"
         )
     assert list(df.columns) == [
         "date",
@@ -710,11 +701,12 @@ def test_taiwan_stock_financial_report_file_without_url_mock(data_loader):
 
 
 def test_taiwan_stock_financial_report_file(data_loader):
-    # 打正式 API：需 Sponsor Pro token；正式 API 尚未上線「/data 不回 url」
-    # 的新版時，回傳仍會有 url 欄，此時先跳過；權限不足等錯誤也跳過
+    # 打正式 API：需 Sponsor Pro token；正式 API 尚未上線「日期區間查詢、
+    # 不回 url」的新版時（不接受日期區間回錯誤，或仍回 url 欄），先跳過；
+    # 權限不足等錯誤也跳過
     try:
         df = data_loader.taiwan_stock_financial_report_file(
-            stock_id="2330", year=2024, quarter=4
+            stock_id="2330", start_date="2024-01-01", end_date="2025-12-31"
         )
     except Exception as error_msg:
         pytest.skip(f"TaiwanStockFinancialReportFile 無法取得：{error_msg}")
@@ -727,9 +719,20 @@ def test_taiwan_stock_financial_report_file(data_loader):
         ["date", "stock_id", "report_category", "file_size"],
     )
     assert (df["stock_id"] == "2330").all()
-    # Q4：年度財報 + 股東會年報，date 皆為年度末
-    assert set(df["date"]) == {"2024-12-31"}
-    assert set(df["report_category"]) == {"financial_report", "annual_report"}
+    assert set(df["report_category"]) <= {"financial_report", "annual_report"}
+    # 2024、2025 各四季財報；Q4 另有股東會年報
+    financial_report_dates = set(
+        df.loc[df["report_category"] == "financial_report", "date"]
+    )
+    assert {
+        "2024-03-31",
+        "2024-06-30",
+        "2024-09-30",
+        "2024-12-31",
+    } <= financial_report_dates
+    assert "2024-12-31" in set(
+        df.loc[df["report_category"] == "annual_report", "date"]
+    )
     assert (df["file_size"] > 0).all()
 
 
