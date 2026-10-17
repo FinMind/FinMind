@@ -6,7 +6,7 @@ Complete dataset list with column details, tier requirements, and parameter spec
 
 - [Taiwan Market - Technical (20 datasets)](#taiwan-market---technical)
 - [Taiwan Market - Chip / Institutional (23 datasets)](#taiwan-market---chip--institutional)
-- [Taiwan Market - Fundamental (12 datasets)](#taiwan-market---fundamental)
+- [Taiwan Market - Fundamental (13 datasets)](#taiwan-market---fundamental)
 - [Taiwan Market - Derivative (18 datasets)](#taiwan-market---derivative)
 - [Taiwan Market - Real-Time (4 datasets, Sponsor)](#taiwan-market---real-time)
 - [Taiwan Market - Convertible Bond (6 datasets)](#taiwan-market---convertible-bond)
@@ -20,6 +20,7 @@ Complete dataset list with column details, tier requirements, and parameter spec
 - **Free(w/ data_id)**: Free when querying a specific stock; Backer/Sponsor to query all stocks (omit data_id)
 - **Backer**: Requires Backer tier or above
 - **Sponsor**: Requires Sponsor tier or above
+- **Sponsor Pro**: Requires Sponsor Pro tier
 
 ## Parameter Notes
 
@@ -117,6 +118,7 @@ For point-in-time research or backtests, do not join these datasets to market da
 | TaiwanStockMarketValueWeight | 市值比重 | Backer | rank, stock_id, stock_name, weight_per, date, type |
 | TaiwanStockSplitPrice | 分割後參考價 | Free | date, stock_id, type, before_price, after_price |
 | TaiwanStockParValueChange | 變更面額恢復買賣參考價 | Free | date, stock_id, stock_name, before_close, after_ref_close |
+| TaiwanStockFinancialReportFile | 台股財報與年報 PDF（下載連結，url 1 小時有效；必填 data_id；財報 2013-03-31~now、年報 2013-12-31~now） | Sponsor Pro | date, stock_id, report_category, file_size, url |
 
 ## Taiwan Market - Derivative
 

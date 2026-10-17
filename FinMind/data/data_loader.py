@@ -946,6 +946,59 @@ class DataLoader(FinMindApi):
         )
         return stock_balance_sheet
 
+    def taiwan_stock_financial_report_file(
+        self,
+        stock_id: str,
+        start_date: str,
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 台股財報與年報 PDF（Sponsor Pro）
+
+        回傳財務報告書與股東會年報的完整 PDF 下載連結，不是財報數字；
+        財報數字請用 taiwan_stock_financial_statement /
+        taiwan_stock_balance_sheet / taiwan_stock_cash_flows_statement。
+        財報收中文合併財報，無子公司的公司收中文個別財報；不含個體財報與
+        英文版。必須指定 stock_id，不提供全市場查詢。
+        資料區間：財報 2013-03-31 ~ now（每季）、年報 2013-12-31 ~ now（每年）。
+        部分年報 PDF 的文字層可能亂碼或殘缺（來源檔本身如此），
+        需要文字時可能要 OCR。
+
+        url 為暫時下載連結，有效期 1 小時，過期請重新查詢取得新連結，
+        不可保存重用。下載範例:
+            import requests
+            df = api.taiwan_stock_financial_report_file(
+                stock_id="2330", start_date="2025-01-01"
+            )
+            row = df.iloc[-1]
+            resp = requests.get(row["url"], timeout=60)
+            resp.raise_for_status()
+            with open(f"{row['stock_id']}_{row['date']}.pdf", "wb") as f:
+                f.write(resp.content)
+
+        :param stock_id (str): 股票代號("2330")，必填
+        :param start_date (str): 起始日期("2025-01-01")
+        :param end_date (str): 結束日期("2025-12-31")，可省略，預設今天
+        :param timeout (int): timeout seconds, default None
+
+        :return: 台股財報與年報 PDF TaiwanStockFinancialReportFile
+        :rtype pd.DataFrame
+        :rtype column date (str): 期間截止日，財報為季底、年報為年度末
+        :rtype column stock_id (str): 股票代號
+        :rtype column report_category (str): 報告類別，
+            financial_report（財務報告書）或 annual_report（股東會年報）
+        :rtype column file_size (int): 檔案大小（位元組）
+        :rtype column url (str): PDF 暫時下載連結，有效期 1 小時
+        """
+        stock_financial_report_file = self.get_data(
+            dataset=Dataset.TaiwanStockFinancialReportFile,
+            data_id=stock_id,
+            start_date=start_date,
+            end_date=end_date,
+            timeout=timeout,
+        )
+        return stock_financial_report_file
+
     def taiwan_stock_dividend(
         self,
         stock_id: str = "",

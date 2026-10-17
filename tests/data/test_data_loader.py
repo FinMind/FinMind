@@ -619,6 +619,39 @@ def test_taiwan_stock_cash_flows_statement_quarter(data_loader):
     )
 
 
+def test_taiwan_stock_financial_report_file(data_loader):
+    try:
+        df = data_loader.taiwan_stock_financial_report_file(
+            stock_id="2330",
+            start_date="2024-01-01",
+            end_date="2024-12-31",
+        )
+    except Exception as error_msg:
+        # 本資料集為 Sponsor Pro only，非 Sponsor Pro token 會被拒絕，先跳過
+        pytest.skip(f"TaiwanStockFinancialReportFile 無法取得：{error_msg}")
+    assert_data(
+        df,
+        ["date", "stock_id", "report_category", "file_size", "url"],
+    )
+    assert (df["stock_id"] == "2330").all()
+    assert set(df["report_category"]) <= {"financial_report", "annual_report"}
+    # 2024 年度：四季財報 + 一份年報
+    financial_report_dates = set(
+        df.loc[df["report_category"] == "financial_report", "date"]
+    )
+    assert financial_report_dates == {
+        "2024-03-31",
+        "2024-06-30",
+        "2024-09-30",
+        "2024-12-31",
+    }
+    assert "2024-12-31" in set(
+        df.loc[df["report_category"] == "annual_report", "date"]
+    )
+    assert (df["file_size"] > 0).all()
+    assert df["url"].str.startswith("https://").all()
+
+
 def test_taiwan_stock_month_revenue_date(data_loader):
     data = data_loader.taiwan_stock_month_revenue(
         stock_id="2330", start_date="2020-01-01", end_date="2021-06-01"
