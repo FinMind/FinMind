@@ -118,7 +118,7 @@ For point-in-time research or backtests, do not join these datasets to market da
 | TaiwanStockMarketValueWeight | 市值比重 | Backer | rank, stock_id, stock_name, weight_per, date, type |
 | TaiwanStockSplitPrice | 分割後參考價 | Free | date, stock_id, type, before_price, after_price |
 | TaiwanStockParValueChange | 變更面額恢復買賣參考價 | Free | date, stock_id, stock_name, before_close, after_ref_close |
-| TaiwanStockFinancialReportFile | 台股財報與年報 PDF（查詢與下載分開。查詢：必填 data_id、start_date，end_date 選填（預設今天），列出區間內有哪些檔與檔案大小，date 為期間截止日，Q4（YYYY-12-31）有年度財報＋股東會年報兩列；SDK：`api.taiwan_stock_financial_report_file(stock_id="2330", start_date="2024-01-01", end_date="2025-12-31")`。下載：`/api/v4/storage_objects` 帶 dataset、data_id、year、quarter、report_category（financial_report／annual_report，annual_report 只有 quarter=4），307 轉址後一次下載一個檔案，該期無檔回 404；SDK：`content = api.taiwan_stock_financial_report_file_download(stock_id="2330", year=2025, quarter=4, report_category="annual_report")` 回 bytes，`open(path, "wb").write(content)` 存檔；檔案多為 PDF，少數 2013 年財報為 Word（.doc）；財報 2013-03-31~now、年報 2013-12-31~now） | Sponsor Pro | date, stock_id, report_category, file_size |
+| TaiwanStockFinancialReportFile | 台股財報與年報 PDF（僅提供單檔下載，`/api/v4/data` 不支援此資料集。下載：`/api/v4/storage_objects` 帶 dataset、data_id、year、quarter（1~4）、report_category（financial_report 財務報告書／annual_report 股東會年報，annual_report 只有 quarter=4），307 轉址後一次下載一個檔案，該期無檔回 404；SDK：`content = api.taiwan_stock_financial_report_file_download(stock_id="2330", year=2025, quarter=4, report_category="annual_report")` 回 bytes，`open(path, "wb").write(content)` 存檔，無檔時丟 Exception（訊息含 "status: 404"）；檔案多為 PDF，少數 2013 年財報為 Word（.doc）；財報 2013 Q1~now、年報 2013~now） | Sponsor Pro | （下載檔案本身，無欄位） |
 
 ## Taiwan Market - Derivative
 

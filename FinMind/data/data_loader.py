@@ -946,61 +946,6 @@ class DataLoader(FinMindApi):
         )
         return stock_balance_sheet
 
-    def taiwan_stock_financial_report_file(
-        self,
-        stock_id: str,
-        start_date: str,
-        end_date: str = "",
-        timeout: int = None,
-    ) -> pd.DataFrame:
-        """get 台股財報與年報 PDF 檔案清單（Sponsor Pro）
-
-        列出公司在日期區間內有哪些財務報告書與股東會年報檔案、檔案多大，
-        不是財報數字；財報數字請用 taiwan_stock_financial_statement /
-        taiwan_stock_balance_sheet / taiwan_stock_cash_flows_statement。
-        下載檔案本身請用 taiwan_stock_financial_report_file_download。
-        財報收中文合併財報，無子公司的公司收中文個別財報；不含個體財報與
-        英文版。必須指定 stock_id，不提供全市場查詢。
-        date 為期間截止日（財報為季底、年報為年度末），以 date 篩選日期區間；
-        Q4（YYYY-12-31）同時有年度財報與股東會年報兩列。
-        資料區間：財報 2013-03-31 ~ now（每季）、年報 2013-12-31 ~ now（每年）。
-
-        範例:
-            df = api.taiwan_stock_financial_report_file(
-                stock_id="2330", start_date="2024-01-01", end_date="2025-12-31"
-            )
-            for _, row in df.iterrows():
-                period = pd.Timestamp(row["date"])
-                content = api.taiwan_stock_financial_report_file_download(
-                    stock_id=row["stock_id"],
-                    year=period.year,
-                    quarter=period.quarter,
-                    report_category=row["report_category"],
-                )
-                ...
-
-        :param stock_id (str): 股票代號("2330")，必填
-        :param start_date (str): 起始日期("2024-01-01")，必填
-        :param end_date (str): 結束日期("2025-12-31")，預設為今天
-        :param timeout (int): timeout seconds, default None
-
-        :return: 台股財報與年報 PDF TaiwanStockFinancialReportFile
-        :rtype pd.DataFrame
-        :rtype column date (str): 期間截止日，財報為季底、年報為年度末
-        :rtype column stock_id (str): 股票代號
-        :rtype column report_category (str): 報告類別，
-            financial_report（財務報告書）或 annual_report（股東會年報）
-        :rtype column file_size (int): 檔案大小（位元組）
-        """
-        stock_financial_report_file = self.get_data(
-            dataset=Dataset.TaiwanStockFinancialReportFile,
-            data_id=stock_id,
-            start_date=start_date,
-            end_date=end_date,
-            timeout=timeout,
-        )
-        return stock_financial_report_file
-
     def taiwan_stock_financial_report_file_download(
         self,
         stock_id: str,
@@ -1009,14 +954,24 @@ class DataLoader(FinMindApi):
         report_category: str,
         timeout: int = None,
     ) -> bytes:
-        """下載台股財報與年報檔案（Sponsor Pro）
+        """下載台股財報與年報 PDF（Sponsor Pro）
 
-        一次下載一個檔案，回傳檔案內容 bytes。檔案多為 PDF，
-        少數 2013 年財報為 Word 檔（.doc）。
+        一次下載一個檔案（指定 stock_id + year + quarter + report_category），
+        回傳檔案內容 bytes。檔案多為 PDF，少數 2013 年財報為 Word 檔（.doc）。
+        - financial_report（財務報告書）：quarter 1~4 皆有，
+          quarter 4 為年度財報
+        - annual_report（股東會年報）：只有 quarter=4
+        財報收中文合併財報，無子公司的公司收中文個別財報；不含個體財報與
+        英文版。不是財報數字；財報數字請用 taiwan_stock_financial_statement /
+        taiwan_stock_balance_sheet / taiwan_stock_cash_flows_statement。
+        資料區間：財報 2013 Q1 ~ now（每季）、年報 2013 ~ now（每年）。
         部分年報 PDF 的文字層可能亂碼或殘缺（來源檔本身如此），
         需要文字時可能要 OCR。
-        該期沒有該檔案時丟出 Exception（HTTP 404）。
-        可先用 taiwan_stock_financial_report_file 查詢該期有哪些檔案。
+
+        該期沒有該檔案時，API 回 HTTP 404，SDK 不重試、直接丟出 Exception，
+        訊息開頭為 "Final response status: 404"；權限不足或參數不合法
+        （HTTP 400）同樣丟 Exception，訊息帶對應狀態碼。
+        參數不合法時 SDK 端先丟 ValueError，不打 API。
 
         存檔範例:
             content = api.taiwan_stock_financial_report_file_download(
@@ -1027,6 +982,33 @@ class DataLoader(FinMindApi):
             )
             path = "2330_2025-12-31_annual_report.pdf"
             open(path, "wb").write(content)
+
+        逐年逐季下載範例（跳過沒有檔案的期別）:
+            quarter_end = {1: "03-31", 2: "06-30", 3: "09-30", 4: "12-31"}
+            for year in range(2023, 2026):
+                for quarter in (1, 2, 3, 4):
+                    categories = ["financial_report"]
+                    if quarter == 4:
+                        categories.append("annual_report")
+                    for report_category in categories:
+                        try:
+                            content = (
+                                api.taiwan_stock_financial_report_file_download(
+                                    stock_id="2330",
+                                    year=year,
+                                    quarter=quarter,
+                                    report_category=report_category,
+                                )
+                            )
+                        except Exception as error:
+                            if "status: 404" in str(error):
+                                continue  # 該期沒有檔案
+                            raise
+                        path = (
+                            f"2330_{year}-{quarter_end[quarter]}_"
+                            f"{report_category}.pdf"
+                        )
+                        open(path, "wb").write(content)
 
         :param stock_id (str): 股票代號("2330")，必填
         :param year (int): 西元年(2025)，必填
