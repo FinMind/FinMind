@@ -953,11 +953,12 @@ class DataLoader(FinMindApi):
         quarter: int,
         timeout: int = None,
     ) -> pd.DataFrame:
-        """get 台股財報與年報 PDF（Sponsor Pro）
+        """get 台股財報與年報 PDF 檔案清單（Sponsor Pro）
 
-        回傳財務報告書與股東會年報的完整 PDF 下載連結，不是財報數字；
+        查詢某一期有哪些財務報告書與股東會年報檔案、檔案多大，不是財報數字；
         財報數字請用 taiwan_stock_financial_statement /
         taiwan_stock_balance_sheet / taiwan_stock_cash_flows_statement。
+        下載檔案本身請用 taiwan_stock_financial_report_file_download。
         財報收中文合併財報，無子公司的公司收中文個別財報；不含個體財報與
         英文版。必須指定 stock_id，不提供全市場查詢。
         一次查詢一期（指定 year + quarter），不接受日期區間：
@@ -965,24 +966,19 @@ class DataLoader(FinMindApi):
         quarter 4 回年度財報與股東會年報（最多 2 列，date 皆為 YYYY-12-31）。
         該期沒有檔案時回空資料。
         資料區間：財報 2013-03-31 ~ now（每季）、年報 2013-12-31 ~ now（每年）。
-        部分年報 PDF 的文字層可能亂碼或殘缺（來源檔本身如此），
-        需要文字時可能要 OCR。
 
-        url 為暫時下載連結，有效期 1 小時，過期請重新查詢取得新連結，
-        不可保存重用。下載範例:
-            import requests
+        範例:
             df = api.taiwan_stock_financial_report_file(
                 stock_id="2330", year=2025, quarter=4
             )
             for _, row in df.iterrows():
-                resp = requests.get(row["url"], timeout=60)
-                resp.raise_for_status()
-                filename = (
-                    f"{row['stock_id']}_{row['date']}_"
-                    f"{row['report_category']}.pdf"
+                content = api.taiwan_stock_financial_report_file_download(
+                    stock_id=row["stock_id"],
+                    year=2025,
+                    quarter=4,
+                    report_category=row["report_category"],
                 )
-                with open(filename, "wb") as f:
-                    f.write(resp.content)
+                ...
 
         :param stock_id (str): 股票代號("2330")，必填
         :param year (int): 西元年(2025)，必填
@@ -997,13 +993,8 @@ class DataLoader(FinMindApi):
         :rtype column report_category (str): 報告類別，
             financial_report（財務報告書）或 annual_report（股東會年報）
         :rtype column file_size (int): 檔案大小（位元組）
-        :rtype column url (str): PDF 暫時下載連結，有效期 1 小時
         """
-        if isinstance(quarter, bool) or quarter not in (1, 2, 3, 4):
-            raise ValueError(
-                f"quarter 只能是 1~4 (quarter must be 1, 2, 3 or 4), "
-                f"got {quarter!r}"
-            )
+        self._check_financial_report_file_quarter(quarter)
         stock_financial_report_file = self.get_data(
             dataset=Dataset.TaiwanStockFinancialReportFile,
             data_id=stock_id,
@@ -1012,6 +1003,76 @@ class DataLoader(FinMindApi):
             timeout=timeout,
         )
         return stock_financial_report_file
+
+    def taiwan_stock_financial_report_file_download(
+        self,
+        stock_id: str,
+        year: int,
+        quarter: int,
+        report_category: str,
+        timeout: int = None,
+    ) -> bytes:
+        """下載台股財報與年報檔案（Sponsor Pro）
+
+        一次下載一個檔案，回傳檔案內容 bytes。檔案多為 PDF，
+        少數 2013 年財報為 Word 檔（.doc）。
+        部分年報 PDF 的文字層可能亂碼或殘缺（來源檔本身如此），
+        需要文字時可能要 OCR。
+        該期沒有該檔案時丟出 Exception（HTTP 404）。
+        可先用 taiwan_stock_financial_report_file 查詢該期有哪些檔案。
+
+        存檔範例:
+            content = api.taiwan_stock_financial_report_file_download(
+                stock_id="2330",
+                year=2025,
+                quarter=4,
+                report_category="annual_report",
+            )
+            path = "2330_2025-12-31_annual_report.pdf"
+            open(path, "wb").write(content)
+
+        :param stock_id (str): 股票代號("2330")，必填
+        :param year (int): 西元年(2025)，必填
+        :param quarter (int): 季別，只能 1~4，必填
+        :param report_category (str): 報告類別，必填，
+            financial_report（財務報告書）或 annual_report（股東會年報）；
+            annual_report 只有 quarter=4
+        :param timeout (int): timeout seconds, default None
+
+        :return: 檔案內容
+        :rtype bytes
+        """
+        self._check_financial_report_file_quarter(quarter)
+        if report_category not in ("financial_report", "annual_report"):
+            raise ValueError(
+                "report_category 只能是 financial_report 或 annual_report "
+                "(report_category must be 'financial_report' or "
+                f"'annual_report'), got {report_category!r}"
+            )
+        if report_category == "annual_report" and quarter != 4:
+            raise ValueError(
+                "annual_report 只有 quarter=4 "
+                f"(annual_report is only available for quarter 4), "
+                f"got quarter={quarter!r}"
+            )
+        return self.get_storage_object_content(
+            params={
+                "dataset": Dataset.TaiwanStockFinancialReportFile,
+                "data_id": stock_id,
+                "year": int(year),
+                "quarter": int(quarter),
+                "report_category": report_category,
+            },
+            timeout=timeout,
+        )
+
+    @staticmethod
+    def _check_financial_report_file_quarter(quarter: int) -> None:
+        if isinstance(quarter, bool) or quarter not in (1, 2, 3, 4):
+            raise ValueError(
+                f"quarter 只能是 1~4 (quarter must be 1, 2, 3 or 4), "
+                f"got {quarter!r}"
+            )
 
     def taiwan_stock_dividend(
         self,

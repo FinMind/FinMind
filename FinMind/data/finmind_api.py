@@ -429,16 +429,38 @@ class FinMindApi:
         :return: 該日期所有資料
         :rtype: pd.DataFrame
         """
-        url = f"{self.__api_url}/{self.__api_version}/storage_objects"
         params = {
             "dataset": dataset,
             "date": date,
         }
-        content = download_storage_object(
+        content = self.get_storage_object_content(
+            params=params,
+            timeout=timeout,
+            max_retry_times=max_retry_times,
+        )
+        return pd.read_parquet(io.BytesIO(content))
+
+    def get_storage_object_content(
+        self,
+        params: typing.Dict[str, typing.Union[int, str]],
+        timeout: int = None,
+        max_retry_times: int = 10,
+    ) -> bytes:
+        """呼叫 storage_objects 並跟隨 307 轉址下載檔案，回傳原始 bytes
+        傳輸中斷時會自動重試，並以 HTTP Range 從中斷處續傳
+        :param params (dict): storage_objects 查詢參數，需含 dataset，
+            其餘依資料集而定 (e.g. date，或 data_id / year / quarter)
+        :param timeout (int): request timeout 秒數
+        :param max_retry_times (int): 最多重試次數
+
+        :return: 檔案內容
+        :rtype: bytes
+        """
+        url = f"{self.__api_url}/{self.__api_version}/storage_objects"
+        return download_storage_object(
             self.__session,
             url,
             params=params,
             timeout=timeout,
             max_retry_times=max_retry_times,
         )
-        return pd.read_parquet(io.BytesIO(content))
