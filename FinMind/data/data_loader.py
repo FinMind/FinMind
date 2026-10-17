@@ -2737,6 +2737,7 @@ class DataLoader(FinMindApi):
         start_date: str = "",
         end_date: str = "",
         timeout: int = None,
+        use_object: bool = False,
     ) -> pd.DataFrame:
         """get 當日卷商分點統計表
         :param stock_id (str): 股票代號("2330")
@@ -2744,6 +2745,10 @@ class DataLoader(FinMindApi):
         :param start_date (str): 日期("2018-01-01")
         :param end_date (str): 日期("2018-01-02")
         :param timeout (int): timeout seconds, default None
+        :param use_object (bool): 是否透過 signed URL 下載整日 parquet 資料物件,
+            設為 True 時下載 start_date 當日所有股票、所有券商分點資料,
+            忽略 stock_id, securities_trader_id, end_date 參數 (限 sponsorpro),
+            default False
 
         :return: 當日卷商分點統計表 TaiwanStockTradingDailyReportSecIdAgg
         :rtype pd.DataFrame
@@ -2756,6 +2761,12 @@ class DataLoader(FinMindApi):
         :rtype column buy_price (float): 買進均價
         :rtype column sell_price (float): 賣出均價
         """
+        if use_object:
+            return self.get_object(
+                dataset=Dataset.TaiwanStockTradingDailyReportSecIdAgg,
+                date=start_date,
+                timeout=timeout,
+            )
         stock_trading_daily_report_secid_agg = self.get_data(
             dataset=Dataset.TaiwanStockTradingDailyReportSecIdAgg,
             data_id=stock_id,
