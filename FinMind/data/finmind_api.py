@@ -143,9 +143,13 @@ class FinMindApi:
         timeout: int = 60,
         use_async: bool = False,
         max_retry_times: int = 30,
+        year: int = None,
+        quarter: int = None,
     ) -> pd.DataFrame:
         """
         :param params: finmind api參數
+        :param year (int): 西元年，僅用於以年、季查詢的資料集
+        :param quarter (int): 季別 1~4，僅用於以年、季查詢的資料集
         :return:
         """
         # 只要傳入 id 列表就走非同步批次下載，不再依賴 use_async 旗標。
@@ -179,6 +183,12 @@ class FinMindApi:
                 password=self.__password,
                 device=self.__device,
             )
+            if year is not None or quarter is not None:
+                # 以年、季查詢的資料集不接受日期區間
+                params.pop("start_date")
+                params.pop("end_date")
+                params["year"] = year
+                params["quarter"] = quarter
             params = self._compatible_api_version(params)
             params = self._compatible_endpoints_param(params)
             url = self._dispatcher_url(dataset)

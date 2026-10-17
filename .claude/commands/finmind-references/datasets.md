@@ -118,7 +118,7 @@ For point-in-time research or backtests, do not join these datasets to market da
 | TaiwanStockMarketValueWeight | 市值比重 | Backer | rank, stock_id, stock_name, weight_per, date, type |
 | TaiwanStockSplitPrice | 分割後參考價 | Free | date, stock_id, type, before_price, after_price |
 | TaiwanStockParValueChange | 變更面額恢復買賣參考價 | Free | date, stock_id, stock_name, before_close, after_ref_close |
-| TaiwanStockFinancialReportFile | 台股財報與年報 PDF（下載連結，url 1 小時有效；必填 data_id；財報 2013-03-31~now、年報 2013-12-31~now） | Sponsor Pro | date, stock_id, report_category, file_size, url |
+| TaiwanStockFinancialReportFile | 台股財報與年報 PDF（下載連結，url 1 小時有效；必填 data_id、year（西元年）、quarter（1~4），一次查詢一期、不接受 start_date/end_date；quarter=4 回年度財報＋股東會年報兩列；SDK：`api.taiwan_stock_financial_report_file(stock_id="2330", year=2025, quarter=4)`；財報 2013-03-31~now、年報 2013-12-31~now） | Sponsor Pro | date, stock_id, report_category, file_size, url |
 
 ## Taiwan Market - Derivative
 

@@ -949,8 +949,8 @@ class DataLoader(FinMindApi):
     def taiwan_stock_financial_report_file(
         self,
         stock_id: str,
-        start_date: str,
-        end_date: str = "",
+        year: int,
+        quarter: int,
         timeout: int = None,
     ) -> pd.DataFrame:
         """get 台股財報與年報 PDF（Sponsor Pro）
@@ -960,6 +960,10 @@ class DataLoader(FinMindApi):
         taiwan_stock_balance_sheet / taiwan_stock_cash_flows_statement。
         財報收中文合併財報，無子公司的公司收中文個別財報；不含個體財報與
         英文版。必須指定 stock_id，不提供全市場查詢。
+        一次查詢一期（指定 year + quarter），不接受日期區間：
+        quarter 1~3 回該季財報（最多 1 列）；
+        quarter 4 回年度財報與股東會年報（最多 2 列，date 皆為 YYYY-12-31）。
+        該期沒有檔案時回空資料。
         資料區間：財報 2013-03-31 ~ now（每季）、年報 2013-12-31 ~ now（每年）。
         部分年報 PDF 的文字層可能亂碼或殘缺（來源檔本身如此），
         需要文字時可能要 OCR。
@@ -968,17 +972,22 @@ class DataLoader(FinMindApi):
         不可保存重用。下載範例:
             import requests
             df = api.taiwan_stock_financial_report_file(
-                stock_id="2330", start_date="2025-01-01"
+                stock_id="2330", year=2025, quarter=4
             )
-            row = df.iloc[-1]
-            resp = requests.get(row["url"], timeout=60)
-            resp.raise_for_status()
-            with open(f"{row['stock_id']}_{row['date']}.pdf", "wb") as f:
-                f.write(resp.content)
+            for _, row in df.iterrows():
+                resp = requests.get(row["url"], timeout=60)
+                resp.raise_for_status()
+                filename = (
+                    f"{row['stock_id']}_{row['date']}_"
+                    f"{row['report_category']}.pdf"
+                )
+                with open(filename, "wb") as f:
+                    f.write(resp.content)
 
         :param stock_id (str): 股票代號("2330")，必填
-        :param start_date (str): 起始日期("2025-01-01")
-        :param end_date (str): 結束日期("2025-12-31")，可省略，預設今天
+        :param year (int): 西元年(2025)，必填
+        :param quarter (int): 季別，只能 1~4，必填；
+            4 會回年度財報與股東會年報兩列
         :param timeout (int): timeout seconds, default None
 
         :return: 台股財報與年報 PDF TaiwanStockFinancialReportFile
@@ -990,11 +999,16 @@ class DataLoader(FinMindApi):
         :rtype column file_size (int): 檔案大小（位元組）
         :rtype column url (str): PDF 暫時下載連結，有效期 1 小時
         """
+        if isinstance(quarter, bool) or quarter not in (1, 2, 3, 4):
+            raise ValueError(
+                f"quarter 只能是 1~4 (quarter must be 1, 2, 3 or 4), "
+                f"got {quarter!r}"
+            )
         stock_financial_report_file = self.get_data(
             dataset=Dataset.TaiwanStockFinancialReportFile,
             data_id=stock_id,
-            start_date=start_date,
-            end_date=end_date,
+            year=int(year),
+            quarter=int(quarter),
             timeout=timeout,
         )
         return stock_financial_report_file

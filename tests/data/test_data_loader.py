@@ -619,35 +619,77 @@ def test_taiwan_stock_cash_flows_statement_quarter(data_loader):
     )
 
 
+def test_taiwan_stock_financial_report_file_mock(data_loader):
+    # SDK 以 year + quarter 呼叫 get_data，不再帶日期區間
+    expected = pd.DataFrame({"stock_id": ["2330"]})
+    with mock.patch.object(
+        data_loader, "get_data", return_value=expected
+    ) as get_data:
+        df = data_loader.taiwan_stock_financial_report_file(
+            stock_id="2330", year=2025, quarter=4, timeout=30
+        )
+    get_data.assert_called_once_with(
+        dataset="TaiwanStockFinancialReportFile",
+        data_id="2330",
+        year=2025,
+        quarter=4,
+        timeout=30,
+    )
+    assert df is expected
+
+
+def test_taiwan_stock_financial_report_file_request_params_mock(data_loader):
+    # 實際送出的 request 帶 data_id / year / quarter，不帶 start_date / end_date
+    response = mock.Mock()
+    response.json.return_value = {"msg": "success", "status": 200, "data": []}
+    with mock.patch(
+        "FinMind.data.finmind_api.request_get", return_value=response
+    ) as request_get:
+        data_loader.taiwan_stock_financial_report_file(
+            stock_id="2330", year=2025, quarter=1
+        )
+    params = request_get.call_args.kwargs["params"]
+    assert params["dataset"] == "TaiwanStockFinancialReportFile"
+    assert params["data_id"] == "2330"
+    assert params["year"] == 2025
+    assert params["quarter"] == 1
+    assert "start_date" not in params
+    assert "end_date" not in params
+    assert request_get.call_args.args[1].endswith("/v4/data")
+
+
+@pytest.mark.parametrize("quarter", [0, 5, -1, True])
+def test_taiwan_stock_financial_report_file_invalid_quarter(
+    data_loader, quarter
+):
+    # quarter 只能 1~4，SDK 端直接擋下，不打 API
+    with mock.patch.object(data_loader, "get_data") as get_data:
+        with pytest.raises(ValueError, match="quarter"):
+            data_loader.taiwan_stock_financial_report_file(
+                stock_id="2330", year=2025, quarter=quarter
+            )
+    get_data.assert_not_called()
+
+
 def test_taiwan_stock_financial_report_file(data_loader):
+    # 打正式 API：需 Sponsor Pro token，且正式 API 需已支援 year + quarter；
+    # 不符合時（權限不足、API 尚未上線新參數回 400）先跳過
     try:
         df = data_loader.taiwan_stock_financial_report_file(
-            stock_id="2330",
-            start_date="2024-01-01",
-            end_date="2024-12-31",
+            stock_id="2330", year=2024, quarter=4
         )
     except Exception as error_msg:
-        # 本資料集為 Sponsor Pro only，非 Sponsor Pro token 會被拒絕，先跳過
         pytest.skip(f"TaiwanStockFinancialReportFile 無法取得：{error_msg}")
+    if df.empty:
+        pytest.skip("TaiwanStockFinancialReportFile 回傳空資料")
     assert_data(
         df,
         ["date", "stock_id", "report_category", "file_size", "url"],
     )
     assert (df["stock_id"] == "2330").all()
-    assert set(df["report_category"]) <= {"financial_report", "annual_report"}
-    # 2024 年度：四季財報 + 一份年報
-    financial_report_dates = set(
-        df.loc[df["report_category"] == "financial_report", "date"]
-    )
-    assert financial_report_dates == {
-        "2024-03-31",
-        "2024-06-30",
-        "2024-09-30",
-        "2024-12-31",
-    }
-    assert "2024-12-31" in set(
-        df.loc[df["report_category"] == "annual_report", "date"]
-    )
+    # Q4：年度財報 + 股東會年報，date 皆為年度末
+    assert set(df["date"]) == {"2024-12-31"}
+    assert set(df["report_category"]) == {"financial_report", "annual_report"}
     assert (df["file_size"] > 0).all()
     assert df["url"].str.startswith("https://").all()
 
