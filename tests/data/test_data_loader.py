@@ -2045,6 +2045,37 @@ def test_taiwan_stock_block_trade(data_loader):
     )
 
 
+def test_taiwan_stock_after_hours_fixed_price_trading(data_loader):
+    try:
+        df = data_loader.taiwan_stock_after_hours_fixed_price_trading(
+            stock_id="2330",
+            start_date="2025-09-22",
+            end_date="2025-09-22",
+        )
+    except Exception as error_msg:
+        # 新資料集：正式 API 尚未部署 enum 前會回 dataset 不合法；先跳過
+        pytest.skip(
+            f"TaiwanStockAfterHoursFixedPriceTrading 尚未部署：{error_msg}"
+        )
+    if len(df) == 0:
+        pytest.skip("TaiwanStockAfterHoursFixedPriceTrading 尚未 backfill")
+    assert_data(
+        df,
+        [
+            "date",
+            "stock_id",
+            "market",
+            "price",
+            "volume",
+            "trading_turnover",
+            "trading_money",
+            "unfilled_buy_volume",
+            "unfilled_sell_volume",
+        ],
+    )
+    assert (df["market"] == "twse").all()
+
+
 def test_taiwan_stock_loan_collateral_balance(data_loader):
     df = data_loader.taiwan_stock_loan_collateral_balance(
         stock_id="2330",
