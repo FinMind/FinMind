@@ -619,37 +619,136 @@ def test_taiwan_stock_cash_flows_statement_quarter(data_loader):
     )
 
 
-def test_taiwan_stock_financial_report_file(data_loader):
-    try:
-        df = data_loader.taiwan_stock_financial_report_file(
+@pytest.mark.parametrize(
+    "quarter, report_category",
+    [(1, "financial_report"), (4, "financial_report"), (4, "annual_report")],
+)
+def test_taiwan_stock_financial_report_file_download_mock(
+    data_loader, quarter, report_category
+):
+    # 下載走 storage_objects，帶齊 dataset / data_id / year / quarter /
+    # report_category，回傳 download_storage_object 下載到的 bytes
+    with mock.patch(
+        "FinMind.data.finmind_api.download_storage_object",
+        return_value=b"%PDF-1.4 fake",
+    ) as download:
+        content = data_loader.taiwan_stock_financial_report_file_download(
             stock_id="2330",
-            start_date="2024-01-01",
-            end_date="2024-12-31",
+            year=2025,
+            quarter=quarter,
+            report_category=report_category,
+            timeout=30,
+        )
+    assert content == b"%PDF-1.4 fake"
+    assert isinstance(content, bytes)
+    download.assert_called_once()
+    assert download.call_args.args[1].endswith("/v4/storage_objects")
+    assert download.call_args.kwargs["params"] == {
+        "dataset": "TaiwanStockFinancialReportFile",
+        "data_id": "2330",
+        "year": 2025,
+        "quarter": quarter,
+        "report_category": report_category,
+    }
+    assert download.call_args.kwargs["timeout"] == 30
+
+
+def test_taiwan_stock_financial_report_file_download_follow_redirect_mock(
+    data_loader,
+):
+    # storage_objects 回 307，跟隨轉址下載檔案內容（下載網址不帶 session 的
+    # Authorization header）
+    redirect = mock.Mock(status_code=307, headers={"Location": "https://dl"})
+    file_response = mock.MagicMock(
+        status_code=200,
+        headers={"Content-Length": "8"},
+    )
+    file_response.__enter__.return_value = file_response
+    file_response.iter_content.return_value = [b"%PDF-", b"1.4"]
+    with mock.patch.object(
+        data_loader._FinMindApi__session, "get", return_value=redirect
+    ) as session_get, mock.patch(
+        "FinMind.utility.request.requests.get", return_value=file_response
+    ) as object_get:
+        content = data_loader.taiwan_stock_financial_report_file_download(
+            stock_id="2330",
+            year=2025,
+            quarter=4,
+            report_category="annual_report",
+        )
+    assert content == b"%PDF-1.4"
+    assert session_get.call_args.args[0].endswith("/v4/storage_objects")
+    assert session_get.call_args.kwargs["params"]["report_category"] == (
+        "annual_report"
+    )
+    assert session_get.call_args.kwargs["allow_redirects"] is False
+    assert object_get.call_args.args[0] == "https://dl"
+
+
+def test_taiwan_stock_financial_report_file_download_not_found_mock(
+    data_loader,
+):
+    # 該期沒有檔案：storage_objects 回 404，SDK 不重試、直接丟 Exception
+    not_found = mock.Mock(status_code=404, text='{"msg": "not found"}')
+    with mock.patch.object(
+        data_loader._FinMindApi__session, "get", return_value=not_found
+    ) as session_get:
+        with pytest.raises(Exception, match="Final response status: 404"):
+            data_loader.taiwan_stock_financial_report_file_download(
+                stock_id="2330",
+                year=2013,
+                quarter=1,
+                report_category="financial_report",
+            )
+    session_get.assert_called_once()
+
+
+@pytest.mark.parametrize(
+    "quarter, report_category, match",
+    [
+        (0, "financial_report", "quarter"),
+        (5, "financial_report", "quarter"),
+        (True, "financial_report", "quarter"),
+        (1, "annual_report", "annual_report"),
+        (2, "annual_report", "annual_report"),
+        (3, "annual_report", "annual_report"),
+        (4, "balance_sheet", "report_category"),
+        (4, "", "report_category"),
+        (4, None, "report_category"),
+    ],
+)
+def test_taiwan_stock_financial_report_file_download_invalid(
+    data_loader, quarter, report_category, match
+):
+    # 參數不合法時 SDK 端直接丟 ValueError，不打 API
+    with mock.patch(
+        "FinMind.data.finmind_api.download_storage_object"
+    ) as download:
+        with pytest.raises(ValueError, match=match):
+            data_loader.taiwan_stock_financial_report_file_download(
+                stock_id="2330",
+                year=2025,
+                quarter=quarter,
+                report_category=report_category,
+            )
+    download.assert_not_called()
+
+
+def test_taiwan_stock_financial_report_file_download(data_loader):
+    # 打正式 API：需 Sponsor Pro token，且正式 API 需已上線
+    # storage_objects 的 TaiwanStockFinancialReportFile 下載；
+    # 尚未上線（目前回 422，dataset 不在可接受清單）或權限不足時先跳過
+    try:
+        content = data_loader.taiwan_stock_financial_report_file_download(
+            stock_id="2330",
+            year=2024,
+            quarter=4,
+            report_category="financial_report",
         )
     except Exception as error_msg:
-        # 本資料集為 Sponsor Pro only，非 Sponsor Pro token 會被拒絕，先跳過
-        pytest.skip(f"TaiwanStockFinancialReportFile 無法取得：{error_msg}")
-    assert_data(
-        df,
-        ["date", "stock_id", "report_category", "file_size", "url"],
-    )
-    assert (df["stock_id"] == "2330").all()
-    assert set(df["report_category"]) <= {"financial_report", "annual_report"}
-    # 2024 年度：四季財報 + 一份年報
-    financial_report_dates = set(
-        df.loc[df["report_category"] == "financial_report", "date"]
-    )
-    assert financial_report_dates == {
-        "2024-03-31",
-        "2024-06-30",
-        "2024-09-30",
-        "2024-12-31",
-    }
-    assert "2024-12-31" in set(
-        df.loc[df["report_category"] == "annual_report", "date"]
-    )
-    assert (df["file_size"] > 0).all()
-    assert df["url"].str.startswith("https://").all()
+        pytest.skip(f"TaiwanStockFinancialReportFile 下載無法取得：{error_msg}")
+    assert isinstance(content, bytes)
+    assert content.startswith(b"%PDF")
 
 
 def test_taiwan_stock_month_revenue_date(data_loader):
