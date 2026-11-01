@@ -16,6 +16,14 @@ from FinMind.utility.request import (
 logger.remove()
 logger.add(sys.stderr, level="INFO")
 
+# 台股即時資料用戶資料（姓名、電話、地址）提醒，同一個 process 只印一次，
+# 避免輪詢 taiwan_stock_tick_snapshot 時洗版
+_realtime_profile_notice_logged = False
+
+
+class RealtimeProfileRequiredError(Exception):
+    """未於會員中心填寫姓名、電話、地址，無法使用台股即時資料（HTTP 403）"""
+
 
 class FinMindApi:
     def __init__(self, token: str = ""):
@@ -307,13 +315,32 @@ class FinMindApi:
             f"{self.__api_url}/{self.__api_version}/taiwan_stock_tick_snapshot"
         )
         logger.debug(params)
-        response = request_get(
+        resp = request_get(
             self.__session,
             url,
             params=params,
             timeout=timeout,
-        ).json()
+        )
+        response = resp.json()
+        self._check_realtime_profile(resp.status_code, response)
         return pd.DataFrame(self._extract_data(response))
+
+    @staticmethod
+    def _check_realtime_profile(status_code: int, response_json: dict):
+        """
+        依臺灣證券交易所規定，使用台股即時資料須於會員中心填寫姓名、電話、地址。
+        未填寫者在期限前回應會多 profile_notice（提醒一次），期限後回 403。
+        """
+        global _realtime_profile_notice_logged
+        if not isinstance(response_json, dict):
+            return
+        msg = response_json.get("msg") or ""
+        if status_code == 403 and "姓名、電話、地址" in msg:
+            raise RealtimeProfileRequiredError(msg)
+        profile_notice = response_json.get("profile_notice")
+        if profile_notice and not _realtime_profile_notice_logged:
+            logger.warning(profile_notice)
+            _realtime_profile_notice_logged = True
 
     def get_taiwan_futures_snapshot(
         self,
