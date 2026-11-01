@@ -2484,6 +2484,10 @@ class DataLoader(FinMindApi):
         timeout: int = None,
     ) -> pd.DataFrame:
         """get 台股即時資訊 taiwan_stock_tick_snapshot (只限 sponsor 會員使用)
+        依臺灣證券交易所規定，使用台股即時資料須於 2027-01-31 前在會員中心
+        填寫姓名、電話、地址，逾期未填寫將無法使用
+        (https://finmindtrade.com/analysis/#/account/user)。
+        未填寫時會提醒一次；逾期未填寫會 raise RealtimeProfileRequiredError。
         :param stock_id (Union(str, List[str])): 股票代號("2330")，也支援 3 碼指數代號
             (例 "001"=加權指數, "101"=櫃買加權)；完整指數對照表：
             https://finmind.github.io/tutor/TaiwanMarket/IndexCodes/

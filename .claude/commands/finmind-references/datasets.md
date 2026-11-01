@@ -150,6 +150,8 @@ For point-in-time research or backtests, do not join these datasets to market da
 
 All real-time datasets require **Sponsor** tier.
 
+`taiwan_stock_tick_snapshot`（台股即時資料）：使用台股即時資料須於 2027-01-31 前在會員中心填寫姓名、電話、地址，逾期未填寫將無法使用（[會員中心](https://finmindtrade.com/analysis/#/account/user)）。
+
 | Dataset | Description | Key Columns |
 |---------|------------|-------------|
 | taiwan_stock_tick_snapshot | 台股即時資訊 | close, high, low, open, volume, total_volume, change_price, change_rate, date, stock_id |
