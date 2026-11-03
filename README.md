@@ -84,6 +84,26 @@ without having to collect the data by yourself.
 
 - 本專案提供的所有內容均用於教育、非商業用途。資料僅供參考，使用者依本資料交易發生交易損失需自行負責，本專案不對資料內容錯誤、更新延誤或傳輸中斷負任何責任。
 
+## 資訊來源與使用規定 / Data Source & Usage Rules
+
+資訊來源：臺灣證券交易所「TWSE」｜本資訊由芬麥數據股份有限公司處理提供
+
+1. 使用者須遵守臺灣證券交易所『交易資訊使用管理辦法』等交易資訊管理相關規定。
+2. 所有資訊以臺灣證券交易所公告資料為準。
+
+- **台股即時資料**：依臺灣證券交易所規定，使用台股即時資料（`taiwan_stock_tick_snapshot`）須於 **2027-01-31** 前在[會員中心](https://finmindtrade.com/analysis/#/account/user)填寫姓名、電話、地址。2027-01-31 前未填寫仍可使用，API 回應會附 `profile_notice` 提醒；2027-01-31 起未填寫者將無法取得台股即時資料（HTTP 403）。資料用途請見[隱私權政策](https://finmind.github.io/PrivacyPolicy/#realtime-profile)。
+- **券商分點類資料**（台股分點、權證分點、當日卷商分點統計、鉅額交易買賣日報表）：任何方案（包含 Sponsor Pro）皆僅限用戶自行使用，不得以任何形式再傳輸或提供予第三人。
+- 詳見[免責聲明與資料授權](https://finmind.github.io/Disclaimer/)。
+
+Source: Taiwan Stock Exchange (TWSE) | This information is processed and provided by 芬麥數據股份有限公司 (FinMind)
+
+1. Users must comply with the TWSE Regulations Governing the Use of Trading Information and other applicable rules on trading information.
+2. All information is subject to the data announced by the Taiwan Stock Exchange.
+
+- **Taiwan stock real-time data**: under Taiwan Stock Exchange regulations, users of Taiwan stock real-time data (`taiwan_stock_tick_snapshot`) must fill in their name, phone number, and address in the [Member Center](https://finmindtrade.com/analysis/#/account/user) by **2027-01-31**. Before then, users who have not filled it in can still use the data, with a `profile_notice` reminder in API responses; from 2027-01-31 they will no longer be able to get Taiwan stock real-time data (HTTP 403). See the [Privacy Policy](https://finmind.github.io/en/PrivacyPolicy/#realtime-profile).
+- **Broker branch data** (stock and warrant broker branch trading reports, daily branch aggregate statistics, block trading daily report): for your own use only under every plan, including Sponsor Pro; must not be retransmitted or provided to third parties in any form.
+- See [Disclaimer & Data Licensing](https://finmind.github.io/en/Disclaimer/).
+
 ## Project of Contents
 
 - Dataset
