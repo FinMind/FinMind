@@ -26,7 +26,7 @@ def add_institutional_investors_follower(
     )
     institutional_investors_buy_sell = institutional_investors_buy_sell.groupby(
         ["date", "stock_id"], as_index=False
-    ).agg({"buy": np.sum, "sell": np.sum})
+    ).agg({"buy": "sum", "sell": "sum"})
     institutional_investors_buy_sell["diff"] = (
         institutional_investors_buy_sell["buy"]
         - institutional_investors_buy_sell["sell"]
