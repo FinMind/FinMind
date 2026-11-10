@@ -75,7 +75,7 @@ def test_continue_holding(data_loader):
         "CumDailyReturn": -0.61003,
         "CumTaiExDailyReturn": -0.0963,
     }
-    assert obj.compare_market_stats["AnnualTaiexReturnPer"] == -9.6
+    assert obj.compare_market_stats["AnnualTaiexReturnPer"] == -9.16
     assert obj.compare_market_stats["AnnualReturnPer"] == -1.35
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
@@ -177,7 +177,7 @@ def test_continue_holding_add_indicators(buy_rule_list):
         "CumDailyReturn": -0.61003,
         "CumTaiExDailyReturn": -0.0963,
     }
-    assert backtest.compare_market_stats["AnnualTaiexReturnPer"] == -9.6
+    assert backtest.compare_market_stats["AnnualTaiexReturnPer"] == -9.16
     assert backtest.compare_market_stats["AnnualReturnPer"] == -1.35
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同
@@ -370,7 +370,7 @@ def test_backtest_add_indicators_bias(buy_rule_list, sell_rule_list):
         "CumTaiExDailyReturn": -0.0963,
     }
 
-    assert backtest.compare_market_stats["AnnualTaiexReturnPer"] == -9.6
+    assert backtest.compare_market_stats["AnnualTaiexReturnPer"] == -9.16
     assert backtest.compare_market_stats["AnnualReturnPer"] == 0.28
     # 驗證 RealizedProfit 數據
     # 最終的資金，減掉已實現獲利，應該跟初始資金相同

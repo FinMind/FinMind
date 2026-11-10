@@ -689,9 +689,13 @@ class BackTest:
         )
         self._compare_market_detail = self._compare_market_detail.dropna()
         self._compare_market_stats = pd.Series()
+        # CumTaiExDailyReturn 是累積對數報酬，年化前要先換回一般報酬
+        taiex_log_return = self._compare_market_detail[
+            "CumTaiExDailyReturn"
+        ].values[-1]
         self._compare_market_stats["AnnualTaiexReturnPer"] = (
             period_return2annual_return(
-                self._compare_market_detail["CumTaiExDailyReturn"].values[-1],
+                np.exp(taiex_log_return) - 1,
                 self._trade_period_years,
             )
             * 100
