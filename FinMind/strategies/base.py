@@ -567,9 +567,10 @@ class BackTest:
         self._trade_detail = pd.DataFrame(_trade_detail_dict_list)
         self._trade_detail["date"] = self.stock_price["date"]
         self._trade_detail = self._trade_detail.drop(["fee", "tax"], axis=1)
+        # 權益 = 初始資金 + 累積已實現與未實現損益（= 現金 + 持股清算價值）。
+        # trader_fund 是買進後剩下的現金，不含持股價值，不能直接加損益。
         self._trade_detail["EverytimeTotalProfit"] = (
-            self._trade_detail["trader_fund"]
-            + self._trade_detail["EverytimeProfit"]
+            self.trader_fund + self._trade_detail["EverytimeProfit"]
         )
         self.__compute_final_stats()
         self.__compute_compare_market()
