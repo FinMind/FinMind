@@ -1,3 +1,4 @@
+import json
 import pytest
 import os
 
@@ -40,3 +41,27 @@ def test_pie_failed():
     df["labels"] = df["revenue"].map(lambda value: round(value * 1e-8, 2))
     with pytest.raises(Exception):
         plotting.pie(labels=df["labels"], series=df["series"])
+
+
+def test_pie_options(tmp_path):
+    chart = plotting.pie(
+        labels=["a", "b"],
+        series=[60, 40],
+        width="500px",
+        height="300px",
+        pos_left="right",
+        pos_top="20%",
+        filename=str(tmp_path / "pie.html"),
+    )
+    assert chart.width == "500px"
+    assert chart.height == "300px"
+    legend = json.loads(chart.dump_options())["legend"][0]
+    assert legend["left"] == "right"
+    assert legend["top"] == "20%"
+
+
+def test_pie_legend_defaults_to_left(tmp_path):
+    chart = plotting.pie(
+        labels=["a", "b"], series=[60, 40], filename=str(tmp_path / "pie.html")
+    )
+    assert json.loads(chart.dump_options())["legend"][0]["left"] == "left"
