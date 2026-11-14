@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 from FinMind.schema.data import Dataset
@@ -15,7 +14,7 @@ def _taiwan_stock_institutional_investors_buy_sell_group_by(
     taiwan_stock_institutional_investors_buy_sell = (
         taiwan_stock_institutional_investors_buy_sell.groupby(
             ["date", "stock_id"], as_index=False
-        ).agg({"buy": np.sum, "sell": np.sum})
+        ).agg({"buy": "sum", "sell": "sum"})
     )
     taiwan_stock_institutional_investors_buy_sell[
         "InstitutionalInvestorsOverBuy"

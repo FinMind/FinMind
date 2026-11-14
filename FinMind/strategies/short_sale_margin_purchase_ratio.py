@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 from FinMind.data import DataLoader
@@ -69,7 +68,7 @@ class ShortSaleMarginPurchaseRatio(Strategy):
         self.InstitutionalInvestorsBuySell = (
             self.InstitutionalInvestorsBuySell.groupby(
                 ["date", "stock_id"], as_index=False
-            ).agg({"buy": np.sum, "sell": np.sum})
+            ).agg({"buy": "sum", "sell": "sum"})
         )
         self.InstitutionalInvestorsBuySell["diff"] = (
             self.InstitutionalInvestorsBuySell["buy"]
