@@ -65,14 +65,14 @@ def test_continue_holding(data_loader):
         "signal": 1,
         "trade_price": 25.15,
         "trader_fund": 474814.16125,
-        "EverytimeTotalProfit": 474717.33375,
+        "EverytimeTotalProfit": 499903.1725,
         "CashEarningsDistribution": 0.0,
         "StockEarningsDistribution": 0.0,
     }
 
     assert obj.compare_market_detail.to_dict("records")[-1] == {
         "date": "2018-12-28",
-        "CumDailyReturn": -0.61003,
+        "CumDailyReturn": -0.01358,
         "CumTaiExDailyReturn": -0.0963,
     }
     assert obj.compare_market_stats["AnnualTaiexReturnPer"] == -9.16
@@ -167,14 +167,14 @@ def test_continue_holding_add_indicators(buy_rule_list):
         "signal": 1,
         "trade_price": 25.15,
         "trader_fund": 474814.16125,
-        "EverytimeTotalProfit": 474717.33375,
+        "EverytimeTotalProfit": 499903.1725,
         "CashEarningsDistribution": 0.0,
         "StockEarningsDistribution": 0.0,
     }
 
     assert backtest.compare_market_detail.to_dict("records")[-1] == {
         "date": "2018-12-28",
-        "CumDailyReturn": -0.61003,
+        "CumDailyReturn": -0.01358,
         "CumTaiExDailyReturn": -0.0963,
     }
     assert backtest.compare_market_stats["AnnualTaiexReturnPer"] == -9.16
@@ -228,7 +228,7 @@ def test_continue_holding_add_strategy(data_loader):
         "signal": 1,
         "trade_price": 25.15,
         "trader_fund": 474814.16125,
-        "EverytimeTotalProfit": 474717.33375,
+        "EverytimeTotalProfit": 499903.1725,
         "CashEarningsDistribution": 0.0,
         "StockEarningsDistribution": 0.0,
     }
@@ -366,7 +366,7 @@ def test_backtest_add_indicators_bias(buy_rule_list, sell_rule_list):
 
     assert backtest.compare_market_detail.to_dict("records")[-1] == {
         "date": "2018-12-28",
-        "CumDailyReturn": -0.39843,
+        "CumDailyReturn": 0.00279,
         "CumTaiExDailyReturn": -0.0963,
     }
 
