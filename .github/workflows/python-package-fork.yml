@@ -61,7 +61,7 @@ jobs:
         # Python 3.7 dropped because dev dependency black==24.8.0 requires >=3.8
         python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14" ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           # `pull_request_target` checks out the base branch by default; check
           # out the PR head instead, pinned to the exact SHA that was approved.
@@ -70,9 +70,12 @@ jobs:
           persist-credentials: false
           allow-unsafe-pr-checkout: true
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6.8.0
         with:
-          enable-cache: true
+          # No cache here. `pull_request_target` runs on the base branch's
+          # cache scope, so a cache saved by fork code would be restored by
+          # trusted runs on master and by the tag-triggered PyPI publish job.
+          enable-cache: false
       - name: Set up Python ${{ matrix.python-version }}
         run: uv python install ${{ matrix.python-version }}
       - name: Install dependencies
