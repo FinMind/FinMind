@@ -15,7 +15,7 @@ def pie(
     width: str = "800px",
     height: str = "600px",
     radius: typing.List[str] = ["30%", "50%"],
-    pos_left: str = "legft",
+    pos_left: str = "left",
     pos_top: str = "10%",
     filename: str = "pie.html",
 ):
@@ -27,7 +27,7 @@ def pie(
     :param: width (str) default "800px"
     :param: height (str) default "600px"
     :param: radius (List[str]) default ["30%", "50%"]
-    :param: pos_left (str) default "legft"
+    :param: pos_left (str) default "left"
     :param: pos_top (str) default "10%"
     :param: filename (str) default "pie.html", output filename
     :return: display pie
@@ -35,7 +35,7 @@ def pie(
     """
     labels, series = convert_labels_series_schema(labels, series)
     pie_plot = (
-        Pie()
+        Pie(opts.InitOpts(width=width, height=height))
         .add(
             series_name=series_name,
             data_pair=[list(z) for z in zip(labels.labels, series.series)],
@@ -44,7 +44,7 @@ def pie(
         .set_global_opts(
             title_opts=opts.TitleOpts(title=title),
             legend_opts=opts.LegendOpts(
-                pos_left=pos_left, orient="vertical", pos_top="10%"
+                pos_left=pos_left, orient="vertical", pos_top=pos_top
             ),
         )
     )
