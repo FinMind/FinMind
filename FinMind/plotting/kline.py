@@ -7,6 +7,9 @@ from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from pyecharts import options as opts
 from pyecharts.charts import Bar, Grid, Kline, Line
 
+# dataZoom 滑桿的 top（%），子圖的位置要排在它上方
+DATAZOOM_SLIDER_POS_TOP = 90
+
 
 def filter_stock_data(stock_data: pd.DataFrame) -> pd.DataFrame:
     colname = [
@@ -192,19 +195,22 @@ def gen_bar_plot(
 
 def gen_pos_top_height(plot_list: typing.List[typing.Any]):
     plot_list = [plot for plot in plot_list if plot]
-    plot_index = [i + 1 for i in range(len(plot_list))]
-    sub_graph_count = len(plot_index)
-    border = 5
-    if sub_graph_count == 1:
-        pos_top_list = [5, 65]
-        height_list = [50, 20]
-    else:
-        pos_top_list = [5]
-        height_list = [30]
-        split_count = int(50 / sub_graph_count) - border
-        for i in range(sub_graph_count):
-            pos_top_list.append(pos_top_list[-1] + height_list[-1] + border)
-            height_list.append(split_count)
+    sub_graph_count = len(plot_list)
+    pos_top_list = [5]
+    height_list = [50 if sub_graph_count == 1 else 30]
+    if sub_graph_count == 0:
+        return pos_top_list, height_list
+    # 主圖下方留 5% 給日期與第一張子圖的 y 軸名稱，子圖之間留 3% 給 y 軸名稱，
+    # 最後一張子圖與滑桿保持 2% 距離，其餘空間依子圖數量平均分配
+    main_gap, sub_gap, slider_gap = 5, 3, 2
+    top = pos_top_list[0] + height_list[0] + main_gap
+    bottom = DATAZOOM_SLIDER_POS_TOP - slider_gap
+    sub_height = round(
+        (bottom - top - sub_gap * (sub_graph_count - 1)) / sub_graph_count, 2
+    )
+    for i in range(sub_graph_count):
+        pos_top_list.append(round(top + i * (sub_height + sub_gap), 2))
+        height_list.append(sub_height)
     return pos_top_list, height_list
 
 
@@ -305,7 +311,7 @@ def gen_kline_plot(
                 is_show=True,
                 xaxis_index=xaxis_index,
                 type_="slider",
-                pos_top="85%",
+                pos_top=f"{DATAZOOM_SLIDER_POS_TOP}%",
                 range_start=85,
                 range_end=100,
             ),
