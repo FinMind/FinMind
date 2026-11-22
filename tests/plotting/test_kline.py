@@ -1,8 +1,13 @@
 from FinMind import plotting
-from FinMind.plotting.kline import process_stock_data
+from FinMind.plotting.kline import (
+    gen_kline_plot,
+    gen_pos_top_height,
+    process_stock_data,
+)
 from FinMind.data import DataLoader
 import pytest
 import pandas as pd
+import json
 import os
 
 testdata_kline = [
@@ -356,3 +361,63 @@ def test_process_stock_data(stock_data, chart_data):
     result = process_stock_data(stock_data)
     expected = chart_data
     assert result == expected
+
+
+# 子圖高度下限，預設圖高 800px 時約 56px
+MIN_SUB_CHART_HEIGHT = 7
+# 每張子圖上方要留給 y 軸名稱（例如「外資買賣(股)」）的空間
+MIN_SUB_CHART_GAP = 3
+
+
+def _percent(value: str) -> float:
+    return float(value.rstrip("%"))
+
+
+def _slider_pos_top(options: dict) -> float:
+    (slider,) = [dz for dz in options["dataZoom"] if dz["type"] == "slider"]
+    return _percent(slider["top"])
+
+
+def _assert_sub_chart_layout(pos_top_list, height_list, slider_pos_top):
+    assert len(pos_top_list) == len(height_list)
+    for i in range(1, len(pos_top_list)):
+        assert height_list[i] >= MIN_SUB_CHART_HEIGHT
+        prev_bottom = pos_top_list[i - 1] + height_list[i - 1]
+        assert round(pos_top_list[i] - prev_bottom, 6) >= MIN_SUB_CHART_GAP
+    assert pos_top_list[-1] + height_list[-1] < slider_pos_top
+
+
+@pytest.fixture(scope="module")
+def stock_data_with_sub_charts(stock_data):
+    diff = [(-1) ** i * 1000 * (i + 1) for i in range(len(stock_data))]
+    return stock_data.assign(
+        Foreign_Investor_diff=diff,
+        Investment_Trust_diff=diff,
+        Margin_Purchase_diff=diff,
+        Short_Sale_diff=diff,
+    )
+
+
+@pytest.mark.parametrize("sub_graph_count", range(6))
+def test_gen_pos_top_height(stock_data, sub_graph_count):
+    plot_list = [object()] * sub_graph_count + [None] * (5 - sub_graph_count)
+    pos_top_list, height_list = gen_pos_top_height(plot_list)
+    assert len(pos_top_list) == sub_graph_count + 1
+
+    kline_plot = gen_kline_plot(stock_data, process_stock_data(stock_data))
+    slider_pos_top = _slider_pos_top(json.loads(kline_plot.dump_options()))
+    _assert_sub_chart_layout(pos_top_list, height_list, slider_pos_top)
+
+
+def test_kline_layout_with_all_sub_charts(stock_data_with_sub_charts, tmp_path):
+    grid_chart = plotting.kline(
+        stock_data_with_sub_charts, filename=str(tmp_path / "kline.html")
+    )
+    options = json.loads(grid_chart.dump_options())
+    # 主圖 + 成交量、外資、投信、融資、融券
+    assert len(options["grid"]) == 6
+    _assert_sub_chart_layout(
+        [_percent(grid["top"]) for grid in options["grid"]],
+        [_percent(grid["height"]) for grid in options["grid"]],
+        _slider_pos_top(options),
+    )
