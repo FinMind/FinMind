@@ -2515,6 +2515,19 @@ class DataLoader(FinMindApi):
         :rtype column date (str): 成交時間
         :rtype column stock_id (str): 股票代碼
         :rtype column TickType (int): 成交種類
+        :rtype column yesterday_close (float): 昨收價
+        :rtype column limit_up (float): 漲停價，無漲跌停限制時為 None
+        :rtype column limit_down (float): 跌停價，無漲跌停限制時為 None
+        :rtype column buy_prices (List[float]): 委買一～五檔價格
+        :rtype column buy_volumes (List[int]): 委買一～五檔數量
+        :rtype column sell_prices (List[float]): 委賣一～五檔價格
+        :rtype column sell_volumes (List[int]): 委賣一～五檔數量
+        :rtype column inside_volume (int): 內盤成交量
+        :rtype column outside_volume (int): 外盤成交量
+        :rtype column after_hours_volume (int): 盤後定價成交量
+        :rtype column is_closed (bool): 是否已收盤
+        yesterday_close 起的欄位為台股即時資訊新增欄位，部分代號（例如指數）
+        可能為 None。
         """
         taiwan_stock_tick_snapshot = self.get_taiwan_stock_tick_snapshot(
             dataset=Dataset.TaiwanStockTickSnapshot,
