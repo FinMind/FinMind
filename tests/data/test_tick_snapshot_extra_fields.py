@@ -44,7 +44,7 @@ EXTRA_FIELDS = {
     "is_closed": False,
 }
 ROW_WITH_EXTRA = {**BASE_ROW, **EXTRA_FIELDS}
-# 新欄位缺值時為 null（例：無漲跌停價、指數沒有五檔）
+# Sponsor Pro 新欄位缺值時為 null，仍須能正常轉成 DataFrame
 ROW_WITH_NULL_EXTRA = {
     **BASE_ROW,
     "stock_id": "001",
@@ -123,3 +123,17 @@ def test_tick_snapshot_without_extra_fields(data_loader):
     # 回應沒有新欄位時維持原本欄位
     df = get_snapshot(data_loader, [BASE_ROW], stock_id="2330")
     pd.testing.assert_frame_equal(df, pd.DataFrame([BASE_ROW]))
+
+
+def test_tick_snapshot_sponsor_response_without_extra_fields(data_loader):
+    # Sponsor 會員的回應只有原本欄位（沒有 Sponsor Pro 新欄位），多檔也能正常轉成 DataFrame
+    rows = [
+        BASE_ROW,
+        {**BASE_ROW, "stock_id": "2317", "close": 210.5, "TickType": 2},
+    ]
+    df = get_snapshot(data_loader, rows, stock_id=["2330", "2317"])
+    assert list(df.columns) == list(BASE_ROW)
+    assert not set(EXTRA_FIELDS) & set(df.columns)
+    assert df["stock_id"].tolist() == ["2330", "2317"]
+    assert df["close"].tolist() == [1005.0, 210.5]
+    assert df["TickType"].tolist() == [1, 2]
