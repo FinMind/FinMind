@@ -92,6 +92,7 @@ without having to collect the data by yourself.
 2. 所有資訊以臺灣證券交易所公告資料為準。
 
 - **台股即時資料**：依臺灣證券交易所規定，使用台股即時資料（`taiwan_stock_tick_snapshot`）須於 **2027-01-31** 前在[會員中心](https://finmindtrade.com/analysis/#/account/user)填寫姓名、電話、地址。2027-01-31 前未填寫仍可使用，API 回應會附 `profile_notice` 提醒；2027-01-31 起未填寫者將無法取得台股即時資料（HTTP 403）。資料用途請見[隱私權政策](https://finmind.github.io/PrivacyPolicy/#realtime-profile)。
+- **台股即時報價 snapshot**：自 2027-02-01 起，台股即時報價 snapshot 每次請求最多 50 檔，且不再支援不帶 data_id 一次取得全部股票，請改為分批帶入 data_id（每次最多 50 檔）。
 - **券商分點類資料**（台股分點、權證分點、當日卷商分點統計、鉅額交易買賣日報表）：任何方案（包含 Sponsor Pro）皆僅限用戶自行使用，不得以任何形式再傳輸或提供予第三人。
 - 詳見[免責聲明與資料授權](https://finmind.github.io/Disclaimer/)。
 
@@ -101,6 +102,7 @@ Source: Taiwan Stock Exchange (TWSE) | This information is processed and provide
 2. All information is subject to the data announced by the Taiwan Stock Exchange.
 
 - **Taiwan stock real-time data**: under Taiwan Stock Exchange regulations, users of Taiwan stock real-time data (`taiwan_stock_tick_snapshot`) must fill in their name, phone number, and address in the [Member Center](https://finmindtrade.com/analysis/#/account/user) by **2027-01-31**. Before then, users who have not filled it in can still use the data, with a `profile_notice` reminder in API responses; from 2027-01-31 they will no longer be able to get Taiwan stock real-time data (HTTP 403). See the [Privacy Policy](https://finmind.github.io/en/PrivacyPolicy/#realtime-profile).
+- **Taiwan stock real-time snapshot**: Starting 2027-02-01, the Taiwan stock real-time snapshot accepts at most 50 stocks per request, and fetching all stocks at once without data_id will no longer be supported. Please pass data_id in batches of up to 50.
 - **Broker branch data** (stock and warrant broker branch trading reports, daily branch aggregate statistics, block trading daily report): for your own use only under every plan, including Sponsor Pro; must not be retransmitted or provided to third parties in any form.
 - See [Disclaimer & Data Licensing](https://finmind.github.io/en/Disclaimer/).
 

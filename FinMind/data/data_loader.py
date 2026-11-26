@@ -2491,6 +2491,14 @@ class DataLoader(FinMindApi):
         :param stock_id (Union(str, List[str])): 股票代號("2330")，也支援 3 碼指數代號
             (例 "001"=加權指數, "101"=櫃買加權)；完整指數對照表：
             https://finmind.github.io/tutor/TaiwanMarket/IndexCodes/
+            可傳 list 一次取多檔；目前留空則回傳全部股票。
+            自 2027-02-01 起，台股即時報價 snapshot 每次請求最多 50 檔，
+            且不再支援不帶 data_id 一次取得全部股票，
+            請改為分批帶入 data_id（每次最多 50 檔）。
+            Starting 2027-02-01, the Taiwan stock real-time snapshot accepts
+            at most 50 stocks per request, and fetching all stocks at once
+            without data_id will no longer be supported. Please pass data_id
+            in batches of up to 50.
         :param timeout (int): timeout seconds, default None
 
         :return: 台股即時資訊 taiwan_stock_tick_snapshot
