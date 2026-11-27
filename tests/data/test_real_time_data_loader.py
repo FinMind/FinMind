@@ -23,94 +23,77 @@ def assert_data(data: pd.DataFrame, correct_columns_name: list):
     assert not errors, "errors :\n    {}".format("\n".join(errors))
 
 
+STOCK_SNAPSHOT_COLUMNS = [
+    "open",
+    "high",
+    "low",
+    "close",
+    "change_price",
+    "change_rate",
+    "average_price",
+    "volume",
+    "total_volume",
+    "amount",
+    "total_amount",
+    "yesterday_volume",
+    "buy_price",
+    "buy_volume",
+    "sell_price",
+    "sell_volume",
+    "volume_ratio",
+    "date",
+    "stock_id",
+    "TickType",
+]
+# 台股即時資訊新增欄位；有回傳時須整組都有
+STOCK_SNAPSHOT_EXTRA_COLUMNS = [
+    "yesterday_close",
+    "limit_up",
+    "limit_down",
+    "buy_prices",
+    "buy_volumes",
+    "sell_prices",
+    "sell_volumes",
+    "inside_volume",
+    "outside_volume",
+    "after_hours_volume",
+    "is_closed",
+]
+
+
+def assert_stock_snapshot_data(data: pd.DataFrame, required_columns: list):
+    errors = []
+    columns = set(data.columns)
+    missing = [column for column in required_columns if column not in columns]
+    if missing:
+        errors.append(f"missing columns: {missing}")
+    extra_returned = [
+        column for column in STOCK_SNAPSHOT_EXTRA_COLUMNS if column in columns
+    ]
+    if extra_returned and len(extra_returned) != len(
+        STOCK_SNAPSHOT_EXTRA_COLUMNS
+    ):
+        errors.append(f"partial extra columns: {extra_returned}")
+    if not len(data) > 0:
+        errors.append("data is empty")
+    assert not errors, "errors :\n    {}".format("\n".join(errors))
+
+
 def test_taiwan_stock_info_2330(data_loader):
     data = data_loader.taiwan_stock_tick_snapshot(stock_id="2330")
-    assert_data(
-        data,
-        [
-            "open",
-            "high",
-            "low",
-            "close",
-            "change_price",
-            "change_rate",
-            "average_price",
-            "volume",
-            "total_volume",
-            "amount",
-            "total_amount",
-            "yesterday_volume",
-            "buy_price",
-            "buy_volume",
-            "sell_price",
-            "sell_volume",
-            "volume_ratio",
-            "date",
-            "stock_id",
-            "TickType",
-        ],
-    )
+    assert_stock_snapshot_data(data, STOCK_SNAPSHOT_COLUMNS)
 
 
 def test_taiwan_stock_info_list(data_loader):
     data = data_loader.taiwan_stock_tick_snapshot(
         stock_id=["2330", "0050", "2317", "0056"]
     )
-    assert_data(
-        data,
-        [
-            "open",
-            "high",
-            "low",
-            "close",
-            "change_price",
-            "change_rate",
-            "average_price",
-            "volume",
-            "total_volume",
-            "amount",
-            "total_amount",
-            "yesterday_volume",
-            "buy_price",
-            "buy_volume",
-            "sell_price",
-            "sell_volume",
-            "volume_ratio",
-            "date",
-            "stock_id",
-            "TickType",
-        ],
-    )
+    assert_stock_snapshot_data(data, STOCK_SNAPSHOT_COLUMNS)
 
 
 def test_taiwan_stock_info_all(data_loader):
     data = data_loader.taiwan_stock_tick_snapshot()
-    assert_data(
-        data,
-        [
-            "open",
-            "high",
-            "low",
-            "close",
-            "change_price",
-            "change_rate",
-            "average_price",
-            "volume",
-            "total_volume",
-            "amount",
-            "total_amount",
-            "yesterday_volume",
-            "buy_price",
-            "buy_volume",
-            "sell_price",
-            "sell_volume",
-            "volume_ratio",
-            "date",
-            "stock_id",
-            "TickType",
-            "name",
-        ],
-    )
+    assert_stock_snapshot_data(data, STOCK_SNAPSHOT_COLUMNS + ["name"])
 
 
 def test_taiwan_futures_snapshot(data_loader):

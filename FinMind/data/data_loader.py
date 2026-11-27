@@ -2166,8 +2166,8 @@ class DataLoader(FinMindApi):
         :rtype column date (str): 日期
         :rtype column stock_id (str): 股票代碼
         :rtype column reference_price (float): 參考價
-        :rtype column limit_up (float): 漲停價
-        :rtype column limit_down (float): 跌停價
+        :rtype column limit_up (float): (Sponsor Pro) 漲停價
+        :rtype column limit_down (float): (Sponsor Pro) 跌停價
         """
         tw_stock_price_limit = self.get_data(
             dataset=Dataset.TaiwanStockPriceLimit,
@@ -2484,6 +2484,8 @@ class DataLoader(FinMindApi):
         timeout: int = None,
     ) -> pd.DataFrame:
         """get 台股即時資訊 taiwan_stock_tick_snapshot (只限 sponsor 會員使用)
+        Sponsor 會員約 10 秒更新一次；Sponsor Pro 會員約每秒更新一次，
+        並另外回傳 yesterday_close 起的 11 個欄位與上市櫃盤前試撮。
         依臺灣證券交易所規定，使用台股即時資料須於 2027-01-31 前在會員中心
         填寫姓名、電話、地址，逾期未填寫將無法使用
         (https://finmindtrade.com/analysis/#/account/user)。
@@ -2525,6 +2527,22 @@ class DataLoader(FinMindApi):
         :rtype column date (str): 成交時間
         :rtype column stock_id (str): 股票代碼
         :rtype column TickType (int): 成交種類
+        :rtype column yesterday_close (float): (Sponsor Pro) 昨收價
+        :rtype column limit_up (float): 漲停價，無漲跌停限制時為 None
+        :rtype column limit_down (float): 跌停價，無漲跌停限制時為 None
+        :rtype column buy_prices (List[float]): (Sponsor Pro) 委買一～五檔價格
+        :rtype column buy_volumes (List[int]): (Sponsor Pro) 委買一～五檔數量
+        :rtype column sell_prices (List[float]): (Sponsor Pro) 委賣一～五檔價格
+        :rtype column sell_volumes (List[int]): (Sponsor Pro) 委賣一～五檔數量
+        :rtype column inside_volume (int): (Sponsor Pro) 內盤成交量
+        :rtype column outside_volume (int): (Sponsor Pro) 外盤成交量
+        :rtype column after_hours_volume (int): (Sponsor Pro) 盤後定價成交量
+        :rtype column is_closed (bool): (Sponsor Pro) 是否已收盤
+        標註 (Sponsor Pro) 的欄位僅 Sponsor Pro 會員回傳，Sponsor 會員的
+        DataFrame 不含這些欄位；指數代號也不含這些欄位。
+        上市櫃盤前試撮 (Sponsor Pro)：08:30~09:00 尚未成交的股票，close 為試撮價、
+        volume / total_volume 為試撮累計量、date 為試撮時間、TickType 為 0；
+        09:00 開盤後以實際成交為準。興櫃股票沒有盤前試撮。
         """
         taiwan_stock_tick_snapshot = self.get_taiwan_stock_tick_snapshot(
             dataset=Dataset.TaiwanStockTickSnapshot,
