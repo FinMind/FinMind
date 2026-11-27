@@ -172,21 +172,21 @@ All real-time datasets require **Sponsor** tier.
 | inside_volume / outside_volume | int | 內盤／外盤成交量 |
 | after_hours_volume | int | 盤後定價成交量 |
 | is_closed | bool | 是否已收盤 |
-| odd_lot_date | str | 盤中零股最近成交時間 |
-| odd_lot_open / odd_lot_high / odd_lot_low | float | 盤中零股開盤價／最高價／最低價 |
-| odd_lot_close | float | 盤中零股最新成交價 |
+| odd_lot_date | str | 零股最近成交時間（13:40 後為盤後零股） |
+| odd_lot_open / odd_lot_high / odd_lot_low | float | 盤中零股開盤價／最高價／最低價（13:40 後仍為盤中零股） |
+| odd_lot_close | float | 零股最新成交價（13:40 後為盤後零股） |
 | odd_lot_change_price | float | 盤中零股漲跌 |
 | odd_lot_change_rate | float | 盤中零股漲跌幅（%） |
-| odd_lot_total_volume | int | 盤中零股累積成交量（股） |
-| odd_lot_buy_price / odd_lot_buy_volume | float / int | 盤中零股最佳一檔委買價／委買量（股） |
-| odd_lot_sell_price / odd_lot_sell_volume | float / int | 盤中零股最佳一檔委賣價／委賣量（股） |
+| odd_lot_total_volume | int | 零股累積成交量（股；13:40 後為盤中＋盤後合計） |
+| odd_lot_buy_price / odd_lot_buy_volume | float / int | 零股最佳一檔委買價／委買量（股；13:40 後委買價為盤後零股） |
+| odd_lot_sell_price / odd_lot_sell_volume | float / int | 零股最佳一檔委賣價／委賣量（股；13:40 後委賣價為盤後零股） |
 | odd_lot_is_simulated | bool | 是否為盤中零股試撮 |
 
 五檔欄位在 DataFrame 中每格是 list（或 None），可先排除 None 再展開成五欄：`pd.DataFrame(df["buy_prices"].dropna().tolist())`。程式若要同時支援兩種會員，先檢查欄位是否存在（例如 `"buy_prices" in df.columns`）。
 
 Sponsor Pro 另有上市櫃盤前試撮：08:30~09:00 尚未成交的股票，`close` 為試撮價、`volume` / `total_volume` 為試撮累計量、`date` 為試撮時間、`TickType` 為 0；09:00 開盤後以實際成交為準（尚未成交者 `close` 為昨收、量為 0）。興櫃股票沒有盤前試撮。
 
-Sponsor Pro 另有上市櫃盤中零股（09:00~13:30）：`odd_lot_` 開頭的 13 個欄位為盤中零股行情，成交量與委買賣量單位為股；興櫃股票的 `odd_lot_` 欄位為 null。
+Sponsor Pro 另有上市櫃盤中零股（09:00~13:30）：`odd_lot_` 開頭的 13 個欄位為盤中零股行情，成交量與委買賣量單位為股；興櫃股票的 `odd_lot_` 欄位為 null。13:40 後含盤後零股（成交價、時間、最佳一檔委買委賣價為盤後零股，累計成交量為盤中＋盤後合計）；`odd_lot_open` / `odd_lot_high` / `odd_lot_low` 仍為盤中零股的值，收盤後最佳一檔委買委賣量為 0。
 
 ### taiwan_stock_tick_snapshot 指數代號（3 碼 data_id，共 91 個）
 
