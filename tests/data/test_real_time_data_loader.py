@@ -59,6 +59,22 @@ STOCK_SNAPSHOT_EXTRA_COLUMNS = [
     "after_hours_volume",
     "is_closed",
 ]
+# 台股即時資訊盤中零股欄位；有回傳時須整組都有
+STOCK_SNAPSHOT_ODD_LOT_COLUMNS = [
+    "odd_lot_date",
+    "odd_lot_open",
+    "odd_lot_high",
+    "odd_lot_low",
+    "odd_lot_close",
+    "odd_lot_change_price",
+    "odd_lot_change_rate",
+    "odd_lot_total_volume",
+    "odd_lot_buy_price",
+    "odd_lot_buy_volume",
+    "odd_lot_sell_price",
+    "odd_lot_sell_volume",
+    "odd_lot_is_simulated",
+]
 
 
 def assert_stock_snapshot_data(data: pd.DataFrame, required_columns: list):
@@ -74,6 +90,13 @@ def assert_stock_snapshot_data(data: pd.DataFrame, required_columns: list):
         STOCK_SNAPSHOT_EXTRA_COLUMNS
     ):
         errors.append(f"partial extra columns: {extra_returned}")
+    odd_lot_returned = [
+        column for column in STOCK_SNAPSHOT_ODD_LOT_COLUMNS if column in columns
+    ]
+    if odd_lot_returned and len(odd_lot_returned) != len(
+        STOCK_SNAPSHOT_ODD_LOT_COLUMNS
+    ):
+        errors.append(f"partial odd lot columns: {odd_lot_returned}")
     if not len(data) > 0:
         errors.append("data is empty")
     assert not errors, "errors :\n    {}".format("\n".join(errors))

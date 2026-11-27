@@ -2485,7 +2485,8 @@ class DataLoader(FinMindApi):
     ) -> pd.DataFrame:
         """get 台股即時資訊 taiwan_stock_tick_snapshot (只限 sponsor 會員使用)
         Sponsor 會員約 10 秒更新一次；Sponsor Pro 會員約每秒更新一次，
-        並另外回傳 yesterday_close 起的 11 個欄位與上市櫃盤前試撮。
+        並另外回傳 yesterday_close 起的 11 個欄位、上市櫃盤前試撮，
+        以及上市櫃盤中零股 (odd_lot_ 開頭的 13 個欄位)。
         依臺灣證券交易所規定，使用台股即時資料須於 2027-01-31 前在會員中心
         填寫姓名、電話、地址，逾期未填寫將無法使用
         (https://finmindtrade.com/analysis/#/account/user)。
@@ -2538,11 +2539,26 @@ class DataLoader(FinMindApi):
         :rtype column outside_volume (int): (Sponsor Pro) 外盤成交量
         :rtype column after_hours_volume (int): (Sponsor Pro) 盤後定價成交量
         :rtype column is_closed (bool): (Sponsor Pro) 是否已收盤
+        :rtype column odd_lot_date (str): (Sponsor Pro) 零股最近成交時間
+        :rtype column odd_lot_open (float): (Sponsor Pro) 零股開盤價
+        :rtype column odd_lot_high (float): (Sponsor Pro) 零股最高價
+        :rtype column odd_lot_low (float): (Sponsor Pro) 零股最低價
+        :rtype column odd_lot_close (float): (Sponsor Pro) 零股最新成交價
+        :rtype column odd_lot_change_price (float): (Sponsor Pro) 零股漲跌
+        :rtype column odd_lot_change_rate (float): (Sponsor Pro) 零股漲跌百分比
+        :rtype column odd_lot_total_volume (int): (Sponsor Pro) 零股累積成交量 (股)
+        :rtype column odd_lot_buy_price (float): (Sponsor Pro) 零股最佳一檔委買價
+        :rtype column odd_lot_buy_volume (int): (Sponsor Pro) 零股最佳一檔委買量 (股)
+        :rtype column odd_lot_sell_price (float): (Sponsor Pro) 零股最佳一檔委賣價
+        :rtype column odd_lot_sell_volume (int): (Sponsor Pro) 零股最佳一檔委賣量 (股)
+        :rtype column odd_lot_is_simulated (bool): (Sponsor Pro) 是否為零股試撮
         標註 (Sponsor Pro) 的欄位僅 Sponsor Pro 會員回傳，Sponsor 會員的
         DataFrame 不含這些欄位；指數代號也不含這些欄位。
         上市櫃盤前試撮 (Sponsor Pro)：08:30~09:00 尚未成交的股票，close 為試撮價、
         volume / total_volume 為試撮累計量、date 為試撮時間、TickType 為 0；
         09:00 開盤後以實際成交為準。興櫃股票沒有盤前試撮。
+        上市櫃盤中零股 (Sponsor Pro)：09:00~13:30，odd_lot_ 開頭欄位為盤中零股
+        行情，成交量與委買賣量單位為股；興櫃股票的 odd_lot_ 欄位為 None。
         """
         taiwan_stock_tick_snapshot = self.get_taiwan_stock_tick_snapshot(
             dataset=Dataset.TaiwanStockTickSnapshot,
