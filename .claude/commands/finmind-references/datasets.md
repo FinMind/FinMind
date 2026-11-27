@@ -152,6 +152,8 @@ All real-time datasets require **Sponsor** tier.
 
 `taiwan_stock_tick_snapshot`（台股即時資料）：使用台股即時資料須於 2027-01-31 前在會員中心填寫姓名、電話、地址，逾期未填寫將無法使用（[會員中心](https://finmindtrade.com/analysis/#/account/user)）。
 
+依臺灣證券交易所規範，自 2027-02-01 起，台股即時報價 snapshot 每次請求最多 50 檔，且不再支援不帶 data_id 一次取得全部股票，請改為分批帶入 data_id（每次最多 50 檔）。
+
 | Dataset | Description | Key Columns |
 |---------|------------|-------------|
 | taiwan_stock_tick_snapshot | 台股即時資訊（Sponsor 約 10 秒更新；Sponsor Pro 約每秒更新） | close, high, low, open, volume, total_volume, change_price, change_rate, date, stock_id（Sponsor Pro 另有下表欄位） |
