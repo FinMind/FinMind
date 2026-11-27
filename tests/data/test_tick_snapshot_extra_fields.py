@@ -43,7 +43,30 @@ EXTRA_FIELDS = {
     "after_hours_volume": 0,
     "is_closed": False,
 }
+# Sponsor Pro 上市櫃盤中零股欄位（量單位為股）
+ODD_LOT_FIELDS = {
+    "odd_lot_date": "2026-11-23 10:00:00.000",
+    "odd_lot_open": 998.0,
+    "odd_lot_high": 1010.0,
+    "odd_lot_low": 995.0,
+    "odd_lot_close": 1005.0,
+    "odd_lot_change_price": 5.0,
+    "odd_lot_change_rate": 0.5,
+    "odd_lot_total_volume": 152340,
+    "odd_lot_buy_price": 1005.0,
+    "odd_lot_buy_volume": 320,
+    "odd_lot_sell_price": 1010.0,
+    "odd_lot_sell_volume": 185,
+    "odd_lot_is_simulated": False,
+}
 ROW_WITH_EXTRA = {**BASE_ROW, **EXTRA_FIELDS}
+ROW_WITH_ODD_LOT = {**ROW_WITH_EXTRA, **ODD_LOT_FIELDS}
+# 興櫃股票沒有盤中零股，odd_lot_ 欄位為 null
+ROW_WITH_NULL_ODD_LOT = {
+    **ROW_WITH_EXTRA,
+    "stock_id": "6488",
+    **{field: None for field in ODD_LOT_FIELDS},
+}
 # Sponsor Pro 新欄位缺值時為 null，仍須能正常轉成 DataFrame
 ROW_WITH_NULL_EXTRA = {
     **BASE_ROW,
@@ -137,3 +160,26 @@ def test_tick_snapshot_sponsor_response_without_extra_fields(data_loader):
     assert df["stock_id"].tolist() == ["2330", "2317"]
     assert df["close"].tolist() == [1005.0, 210.5]
     assert df["TickType"].tolist() == [1, 2]
+
+
+def test_tick_snapshot_odd_lot_fields(data_loader):
+    df = get_snapshot(data_loader, [ROW_WITH_ODD_LOT], stock_id="2330")
+    assert list(df.columns) == list(ROW_WITH_ODD_LOT)
+    row = df.iloc[0]
+    for field, value in ODD_LOT_FIELDS.items():
+        assert row[field] == value, field
+    assert bool(row["odd_lot_is_simulated"]) is False
+
+
+def test_tick_snapshot_odd_lot_fields_with_null(data_loader):
+    df = get_snapshot(
+        data_loader,
+        [ROW_WITH_ODD_LOT, ROW_WITH_NULL_ODD_LOT],
+        stock_id=["2330", "6488"],
+    )
+    assert list(df.columns) == list(ROW_WITH_ODD_LOT)
+    assert df["stock_id"].tolist() == ["2330", "6488"]
+    assert df["odd_lot_total_volume"].iloc[0] == 152340
+    emerging_row = df.iloc[1]
+    for field in ODD_LOT_FIELDS:
+        assert pd.isna(emerging_row[field]), field
