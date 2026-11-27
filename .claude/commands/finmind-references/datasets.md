@@ -154,10 +154,26 @@ All real-time datasets require **Sponsor** tier.
 
 | Dataset | Description | Key Columns |
 |---------|------------|-------------|
-| taiwan_stock_tick_snapshot | 台股即時資訊 | close, high, low, open, volume, total_volume, change_price, change_rate, date, stock_id |
+| taiwan_stock_tick_snapshot | 台股即時資訊（Sponsor 約 10 秒更新；Sponsor Pro 約每秒更新） | close, high, low, open, volume, total_volume, change_price, change_rate, date, stock_id（Sponsor Pro 另有下表欄位） |
 | TaiwanFutOptTickInfo | 期貨選擇權即時總覽 | code, callput, date, name |
 | taiwan_futures_snapshot | 期貨即時資訊 | open, high, low, close, volume, total_volume, change_price, change_rate, date, futures_id |
 | taiwan_options_snapshot | 選擇權即時資訊 | open, high, low, close, volume, total_volume, change_price, change_rate, date, options_id |
+
+`taiwan_stock_tick_snapshot` Sponsor Pro 會員額外欄位（Sponsor 會員的回應不含這些欄位；指數代號也不含）：
+
+| Column | Type | Description |
+|--------|------|-------------|
+| yesterday_close | float | 昨收價 |
+| limit_up / limit_down | float or null | 漲停價／跌停價（無漲跌停限制時為 null） |
+| buy_prices / buy_volumes | list (長度 5) | 委買一～五檔價格／數量 |
+| sell_prices / sell_volumes | list (長度 5) | 委賣一～五檔價格／數量 |
+| inside_volume / outside_volume | int | 內盤／外盤成交量 |
+| after_hours_volume | int | 盤後定價成交量 |
+| is_closed | bool | 是否已收盤 |
+
+五檔欄位在 DataFrame 中每格是 list（或 None），可先排除 None 再展開成五欄：`pd.DataFrame(df["buy_prices"].dropna().tolist())`。程式若要同時支援兩種會員，先檢查欄位是否存在（例如 `"buy_prices" in df.columns`）。
+
+Sponsor Pro 另有上市櫃盤前試撮：08:30~09:00 尚未成交的股票，`close` 為試撮價、`volume` / `total_volume` 為試撮累計量、`date` 為試撮時間、`TickType` 為 0；09:00 開盤後以實際成交為準（尚未成交者 `close` 為昨收、量為 0）。興櫃股票沒有盤前試撮。
 
 ### taiwan_stock_tick_snapshot 指數代號（3 碼 data_id，共 91 個）
 
