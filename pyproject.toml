@@ -30,16 +30,21 @@ dependencies = [
     "requests>=2.32.4,<3.0.0",
     "pydantic>=2.0.0,<3.0.0",
     "ta>=0.11.0,<1.0.0",
-    "lxml>=4.6.3,<7.0.0",
+    "lxml>=5.0.0,<7.0.0",
     "pyecharts>=1.9.0,<2.0.0",
     "ipython>=8.10.0,<10.0.0",
     "loguru>=0.5.3,<1.0.0",
-    "aiohttp>=3.7.4.post0,<4.0.0",
+    # Security floors are split by Python version: patched releases of
+    # aiohttp / pyarrow no longer support Python 3.8 / 3.9, so those keep the
+    # newest release still installable there.
+    "aiohttp>=3.10.11,<4.0.0; python_version < '3.10'",
+    "aiohttp>=3.14.4,<4.0.0; python_version >= '3.10'",
     "importlib-metadata>=4.8.1,<9.0.0",
     "typing-extensions>=4.0.0,<5.0.0",
-    "tqdm",
+    "tqdm>=4.66.3",
     "nest-asyncio==1.6.0",
-    "pyarrow>=14.0.1",
+    "pyarrow>=14.0.1; python_version < '3.10'",
+    "pyarrow>=23.0.1; python_version >= '3.10'",
     "exceptiongroup",
     "tomli",
     "async-timeout",
@@ -59,6 +64,13 @@ dev = [
     "pytest-cov>=3.0.0",
     "pytest-xdist",
     "black==24.8.0",
+]
+
+[tool.uv]
+# Lock-only floor for a transitive dependency (via requests); not imposed on
+# users. urllib3 >= 2.7 requires Python >= 3.10.
+constraint-dependencies = [
+    "urllib3>=2.8.0; python_version >= '3.10'",
 ]
 
 [tool.setuptools.packages.find]

@@ -9,6 +9,9 @@ resolution-markers = [
     "python_full_version < '3.9'",
 ]
 
+[manifest]
+constraints = [{ name = "urllib3", marker = "python_full_version >= '3.10'", specifier = ">=2.8.0" }]
+
 [[package]]
 name = "aiohappyeyeballs"
 version = "2.4.4"
@@ -1235,23 +1238,25 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aiohttp", specifier = ">=3.7.4.post0,<4.0.0" },
+    { name = "aiohttp", marker = "python_full_version < '3.10'", specifier = ">=3.10.11,<4.0.0" },
+    { name = "aiohttp", marker = "python_full_version >= '3.10'", specifier = ">=3.14.4,<4.0.0" },
     { name = "async-timeout" },
     { name = "exceptiongroup" },
     { name = "importlib-metadata", specifier = ">=4.8.1,<9.0.0" },
     { name = "ipython", specifier = ">=8.10.0,<10.0.0" },
     { name = "loguru", specifier = ">=0.5.3,<1.0.0" },
-    { name = "lxml", specifier = ">=4.6.3,<7.0.0" },
+    { name = "lxml", specifier = ">=5.0.0,<7.0.0" },
     { name = "nest-asyncio", specifier = "==1.6.0" },
     { name = "numpy", specifier = ">=1.19.5,<3.0.0" },
     { name = "pandas", specifier = ">=2.0.0,<3.0.0" },
-    { name = "pyarrow", specifier = ">=14.0.1" },
+    { name = "pyarrow", marker = "python_full_version < '3.10'", specifier = ">=14.0.1" },
+    { name = "pyarrow", marker = "python_full_version >= '3.10'", specifier = ">=23.0.1" },
     { name = "pydantic", specifier = ">=2.0.0,<3.0.0" },
     { name = "pyecharts", specifier = ">=1.9.0,<2.0.0" },
     { name = "requests", specifier = ">=2.32.4,<3.0.0" },
     { name = "ta", specifier = ">=0.11.0,<1.0.0" },
     { name = "tomli" },
-    { name = "tqdm" },
+    { name = "tqdm", specifier = ">=4.66.3" },
     { name = "typing-extensions", specifier = ">=4.0.0,<5.0.0" },
 ]
 
