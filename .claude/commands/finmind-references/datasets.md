@@ -6,7 +6,7 @@ Complete dataset list with column details, tier requirements, and parameter spec
 
 - [Taiwan Market - Technical (21 datasets)](#taiwan-market---technical)
 - [Taiwan Market - Chip / Institutional (23 datasets)](#taiwan-market---chip--institutional)
-- [Taiwan Market - Fundamental (13 datasets)](#taiwan-market---fundamental)
+- [Taiwan Market - Fundamental (14 datasets)](#taiwan-market---fundamental)
 - [Taiwan Market - Derivative (18 datasets)](#taiwan-market---derivative)
 - [Taiwan Market - Real-Time (4 datasets, Sponsor)](#taiwan-market---real-time)
 - [Taiwan Market - Convertible Bond (6 datasets)](#taiwan-market---convertible-bond)
@@ -118,6 +118,7 @@ For point-in-time research or backtests, do not join these datasets to market da
 | TaiwanStockDelisting | 下市櫃 | Free | date, stock_id, stock_name |
 | TaiwanStockMarketValueWeight | 市值比重 | Backer | rank, stock_id, stock_name, weight_per, date, type |
 | TaiwanStockSplitPrice | 分割後參考價 | Free | date, stock_id, type, before_price, after_price |
+| TaiwanStockSplitPriceAnnouncement | 分割／反分割預告表（ETF 上市+上櫃分割／反分割預告：停止買賣日、恢復買賣日、比率；date=恢復買賣日期，通常為未來日期；時程以最新公告為準；2026-11-30~now） | Free | date, stock_id, type, stop_trading_date, split_ratio |
 | TaiwanStockParValueChange | 變更面額恢復買賣參考價 | Free | date, stock_id, stock_name, before_close, after_ref_close |
 | TaiwanStockFinancialReportFile | 台股財報與年報 PDF（僅提供單檔下載，`/api/v4/data` 不支援此資料集。下載：`/api/v4/storage_objects` 帶 dataset、data_id、year、quarter（1~4）、report_category（financial_report 財務報告書／annual_report 股東會年報，annual_report 只有 quarter=4），307 轉址後一次下載一個檔案，該期無檔回 404；SDK：`content = api.taiwan_stock_financial_report_file_download(stock_id="2330", year=2025, quarter=4, report_category="annual_report")` 回 bytes，`open(path, "wb").write(content)` 存檔，無檔時丟 Exception（訊息含 "status: 404"）；檔案多為 PDF，少數 2013 年財報為 Word（.doc）；財報 2013 Q1~now、年報 2013~now） | Sponsor Pro | （下載檔案本身，無欄位） |
 

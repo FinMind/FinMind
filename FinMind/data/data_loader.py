@@ -3247,6 +3247,44 @@ class DataLoader(FinMindApi):
         )
         return taiwan_stock_split_price
 
+    def taiwan_stock_split_price_announcement(
+        self,
+        stock_id: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        timeout: int = None,
+    ) -> pd.DataFrame:
+        """get 分割／反分割預告表
+        Taiwan ETF Split / Reverse Split Announcement
+        ETF（上市、上櫃）分割／反分割預告：停止買賣日、恢復買賣日、比率，
+        停止買賣前即可取得。資料為交易所公布之預告，若時程異動以最新公告為準；
+        實際恢復買賣參考價請見 TaiwanStockSplitPrice。
+        :param stock_id (str): ETF 代號("0053")，不帶則查詢區間內全部
+        :param start_date (str): 恢復買賣日期起("2026-12-01")
+        :param end_date (str): 恢復買賣日期迄("2026-12-31")
+        :param timeout (int): timeout seconds, default None
+
+        :return: 分割／反分割預告表 TaiwanStockSplitPriceAnnouncement
+        :rtype pd.DataFrame
+        :rtype column date (str): 恢復買賣日期 (Trading resumption date)
+        :rtype column stock_id (str): 股票代碼 (ETF ID)
+        :rtype column type (str): 分割／反分割，`分割` 或 `反分割`
+            (`分割` split or `反分割` reverse split)
+        :rtype column stop_trading_date (str): 停止買賣日期
+            (Trading suspension start date)
+        :rtype column split_ratio (float): 分割（反分割）比率，
+            分割後受益權單位數 / 分割前受益權單位數；分割 > 1、反分割 < 1
+            (Units after / units before; > 1 split, < 1 reverse split)
+        """
+        taiwan_stock_split_price_announcement = self.get_data(
+            dataset=Dataset.TaiwanStockSplitPriceAnnouncement,
+            data_id=stock_id,
+            timeout=timeout,
+            start_date=start_date,
+            end_date=end_date,
+        )
+        return taiwan_stock_split_price_announcement
+
     def taiwan_stock_par_value_change(
         self,
         start_date: str = "",

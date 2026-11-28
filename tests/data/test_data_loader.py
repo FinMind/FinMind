@@ -1777,6 +1777,71 @@ def test_taiwan_stock_split_price(data_loader):
     )
 
 
+def _mock_split_price_announcement_response():
+    response = mock.Mock()
+    response.json.return_value = {
+        "msg": "success",
+        "status": 200,
+        "data": [
+            {
+                "date": "2026-12-08",
+                "stock_id": "0053",
+                "type": "分割",
+                "stop_trading_date": "2026-12-02",
+                "split_ratio": 8.0,
+            }
+        ],
+    }
+    return response
+
+
+def test_taiwan_stock_split_price_announcement_mock(data_loader):
+    with mock.patch(
+        "FinMind.data.finmind_api.request_get",
+        return_value=_mock_split_price_announcement_response(),
+    ) as request_get:
+        df = data_loader.taiwan_stock_split_price_announcement(
+            stock_id="0053",
+            start_date="2026-12-01",
+            end_date="2026-12-31",
+        )
+    params = request_get.call_args.kwargs["params"]
+    assert params["dataset"] == "TaiwanStockSplitPriceAnnouncement"
+    assert params["data_id"] == "0053"
+    assert params["start_date"] == "2026-12-01"
+    assert params["end_date"] == "2026-12-31"
+    assert list(df.columns) == [
+        "date",
+        "stock_id",
+        "type",
+        "stop_trading_date",
+        "split_ratio",
+    ]
+    assert df.iloc[0].to_dict() == {
+        "date": "2026-12-08",
+        "stock_id": "0053",
+        "type": "分割",
+        "stop_trading_date": "2026-12-02",
+        "split_ratio": 8.0,
+    }
+
+
+def test_taiwan_stock_split_price_announcement_all_mock(data_loader):
+    # 不帶 stock_id 時以日期區間查詢全部
+    with mock.patch(
+        "FinMind.data.finmind_api.request_get",
+        return_value=_mock_split_price_announcement_response(),
+    ) as request_get:
+        df = data_loader.taiwan_stock_split_price_announcement(
+            start_date="2026-12-01",
+            end_date="2026-12-31",
+        )
+    params = request_get.call_args.kwargs["params"]
+    assert params["dataset"] == "TaiwanStockSplitPriceAnnouncement"
+    assert params["data_id"] == ""
+    assert len(df) == 1
+
+
 def test_taiwan_stock_par_value_change(data_loader):
     df = data_loader.taiwan_stock_par_value_change(
         start_date="2025-06-01",
